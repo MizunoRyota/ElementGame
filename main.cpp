@@ -61,6 +61,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	shadow->Init();
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
+
+
+		// マウスカーソル非表示
+		SetMouseDispFlag(FALSE);
 		auto prevTime = GetNowHiPerformanceCount();	// 処理が始まる前の時間
 		shadow->Update();	// シャドウマップの更新
 		skydome->Update();

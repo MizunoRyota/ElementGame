@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CheckHitPlayerAtatck.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="EnemyAttackBase.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -169,8 +170,10 @@
     <ClCompile Include="Skydome.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="UiBase.cpp" />
+    <ClCompile Include="UiManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CheckHitPlayerAttack.hpp" />
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="EnemyAttackBase.hpp" />
     <ClInclude Include="Camera.hpp" />
@@ -198,6 +201,7 @@
     <ClInclude Include="Stage.hpp" />
     <ClInclude Include="EnemyBase.hpp" />
     <ClInclude Include="UiBase.hpp" />
+    <ClInclude Include="UiManger.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

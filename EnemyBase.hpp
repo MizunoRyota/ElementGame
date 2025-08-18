@@ -2,6 +2,8 @@
 #include <memory>
 #include <vector>
 #include <random>  
+#include <unordered_map>
+
 #include"EnemyAnimationManager.hpp"
 #include "EnemyAttackManager.hpp"
 
@@ -29,20 +31,15 @@ public:
 	};
 	enum class AnimKind : int
 	{
-		Charge = 1,
-		TireIdol = 2,
-		Run = 3,
-		Trun = 4,
-		OnAttack = 5,
-		Explosion = 6,
-		Die = 7,
-		JumpAttack = 8,
-	};
-	enum ColorState
-	{
-		STATE_GREEN,
-		STATE_RED,
-		STATE_BLUE,
+		Idle = 1,
+		ChangeElement = 2,
+		TireIdol = 3,
+		Run = 4,
+		Trun = 5,
+		OnAttack = 6,
+		Explosion = 7,
+		Die = 8,
+		JumpAttack = 9,
 	};
 
 	void Initialize();	//èâä˙âª
