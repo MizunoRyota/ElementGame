@@ -53,6 +53,15 @@
     <Filter Include="Source\Main\System">
       <UniqueIdentifier>{eeefdd8d-89b9-47e3-ab37-8ba59922a780}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Objectpool">
+      <UniqueIdentifier>{4bc1a9ed-ff26-43fc-b5ad-590e1f29b94d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Bullet">
+      <UniqueIdentifier>{250412c5-26fd-4653-b8b1-dd211a33267f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Animation">
+      <UniqueIdentifier>{13ee802c-f83c-437d-9a5a-c95d4c6f88a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -82,16 +91,7 @@
     <ClCompile Include="UiBase.cpp">
       <Filter>Source\Main\System</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyIdolAnimation.cpp">
-      <Filter>Source\Enemy\EnemyAnim</Filter>
-    </ClCompile>
-    <ClCompile Include="ChaseAnimation.cpp">
-      <Filter>Source\Enemy\EnemyAnim</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAnimationBase.cpp">
-      <Filter>Source\Enemy\EnemyAnim</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAnimationManager.cpp">
+    <ClCompile Include="EnemyAnimater.cpp">
       <Filter>Source\Enemy\EnemyAnim</Filter>
     </ClCompile>
     <ClCompile Include="EnemuyWaterAattack.cpp">
@@ -139,6 +139,15 @@
     <ClCompile Include="UiManager.cpp">
       <Filter>Source\Main\System</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Source\Objectpool</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletManager.cpp">
+      <Filter>Source\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimaterBase.cpp">
+      <Filter>Source\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerBase.hpp">
@@ -168,16 +177,7 @@
     <ClInclude Include="UiBase.hpp">
       <Filter>Source\Main\System</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyIdolAnimation.hpp">
-      <Filter>Source\Enemy\EnemyAnim</Filter>
-    </ClInclude>
-    <ClInclude Include="ChaseAnimation.hpp">
-      <Filter>Source\Enemy\EnemyAnim</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAnimationBase.hpp">
-      <Filter>Source\Enemy\EnemyAnim</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAnimationManager.hpp">
+    <ClInclude Include="EnemyAnimater.hpp">
       <Filter>Source\Enemy\EnemyAnim</Filter>
     </ClInclude>
     <ClInclude Include="EnemyWaterAttack.hpp">
@@ -227,6 +227,21 @@
     </ClInclude>
     <ClInclude Include="UiManger.hpp">
       <Filter>Source\Main\System</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.hpp">
+      <Filter>Source\Objectpool</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletManager.hpp">
+      <Filter>Source\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimaterBase.hpp">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationData.hpp">
+      <Filter>Source\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.hpp">
+      <Filter>Source\Enemy\EnemyAnim</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

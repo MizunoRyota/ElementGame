@@ -35,4 +35,5 @@ private:
 	std::shared_ptr<EnemyAttackBase> wind_attack;
 	std::shared_ptr<EnemyAttackBase> fire_attack;
 	std::vector<std::shared_ptr<EnemyAttackBase>> enemyattack_manager;
+
 };

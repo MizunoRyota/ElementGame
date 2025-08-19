@@ -143,22 +143,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimaterBase.cpp" />
+    <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="CheckHitPlayerAtatck.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="EnemyAttackBase.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ChaseAnimation.cpp" />
     <ClCompile Include="EnemuyWaterAattack.cpp" />
     <ClCompile Include="EffectBase.cpp" />
-    <ClCompile Include="EnemyAnimationBase.cpp" />
-    <ClCompile Include="EnemyAnimationManager.cpp" />
+    <ClCompile Include="EnemyAnimater.cpp" />
     <ClCompile Include="EnemyAttackManager.cpp" />
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="EnemyFIreAttack.cpp" />
-    <ClCompile Include="EnemyIdolAnimation.cpp" />
     <ClCompile Include="EnemyWindAttack.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="PlayerAttackBase.cpp" />
     <ClCompile Include="PlayerAttackManager.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
@@ -173,21 +173,23 @@
     <ClCompile Include="UiManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimaterBase.hpp" />
+    <ClInclude Include="AnimationData.hpp" />
+    <ClInclude Include="BulletManager.hpp" />
     <ClInclude Include="CheckHitPlayerAttack.hpp" />
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="EnemyAttackBase.hpp" />
     <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="ChaseAnimation.hpp" />
     <ClInclude Include="EnemyFireAttack.hpp" />
+    <ClInclude Include="EnemyState.hpp" />
     <ClInclude Include="EnemyWaterAttack.hpp" />
     <ClInclude Include="EffectBase.hpp" />
-    <ClInclude Include="EnemyAnimationBase.hpp" />
-    <ClInclude Include="EnemyAnimationManager.hpp" />
+    <ClInclude Include="EnemyAnimater.hpp" />
     <ClInclude Include="EnemyAttackManager.hpp" />
-    <ClInclude Include="EnemyIdolAnimation.hpp" />
     <ClInclude Include="EnemyWindAttack.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="ObjectPool.hpp" />
     <ClInclude Include="Pallet.hpp" />
     <ClInclude Include="PlayerAttackBase.hpp" />
     <ClInclude Include="PlayerAttackManager.hpp" />

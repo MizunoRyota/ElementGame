@@ -1,9 +1,10 @@
 #include"DxLib.h"
 #include"Stage.hpp"
+#include "EnemyAnimater.hpp"
 #include"EnemyBase.hpp"
 
 EnemyBase::EnemyBase()
-	:EnemyHandle(0)
+	:enemy_modelhandle(0)
 	,position(VGet(-10.0f, 0.0f,10.0f))
 	,angleVector(VGet(0,0,0))
 	,angle(0)
@@ -12,17 +13,18 @@ EnemyBase::EnemyBase()
 	,action_iswind(false)
 	,attackType(0)
 {
-
-	EnemyHandle = MV1LoadModel("data/3dmodel/Enemy/roboblue.mv1");
+	enemy_modelhandle = MV1LoadModel("data/3dmodel/Enemy/Enemy.mv1");
 	// 3Dモデルのスケール決定
-	MV1SetScale(EnemyHandle, VGet(Scale, Scale, Scale));
+	MV1SetScale(enemy_modelhandle, VGet(Scale, Scale, Scale));
 	// 3Dモデルの位置決定
-	MV1SetPosition(EnemyHandle, position);
+	MV1SetPosition(enemy_modelhandle, position);
 	//インスタンス生成
-	enemyanimation_manager = std::make_shared<EnemyAnimationManager>(EnemyHandle);
-	enemyattack_manager = std::make_shared<EnemyAttackManager>(EnemyHandle);
 	state = STATE_CHARGE;
+	enemy_animater = std::make_shared<EnemyAnimater>(enemy_modelhandle,state);
+	enemyattack_manager = std::make_shared<EnemyAttackManager>(enemy_modelhandle);
+	
 }
+
 EnemyBase::~EnemyBase()
 {
 }
@@ -31,8 +33,7 @@ EnemyBase::~EnemyBase()
 ///初期化
 void EnemyBase::Initialize()
 {
-	//エネミーのアニメーション初期化
-	enemyanimation_manager->Initialize();
+
 }
 /// @brief 
 /// 更新
@@ -48,9 +49,10 @@ void EnemyBase::Update(const VECTOR& playerpos, Stage& stage)
 	printfDx("positionZ%f\n", position.z);
 	printfDx("State%d\n", state);
 
-	enemyanimation_manager->Update();
 	UpdateAngle(playerpos);
 	UpdateStateAction(playerpos);
+	enemy_animater->Update();
+
 	Move(position,stage);
 }
 
@@ -67,24 +69,20 @@ void EnemyBase::UpdateAngle(const VECTOR& playerpos)
 
 	// atan2 で取得した角度に３Ｄモデルを正面に向かせるための補正値( DX_PI_F )を
 	// 足した値を３Ｄモデルの Y軸回転値として設定
-	MV1SetRotationXYZ(EnemyHandle, VGet(0.0f, angle + DX_PI_F, 0.0f));
+	MV1SetRotationXYZ(enemy_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f));
 }
 
 void EnemyBase::UpdateStateAction(const VECTOR& playerpos)
 {
 	switch (state)
 	{
-	case EnemyBase::STATE_UNKNOWN:
+	case STATE_IDLE:
 
 		break;
-	case EnemyBase::STATE_IDLE:
-
-		break;
-	case EnemyBase::STATE_CHARGE:
+	case STATE_CHARGE:
 		enemyattack_manager->InitializeFireAttack();
 		enemyattack_manager->InitializeWaterAttack();
 		enemyattack_manager->InitializeWindAttack();
-
 		attackType = GetRand(2);
 
 		if (attackType == 0)
@@ -101,10 +99,9 @@ void EnemyBase::UpdateStateAction(const VECTOR& playerpos)
 		}
 
 		break;
-	case EnemyBase::STATE_SLIDE:
-		break;
 
-	case EnemyBase::STATE_FIREATTACK:
+	case STATE_FIREATTACK:
+
 		position = enemyattack_manager->FireAttack(playerpos, position, angleVector);
 		action_isfire = enemyattack_manager->IsFireAttack();
 		if (action_isfire)
@@ -112,7 +109,7 @@ void EnemyBase::UpdateStateAction(const VECTOR& playerpos)
 			state = STATE_CHARGE;
 		}
 		break;
-	case EnemyBase::STATE_WATERATTACK:
+	case STATE_WATERATTACK:
 		position = enemyattack_manager->WaterAttack(playerpos, position, angleVector);
 		action_iswater = enemyattack_manager->IsWaterAttack();
 		if (action_iswater)
@@ -120,8 +117,7 @@ void EnemyBase::UpdateStateAction(const VECTOR& playerpos)
 			state = STATE_CHARGE;
 		}
 		break;
-	case EnemyBase::STATE_WINDATTACK:
-
+	case STATE_WINDATTACK:
 		position = enemyattack_manager->WindAttack(playerpos, position, angleVector);
 		action_iswind = enemyattack_manager->IsWindAttack();
 		if (action_iswind)
@@ -144,7 +140,7 @@ void EnemyBase::Move(const VECTOR& MoveVector, Stage& stage)
 {
 	// 当たり判定をして、新しい座標を保存する
 	//position = stage.CheckEnemyCollision(*this, MoveVector);
-	MV1SetPosition(EnemyHandle, position);
+	MV1SetPosition(enemy_modelhandle, position);
 }
 
 /// @brief 
@@ -153,5 +149,5 @@ void EnemyBase::Move(const VECTOR& MoveVector, Stage& stage)
 void EnemyBase::Draw()
 {
 	enemyattack_manager->DebugDraw();
-	MV1DrawModel(EnemyHandle);
+	MV1DrawModel(enemy_modelhandle);
 }

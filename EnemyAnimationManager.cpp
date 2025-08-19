@@ -1,13 +1,13 @@
 #include "Dxlib.h"
 #include "EnemyAnimationManager.hpp"
-#include "EnemyIdolAnimation.hpp"
-#include "ChaseAnimation.hpp"
+
 EnemyAnimationManager::EnemyAnimationManager(int modelhadle)
 {
 	this->modelHandle = modelhadle;
-	currentState = std::make_shared<ChaseAnimation>(modelhadle);
-	prevState = currentState.get()->GetCurrentState();
-	currentState->ChangeMotion(currentState.get()->GetCurrentState());
+	animater = std::make_shared<EnemyAnimationBase>(modelhadle);
+	animater->InitializeAnimationData();
+	prev_state = animater.get()->GetCurrentState();
+	animater->ChangeMotion(animater.get()->GetCurrentState());
 }
 EnemyAnimationManager::~EnemyAnimationManager()
 {
@@ -15,11 +15,16 @@ EnemyAnimationManager::~EnemyAnimationManager()
 
 void EnemyAnimationManager::Initialize()
 {
-	prevState = currentState.get()->GetCurrentState();
-	currentState->ChangeMotion(currentState.get()->GetCurrentState());
+	prev_state = animater.get()->GetCurrentState();
+	animater->ChangeMotion(animater.get()->GetCurrentState());
 }
 
 void EnemyAnimationManager::Update()
 {
-	currentState->Update(prevState,currentState.get()->GetCurrentState());
+	animater->Update(prev_state,animater.get()->GetCurrentState());
+}
+
+void EnemyAnimationManager::ChangeAnimation(int animation_num)
+{
+
 }

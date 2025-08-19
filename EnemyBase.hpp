@@ -3,8 +3,8 @@
 #include <vector>
 #include <random>  
 #include <unordered_map>
-
-#include"EnemyAnimationManager.hpp"
+#include "EnemyState.hpp"
+#include "AnimaterBase.hpp"
 #include "EnemyAttackManager.hpp"
 
 class Stage;
@@ -14,32 +14,22 @@ class EnemyBase
 public:
 	EnemyBase();
 	~EnemyBase();
-	enum State
-	{
-		STATE_UNKNOWN,
-		STATE_IDLE,
-		STATE_CHARGE,
-		STATE_TIRE,
-		STATE_FIREATTACK,
-		STATE_WATERATTACK,
-		STATE_WINDATTACK,
-		STATE_TURN,
-		STATE_ONATTACK,
-		STATE_DIE,
-		STATE_JUMPATTACK,
-		STATE_SLIDE
-	};
+
 	enum class AnimKind : int
 	{
-		Idle = 1,
-		ChangeElement = 2,
-		TireIdol = 3,
-		Run = 4,
-		Trun = 5,
-		OnAttack = 6,
-		Explosion = 7,
-		Die = 8,
-		JumpAttack = 9,
+		Chase = 0,
+		OnDamage = 1,
+		Walkback = 2,
+		Die = 3,
+		GroundAttack = 4,
+		RunLeft = 5,
+		Change = 6,
+		RunRight = 7,
+		WindAttack = 8,
+		WaterAttack = 9,
+		FireAttack = 10,
+		JumpAttack = 11,
+		Idle = 12,
 	};
 
 	void Initialize();	//初期化
@@ -50,7 +40,7 @@ public:
 	void Draw();
 
 	//モデルのgetter
-	int GetModelHandle() const { return EnemyHandle; }
+	int GetModelHandle() const { return enemy_modelhandle; }
 
 	// ポジションのgetter/setter.
 	const VECTOR& GetPosition() const { return position; }
@@ -60,7 +50,7 @@ private:
 
 	static constexpr float Scale = 0.025f;					//モデルの大きさの倍数
 
-	int EnemyHandle;		//モデルハンドル
+	int enemy_modelhandle;		//モデルハンドル
 	int attackType ;
 	float angle;			//方向
 	VECTOR position;		//ポジション
@@ -71,6 +61,7 @@ private:
 
 	State state;
 	//インスタンス生成
-	std::shared_ptr<EnemyAnimationManager> enemyanimation_manager;
+	std::shared_ptr<AnimaterBase> enemy_animater;
 	std::shared_ptr<EnemyAttackManager> enemyattack_manager;
+
 };
