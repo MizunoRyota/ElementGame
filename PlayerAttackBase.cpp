@@ -15,7 +15,7 @@ PlayerAttackBase::PlayerAttackBase(int model_handle)
 	, model_handle(0)
 {
 	this->model_handle = model_handle;
-	flame_name = MV1SearchFrame(model_handle,"f_middle.03.R");
+	flame_name = MV1SearchFrame(model_handle, "f_middle.03.R");
 }
 
 PlayerAttackBase::~PlayerAttackBase()

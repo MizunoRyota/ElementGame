@@ -6,6 +6,7 @@
 #include "EnemyState.hpp"
 #include "AnimaterBase.hpp"
 #include "EnemyAttackManager.hpp"
+#include "Bullet.hpp"
 
 class Stage;
 
@@ -60,8 +61,9 @@ private:
 	bool action_isfire;
 
 	State state;
+	
 	//インスタンス生成
 	std::shared_ptr<AnimaterBase> enemy_animater;
 	std::shared_ptr<EnemyAttackManager> enemyattack_manager;
-
+	std::shared_ptr<Bullet> bullets[100];
 };

@@ -3,6 +3,7 @@
 #include "EnemyAnimater.hpp"
 #include"EnemyBase.hpp"
 
+
 EnemyBase::EnemyBase()
 	:enemy_modelhandle(0)
 	,position(VGet(-10.0f, 0.0f,10.0f))
@@ -22,7 +23,7 @@ EnemyBase::EnemyBase()
 	state = STATE_CHARGE;
 	enemy_animater = std::make_shared<EnemyAnimater>(enemy_modelhandle,state);
 	enemyattack_manager = std::make_shared<EnemyAttackManager>(enemy_modelhandle);
-	
+
 }
 
 EnemyBase::~EnemyBase()

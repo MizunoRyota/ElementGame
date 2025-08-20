@@ -62,15 +62,21 @@
     <Filter Include="Source\Animation">
       <UniqueIdentifier>{13ee802c-f83c-437d-9a5a-c95d4c6f88a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Player\PlayeMove">
+      <UniqueIdentifier>{859f44c8-49cd-4f4c-bc52-b81b88726213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Player\PlayerAnimation">
+      <UniqueIdentifier>{b28e728e-7b8f-46d1-9c0c-ac488fd616c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\HitChecker">
+      <UniqueIdentifier>{62a7a06e-94ee-4cbd-82fc-c7dab428aa34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source\Main</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBase.cpp">
-      <Filter>Source\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerMove.cpp">
       <Filter>Source\Player</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
@@ -133,9 +139,6 @@
     <ClCompile Include="PlayeWindAttack.cpp">
       <Filter>Source\Player\PlayerAttack\WindAttack</Filter>
     </ClCompile>
-    <ClCompile Include="CheckHitPlayerAtatck.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="UiManager.cpp">
       <Filter>Source\Main\System</Filter>
     </ClCompile>
@@ -148,12 +151,21 @@
     <ClCompile Include="AnimaterBase.cpp">
       <Filter>Source\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>Source\Player\PlayeMove</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAnimater.cpp">
+      <Filter>Source\Player\PlayerAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="CheckHitPlayerAtatck.cpp">
+      <Filter>Source\HitChecker</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerBase.hpp">
-      <Filter>Source\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerMove.hpp">
       <Filter>Source\Player</Filter>
     </ClInclude>
     <ClInclude Include="Input.hpp">
@@ -222,9 +234,6 @@
     <ClInclude Include="PlayerWaterAttack.hpp">
       <Filter>Source\Player\PlayerAttack\WaterAttack</Filter>
     </ClInclude>
-    <ClInclude Include="CheckHitPlayerAttack.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="UiManger.hpp">
       <Filter>Source\Main\System</Filter>
     </ClInclude>
@@ -242,6 +251,21 @@
     </ClInclude>
     <ClInclude Include="EnemyState.hpp">
       <Filter>Source\Enemy\EnemyAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.hpp">
+      <Filter>Source\Player\PlayeMove</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimater.hpp">
+      <Filter>Source\Player\PlayerAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.h">
+      <Filter>Source\Player\PlayerAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckHitPlayerAttack.hpp">
+      <Filter>Source\HitChecker</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.hpp">
+      <Filter>Source\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,17 +1,21 @@
 #include<iostream>
 #include"DxLib.h"
-
+#include "Camera.hpp"
+#include "Input.hpp"
 #include"PlayerBase.hpp"
-
+#include "BulletManager.hpp"
 PlayerBase::PlayerBase()
 	:position(VGet(0.0f, 0.0f,0.0f))
+	,hand_name(0)
 {
 	model_handle = MV1LoadModel(_T("data/3dmodel/Player/Player.mv1"));
+	hand_name = MV1SearchFrame(model_handle, "f_middle.03.R");
 	// 3Dモデルのスケール決定
 	MV1SetScale(model_handle, VGet(Scale, Scale, Scale));
 	MV1SetPosition(model_handle, position);
 	player_move = std::make_shared<PlayerMove>();
 	attack_manager = std::make_shared<PlayerAttackManager>(model_handle);
+
 }
 
 PlayerBase::~PlayerBase()
@@ -27,11 +31,21 @@ void PlayerBase::Update(const Input& input, const Camera& camera)
 	clsDx();
 	printfDx("playerxpos%f\n", position.x);
 	printfDx("playerzpos%f\n", position.z);
+	hand_position = MV1GetFramePosition(model_handle, hand_name);
+
 	player_move->Update(input, camera);
 	Move(player_move->GetMoveScale());
-	//playeranim->Update();
-	attack_manager->Update(input, camera);
+	FireBullet(input, camera);
+	//attack_manager->Update(input, camera);
 	LimitRange();
+}
+
+void PlayerBase::FireBullet(const Input& input, const Camera& camera)
+{
+	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
+	{
+		bullet_manager->Shot(hand_position, camera.GetCameraDir());
+	}
 }
 
 void PlayerBase::Move(const VECTOR& MoveVector)
@@ -76,4 +90,5 @@ void PlayerBase::LimitRange()
 void PlayerBase::Draw() const
 {
 	MV1DrawModel(model_handle);
+	bullet_manager->Draw();
 }

@@ -1,22 +1,21 @@
 #pragma once
-
-class Bulletmanager
+#include <memory>
+class Bullet;
+class BulletManager
 {
-
-
 public:
-	Bulletmanager();
-	~Bulletmanager();
-
+	BulletManager();
+	~BulletManager();
+	void Shot(const VECTOR& position, const VECTOR& direction);
+	void Update();
+	void Draw();
+	//弾の生存フラグを取得
+	const VECTOR GetBulletPosition();
 private:
-	static Bulletmanager instance;
-
+	static constexpr int BulletNum = 50;
+	static constexpr float CooldownTime = 20; // 20フレームのクールダウン（約0.33秒）
+	float cooldown_timer = 0; // 残りクールダウン時間
+	std::shared_ptr<Bullet>bullet[BulletNum];
+public:
 };
 
-Bulletmanager::Bulletmanager()
-{
-}
-
-Bulletmanager::~Bulletmanager()
-{
-}

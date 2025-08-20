@@ -6,10 +6,10 @@
 #include "Input.hpp"
 #include "EnemyBase.hpp"
 #include "PlayerBase.hpp"
-#include"EffectBase.hpp"
+#include "EffectBase.hpp"
 #include "UiBase.hpp"
 #include "Shadow.hpp"
-
+#include "BulletManager.hpp"
 /// <summary>
 /// ÉÅÉCÉìä÷êî
 /// </summary>
@@ -56,9 +56,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	std::shared_ptr<EffectBase> effect_base = std::make_shared<EffectBase>();
 	std::shared_ptr<UiBase> ui_base = std::make_shared<UiBase>();
 	std::shared_ptr<Shadow> shadow = std::make_shared<Shadow>();
-
+	std::shared_ptr<BulletManager>bullet_manager = std::make_shared<BulletManager>();
 	enemybase->Initialize();
 	shadow->Init();
+	player_base->SetBulletManager(bullet_manager);
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 
@@ -70,6 +71,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		skydome->Update();
 		input->Update();
 		player_base->Update(*input, *camera);
+		bullet_manager->Update();
 		enemybase->Update(player_base->GetPosition(), *stage);
 		camera->Update(player_base->GetPosition());
 		effect_base->Update(player_base->GetPosition());

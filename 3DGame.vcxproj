@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimaterBase.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="CheckHitPlayerAtatck.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
+    <ClCompile Include="PlayerAnimater.cpp" />
     <ClCompile Include="PlayerAttackBase.cpp" />
     <ClCompile Include="PlayerAttackManager.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
@@ -175,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="AnimaterBase.hpp" />
     <ClInclude Include="AnimationData.hpp" />
+    <ClInclude Include="Bullet.hpp" />
     <ClInclude Include="BulletManager.hpp" />
     <ClInclude Include="CheckHitPlayerAttack.hpp" />
     <ClInclude Include="Color.hpp" />
@@ -191,11 +194,13 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="ObjectPool.hpp" />
     <ClInclude Include="Pallet.hpp" />
+    <ClInclude Include="PlayerAnimater.hpp" />
     <ClInclude Include="PlayerAttackBase.hpp" />
     <ClInclude Include="PlayerAttackManager.hpp" />
     <ClInclude Include="PlayerBase.hpp" />
     <ClInclude Include="PlayerFireAttack.hpp" />
     <ClInclude Include="PlayerMove.hpp" />
+    <ClInclude Include="PlayerState.h" />
     <ClInclude Include="PlayerWaterAttack.hpp" />
     <ClInclude Include="PlayerWindAttack.hpp" />
     <ClInclude Include="Shadow.hpp" />
