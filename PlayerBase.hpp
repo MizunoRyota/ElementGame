@@ -3,19 +3,29 @@
 #include <vector>
 #include"PlayerMove.hpp"
 #include "PlayerAttackManager.hpp"
+#include "PlayerState.hpp"
 class Sound;
 class Stage;
 class BulletManager;
+class AnimaterBase;
 class PlayerBase
 {
 public:
+	enum class AnimKind : int
+	{
 
+		Idle = 0,
+		Attack = 0,
+
+	};
 	PlayerBase();
 	virtual ~PlayerBase();
 	virtual void Initialize();		// 初期化処理.
 	virtual void Update(const Input& input, const Camera& camera);			// 更新.
 	void TakeDamage(int damage);
 	void FireBullet(const Input& input, const Camera& camera);
+	void UpdateStateAction(const Input& input);
+
 	virtual void Draw() const;				// 描画.
 
 	// モデルハンドルの取得.
@@ -50,8 +60,10 @@ private:
 	std::shared_ptr<PlayerMove> player_move;
 	std::shared_ptr<PlayerAttackManager> attack_manager;
 	std::shared_ptr<BulletManager> bullet_manager;
-
+	std::shared_ptr<AnimaterBase> player_animater;
 	std::shared_ptr<Sound> sound_manager;	//サウンドマネージャー
+
+	PlayerState player_state;
 
 	// 移動処理
 	void Move(const VECTOR& MoveVector);

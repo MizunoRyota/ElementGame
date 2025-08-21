@@ -205,7 +205,7 @@
     <ClInclude Include="PlayerBase.hpp" />
     <ClInclude Include="PlayerFireAttack.hpp" />
     <ClInclude Include="PlayerMove.hpp" />
-    <ClInclude Include="PlayerState.h" />
+    <ClInclude Include="PlayerState.hpp" />
     <ClInclude Include="PlayerWaterAttack.hpp" />
     <ClInclude Include="PlayerWindAttack.hpp" />
     <ClInclude Include="Shadow.hpp" />

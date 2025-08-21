@@ -2,6 +2,8 @@
 #include"DxLib.h"
 #include "Camera.hpp"
 #include "Input.hpp"
+#include "AnimaterBase.hpp"
+#include "PlayerAnimater.hpp"
 #include"PlayerBase.hpp"
 #include "BulletManager.hpp"
 #include "Sound.hpp"
@@ -17,7 +19,9 @@ PlayerBase::PlayerBase()
 	MV1SetPosition(model_handle, position);
 	player_move = std::make_shared<PlayerMove>();
 	sound_manager = std::make_shared<Sound>();
+	player_animater = std::make_shared<PlayerAnimater>(model_handle, player_state);
 	//attack_manager = std::make_shared<PlayerAttackManager>(model_handle);
+	player_state = STATE_HANDIDLE;
 }
 
 PlayerBase::~PlayerBase()
@@ -31,6 +35,8 @@ void PlayerBase::Initialize()
 	takedamage_cooldowntimer = 0.0f; // クールタイムタイマー初期化
 	MV1SetRotationXYZ(model_handle, VGet(0.0f, 0.0f, 0.0f)); // 初期回転設定
 	MV1SetPosition(model_handle, position); // 初期位置設定
+	player_state = STATE_HANDIDLE;
+
 }
 void PlayerBase::Update(const Input& input, const Camera& camera)
 {
@@ -48,6 +54,8 @@ void PlayerBase::Update(const Input& input, const Camera& camera)
 	Move(player_move->GetMoveScale());
 	FireBullet(input, camera);
 	//attack_manager->Update(input, camera);
+	UpdateStateAction(input);
+	player_animater->Update();
 	LimitRange();
 }
 
@@ -56,6 +64,18 @@ void PlayerBase::FireBullet(const Input& input, const Camera& camera)
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 	{
 		bullet_manager->Shot(hand_position, camera.GetCameraDir(),firebullet_speed);
+	}
+}
+
+void PlayerBase::UpdateStateAction(const Input& input)
+{
+	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
+	{
+		player_state = STATE_ATTACK;
+	}
+	else
+	{
+		player_state = STATE_HANDIDLE;
 	}
 }
 

@@ -267,7 +267,7 @@
     <ClInclude Include="PlayerAnimater.hpp">
       <Filter>Source\Player\PlayerAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.h">
+    <ClInclude Include="PlayerState.hpp">
       <Filter>Source\Player\PlayerAnimation</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.hpp">

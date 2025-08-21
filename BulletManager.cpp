@@ -45,6 +45,16 @@ void BulletManager::Update()
 	}
 }
 
+void BulletManager::DeleteBullet(int num)
+{
+	//NULLでない場合
+	if (bullet[num] != NULL)
+	{
+		bullet[num]->DeleteBullet(num);
+		bullet[num] = NULL;
+	}
+}
+
 void BulletManager::Shot(const VECTOR& position, const VECTOR& direction, const float bullet_speed)
 {	
 	// クールダウン中は発射できない

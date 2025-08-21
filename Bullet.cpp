@@ -45,6 +45,13 @@ bool Bullet::CheckBulletOut()
 	return false; // 弾が範囲内にいる場合はfalseを返す
 }
 
+void Bullet::DeleteBullet(int num)
+{
+	// エフェクトリソースを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
+	StopEffekseer3DEffect(playingEffectHandle);
+	DeleteEffekseerEffect(playingEffectHandle);
+}
+
 void Bullet::Draw()
 {
 	//DrawSphere3D(position, 0.3f, 20, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);

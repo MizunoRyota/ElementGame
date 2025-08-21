@@ -9,6 +9,7 @@ public:
 	void Shot(const VECTOR& position, const VECTOR& direction, const float bullet_speed);
 	void Initialize();
 	void Update();
+	void DeleteBullet(int num);
 	void Draw();
 	//’e‚Ì¶‘¶ƒtƒ‰ƒO‚ğæ“¾
 	const VECTOR GetBulletPosition(int bulletnum);

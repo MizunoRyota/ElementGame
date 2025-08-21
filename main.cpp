@@ -89,6 +89,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		auto prevTime = GetNowHiPerformanceCount();	// 処理が始まる前の時間
 		if (game_state == STATE_INIT)
 		{
+			for (int num = 0; num < 50; num++)
+			{
+					playerbullet_manager->DeleteBullet(num);
+					enemybullet_manager->DeleteBullet(num);
+
+			}
 			enemy_base->Initialize();
 			player_base->Initialize();
 			shadow->Init();
@@ -185,7 +191,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				if (hit_checker->Update(enemybullet_manager->GetBulletPosition(num), player_base->GetPosition()))
 				{
 					sound->PlayOnplayer();
+					
 					player_base->TakeDamage(enemy_base->GetDamageStrength()); // プレイヤーがダメージを受ける
+					enemybullet_manager->DeleteBullet(num);
 				}
 			}
 			for (int num = 0; num < 50; num++)
@@ -195,6 +203,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 					sound->PlayOnenemy();
 
 					enemy_base->TakeDamage(enemy_base->GetDamageStrength()); // プレイヤーがダメージを受ける
+					playerbullet_manager->DeleteBullet(num);
+
 				}
 			}
 			camera->Update(player_base->GetPosition());

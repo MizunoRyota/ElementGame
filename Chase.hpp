@@ -10,7 +10,7 @@ public:
 	VECTOR MoveToTarget(const VECTOR& enemypos, const VECTOR& targetpos);
 	bool RangeWithin();
 private:
-	static constexpr float Range = 7.0f;	//アニメーションを進める速度
+	static constexpr float Range = 5.0f;	//アニメーションを進める速度
 	static constexpr float MoveSpeed = 0.125f;	//アニメーションを進める速度
 
 	VECTOR m_position;
