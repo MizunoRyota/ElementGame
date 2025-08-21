@@ -146,7 +146,7 @@
     <ClCompile Include="AnimaterBase.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
-    <ClCompile Include="CheckHitPlayerAtatck.cpp" />
+    <ClCompile Include="Chase.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="EnemyAttackBase.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -157,6 +157,8 @@
     <ClCompile Include="EnemyBase.cpp" />
     <ClCompile Include="EnemyFIreAttack.cpp" />
     <ClCompile Include="EnemyWindAttack.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="HitChecker.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
@@ -170,6 +172,7 @@
     <ClCompile Include="PlayeWindAttack.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="Skydome.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="UiBase.cpp" />
     <ClCompile Include="UiManager.cpp" />
@@ -179,7 +182,7 @@
     <ClInclude Include="AnimationData.hpp" />
     <ClInclude Include="Bullet.hpp" />
     <ClInclude Include="BulletManager.hpp" />
-    <ClInclude Include="CheckHitPlayerAttack.hpp" />
+    <ClInclude Include="Chase.hpp" />
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="EnemyAttackBase.hpp" />
     <ClInclude Include="Camera.hpp" />
@@ -190,6 +193,8 @@
     <ClInclude Include="EnemyAnimater.hpp" />
     <ClInclude Include="EnemyAttackManager.hpp" />
     <ClInclude Include="EnemyWindAttack.hpp" />
+    <ClInclude Include="GameManager.hpp" />
+    <ClInclude Include="HitChecker.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="ObjectPool.hpp" />
@@ -205,10 +210,11 @@
     <ClInclude Include="PlayerWindAttack.hpp" />
     <ClInclude Include="Shadow.hpp" />
     <ClInclude Include="Skydome.hpp" />
+    <ClInclude Include="Sound.hpp" />
     <ClInclude Include="Stage.hpp" />
     <ClInclude Include="EnemyBase.hpp" />
     <ClInclude Include="UiBase.hpp" />
-    <ClInclude Include="UiManger.hpp" />
+    <ClInclude Include="UiManager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

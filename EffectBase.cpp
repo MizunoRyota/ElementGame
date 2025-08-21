@@ -59,6 +59,8 @@ void EffectBase::PlayEffect()
 			time = 0; // ŽžŠÔ‚ðƒŠƒZƒbƒg
 		}
 	}
+	SetPosPlayingEffekseer3DEffect(playingEffectHandle, position.x, EffectHight, position.z);
+
 }
 
 void EffectBase::DrawEffect()

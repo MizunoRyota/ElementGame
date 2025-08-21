@@ -39,13 +39,15 @@ void EnemyAnimater::InitializeAnimationData()
 	animation_data[static_cast<int>(AnimKind::WaterAttack)] = AnimationState(static_cast<int>(AnimKind::WaterAttack),9, 0, 0, 0.5f,false);
 	animation_data[static_cast<int>(AnimKind::FireAttack)] = AnimationState(static_cast<int>(AnimKind::FireAttack),10, 0, 0, 0.5f,false);
 	animation_data[static_cast<int>(AnimKind::JumpAttack)] = AnimationState(static_cast<int>(AnimKind::JumpAttack),11, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::Idle)] = AnimationState(static_cast<int>(AnimKind::Idle),12, 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(AnimKind::Idle)] = AnimationState(static_cast<int>(AnimKind::Idle),12, 0, 0, 0.5f,true);
 }
 
 void EnemyAnimater::Update()
 {
 	SwitchAnimation();
 	UpdateAnimation();
+
+
 }
 
 void EnemyAnimater::SwitchAnimation()

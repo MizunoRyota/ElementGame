@@ -71,6 +71,15 @@
     <Filter Include="Source\HitChecker">
       <UniqueIdentifier>{62a7a06e-94ee-4cbd-82fc-c7dab428aa34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Camera">
+      <UniqueIdentifier>{d7389364-5639-41a4-8067-04c4a67b38df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Ui">
+      <UniqueIdentifier>{3d68075f-83e6-49c9-9d93-4e8448ad77e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Enemy\Chase">
+      <UniqueIdentifier>{67e27fb9-6c0a-4ce2-a4c9-d67c56fadb26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -82,9 +91,6 @@
     <ClCompile Include="Input.cpp">
       <Filter>Source\Main\System</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source\Main\System</Filter>
-    </ClCompile>
     <ClCompile Include="Skydome.cpp">
       <Filter>Source\Enviroment</Filter>
     </ClCompile>
@@ -93,9 +99,6 @@
     </ClCompile>
     <ClCompile Include="EffectBase.cpp">
       <Filter>Source\Effect</Filter>
-    </ClCompile>
-    <ClCompile Include="UiBase.cpp">
-      <Filter>Source\Main\System</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAnimater.cpp">
       <Filter>Source\Enemy\EnemyAnim</Filter>
@@ -139,9 +142,6 @@
     <ClCompile Include="PlayeWindAttack.cpp">
       <Filter>Source\Player\PlayerAttack\WindAttack</Filter>
     </ClCompile>
-    <ClCompile Include="UiManager.cpp">
-      <Filter>Source\Main\System</Filter>
-    </ClCompile>
     <ClCompile Include="ObjectPool.cpp">
       <Filter>Source\Objectpool</Filter>
     </ClCompile>
@@ -157,11 +157,29 @@
     <ClCompile Include="PlayerAnimater.cpp">
       <Filter>Source\Player\PlayerAnimation</Filter>
     </ClCompile>
-    <ClCompile Include="CheckHitPlayerAtatck.cpp">
-      <Filter>Source\HitChecker</Filter>
-    </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Source\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="HitChecker.cpp">
+      <Filter>Source\HitChecker</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="UiManager.cpp">
+      <Filter>Source\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="UiBase.cpp">
+      <Filter>Source\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="Chase.cpp">
+      <Filter>Source\Enemy\Chase</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,9 +187,6 @@
       <Filter>Source\Player</Filter>
     </ClInclude>
     <ClInclude Include="Input.hpp">
-      <Filter>Source\Main\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.hpp">
       <Filter>Source\Main\System</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
@@ -185,9 +200,6 @@
     </ClInclude>
     <ClInclude Include="EffectBase.hpp">
       <Filter>Source\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="UiBase.hpp">
-      <Filter>Source\Main\System</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAnimater.hpp">
       <Filter>Source\Enemy\EnemyAnim</Filter>
@@ -234,9 +246,6 @@
     <ClInclude Include="PlayerWaterAttack.hpp">
       <Filter>Source\Player\PlayerAttack\WaterAttack</Filter>
     </ClInclude>
-    <ClInclude Include="UiManger.hpp">
-      <Filter>Source\Main\System</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectPool.hpp">
       <Filter>Source\Objectpool</Filter>
     </ClInclude>
@@ -261,11 +270,29 @@
     <ClInclude Include="PlayerState.h">
       <Filter>Source\Player\PlayerAnimation</Filter>
     </ClInclude>
-    <ClInclude Include="CheckHitPlayerAttack.hpp">
-      <Filter>Source\HitChecker</Filter>
-    </ClInclude>
     <ClInclude Include="Bullet.hpp">
       <Filter>Source\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="HitChecker.hpp">
+      <Filter>Source\HitChecker</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Source\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="UiManager.hpp">
+      <Filter>Source\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="UiBase.hpp">
+      <Filter>Source\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="Chase.hpp">
+      <Filter>Source\Enemy\Chase</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.hpp">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

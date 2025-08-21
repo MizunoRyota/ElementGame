@@ -110,6 +110,34 @@ void Camera::Update(VECTOR playerPos)
 
 }
 
+void Camera::UpdateClear(const VECTOR& pos)
+{
+    // カメラの目線の位置を初期化
+    position = VGet(0,2.0f,10.0f);
+    // カメラのターゲット位置を初期化
+    targetPosition = pos;
+
+    SetCameraPositionAndTarget_UpVecY(position, targetPosition);
+}
+
+void Camera::UpdateTitle(const VECTOR& pos)
+{
+    // カメラの目線の位置を初期化
+    position = VGet(-3.0f, 0.50f, 8.0f);
+    // カメラのターゲット位置を初期化
+    targetPosition = VAdd(pos, VGet(-3.0f,0,0));
+    SetCameraPositionAndTarget_UpVecY(position, targetPosition);
+}
+
+void Camera::UpdateGameOver(const VECTOR& pos)
+{
+    // カメラの目線の位置を初期化
+    position = VGet(-3.0f, 3.0f, 5.0f);
+    // カメラのターゲット位置を初期化
+    targetPosition = pos;
+    SetCameraPositionAndTarget_UpVecY(position, targetPosition);
+}
+
 void Camera::FixCameraPosition()
 {
 }

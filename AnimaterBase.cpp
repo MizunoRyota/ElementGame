@@ -7,6 +7,7 @@
 AnimaterBase::AnimaterBase(int modelhandle)
 	:animBlendRate(1.0f)
 	, modelHandle(0)
+	, animation_isend(false)
 {
 	////アニメーションのステート初期化
 	this->prevState.AnimationNum = -1;
@@ -34,6 +35,8 @@ void AnimaterBase::ChangeMotion(AnimationState nextstate)
 		return;
 	}
 
+	animation_isend = false;
+
 	// 入れ替えを行うので、１つ前のモーションがが有効だったらデタッチする
 	if (prevState.AttatchIndex != -1)
 	{
@@ -48,7 +51,7 @@ void AnimaterBase::ChangeMotion(AnimationState nextstate)
 	//新しいアタッチ番号を保存
 	currentState = nextstate;
 	currentState.AttatchIndex = MV1AttachAnim(modelHandle, currentState.AnimationNum);
-	currentState.TotalAnimationTime = MV1GetAnimTotalTime(modelHandle, currentState.AttatchIndex);
+	currentState.TotalAnimationTime = MV1GetAnimTotalTime(modelHandle, currentState.AnimationNum);
 
 	// ブレンド率はPrevが有効ではない場合は１．０ｆ( 現在モーションが１００％の状態 )にする
 	animBlendRate = prevState.AttatchIndex == -1 ? 1.0f : 0.0f;
@@ -71,12 +74,14 @@ void AnimaterBase::UpdateAnimation()
 	if (currentState.AttatchIndex != -1)
 	{
 		//アニメーションを進める
-
+		animation_frame += currentState.PlayAnimSpeed;
 		currentState.AnimTime += currentState.PlayAnimSpeed;
 
 		// 再生時間がアニメーションの総再生時間に達したら再生時間を０に戻す
 		if (currentState.AnimTime > currentState.TotalAnimationTime)
 		{
+			animation_isend = true;
+			animation_frame = 0;
 			if (currentState.animaton_isloop)
 			{
 				//currentState.AnimTime = static_cast<float>(fmod(currentState.AnimTime, animationTotalTime));

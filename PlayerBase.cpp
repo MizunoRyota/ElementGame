@@ -4,9 +4,11 @@
 #include "Input.hpp"
 #include"PlayerBase.hpp"
 #include "BulletManager.hpp"
+#include "Sound.hpp"
 PlayerBase::PlayerBase()
-	:position(VGet(0.0f, 0.0f,0.0f))
+	:position(VGet(0.0f, 0.0f,-10.0f))
 	,hand_name(0)
+	, takedamage_cooldowntimer(0.0f)
 {
 	model_handle = MV1LoadModel(_T("data/3dmodel/Player/Player.mv1"));
 	hand_name = MV1SearchFrame(model_handle, "f_middle.03.R");
@@ -14,8 +16,8 @@ PlayerBase::PlayerBase()
 	MV1SetScale(model_handle, VGet(Scale, Scale, Scale));
 	MV1SetPosition(model_handle, position);
 	player_move = std::make_shared<PlayerMove>();
-	attack_manager = std::make_shared<PlayerAttackManager>(model_handle);
-
+	sound_manager = std::make_shared<Sound>();
+	//attack_manager = std::make_shared<PlayerAttackManager>(model_handle);
 }
 
 PlayerBase::~PlayerBase()
@@ -24,13 +26,22 @@ PlayerBase::~PlayerBase()
 
 void PlayerBase::Initialize() 
 {
-
+	position = VGet(0.0f, 0.0f, -10.0f); // 初期位置設定
+	hp = 60; // 初期HP設定
+	takedamage_cooldowntimer = 0.0f; // クールタイムタイマー初期化
+	MV1SetRotationXYZ(model_handle, VGet(0.0f, 0.0f, 0.0f)); // 初期回転設定
+	MV1SetPosition(model_handle, position); // 初期位置設定
 }
 void PlayerBase::Update(const Input& input, const Camera& camera)
 {
-	clsDx();
-	printfDx("playerxpos%f\n", position.x);
-	printfDx("playerzpos%f\n", position.z);
+	// クールタイムタイマー更新
+	if (takedamage_cooldowntimer > 0.0f) {
+		takedamage_cooldowntimer -= 1.0f ; // 60FPS想定
+		if (takedamage_cooldowntimer < 0.0f) takedamage_cooldowntimer = 0.0f;
+	}
+	//clsDx();
+	//printfDx("playerxpos%f\n", position.x);
+	//printfDx("playerzpos%f\n", position.z);
 	hand_position = MV1GetFramePosition(model_handle, hand_name);
 
 	player_move->Update(input, camera);
@@ -44,7 +55,7 @@ void PlayerBase::FireBullet(const Input& input, const Camera& camera)
 {
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 	{
-		bullet_manager->Shot(hand_position, camera.GetCameraDir());
+		bullet_manager->Shot(hand_position, camera.GetCameraDir(),firebullet_speed);
 	}
 }
 
@@ -91,4 +102,15 @@ void PlayerBase::Draw() const
 {
 	MV1DrawModel(model_handle);
 	bullet_manager->Draw();
+}
+
+void PlayerBase::TakeDamage(int damage) {
+	if (takedamage_cooldowntimer > 0.0f) {
+		// クールタイム中はダメージ無効
+		return;
+	}
+	sound_manager->PlayOnplayer();
+	hp -= damage;
+	takedamage_cooldowntimer = takedamage_cooldown;
+
 }

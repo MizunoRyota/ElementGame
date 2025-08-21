@@ -8,7 +8,7 @@ Stage::Stage()
 	:StageHandle(-1)
 	,wallNum(0)
 	,floorNum(0)
-	,position(VGet(0.0f,-0.10f,0.0f))
+	,position(VGet(0.0f,1.0f,0.0f))
 {
 	StageHandle = MV1LoadModel(_T("data/3dmodel/Stage/Stage2.mv1"));
 	// 3Dモデルのスケール決定

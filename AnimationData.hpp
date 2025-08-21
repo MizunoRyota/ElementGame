@@ -10,5 +10,4 @@ struct  AnimationState
 	float	PlayAnimSpeed = 0;				// アニメーションを進める速さ
 	bool	animaton_isloop = false;
 	int		AttatchIndex = -1;
-
 };

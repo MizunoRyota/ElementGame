@@ -11,6 +11,10 @@ public:
 	~Camera();			// デストラクタ.
 	void Load();		// 初期化
 	void Update(VECTOR playerPos);		// 更新
+	void UpdateClear(const VECTOR& enemypos);	// ゲームオーバー時の更新
+	void UpdateTitle(const VECTOR& enemypos);	// ゲームオーバー時の更新
+	void UpdateGameOver(const VECTOR& enemypos);	// ゲームオーバー時の更新
+
 	void FixCameraPosition();			// カメラを元の位置に戻す
 	// ポジションのgetter/setter.
 	const VECTOR& GetPosition() const { return position; }
