@@ -1,16 +1,21 @@
 #pragma once
-
-class Skydome
+#include "GameObject.hpp"
+class Skydome : public GameObject
 {
 public:
 	Skydome();
 	~Skydome();
-	void Update();	//更新
-	void Draw();	//描画
+
+	void Initialize()override;
+
+	void Update()override;	//更新
+	void Draw()override;	//描画
 private:
-	int SkydomeHandle;		//モデルハンドル
-	VECTOR pos;				//ポジション
-	VECTOR dir;			// 回転方向.
 	// 静的定数.
-	static constexpr float Scale = 0.20f;		//大きさ
+	static constexpr float SCALE = 0.20f;		//大きさ
+	static constexpr float MOVESPEED = 0.0004f;		//大きさ
+
+	int skydome_modelhandle;		//モデルハンドル
+	VECTOR skydome_position;				//ポジション
+	VECTOR skydome_dirciton;			// 回転方向.
 };

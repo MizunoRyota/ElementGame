@@ -1,11 +1,11 @@
-#include <math.h>
-#include"DxLib.h"
-#include"PlayerMove.hpp"
-#include"Camera.hpp"
-#include"Input.hpp"
+#include "stdafx.hpp"
+#include "PlayerMove.hpp"
+#include "Camera.hpp"
+#include "Input.hpp"
+
 PlayerMove::PlayerMove()
-	:moveVec(VGet(0,0,0))
-	,angle	(0)
+	:moveVec(VGet(0, 0, 0))
+	, move_angle(0)
 {
 }
 
@@ -13,7 +13,7 @@ PlayerMove::~PlayerMove()
 {
 }
 
-void PlayerMove::Update(const Input& input, const Camera& camera)
+void PlayerMove::Update( std::shared_ptr<Input>& input,  std::shared_ptr<Camera>& camera)
 {
 	// パッド入力によって移動パラメータを設定する
 	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
@@ -21,19 +21,19 @@ void PlayerMove::Update(const Input& input, const Camera& camera)
 	moveVec = VGet(0, 0, 0);
 	UpdateMoveParameterWithPad(input, camera, upMoveVec, leftMoveVec, moveVec);	//プレイヤー座標更新処理
 
-	MoveAngle(camera.GetCameraDir()); //プレイヤーが進む方向にモデルを回転
+	MoveAngle(camera->GetCameraDir()); //プレイヤーが進む方向にモデルを回転
 
 	// 移動ベクトルを元にコリジョンを考慮しつつプレイヤーを移動
 	Move(moveVec);
 
 }
 
-void PlayerMove::UpdateMoveParameterWithPad(const Input& input, const Camera& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec)
+void PlayerMove::UpdateMoveParameterWithPad( std::shared_ptr<Input>& input,  std::shared_ptr<Camera>& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec)
 {
 
 	// プレイヤーの移動方向のベクトルを算出
 	// 方向ボタン「↑」を押したときのプレイヤーの移動ベクトルはカメラの視線方向からＹ成分を抜いたもの
-	upMoveVec = VSub(camera.GetTarget(), camera.GetPosition());
+	upMoveVec = VSub(camera->GetTarget(), camera->GetPosition());
 	upMoveVec.y = 0.0f;
 
 	// 方向ボタン「←」を押したときのプレイヤーの移動ベクトルは上を押したときの方向ベクトルとＹ軸のプラス方向のベクトルに垂直な方向
@@ -53,7 +53,7 @@ void PlayerMove::UpdateMoveParameterWithPad(const Input& input, const Camera& ca
 	if (CheckHitKey(KEY_INPUT_LSHIFT) == 0)
 	{
 		// 方向ボタン「←」が入力されたらカメラの見ている方向から見て左方向に移動する
-		if (input.GetNowFrameInput() & PAD_INPUT_LEFT || (CheckHitKey(KEY_INPUT_A) != 0))
+		if (input->GetNowFrameInput() & PAD_INPUT_LEFT || (CheckHitKey(KEY_INPUT_A) != 0))
 		{
 			// 移動ベクトルに「←」が入力された時の移動ベクトルを加算する
 			moveVec = VAdd(moveVec, leftMoveVec);
@@ -63,7 +63,7 @@ void PlayerMove::UpdateMoveParameterWithPad(const Input& input, const Camera& ca
 		}
 		else
 			// 方向ボタン「→」が入力されたらカメラの見ている方向から見て右方向に移動する
-			if (input.GetNowFrameInput() & PAD_INPUT_RIGHT || (CheckHitKey(KEY_INPUT_D) != 0))
+			if (input->GetNowFrameInput() & PAD_INPUT_RIGHT || (CheckHitKey(KEY_INPUT_D) != 0))
 			{
 				// 移動ベクトルに「←」が入力された時の移動ベクトルを反転したものを加算する
 				moveVec = VAdd(moveVec, VScale(leftMoveVec, -1.0f));
@@ -71,9 +71,9 @@ void PlayerMove::UpdateMoveParameterWithPad(const Input& input, const Camera& ca
 				// 移動したかどうかのフラグを「移動した」にする
 				isPressMoveButton = true;
 			}
-	
+
 		// 方向ボタン「↑」が入力されたらカメラの見ている方向に移動する
-		if (input.GetNowFrameInput() & PAD_INPUT_UP || (CheckHitKey(KEY_INPUT_W) != 0))
+		if (input->GetNowFrameInput() & PAD_INPUT_UP || (CheckHitKey(KEY_INPUT_W) != 0))
 		{
 
 			// 移動ベクトルに「↑」が入力された時の移動ベクトルを加算する
@@ -84,7 +84,7 @@ void PlayerMove::UpdateMoveParameterWithPad(const Input& input, const Camera& ca
 		}
 		else
 			// 方向ボタン「↓」が入力されたらカメラの方向に移動する
-			if (input.GetNowFrameInput() & PAD_INPUT_DOWN || (CheckHitKey(KEY_INPUT_S) != 0))
+			if (input->GetNowFrameInput() & PAD_INPUT_DOWN || (CheckHitKey(KEY_INPUT_S) != 0))
 			{
 				// 移動ベクトルに「↑」が入力された時の移動ベクトルを反転したものを加算する
 				moveVec = VAdd(moveVec, VScale(upMoveVec, -1.0f));
@@ -97,10 +97,10 @@ void PlayerMove::UpdateMoveParameterWithPad(const Input& input, const Camera& ca
 	if (isPressMoveButton)
 	{
 		// 移動ベクトルを正規化したものをプレイヤーが向くべき方向として保存
-		targetMoveDirection = VNorm(moveVec);
+		move_targetdirection = VNorm(moveVec);
 
 		// プレイヤーが向くべき方向ベクトルをプレイヤーのスピード倍したものを移動ベクトルとする
-		moveVec = VScale(targetMoveDirection, MoveSpeed);
+		moveVec = VScale(move_targetdirection, MOVE_SPEED);
 	}
 }
 
@@ -115,7 +115,7 @@ void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 
 	// 目標の角度と現在の角度との差を割り出す
 	// 最初は単純に引き算
-	difference = targetAngle - angle;
+	difference = targetAngle - move_angle;
 
 	// ある方向からある方向の差が１８０度以上になることは無いので
 	// 差の値が１８０度以上になっていたら修正する
@@ -132,7 +132,7 @@ void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 	if (difference > 0.0f)
 	{
 		// 差がプラスの場合は引く
-		difference -= AngleSpeed;
+		difference -= ANGLE_SPEED;
 		if (difference < 0.0f)
 		{
 			difference = 0.0f;
@@ -141,7 +141,7 @@ void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 	else
 	{
 		// 差がマイナスの場合は足す
-		difference += AngleSpeed;
+		difference += ANGLE_SPEED;
 		if (difference > 0.0f)
 		{
 			difference = 0.0f;
@@ -149,7 +149,7 @@ void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 	}
 
 	// モデルの角度を更新
-	angle = targetAngle - difference;
+	move_angle = targetAngle - difference;
 }
 
 void PlayerMove::Move(const VECTOR& MoveVector)
@@ -157,10 +157,10 @@ void PlayerMove::Move(const VECTOR& MoveVector)
 	// x軸かy軸方向に 0.01f 以上移動した場合は「移動した」フラグを１にする
 	if (fabs(MoveVector.x) > 0.01f || fabs(MoveVector.z) > 0.01f)
 	{
-		isMove = true;
+		move_ismove = true;
 	}
 	else
 	{
-		isMove = false;
+		move_ismove = false;
 	}
 }

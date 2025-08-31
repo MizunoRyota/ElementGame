@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Player">
+      <UniqueIdentifier>{3ae4b057-6ff8-4fef-8ca6-6e1f53dab1b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{41489dde-1c7d-4197-9590-ca1e67e52970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{1630198d-5d2b-4195-98d3-5a8a86236c06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shadow">
+      <UniqueIdentifier>{b3143ca5-715c-4aee-8871-30f6ae60ffe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject">
+      <UniqueIdentifier>{31df1314-f410-4b59-89ef-692b17fb5df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\Character">
+      <UniqueIdentifier>{44c70365-2c34-4c55-9ffd-ce12fa67fd3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Animater">
+      <UniqueIdentifier>{8a7af727-472c-4ff3-bc8c-de8db30de933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{00abc5e3-3331-4a32-bcf5-196bb59f760d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bullet">
+      <UniqueIdentifier>{37e8ccf7-5977-4174-a3ba-8827119e09e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{051b75a7-5bbf-410d-8c39-4c9026fb5564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{6fff5b48-3074-486d-8207-a09793066e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inpput">
+      <UniqueIdentifier>{f1f0b8e3-3e25-4ec1-8ed7-26694f80a6bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{4e716f77-8fb7-4d80-989d-34c442ce9799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameScene">
+      <UniqueIdentifier>{9e3164bc-939c-42ba-b6bd-1d1f8dfa74de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Animater">
+      <UniqueIdentifier>{c9a1fd2e-df6c-4527-816b-9c3fcc741959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SkyDome">
+      <UniqueIdentifier>{ba652bd0-37eb-480a-b89d-85709301f163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\TitleScene">
+      <UniqueIdentifier>{019dfc99-19f5-4915-a0a1-088397964c81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{ff3be3ed-27f5-431a-8258-fc9582e7d245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy\EnemyAnimater">
+      <UniqueIdentifier>{60025210-6a98-4fd0-97e4-383d864db5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy\Chase">
+      <UniqueIdentifier>{a4ba7c3a-81ba-4fc7-80b7-c9724b0a640b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CharacterBase.hpp">
+      <Filter>GameObject\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
+      <Filter>GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimaterBase.hpp">
+      <Filter>Animater</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationData.hpp">
+      <Filter>Animater</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.hpp">
+      <Filter>Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletCreator.hpp">
+      <Filter>Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Pallet.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Shadow.hpp">
+      <Filter>Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.hpp">
+      <Filter>Inpput</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.hpp">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.hpp">
+      <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedData.hpp" />
+    <ClInclude Include="GameScene.hpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerState.hpp">
+      <Filter>Player\Animater</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimater.hpp">
+      <Filter>Player\Animater</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome.hpp">
+      <Filter>SkyDome</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.hpp">
+      <Filter>Scene\TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.hpp">
+      <Filter>Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMove.hpp">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.hpp">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAnimater.hpp">
+      <Filter>Enemy\EnemyAnimater</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.hpp">
+      <Filter>Enemy\EnemyAnimater</Filter>
+    </ClInclude>
+    <ClInclude Include="Chase.hpp">
+      <Filter>Enemy\Chase</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimaterBase.cpp">
+      <Filter>Animater</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletCreator.cpp">
+      <Filter>Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Shadow.cpp">
+      <Filter>Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Inpput</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedData.cpp" />
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerAnimater.cpp">
+      <Filter>Player\Animater</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome.cpp">
+      <Filter>SkyDome</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerMove.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAnimater.cpp">
+      <Filter>Enemy\EnemyAnimater</Filter>
+    </ClCompile>
+    <ClCompile Include="Chase.cpp">
+      <Filter>Enemy\Chase</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

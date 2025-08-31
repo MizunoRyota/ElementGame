@@ -5,7 +5,7 @@
 class EnemyAnimater : public AnimaterBase
 {
 public:
-	EnemyAnimater(int modelhandle,  State& enemystate);
+	EnemyAnimater(int modelhandle,  EnemyState& enemystate);
 	virtual~EnemyAnimater();
 
 	enum class AnimKind : int
@@ -30,5 +30,5 @@ public:
 	void SwitchAnimation()override;
 
 protected:
-	State& enemy_state;
+	EnemyState& enemy_state;
 };

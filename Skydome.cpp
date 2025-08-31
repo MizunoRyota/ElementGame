@@ -1,31 +1,40 @@
-#include"DxLib.h"
+#include "stdafx.hpp"
 #include"tchar.h"
 #include"Skydome.hpp"
+#include "GameObject.hpp"
 
 Skydome::Skydome()
-	:pos(VGet(0.0f,0,0.0f))
-	,SkydomeHandle(0)
+	:skydome_position(VGet(0.0f,0,0.0f))
+	, skydome_modelhandle(0)
 {
-	SkydomeHandle = MV1LoadModel(_T("data/3dmodel/skydome/Night/Dome_Y902.pmx"));
+	obj_name = "Skydome";
+	skydome_position = VGet(0.0f, 0, 0.0f);
+	skydome_modelhandle = 0;
+	skydome_modelhandle = MV1LoadModel(_T("data/3dmodel/skydome/Sunny/Dome_X502.pmx"));
 	// プレイヤーのモデルの座標を更新する
-	MV1SetPosition(SkydomeHandle, pos);
+	MV1SetPosition(skydome_modelhandle, skydome_position);
 	// 3Dモデルのスケール決定
-	MV1SetScale(SkydomeHandle, VGet(Scale, Scale, Scale));
+	MV1SetScale(skydome_modelhandle, VGet(SCALE, SCALE, SCALE));
 }
 
 Skydome::~Skydome()
 {
-	MV1DeleteModel(SkydomeHandle);
+	MV1DeleteModel(skydome_modelhandle);
+}
+
+void Skydome::Initialize()
+{
+
 }
 
 void Skydome::Update()
 {
 	//スカイドームを回転させる
-	pos.y -= 0.0003;
-	MV1SetRotationXYZ(SkydomeHandle, VGet(0.0f, pos.y, 0.0f)); 
+	skydome_position.y -= MOVESPEED;
+	MV1SetRotationXYZ(skydome_modelhandle, VGet(0.0f, skydome_position.y, 0.0f));
 }
 
 void Skydome::Draw()
 {
-	MV1DrawModel(SkydomeHandle);
+	MV1DrawModel(skydome_modelhandle);
 }

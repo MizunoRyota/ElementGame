@@ -1,0 +1,12 @@
+#pragma once
+#include "DxLib.h"
+#include "EffekseerForDXLib.h"
+#include "Pallet.hpp"
+#include <iostream>
+#include <cmath>
+#include <memory>
+#include <vector>
+#include <unordered_map>
+#include <string>
+#include <random>  
+#include <cassert>

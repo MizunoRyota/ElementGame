@@ -1,14 +1,17 @@
-#include "DxLib.h"
+#include "stdafx.hpp"
+
+#include "GameObject.hpp"
 #include "Input.hpp"
 
 /// <summary>
 /// コンストラクタ
 /// </summary>
 Input::Input()
-    : nowFrameInput(0)
-    , nowFrameNewInput(0)
+    : input_nowframe(0)
+    , input_newframe(0)
 {
-    // 処理なし
+    obj_name = "Input";
+
 }
 
 /// <summary>
@@ -19,63 +22,71 @@ Input::~Input()
     // 処理なし
 }
 
+void Input::Initialize()
+{ }
+
 /// <summary>
 /// 更新
 /// </summary>
 void Input::Update()
 {
     // ひとつ前のフレームの入力を変数にとっておく
-    int Old = nowFrameInput;
+    int input_old = input_nowframe;
     // 現在の入力状態を取得
-    nowFrameInput = GetJoypadInputState(DX_INPUT_KEY_PAD1);
+    input_nowframe = GetJoypadInputState(DX_INPUT_KEY_PAD1);
     clsDx();
-    //printfDx("%d", nowFrameInput);
-    // 今のフレームで新たに押されたボタンのビットだけ立っている値を nowFrameNewInput に代入する
-    nowFrameNewInput = nowFrameInput & ~Old;
+    //printfDx("%d", input_nowframe);
+    // 今のフレームで新たに押されたボタンのビットだけ立っている値を input_newframe に代入する
+    input_newframe = input_nowframe & ~input_old;
 }
 
 bool Input::IsInputAnalogKey(const AnalogKeyState analogKeyState)
 {
     // アナログキーの縦横の入力値を用意
-    int inputX = 0;
-    int inputY = 0;
+    int input_x = 0;
+    int input_y = 0;
 
     // 入力されているか
-    bool isInput = false;
+    bool input_isinput = false;
 
     // それぞれの入力をチェック
-    GetJoypadAnalogInputRight(&inputX, &inputY, DX_INPUT_PAD1);
+    GetJoypadAnalogInputRight(&input_x, &input_y, DX_INPUT_PAD1);
 
     // どのアナログキーをチェックしたいのかをみてそれが倒されているかを見る
     switch (analogKeyState)
     {
     case Right:
-        if (inputX > AnalogKeyDeadZone)
+        if (input_x > ANALOGKEY_DEADZONE)
         {
-            isInput = true;
+            input_isinput = true;
         }
         break;
     case Left:
-        if (inputX < -AnalogKeyDeadZone)
+        if (input_x < -ANALOGKEY_DEADZONE)
         {
-            isInput = true;
+            input_isinput = true;
         }
         break;
     case Up:
-        if (inputY < -AnalogKeyDeadZone)
+        if (input_y < -ANALOGKEY_DEADZONE)
         {
-            isInput = true;
+            input_isinput = true;
         }
         break;
     case Down:
-        if (inputY > AnalogKeyDeadZone)
+        if (input_y > ANALOGKEY_DEADZONE)
         {
-            isInput = true;
+            input_isinput = true;
         }
         break;
     default:
         break;
     }
 
-    return isInput;
+    return input_isinput;
+}
+
+void Input::Draw()
+{
+
 }

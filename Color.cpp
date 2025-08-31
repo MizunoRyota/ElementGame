@@ -1,3 +1,5 @@
+#include "stdafx.hpp"
+
 #include"Color.hpp"
 
 int Color::GetHandle()const

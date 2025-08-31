@@ -1,84 +1,44 @@
-#include "Dxlib.h"
-#include "EffekseerForDXLib.h"
+#include "stdafx.hpp"
 #include "Pallet.hpp"
 #include "Bullet.hpp"
 
-Bullet::Bullet(const VECTOR& position, const VECTOR& direction , const float bullet_speed)
-	:position(VGet(0,0,0))
-	,direction(VGet(0,0,0))
-	,bullet_speed(0)
+Bullet::Bullet()
 {
-	this->position = position;
-	this->direction = direction;
-	this->bullet_speed = bullet_speed;
-	prev_positon = position;
-	effect_handle = LoadEffekseerEffect("data/effekseer/effekseer/Effect/fire.efkefc", 0.02f);
-	playingEffectHandle = PlayEffekseer3DEffect(effect_handle);
-	SetScalePlayingEffekseer3DEffect(playingEffectHandle, EffectScale, EffectScale, EffectScale);
 }
 
-Bullet::~Bullet() {
-
+Bullet::~Bullet()
+{
 }
 
-void Bullet::Initialize()
+void Bullet::Initialize(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
-	bullet_isporn = false;
+	bullet_position = pos;
+	bullet_direction = dir;
+	bullet_speed = speed;
+	ChangeActiveTrue();
 }
 
 void Bullet::Update()
 {
-	direction = VNorm(direction);
-	direction = VScale(direction, bullet_speed);
-	position = VAdd(position, direction);
-	PlayEffect();
+	if (!IsActive()) return;
+
+	bullet_direction = VNorm(bullet_direction);
+	bullet_direction = VScale(bullet_direction, bullet_speed);
+	bullet_position = VAdd(bullet_position, bullet_direction);
+
 }
 
-bool Bullet::CheckBulletOut()
+void Bullet::ChangeActiveFalse()
 {
-	float bullet_range = VSize(VSub(position, prev_positon));
-	if ((bullet_range > BulletRange || bullet_range < -BulletRange))
-	{
-		StopEffekseer3DEffect(playingEffectHandle);
-		return true; // 弾が範囲外に出た場合はtrueを返す
-	} 
-	return false; // 弾が範囲内にいる場合はfalseを返す
+	bullet_isactive = false;
 }
 
-void Bullet::DeleteBullet(int num)
+void Bullet::ChangeActiveTrue()
 {
-	// エフェクトリソースを削除する。(Effekseer終了時に破棄されるので削除しなくてもいい)
-	StopEffekseer3DEffect(playingEffectHandle);
-	DeleteEffekseerEffect(playingEffectHandle);
+	bullet_isactive = true;
 }
 
 void Bullet::Draw()
 {
-	//DrawSphere3D(position, 0.3f, 20, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
-}
-
-void Bullet::PlayEffect()
-{
-	// DXライブラリのカメラとEffekseerのカメラを同期する。
-	Effekseer_Sync3DSetting();
-
-	if (!effect_isplay)
-	{
-		StopEffekseer3DEffect(playingEffectHandle);
-
-		//エフェクトを再生する
-		effect_isplay = true;
-		effect_isend = false;
-	}
-	else
-	{
-		time += PlayEffectSpeed;
-		if (time >= EndTime) // 30フレーム経過したらエフェクトを終了
-		{
-			effect_isend = true;
-			effect_isplay = false;
-			time = 0; // 時間をリセット
-		}
-	}
-	SetPosPlayingEffekseer3DEffect(playingEffectHandle, position.x, position.y, position.z);
+	DrawSphere3D(bullet_position, 0.3f, 20, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
 }

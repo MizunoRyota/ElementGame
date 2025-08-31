@@ -6,19 +6,15 @@ public:
 	Chase();
 	~Chase();
 
-	bool Update(const VECTOR&enemypos,const VECTOR &targetpos);
-	VECTOR MoveToTarget(const VECTOR& enemypos, const VECTOR& targetpos);
-	bool RangeWithin();
-private:
-	static constexpr float Range = 5.0f;	//アニメーションを進める速度
-	static constexpr float MoveSpeed = 0.125f;	//アニメーションを進める速度
+	bool Update(const VECTOR& enemypos, const VECTOR& targetpos);
 
-	VECTOR m_position;
-	VECTOR target_position;
-	VECTOR m_direction;
-	VECTOR keep_distance;	//プレイヤーとの距離を保持するための変数
-	VECTOR check_direction;
-	VECTOR m_movevector;
-	float check_distance;	//プレイヤーとの距離を保持するための変数
-	bool ischase_end;
+	VECTOR MoveToTarget(const VECTOR& enemypos, const VECTOR& targetpos);
+
+	bool RangeWithin(const VECTOR& enemypos, const VECTOR& targetpos);
+
+private:
+	
+	static constexpr float CHASE_RANGE = 5.0f;	//アニメーションを進める速度
+	static constexpr float CHASE_SPEED = 0.1f;	//アニメーションを進める速度
+
 };

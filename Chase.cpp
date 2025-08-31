@@ -1,12 +1,7 @@
-#include"DxLib.h"
+#include "stdafx.hpp"
 #include "Chase.hpp"
 
 Chase::Chase()
-	:m_position(VGet(0, 0, 0))
-	, target_position(VGet(0, 0, 0))
-	, m_direction(VGet(0,0,0))
-	, ischase_end(false)
-	,check_direction(VGet(0,0,0))
 {
 }
 
@@ -16,42 +11,38 @@ Chase::~Chase()
 
 bool Chase::Update(const VECTOR& enemypos, const VECTOR& targetpos)
 {
-	this->m_position = enemypos;
-	this->target_position = targetpos;
 
-	ischase_end = RangeWithin();
+	bool chase_isend = RangeWithin(enemypos, targetpos);
 
-	return ischase_end;
+	return chase_isend;
 }
 
 VECTOR Chase::MoveToTarget(const VECTOR& enemypos, const VECTOR& targetpos)
 {
-	this->m_position = enemypos;
-	this->target_position = targetpos;
 
-
-	keep_distance = VSub(target_position, m_position);
+	VECTOR keep_distance = VSub(targetpos, enemypos);
 
 	// プレイヤーに向かって進む方向を単位ベクトルで求める
-	check_direction = VNorm(keep_distance);
+	VECTOR check_direction = VNorm(keep_distance);
 
 	// 敵が進む距離（移動速度に基づく）
-	m_movevector = VScale(check_direction, MoveSpeed);
+	VECTOR chase_vector = VScale(check_direction, CHASE_SPEED);
 
 	// 敵の位置を更新
-	m_position = VAdd(m_position, m_movevector);
+	VECTOR chase_targetpos = VAdd(enemypos, chase_vector);
 
-	return m_position;
+	return chase_targetpos;
 
 }
 
-bool Chase::RangeWithin()
+bool Chase::RangeWithin(const VECTOR& enemypos, const VECTOR& targetpos)
 {
 	//プレイヤーとEnemyの距離の合計を獲得
-	keep_distance = VSub(target_position, m_position);
+	VECTOR keep_distance = VSub(targetpos, enemypos);
 
 	//ベクトルを2乗
-	check_distance = VSquareSize(keep_distance);
+	float check_distance = VSquareSize(keep_distance);
+
 	//LengthよりDistanceちいさくなったとき返す
-	return check_distance <= (Range * Range);
+	return check_distance <= (CHASE_RANGE * CHASE_RANGE);
 }

@@ -1,5 +1,5 @@
 #pragma once
-enum State
+enum EnemyState
 {
 	STATE_CHASE,
 	STATE_ONDAMAGE,

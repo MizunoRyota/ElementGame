@@ -1,9 +1,12 @@
 #pragma once
 
-/// <summary>
-/// 入力
-/// </summary>
-class Input
+#include "GameObject.hpp" // GameObject クラスの定義をインクルード
+
+class GameObject;
+	/// <summary>
+	/// 入力
+	/// </summary>
+class Input : public GameObject
 {
 public:
 
@@ -40,17 +43,19 @@ public:
 	Input();
 	~Input();
 
-	void	Update();
+	void Initialize()override;
+	void Update()override;
+	void Draw()override;
 	bool IsInputAnalogKey(const AnalogKeyState analogKeyState);
-	int GetNowFrameInput() const { return nowFrameInput; }
-	int GetNowFrameNewInput() const { return nowFrameNewInput; }
+	int GetNowFrameInput() const { return input_nowframe; }
+	int GetNowFrameNewInput() const { return input_newframe; }
 
 private:
 
-	static constexpr int AnalogKeyDeadZone = 50;     // スティックを倒してもすぐ反応しない領域
+	static constexpr int ANALOGKEY_DEADZONE = 50;     // スティックを倒してもすぐ反応しない領域
 
-	int		nowFrameInput;				// 現在のフレームで押されているボタン
-	int		nowFrameNewInput;			// 現在のフレームで新たに押されたボタン
-	int     rightAnalogKeyX;			// 右のアナログキーの横方向の状態
-	int     rightAnalogKeyY;			// 右のアナログキーの縦方向の状態
+	int		input_nowframe;				// 現在のフレームで押されているボタン
+	int		input_newframe;			// 現在のフレームで新たに押されたボタン
+	int     input_rightkey_x;			// 右のアナログキーの横方向の状態
+	int     input_rightkey_z;			// 右のアナログキーの縦方向の状態
 };

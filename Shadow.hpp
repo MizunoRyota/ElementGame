@@ -1,20 +1,22 @@
 #pragma once
-class Shadow
+#include "GameObject.hpp"
+
+class Shadow : public GameObject
 {
 public:
     Shadow();
     ~Shadow();
 
-    void Init();
-    void Update();
+    void Initialize() override;
+    void Update() override;
+    void Draw() override ;
 
-    int GetShadowMapHandle() const { return shadowMapHandle; }
-    VECTOR GetLightDir()const { return lightDirection; }
+    int GetShadowMapHandle() const { return obj_modelhandle; }
+    VECTOR GetLightDir()const { return obj_direction; }
 
 private:
-    int shadowMapHandle;
-    VECTOR lightDirection;
 
     static constexpr int SHADOW_QUALITY = 2048;    // 影のクオリティ
+    static constexpr float SHADOW_ANGLESPEED = 0.001f;    // 影のクオリティ
 
 };
