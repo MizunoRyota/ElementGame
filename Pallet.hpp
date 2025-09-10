@@ -1,5 +1,5 @@
 #pragma once
-#include"Color.hpp"
+#include "Color.hpp"
 namespace Pallet
 {
     inline constexpr Color AliceBlue{ 240,248,255 };

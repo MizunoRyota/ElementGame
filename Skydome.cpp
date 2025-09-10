@@ -1,6 +1,6 @@
 #include "stdafx.hpp"
-#include"tchar.h"
-#include"Skydome.hpp"
+#include "tchar.h"
+#include "Skydome.hpp"
 #include "GameObject.hpp"
 
 Skydome::Skydome()
@@ -21,12 +21,17 @@ Skydome::~Skydome()
 {
 	MV1DeleteModel(skydome_modelhandle);
 }
-
+/// <summary>
+/// 初期化
+/// </summary>
 void Skydome::Initialize()
 {
 
 }
 
+/// <summary>
+/// 更新
+/// </summary>
 void Skydome::Update()
 {
 	//スカイドームを回転させる
@@ -34,6 +39,9 @@ void Skydome::Update()
 	MV1SetRotationXYZ(skydome_modelhandle, VGet(0.0f, skydome_position.y, 0.0f));
 }
 
+/// <summary>
+/// 描画
+/// </summary>
 void Skydome::Draw()
 {
 	MV1DrawModel(skydome_modelhandle);

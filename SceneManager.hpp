@@ -1,6 +1,5 @@
 #pragma once
-#include <unordered_map>
-#include <string_view>
+
 #include "Scene.hpp"
 #include "SharedData.hpp"
 
@@ -32,7 +31,6 @@ public:
     template <class SceneType>
     void Add(const std::string_view name)
     {
-        // [HACK] 重複非許容にする必要があります。
         m_scenes[name] = new SceneType{ *this, *m_sharedData };
 
         // 最初に追加されたシーンがデフォルトのシーンです。

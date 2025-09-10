@@ -50,7 +50,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -125,11 +125,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
+      <AdditionalIncludeDirectories>Dxlib.h;EffekseerForDXLib.h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>Dxlib.h;EffekseerForDXLib.h;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -137,13 +140,16 @@
     <ClInclude Include="AnimationData.hpp" />
     <ClInclude Include="Bullet.hpp" />
     <ClInclude Include="BulletCreator.hpp" />
+    <ClInclude Include="BulletFire.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CharacterBase.hpp" />
     <ClInclude Include="Chase.hpp" />
     <ClInclude Include="Color.hpp" />
+    <ClInclude Include="Dodge.hpp" />
     <ClInclude Include="Effect.hpp" />
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="EnemyAnimater.hpp" />
+    <ClInclude Include="EnemyMove.hpp" />
     <ClInclude Include="EnemyState.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="Input.hpp" />
@@ -159,6 +165,7 @@
     <ClInclude Include="SharedData.hpp" />
     <ClInclude Include="GameScene.hpp" />
     <ClInclude Include="Skydome.hpp" />
+    <ClInclude Include="SpecialAttack.hpp" />
     <ClInclude Include="Stage.hpp" />
     <ClInclude Include="stdafx.hpp" />
     <ClInclude Include="TitleScene.hpp" />
@@ -168,12 +175,15 @@
     <ClCompile Include="AnimaterBase.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletCreator.cpp" />
+    <ClCompile Include="BulletFire.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chase.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Dodge.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimater.cpp" />
+    <ClCompile Include="EnemyMove.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -185,6 +195,7 @@
     <ClCompile Include="SharedData.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Skydome.cpp" />
+    <ClCompile Include="SpecialAttack.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

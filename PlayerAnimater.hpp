@@ -13,6 +13,7 @@ public:
 		Idle = 9,
 		Attack =7,
 	};
+
 	void InitializeAnimationData()override;
 
 	void Update()override;

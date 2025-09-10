@@ -3,12 +3,6 @@
 #include "BulletCreator.hpp"
 
 BulletCreator::BulletCreator()
-{}
-
-BulletCreator::~BulletCreator()
-{}
-
-void BulletCreator::Initialize()
 {
 	for (int num = 0; num < BULLET_NUM; num++)
 	{
@@ -16,29 +10,58 @@ void BulletCreator::Initialize()
 	}
 }
 
-void BulletCreator::CreateBullet()
+BulletCreator::~BulletCreator()
+{}
+/// <summary>
+/// ’e‚Ì‰Šú‰»
+/// </summary>
+void BulletCreator::Initialize()
 {
-	for (auto & bullet : bullets)
+
+}
+
+/// <summary>
+/// ’e‚ğì¬
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="dir"></param>
+/// <param name="speed"></param>
+void BulletCreator::CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed)
+{
+	for (auto& bullet : bullets)
 	{
 		if (!bullet->IsActive())
 		{
-			bullet->ChangeActiveTrue();
+			bullet->Initialize(pos, dir, speed);
+			break;
 		}
 	}
 }
 
-void BulletCreator::ShotStraight(const VECTOR& pos, const VECTOR& dir, const float& speed)
+/// <summary>
+/// XV
+/// </summary>
+void BulletCreator::Update()
 {
-	for (auto & bullet : bullets )
+	for (auto& bullet : bullets)
 	{
-		bullet->Initialize(pos, dir, speed);
+		if (bullet->IsActive())
+		{
+			bullet->Update();
+		}
 	}
 }
 
+/// <summary>
+/// •`‰æ
+/// </summary>
 void BulletCreator::Draw()
 {
-	for (auto & bullet : bullets)
+	for (auto& bullet : bullets)
 	{
-		bullet->Draw();
+		if (bullet->IsActive())
+		{
+			bullet->Draw();
+		}
 	}
 }

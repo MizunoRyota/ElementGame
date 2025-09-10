@@ -1,5 +1,5 @@
 #pragma once
-#include <memory>
+
 #include "GameObject.hpp"
 class Effect;
 class Stage : public GameObject
@@ -7,9 +7,9 @@ class Stage : public GameObject
 public:
 	Stage();
 	~Stage();
-	void Initialize()override;
-	void Update()override;
-	void Draw()override;
+	void Initialize()override;		//‰Šú‰»
+	void Update()override;			//XV
+	void Draw()override;			//•`‰æ
 
 private:
 	// Ã“I’è”.

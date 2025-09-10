@@ -9,6 +9,9 @@ Shadow::Shadow()
 
 Shadow::~Shadow() {}
 
+/// <summary>
+/// 初期化
+/// </summary>
 void Shadow::Initialize()
 {
     obj_modelhandle = MakeShadowMap(SHADOW_QUALITY, SHADOW_QUALITY);
@@ -28,12 +31,13 @@ void Shadow::Initialize()
     SetShadowMapLightDirection(obj_modelhandle, obj_direction);
 }
 
+/// <summary>
+/// 更新
+/// </summary>
 void Shadow::Update()
 {
 
-    //シャドウを描画する範囲を指定
-    //VECTOR minPos = VSub(VGet(50.0f, 50.0f, 50.0f), VGet(50.0f, 50.0f, 50.0f));
-    //VECTOR maxPos = VAdd(VGet(50.0f, -0.10f, 50.0f), VGet(50.0f, 25.0f, 50.0f));
+
     static float angle = 0.0f; // ラジアン単位での角度
     angle += SHADOW_ANGLESPEED; // 動く速さ（必要に応じて調整）
 
@@ -47,10 +51,15 @@ void Shadow::Update()
 
     // シャドウマップが想定するライトの方向もセット
     SetShadowMapLightDirection(obj_modelhandle, obj_direction);
+
+    //シャドウを描画する範囲を指定
     SetShadowMapDrawArea(obj_modelhandle, VGet(-50.0f, -0.10f, -50.0f), VGet(50.0f, 25.0f, 50.0f));
 
 }
 
+/// <summary>
+/// 
+/// </summary>
 void Shadow::Draw()
 {
     //処理なし

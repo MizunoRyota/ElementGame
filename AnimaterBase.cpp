@@ -1,7 +1,5 @@
 #include "stdafx.hpp"
-
-#include "AnimationData.hpp"
-#include"AnimaterBase.hpp"
+#include "AnimaterBase.hpp"
 
 AnimaterBase::AnimaterBase(int anim_modelhandle)
 	:anim_blendrate(1.0f)
@@ -22,11 +20,17 @@ AnimaterBase::AnimaterBase(int anim_modelhandle)
 AnimaterBase::~AnimaterBase()
 {
 }
-
+/// <summary>
+/// アニメーションの初期化
+/// </summary>
 void AnimaterBase::InitializeAnimationData()
 {
 }
 
+/// <summary>
+/// アニメーションの変更
+/// </summary>
+/// <param name="nextstate"></param>
 void AnimaterBase::ChangeMotion(AnimationState nextstate)
 {
 
@@ -57,6 +61,9 @@ void AnimaterBase::ChangeMotion(AnimationState nextstate)
 	anim_blendrate = anim_prevstate.anim_attachindex == -1 ? 1.0f : 0.0f;
 }
 
+/// <summary>
+/// アニメーションの更新
+/// </summary>
 void AnimaterBase::UpdateAnimation()
 {
 

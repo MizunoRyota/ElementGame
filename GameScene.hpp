@@ -4,6 +4,7 @@
 class SharedData;
 class Player;
 class Shadow;
+class BulletCreator;
 /// @brief ステージシーン
 class GameScene : public Scene
 {

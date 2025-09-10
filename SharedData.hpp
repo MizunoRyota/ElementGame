@@ -2,9 +2,6 @@
 #include <memory>
 #include <vector>
 #include <string>
-//#include "GameObject.hpp"
-//#include "CharacterBase.hpp"
-
 class Shadow;
 class Input;
 class Camera;

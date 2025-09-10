@@ -10,19 +10,21 @@ public:
 
 	enum class AnimKind : int
 	{
-		Chase = 0,
-		OnDamage = 1,
-		Walkback = 2,
-		Die = 3,
-		GroundAttack = 4,
-		RunLeft = 5,
-		Charge = 6,
-		RunRight = 7,
-		WindAttack = 8,
-		WaterAttack = 9,
-		FireAttack = 10,
-		JumpAttack = 11,
-		Idle = 12,
+		OnDamage = 0,
+		Walkback = 1,
+		Die = 2,
+		GroundAttack = 3,
+		Float = 4,
+		SpecialAttack = 5,
+		RunLeft = 6,
+		Charge = 7,
+		RunRight = 8,
+		WindAttack = 9,
+		WaterAttack = 10,
+		FireAttack = 11,
+		JumpAttack = 12,
+		Idle = 13,
+		Chase = 14,
 	};
 	void InitializeAnimationData()override;
 

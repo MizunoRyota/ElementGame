@@ -1,10 +1,9 @@
 #include "stdafx.hpp"
-
-#include"Window.hpp"
+#include "Window.hpp"
 #include "GameObject.hpp"
 #include "Player.hpp"
-#include"Input.hpp"
-#include"Camera.hpp"
+#include "Input.hpp"
+#include "Camera.hpp"
 
 /// <summary>
 /// コンストラクタ
@@ -23,11 +22,10 @@ Camera::Camera()
 {
     obj_name = "Camera";
 
-
     //垂直角度は0度
     angleVertical = 0.0f;
     //パースの設定
-    SetupCamera_Perspective(70.0f * DX_PI_F / 180.0f);
+    SetupCamera_Perspective(90.0f * DX_PI_F / 180.0f);
     //奥行0.25～400までをカメラの描画範囲とする
     SetCameraNearFar(0.1f, 400.0f);
     // カメラに位置を反映.
@@ -42,12 +40,16 @@ Camera::~Camera()
 {
     // 処理なし.
 }
-
+/// <summary>
+/// 初期化
+/// </summary>
 void Camera::Initialize()
 {
 
 }
-
+/// <summary>
+/// 更新
+/// </summary>
 void Camera::Update()
 {
     // カメラの目線の位置
@@ -67,53 +69,53 @@ void Camera::Update()
     //printfDx("cameraxpos%f\n", camera_position.x);
     //printfDx("camerazpos%f\n", camera_position.z);
 
-    //// 「←」ボタンが押されていたら水平角度をマイナスする
-    //if (rightInput->IsInputAnalogKey(Input::AnalogLeft))
-    //{
-    //    angleHorizontal += ANGLE_SPEED;
+    // 「←」ボタンが押されていたら水平角度をマイナスする
+    if (rightInput->IsInputAnalogKey(Input::AnalogLeft))
+    {
+        angleHorizontal += ANGLE_SPEED;
 
-    //    // －１８０度以下になったら角度値が大きくなりすぎないように３６０度を足す
-    //    if (angleHorizontal > DX_PI_F)
-    //    {
-    //        angleHorizontal -= DX_TWO_PI_F;
-    //    }
-    //}
+        // －１８０度以下になったら角度値が大きくなりすぎないように３６０度を足す
+        if (angleHorizontal > DX_PI_F)
+        {
+            angleHorizontal -= DX_TWO_PI_F;
+        }
+    }
 
-    //// 「→」ボタンが押されていたら水平角度をプラスする
-    //if (rightInput->IsInputAnalogKey(Input::AnalogRight))
-    //{
-    //    angleHorizontal -= ANGLE_SPEED;
+    // 「→」ボタンが押されていたら水平角度をプラスする
+    if (rightInput->IsInputAnalogKey(Input::AnalogRight))
+    {
+        angleHorizontal -= ANGLE_SPEED;
 
-    //    // １８０度以上になったら角度値が大きくなりすぎないように３６０度を引く
-    //    if (angleHorizontal < -DX_PI_F)
-    //    {
-    //        angleHorizontal += DX_TWO_PI_F;
-    //    }
-    //}
+        // １８０度以上になったら角度値が大きくなりすぎないように３６０度を引く
+        if (angleHorizontal < -DX_PI_F)
+        {
+            angleHorizontal += DX_TWO_PI_F;
+        }
+    }
 
-    //// 「↑」ボタンが押されていたら垂直角度をマイナスする
-    //if (rightInput->IsInputAnalogKey(Input::AnalogUp))
-    //{
-    //    angleVertical += ANGLE_SPEED;
+    // 「↑」ボタンが押されていたら垂直角度をマイナスする
+    if (rightInput->IsInputAnalogKey(Input::AnalogUp))
+    {
+        angleVertical += ANGLE_SPEED;
 
-    //    //// ある一定角度以下にはならないようにする
-    //    if (angleVertical > DX_PI_F * 0.5f - 0.6f)
-    //    {
-    //        angleVertical = DX_PI_F * 0.5f - 0.6f;
-    //    }
-    //}
+        //// ある一定角度以下にはならないようにする
+        if (angleVertical > DX_PI_F * 0.5f - 0.6f)
+        {
+            angleVertical = DX_PI_F * 0.5f - 0.6f;
+        }
+    }
 
-    //// 「↓」ボタンが押されていたら垂直角度をプラスする
-    //if (rightInput->IsInputAnalogKey(Input::AnalogDown))
-    //{
-    //    angleVertical -= ANGLE_SPEED;
+    // 「↓」ボタンが押されていたら垂直角度をプラスする
+    if (rightInput->IsInputAnalogKey(Input::AnalogDown))
+    {
+        angleVertical -= ANGLE_SPEED;
 
-    //    //// ある一定角度以上にはならないようにする
-    //    if (angleVertical < -DX_PI_F * 0.5f + 0.6f)
-    //    {
-    //        angleVertical = -DX_PI_F * 0.5f + 0.6f;
-    //    }
-    //}
+        //// ある一定角度以上にはならないようにする
+        if (angleVertical < -DX_PI_F * 0.5f + 0.6f)
+        {
+            angleVertical = -DX_PI_F * 0.5f + 0.6f;
+        }
+    }
     camera_dirction.x = cosf(angleVertical) * sinf(angleHorizontal);
     camera_dirction.y = sinf(angleVertical);
     camera_dirction.z = cosf(angleVertical) * cosf(angleHorizontal);
@@ -122,13 +124,17 @@ void Camera::Update()
     SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
 
 }
-
+/// <summary>
+/// 
+/// </summary>
 void Camera::Draw()
 {
 
 }
-
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pos"></param>
 void Camera::UpdateClear(const VECTOR& pos)
 {
     // カメラの目線の位置を初期化
@@ -138,7 +144,10 @@ void Camera::UpdateClear(const VECTOR& pos)
 
     SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
 }
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pos"></param>
 void Camera::UpdateTitle(const VECTOR& pos)
 {
     // カメラの目線の位置を初期化
@@ -147,7 +156,10 @@ void Camera::UpdateTitle(const VECTOR& pos)
     camera_targetpos = VAdd(pos, VGet(-3.0f,0,0));
     SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
 }
-
+/// <summary>
+/// 
+/// </summary>
+/// <param name="pos"></param>
 void Camera::UpdateGameOver(const VECTOR& pos)
 {
     // カメラの目線の位置を初期化
@@ -156,7 +168,9 @@ void Camera::UpdateGameOver(const VECTOR& pos)
     camera_targetpos = pos;
     SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
 }
-
+/// <summary>
+/// 
+/// </summary>
 void Camera::FixCameraPosition()
 {
 }

@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include "GameObject.hpp" 
 
 class Input;
@@ -14,8 +13,8 @@ public:
 	Camera();			// コンストラクタ.
 	~Camera();			// デストラクタ.
 	void Initialize()override;		// 初期化
-	void Update()override;		// 更新
-	void Draw()override;		//描画
+	void Update()override;			// 更新
+	void Draw()override;			// 描画
 	void UpdateClear(const VECTOR& enemypos);	// ゲームオーバー時の更新
 	void UpdateTitle(const VECTOR& enemypos);	// ゲームオーバー時の更新
 	void UpdateGameOver(const VECTOR& enemypos);	// ゲームオーバー時の更新
@@ -46,9 +45,9 @@ private:
 	VECTOR camera_angle;			// 向きベクトル
 	VECTOR camera_position;			// ポジション.
 	VECTOR camera_targetpos;		// カメラが注視するポジション
-	// カメラの向き（ターゲット位置）
-	VECTOR camera_dirction;
 
-	std::shared_ptr<Player> player = nullptr;
+	VECTOR camera_dirction;	// カメラの向き（ターゲット位置）
+
+	std::shared_ptr<Player> player = nullptr;	//参照
 
 };

@@ -5,8 +5,12 @@
 class GameObject;
 class CharaterBase;
 class Chase;
+class Dodge;
 class AnimaterBase;
 class Player;
+class BulletFire;
+class SpecialAttack;
+class EnemyMove;
 
 class Enemy :public CharacterBase
 {
@@ -16,19 +20,21 @@ public:
 
 	enum class AnimKind : int
 	{
-		Chase = 0,
-		OnDamage = 1,
-		Walkback = 2,
-		Die = 3,
-		GroundAttack = 4,
-		RunLeft = 5,
-		Change = 6,
-		RunRight = 7,
-		WindAttack = 8,
-		WaterAttack = 9,
-		FireAttack = 10,
-		JumpAttack = 11,
-		Idle = 12,
+		OnDamage = 0,
+		Walkback = 1,
+		Die = 2,
+		GroundAttack = 3,
+		Float = 4,
+		SpecialAttack = 5,
+		RunLeft = 6,
+		Charge = 7,
+		RunRight = 8,
+		WindAttack = 9,
+		WaterAttack = 10,
+		FireAttack = 11,
+		JumpAttack = 12,
+		Idle = 13,
+		Chase = 14,
 	};
 	
 	void Initialize()override;	//初期化
@@ -37,9 +43,9 @@ public:
 
 	void Update()override;	//更新
 
-	void UpdateStateAction()override;
+	void UpdateStateAction()override;	//ステートごとの更新
 
-	void SetPosition();
+	void SetPosition();		//ポジションをセット
 
 	void UpdateAngle();
 
@@ -62,13 +68,13 @@ public:
 
 private:
 
-	static constexpr	float ENEMY_SCALE = 0.025f;					//モデルの大きさの倍数
-	static constexpr	int BULLET_NUM = 100;					//モデルの大きさの倍数
+	static constexpr	float ENEMY_SCALE = 0.025f;			//モデルの大きさの倍数
 	static constexpr 	float FIREBULLET_SPEED = 0.25f;
 	static constexpr 	float WATERBULLET_SPEED = 0.25f;
 	static constexpr 	float WINDBULLET_SPEED = 0.25f;
 	static constexpr 	int DAMAGE_STRENGTH = 10;
-	static constexpr 	float TAKEDAMAGE_COOLDOWN = 60.0f; // クールタイム秒数
+	static constexpr 	float TAKEDAMAGE_COOLDOWN = 60.0f;  // クールタイム秒数
+	static constexpr	float BULLET_HIGHT = -0.5f;			//モデルの大きさの倍数
 
 	int enemy_handname;
 
@@ -79,11 +85,20 @@ private:
 	bool enemy_isaction;
 
 	EnemyState enemy_state;
+
 	//インスタンス生成
 	std::shared_ptr<AnimaterBase> enemy_animater;
+
+	std::shared_ptr<Dodge> enemy_dodge;
 
 	std::shared_ptr<Chase> enemy_chase;
 
 	std::shared_ptr<Player> player_refrence;
+
+	std::shared_ptr<BulletFire> enemy_bullet;
+
+	std::shared_ptr<SpecialAttack> enemy_specialattack;
+
+	std::shared_ptr<EnemyMove> enemy_move;
 
 };
