@@ -16,51 +16,48 @@ Enemy::Enemy()
 	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/Enemy4.mv1");
 	character_handname = MV1SearchFrame(obj_modelhandle, "m1.R");
 
-	enemy_state = STATE_FLOAT;
-	// 3Dモデルのスケール決定
+	enemy_state = STATE_CHARGE;
 	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE));
-	
+
 	enemy_animater = std::make_shared<EnemyAnimater>(obj_modelhandle, enemy_state);
-
 	enemy_bullet = std::make_shared<BulletFire>();
-
 	enemy_dodge = std::make_shared<Dodge>();
-
 	enemy_specialattack = std::make_shared<SpecialAttack>();
-
 	enemy_move = std::make_shared<EnemyMove>();
 
+	// ダメージクールタイム設定（TAKEDAMAGE_COOLDOWN は float なので int 化）
+	ConfigureDamageCooldown(static_cast<int>(TAKEDAMAGE_COOLDOWN));
+
 }
 
-Enemy::~Enemy()
-{
-}
+Enemy::~Enemy() {}
 
 void Enemy::Initialize()
 {
-	enemy_isaction = false;	
+	enemy_isaction = false;
 	enemy_ischase = false;
 	obj_position = VGet(0, 0, 20.0f);
+	// HP 初期値（必要なら適切な値を設定）
+	if (obj_hp <= 0) obj_hp = 100; // 仮: 敵の最大 HP が未定義なら暫定
 }
 
 void Enemy::Update()
 {
-	// 画面に回転量を描画
 	clsDx();
-	// フレーム名 Mesh_1 のフレームの番号を画面に描画する
 	printfDx("positionX%f\n", obj_position.x);
 	printfDx("positionY%f\n", obj_position.y);
 	printfDx("positionZ%f\n", obj_position.z);
 	printfDx("State%d\n", enemy_state);
+	printfDx("enemyHp%d\n", obj_hp);
 
 	enemy_animater->Update();
 	UpdateAngle();
-
 	UpdateStateAction();
-
 	enemy_bullet->FireUpdate();
-
 	SetPosition();
+
+	//無敵タイマー減算
+	TickDamageCooldown();
 }
 
 void Enemy::UpdateStateAction()  
@@ -125,11 +122,11 @@ void Enemy::UpdateStateAction()
 			//}  
 			//else if (enemy_attacktype == 1)  
 			//{  
-				enemy_state = STATE_WATERATTACK;
+				//enemy_state = STATE_WATERATTACK;
 			//}  
 			//else if (enemy_attacktype == 2)  
 			//{  
-			//	enemy_state = STATE_WINDATTACK;  
+				enemy_state = STATE_WINDATTACK;  
 			//}  
 		}  
 
@@ -172,20 +169,18 @@ void Enemy::UpdateStateAction()
 
 	case STATE_WINDATTACK:  
 		
-		if (enemy_animater->GetAmimFrame() == 50.0f)  
+		if (enemy_animater->GetAmimFrame() >= 20.0f)  
 		{
-
 			character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname);
-			
-			enemy_bullet->FireHoming(character_handposition, obj_direction, FIREBULLET_SPEED);
 
+			// 変更: プレイヤー参照を渡す
+			enemy_bullet->FireHoming(character_handposition, obj_direction, FIREBULLET_SPEED, player_refrence);
 		}  
 		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
 		{  
 			enemy_state = STATE_CHARGE;  
 		}  
-
-		break;  
+		break;
 
 	case STATE_WALKBACK:
 
@@ -214,11 +209,11 @@ void Enemy::UpdateStateAction()
 		break;
 	case STATE_SPECIALATTACK:
 
-		if (enemy_animater->GetAmimFrame() >= 35.0f)
+		if (enemy_animater->GetAmimFrame() == 35.0f)
 		{
 			character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname);
 			character_handposition = VAdd(character_handposition, VGet(0, BULLET_HIGHT, 0));
-			enemy_bullet->FireSpecialAttack(character_handposition, obj_direction, FIREBULLET_SPEED);
+			enemy_bullet->FireSpecialAttack	(character_handposition, obj_direction, FIREBULLET_SPEED);
 		}
 
 		if (enemy_isaction = enemy_animater->GetAmimIsEnd())

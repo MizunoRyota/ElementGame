@@ -1,6 +1,5 @@
 #pragma once
-#include "Dxlib.h"
-#include <string>
+#include "stdafx.hpp"
 
 class GameObject
 {
@@ -17,12 +16,16 @@ public:
 	virtual const int& GetHandle() const { return obj_modelhandle; }
 	virtual const VECTOR& GetPosition() const { return obj_position; }
 	virtual const VECTOR& GetDirection() const { return obj_direction; }
-
+	virtual const VECTOR& GetTarget() const { return VAdd(obj_position, VGet(0, TARGETHIGHT, 0)); }
 	std::string GetNameTag() const { return obj_name; }
+
+	virtual const std::shared_ptr<GameObject> SetGameObject(const std::shared_ptr<GameObject>& setplayer) { return setplayer; }
 
 	virtual void Setposition(const VECTOR set) { obj_position = set; }
 
 protected:
+	static constexpr float TARGETHIGHT = 2.25f;
+
 	std::string obj_name = "null";
 	VECTOR obj_position =VGet(0,0,0);
 	VECTOR obj_direction = VGet(0,0,0);

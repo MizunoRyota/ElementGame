@@ -76,6 +76,12 @@
     <Filter Include="GameObject\Character\Enemy\Move">
       <UniqueIdentifier>{fca42b90-0ee5-4188-b4d2-34cbf2748018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{a9c3ee61-d804-4a2e-b3ec-5b0739e3ac54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{0fdaeebd-f235-4297-8031-1b410dabd82d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBase.hpp">
@@ -178,6 +184,12 @@
     <ClInclude Include="EnemyMove.hpp">
       <Filter>GameObject\Character\Enemy\Move</Filter>
     </ClInclude>
+    <ClInclude Include="Collision.hpp">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSystem.hpp">
+      <Filter>Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -258,6 +270,15 @@
     </ClCompile>
     <ClCompile Include="EnemyMove.cpp">
       <Filter>GameObject\Character\Enemy\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSystem.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterBase.cpp">
+      <Filter>GameObject\Character</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

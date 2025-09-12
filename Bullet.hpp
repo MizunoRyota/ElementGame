@@ -6,35 +6,44 @@ public:
 	Bullet();
 	~Bullet();
 
-	void Initialize(const VECTOR& pos, const VECTOR& dir, const float& speed);	//弾の初期化
+	void Initialize(const VECTOR& pos, const VECTOR& dir, const float& speed);	// 通常初期化
 
-	void Update();	//更新
+	// 追加: ホーミング初期化
+	void InitializeHoming(const VECTOR& pos,
+		const VECTOR& dir,
+		float speed,
+		std::function<VECTOR()> targetGetter,
+		float homingTime,
+		float turnSpeedRad);
 
-	void Move();	//移動
+	void Update();
+	void Move();
+	void Draw();
 
-	void Draw();	//描画
+	void ChangeActiveTrue();
+	void ChangeActiveFalse();
+	void ResetPosition();
 
-	void ChangeActiveTrue();	//アクティブ状態をFALSEに変更
-
-	void ChangeActiveFalse();	//アクティブ状態をTRUEに変更
-
-	void ResetPosition();		//ポジションを初期化
-
-	bool IsActive() const { return bullet_isactive; }	//アクティブ状態を返す
+	bool IsActive() const { return bullet_isactive; }
+	const VECTOR& GetPosition() const { return bullet_position; }
+	static constexpr float BULLET_RADIUS = 0.3f;
 
 private:
-	
-	static constexpr float BULLET_LIFE = 90;		//弾の寿命
-	static constexpr float BULLET_COUNT = 0.5f;		//寿命を進める速さ
+	static constexpr float BULLET_LIFE = 90;
+	static constexpr float BULLET_COUNT = 0.5f;
 
-	bool bullet_isactive;		//アクティブ状態
-	float bullet_speed;			//弾の移動
-	float bullet_life;			//弾の寿命
+	bool bullet_isactive;
+	float bullet_speed;
+	float bullet_life;
 
-	VECTOR bullet_position;			//ポジション
-	VECTOR bullet_prevposition;		//前のポジション
-	VECTOR bullet_direction;		//向き
+	VECTOR bullet_position;
+	VECTOR bullet_prevposition;
+	VECTOR bullet_direction;    // 実際に速度として使う(= unitDir * speed)
+	VECTOR bullet_rawdirection; // 進行方向の単位ベクトル (追尾回転はこれを操作)
 
-	std::shared_ptr<Bullet> bullet_next;	//弾のインスタンス
-
+	// --- 追加: ホーミング関連 ---
+	bool bullet_isHoming = false;
+	float bullet_homingTime = 0.0f;          // 残り追尾フレーム
+	float bullet_turnSpeed = 0.0f;           // 1フレーム最大回頭角(rad)
+	std::function<VECTOR()> bullet_targetGetter; // 毎フレームターゲット位置取得
 };

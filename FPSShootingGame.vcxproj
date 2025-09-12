@@ -144,6 +144,8 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CharacterBase.hpp" />
     <ClInclude Include="Chase.hpp" />
+    <ClInclude Include="Collision.hpp" />
+    <ClInclude Include="CollisionSystem.hpp" />
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="Dodge.hpp" />
     <ClInclude Include="Effect.hpp" />
@@ -177,7 +179,10 @@
     <ClCompile Include="BulletCreator.cpp" />
     <ClCompile Include="BulletFire.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CharacterBase.cpp" />
     <ClCompile Include="Chase.cpp" />
+    <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Dodge.cpp" />
     <ClCompile Include="Effect.cpp" />

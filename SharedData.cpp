@@ -20,6 +20,7 @@ SharedData::SharedData()
 	enemy = std::make_shared<Enemy>();
 	camera->SetPlayer(player);
 	enemy->SetPlayer(player);
+	player->SetEnemy(enemy);
 	player->SetCamera(camera);
 	player->SetInput(input);
 	AddList(skydome);

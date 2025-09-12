@@ -43,10 +43,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	scene_manager->Add<TitleScene>("TitleScene");
 	scene_manager->Add<GameScene>("GameScene");
-
+	bool debugPauseFlag = false;
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-
+		// ‚Ú‚½‚ñ‚¨‚µ‚½‚ç
+		if (CheckHitKey(KEY_INPUT_P))
+		{
+			debugPauseFlag = true;
+		}
+		while (debugPauseFlag)
+		{
+			WaitTimer(2);
+			// ‚Ú‚½‚ñ‚¨‚µ‚½‚ç
+			if (CheckHitKey(KEY_INPUT_O))
+			{
+				debugPauseFlag = false;
+			}
+		}
 		auto prevTime = GetNowHiPerformanceCount();	// ˆ—‚ªŽn‚Ü‚é‘O‚ÌŽžŠÔ
 
 		scene_manager->Update();

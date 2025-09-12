@@ -28,10 +28,10 @@ VECTOR EnemyMove::MoveToOrigin(const VECTOR& pos)
 
 VECTOR EnemyMove::MoveToSky(const VECTOR& enemypos)
 {
-	if (!(enemypos.y > 10.0f - ORIGIN_OFFSET && enemypos.y < 10.0f + ORIGIN_OFFSET))
+	if (!(enemypos.y > 20.0f - ORIGIN_OFFSET && enemypos.y < 20.0f + ORIGIN_OFFSET))
 	{
 		move_isorigin = false;
-		VECTOR move_pos = MoveToTarget(enemypos, VGet(enemypos.x, 10.0f, enemypos.z));
+		VECTOR move_pos = MoveToTarget(enemypos, VGet(enemypos.x, 20.0f, enemypos.z));
 		return move_pos;
 	}
 	move_isorigin = true;

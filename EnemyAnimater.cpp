@@ -31,7 +31,7 @@ void EnemyAnimater::InitializeAnimationData()
 	animation_data[static_cast<int>(AnimKind::Die)] = AnimationState(static_cast<int>(AnimKind::Die),2, 0, 0, 0.5f,false);
 	animation_data[static_cast<int>(AnimKind::GroundAttack)] = AnimationState(static_cast<int>(AnimKind::GroundAttack),3, 0, 0, 0.35f,false);
 	animation_data[static_cast<int>(AnimKind::Float)] = AnimationState(static_cast<int>(AnimKind::Float), 4, 0, 0, 0.5f, true);
-	animation_data[static_cast<int>(AnimKind::SpecialAttack)] = AnimationState(static_cast<int>(AnimKind::SpecialAttack), 5, 0, 0, 0.35f, false);
+	animation_data[static_cast<int>(AnimKind::SpecialAttack)] = AnimationState(static_cast<int>(AnimKind::SpecialAttack), 5, 0, 0, 0.5f, false);
 	animation_data[static_cast<int>(AnimKind::RunLeft)] = AnimationState(static_cast<int>(AnimKind::RunLeft),6, 0, 0, 0.5f,true);
 	animation_data[static_cast<int>(AnimKind::Charge)] = AnimationState(static_cast<int>(AnimKind::Charge),7, 0, 0, 0.5f,false);
 	animation_data[static_cast<int>(AnimKind::RunRight)] = AnimationState(static_cast<int>(AnimKind::RunRight),8, 0, 0, 0.5f,true);

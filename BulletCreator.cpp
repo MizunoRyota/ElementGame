@@ -10,22 +10,10 @@ BulletCreator::BulletCreator()
 	}
 }
 
-BulletCreator::~BulletCreator()
-{}
-/// <summary>
-/// 弾の初期化
-/// </summary>
-void BulletCreator::Initialize()
-{
+BulletCreator::~BulletCreator() {}
 
-}
+void BulletCreator::Initialize() {}
 
-/// <summary>
-/// 弾を作成
-/// </summary>
-/// <param name="pos"></param>
-/// <param name="dir"></param>
-/// <param name="speed"></param>
 void BulletCreator::CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
 	for (auto& bullet : bullets)
@@ -38,9 +26,24 @@ void BulletCreator::CreateBullet(const VECTOR& pos, const VECTOR& dir, const flo
 	}
 }
 
-/// <summary>
-/// 更新
-/// </summary>
+// 追加: ホーミング弾
+void BulletCreator::CreateHomingBullet(const VECTOR& pos,
+	const VECTOR& dir,
+	float speed,
+	std::function<VECTOR()> targetGetter,
+	float homingTime,
+	float turnSpeedRad)
+{
+	for (auto& bullet : bullets)
+	{
+		if (!bullet->IsActive())
+		{
+			bullet->InitializeHoming(pos, dir, speed, std::move(targetGetter), homingTime, turnSpeedRad);
+			break;
+		}
+	}
+}
+
 void BulletCreator::Update()
 {
 	for (auto& bullet : bullets)
@@ -52,9 +55,6 @@ void BulletCreator::Update()
 	}
 }
 
-/// <summary>
-/// 描画
-/// </summary>
 void BulletCreator::Draw()
 {
 	for (auto& bullet : bullets)

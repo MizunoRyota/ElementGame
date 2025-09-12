@@ -1,5 +1,6 @@
 #include "stdafx.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 #include "BulletFire.hpp"
 #include "Input.hpp"
 #include "Camera.hpp"
@@ -28,6 +29,8 @@ Player::Player()
 
 	player_state = STATE_HANDIDLE;
 
+	// ★ プレイヤーのダメージ無敵フレーム（例: 30f）
+	ConfigureDamageCooldown(30);
 }
 
 Player::~Player()
@@ -64,6 +67,8 @@ void Player::Update()
 
 	player_animater->Update();
 
+	// ★ 無敵タイマー減算
+	TickDamageCooldown();
 }
 
 
@@ -78,7 +83,7 @@ void Player::UpdateStateAction()
 
 		character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname);
 
-		player_bullet->FireStraight(character_handposition,camera_reference->GetCameraDir(), BULLET_SPEED);
+		player_bullet->FireHoming(character_handposition, camera_reference->GetCameraDir(), BULLET_SPEED, enemy_reference);
 
 	}
 	else
