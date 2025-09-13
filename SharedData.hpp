@@ -1,7 +1,10 @@
 #pragma once
+
 #include <memory>
 #include <vector>
-#include <string>
+#include <string_view>
+#include "UiManager.hpp"
+
 class Shadow;
 class Input;
 class Camera;
@@ -37,5 +40,6 @@ public:
 	std::shared_ptr<Enemy> enemy = nullptr;
 	std::shared_ptr<Stage> stage = nullptr;
 	std::shared_ptr<Skydome> skydome = nullptr;
+	std::shared_ptr<UiManager> ui = nullptr; // HPƒo[•`‰æ—p
 };
 

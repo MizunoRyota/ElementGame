@@ -39,8 +39,8 @@ private:
 
 	// 静的定数.
 
-	static constexpr float COLLISION_CAPSULE_RADIUS = 0.025f;   // モデルに合わせて調整
-	static constexpr float COLLISION_CAPSULE_HEIGHT = 2.0f;   // Collision の CAPCULE_HIGHT と整合
+	static constexpr float COLLISION_CAPSULE_RADIUS = 0.04f;   // モデルに合わせて調整
+	static constexpr float COLLISION_CAPSULE_HEIGHT = 2.5f;   // Collision の CAPCULE_HIGHT と整合
 
 	static constexpr float SCALE = 0.01f;				//モデルの大きさ
 	static constexpr float BULLET_SPEED = 0.25f;		//弾の速さ

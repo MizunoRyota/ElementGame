@@ -8,85 +8,82 @@
 #include "Stage.hpp"
 #include "Skydome.hpp"
 #include "Enemy.hpp"
+#include "UiManager.hpp"
+#include "UiHpBar.hpp"
+#include "UiEnemyHpBar.hpp"
 
 SharedData::SharedData()
 {
-	stage = std::make_shared<Stage>();
-	shadow = std::make_shared<Shadow>();
-	input = std::make_shared<Input>();
-	camera = std::make_shared<Camera>();
-	player = std::make_shared<Player>();
-	skydome = std::make_shared<Skydome>();
-	enemy = std::make_shared<Enemy>();
-	camera->SetPlayer(player);
-	enemy->SetPlayer(player);
-	player->SetEnemy(enemy);
-	player->SetCamera(camera);
-	player->SetInput(input);
-	AddList(skydome);
-	AddList(stage);
-	AddList(shadow);
-	AddList(input);
-	AddList(player);
-	AddList(enemy);
-	AddList(camera);
+    stage = std::make_shared<Stage>();
+    shadow = std::make_shared<Shadow>();
+    input = std::make_shared<Input>();
+    camera = std::make_shared<Camera>();
+    player = std::make_shared<Player>();
+    skydome = std::make_shared<Skydome>();
+    enemy = std::make_shared<Enemy>();
+    ui = std::make_shared<UiManager>();
+    camera->SetPlayer(player);
+    enemy->SetPlayer(player);
+    player->SetEnemy(enemy);
+    player->SetCamera(camera);
+    player->SetInput(input);
+
+    // UI要素登録 (プレイヤーHP / 敵HP)
+    ui->AddElement(std::make_shared<UiHpBar>(player));
+    ui->AddElement(std::make_shared<UiEnemyHpBar>(enemy));
+
+    AddList(skydome);
+    AddList(stage);
+    AddList(shadow);
+    AddList(input);
+    AddList(player);
+    AddList(enemy);
+    AddList(camera);
 }
 
 SharedData::~SharedData()
 {
 }
 
-/// <summary>
-/// リストに追加
-/// </summary>
-/// <param name="obj"></param>
 void SharedData::AddList(std::shared_ptr<GameObject> obj)
 {
-	objects.push_back(obj);
+    objects.push_back(obj);
 }
-/// <summary>
-/// リストの中身を初期化
-/// </summary>
+
 void SharedData::InitializeAll()
 {
-	for (auto object : objects)
-	{
-		object->Initialize();
-	}
+    for (auto object : objects)
+    {
+        object->Initialize();
+    }
 }
-/// <summary>
-/// リストの中身を更新
-/// </summary>
+
 void SharedData::UpdateAll()
 {
-	for (auto object : objects)
-	{
-		object->Update();
-	}
+    for (auto object : objects)
+    {
+        object->Update();
+    }
+    if (ui) ui->Update(1.0f / 60.0f);
 }
-/// <summary>
-/// リストの中身を描画
-/// </summary>
+
 void SharedData::DrawAll()
 {
-	for (auto object : objects)
-	{
-		object->Draw();
-	}
+    for (auto object : objects)
+    {
+        object->Draw();
+    }
+    if (ui) ui->Draw();
 }
-/// <summary>
-/// リストの中身を探して返す
-/// </summary>
-/// <param name="obj_name"></param>
-/// <returns></returns>
+
 std::shared_ptr<GameObject> SharedData::FindObject(std::string_view obj_name)
 {
-	for (auto object : objects)
-	{
-		if (object->GetNameTag() == obj_name)
-		{
-			return object;
-		}
-	}
-	return nullptr;
+    for (auto object : objects)
+    {
+        if (object->GetNameTag() == obj_name)
+        {
+            return object;
+        }
+    }
+    return nullptr;
 }

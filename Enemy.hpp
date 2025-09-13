@@ -71,7 +71,7 @@ public:
 
 private:
 
-	static constexpr float COLLISION_CAPSULE_RADIUS = 0.40f;   // ƒ‚ƒfƒ‹‚É‡‚í‚¹‚Ä’²®
+	static constexpr float COLLISION_CAPSULE_RADIUS = 0.45f;   // ƒ‚ƒfƒ‹‚É‡‚í‚¹‚Ä’²®
 	static constexpr float COLLISION_CAPSULE_HEIGHT = 2.75f;   // Collision ‚Ì CAPCULE_HIGHT ‚Æ®‡
 	static constexpr	float ENEMY_SCALE = 0.025f;			//ƒ‚ƒfƒ‹‚Ì‘å‚«‚³‚Ì”{”
 	static constexpr 	float FIREBULLET_SPEED = 0.25f;

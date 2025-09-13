@@ -82,6 +82,9 @@
     <Filter Include="Collision">
       <UniqueIdentifier>{0fdaeebd-f235-4297-8031-1b410dabd82d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UI\HpBar">
+      <UniqueIdentifier>{f9e80f33-fa24-4791-a5dd-d439cb7043d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBase.hpp">
@@ -190,6 +193,15 @@
     <ClInclude Include="CollisionSystem.hpp">
       <Filter>Collision</Filter>
     </ClInclude>
+    <ClInclude Include="UiManager.hpp">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UiEnemyHpBar.hpp">
+      <Filter>UI\HpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="UiHpBar.hpp">
+      <Filter>UI\HpBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -279,6 +291,15 @@
     </ClCompile>
     <ClCompile Include="CharacterBase.cpp">
       <Filter>GameObject\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="UiManager.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UiEnemyHpBar.cpp">
+      <Filter>UI\HpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="UiHpBar.cpp">
+      <Filter>UI\HpBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

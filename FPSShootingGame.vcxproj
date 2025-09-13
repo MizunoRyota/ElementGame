@@ -171,6 +171,9 @@
     <ClInclude Include="Stage.hpp" />
     <ClInclude Include="stdafx.hpp" />
     <ClInclude Include="TitleScene.hpp" />
+    <ClInclude Include="UiEnemyHpBar.hpp" />
+    <ClInclude Include="UiHpBar.hpp" />
+    <ClInclude Include="UiManager.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -207,6 +210,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UiEnemyHpBar.cpp" />
+    <ClCompile Include="UiHpBar.cpp" />
+    <ClCompile Include="UiManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

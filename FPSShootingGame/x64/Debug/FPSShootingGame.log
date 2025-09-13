@@ -1,7 +1,12 @@
-﻿  BulletFire.cpp
-  Enemy.cpp
-  Player.cpp
+﻿  CollisionSystem.cpp
+  main.cpp
+  Scene.cpp
+  SceneManager.cpp
+  SharedData.cpp
+  GameScene.cpp
+  TitleScene.cpp
+  UiEnemyHpBar.cpp
+  UiHpBar.cpp
+  UiManager.cpp
   コードを生成中...
-C:\Users\user\Desktop\バックアップ\ElemntGame\ElementGame\GameObject.hpp(19,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
-C:\Users\user\Desktop\バックアップ\ElemntGame\ElementGame\GameObject.hpp(19,1): warning C4172: ローカル変数またはテンポラリ  のアドレスを返します
   FPSShootingGame.vcxproj -> C:\Users\user\Desktop\バックアップ\ElemntGame\ElementGame\x64\Debug\FPSShootingGame.exe

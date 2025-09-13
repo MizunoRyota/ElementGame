@@ -114,20 +114,20 @@ void Enemy::UpdateStateAction()
 
 		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_refrence->GetPosition()))  
 		{  
-			//enemy_attacktype = GetRand(2);  
+			enemy_attacktype = GetRand(2);  
 
-			//if (enemy_attacktype == 0)  
-			//{  
-			//	enemy_state = STATE_FIREATTACK;  
-			//}  
-			//else if (enemy_attacktype == 1)  
-			//{  
-				//enemy_state = STATE_WATERATTACK;
-			//}  
-			//else if (enemy_attacktype == 2)  
-			//{  
+			if (enemy_attacktype == 0)  
+			{  
+				enemy_state = STATE_FIREATTACK;  
+			}  
+			else if (enemy_attacktype == 1)  
+			{  
+				enemy_state = STATE_WATERATTACK;
+			}  
+			else if (enemy_attacktype == 2)  
+			{  
 				enemy_state = STATE_WINDATTACK;  
-			//}  
+			}  
 		}  
 
 		break;
