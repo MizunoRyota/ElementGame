@@ -20,3 +20,29 @@ void CharacterBase::TickDamageCooldown()
 		--damage_invincible_timer_;
 	}
 }
+
+void CharacterBase::CheckMoveRange()
+{
+	////中心からプレイヤーの距離を測る
+	float r = VSize(VSub(obj_position, VGet(0.0f, 0.0f, 0.0f)));
+
+	////一定の距離に達したらそれ以上いけないようにする
+
+	if (r > ReturnRange || r < -ReturnRange)
+	{
+
+		//中心座標からプレイヤー座標の距離
+
+		VECTOR distance = VSub(VGet(0.0f, 0.0f, 0.0f), obj_position);
+
+		//正規化
+
+		distance = VNorm(distance);
+
+		//戻す量を計算、加算する
+
+		VECTOR returnPosition = VScale(distance, (r - ReturnRange));
+
+		obj_position = VAdd(obj_position, returnPosition);
+	}
+}

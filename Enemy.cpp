@@ -8,16 +8,17 @@
 #include "EnemyAnimater.hpp"
 #include "SpecialAttack.hpp"
 #include "EnemyMove.hpp"
+#include "EffectCreator.hpp"
 
 Enemy::Enemy()
 {
-	obj_name = "Enemy";
-	enemy_attacktype = 0;
-	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/Enemy4.mv1");
-	character_handname = MV1SearchFrame(obj_modelhandle, "m1.R");
-
-	enemy_state = STATE_CHARGE;
-	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE));
+	obj_name = "Enemy"; // 識別名
+	enemy_attacktype = 0; // 次攻撃ステート種別初期
+	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/Enemy4.mv1"); // モデル読み込み
+	character_handname = MV1SearchFrame(obj_modelhandle, "m1.R"); // 手ボーンID
+	enemy_isdie = false;
+	enemy_state = STATE_CHARGE; // 初期ステート
+	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE)); // スケール適用
 
 	enemy_animater = std::make_shared<EnemyAnimater>(obj_modelhandle, enemy_state);
 	enemy_bullet = std::make_shared<BulletFire>();
@@ -27,232 +28,318 @@ Enemy::Enemy()
 
 	// ダメージクールタイム設定（TAKEDAMAGE_COOLDOWN は float なので int 化）
 	ConfigureDamageCooldown(static_cast<int>(TAKEDAMAGE_COOLDOWN));
-
 }
 
 Enemy::~Enemy() {}
 
 void Enemy::Initialize()
 {
-	enemy_isaction = false;
-	enemy_ischase = false;
-	obj_position = VGet(0, 0, 20.0f);
-	// HP 初期値（必要なら適切な値を設定）
-	if (obj_hp <= 0) obj_hp = 100; // 仮: 敵の最大 HP が未定義なら暫定
+	attack_kind = { STATE_FIREATTACK,STATE_WATERATTACK,STATE_WINDATTACK }; // ランダム候補
+
+	std::random_device rd; // 以下ランダム初期化
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dist(0, attack_kind.size() - 1);
+
+	enemy_state = STATE_CHARGE; // 初期ステート
+
+	enemy_isaction = false; // 動作未完了
+
+	enemy_ischase = false; // 追跡中フラグ初期
+	
+	enemy_isdie = false;
+	
+	obj_position = VGet(0, 0, 20.0f); // 初期位置
+
+	obj_direction = VGet(0, 0, 1.0f); // 初期位置
+
+	if (obj_hp <= 0) obj_hp = ENEMY_MAXHP; // HP リセット
+	// エフェクト再生フラグ初期化
+	enemy_groundattack_charge_played = false;
+	
+	// プレイヤー方向ベクトル
+	obj_direction = VSub(VGet(0,0,0), obj_position);
+	// 角度算出(Yaw)
+	float angle = atan2(obj_direction.x, obj_direction.z);
+	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f)); // モデル向き反映
+
+	StopHandEffect(); // 初期化時に手エフェクト停止
+
+	SetPosition();
+}
+
+void Enemy::UpdateTitle()
+{
+
+	enemy_state = STATE_IDLE;
+
+	enemy_animater->Update(); // アニメ更新
+
 }
 
 void Enemy::Update()
 {
-	clsDx();
-	printfDx("positionX%f\n", obj_position.x);
-	printfDx("positionY%f\n", obj_position.y);
-	printfDx("positionZ%f\n", obj_position.z);
-	printfDx("State%d\n", enemy_state);
-	printfDx("enemyHp%d\n", obj_hp);
-
-	enemy_animater->Update();
-	UpdateAngle();
-	UpdateStateAction();
-	enemy_bullet->FireUpdate();
-	SetPosition();
-
-	//無敵タイマー減算
-	TickDamageCooldown();
+	enemy_animater->Update(); // アニメ更新
+	UpdateAngle(); // 向き更新
+	UpdateStateAction(); // ステート毎挙動
+	UpdateHandEffect(); // ハンドエフェクト管理
+	enemy_bullet->FireUpdate(); // 弾クール
+	CheckMoveRange(); // 範囲補正
+	SetPosition(); // モデル座標適用
+	TickDamageCooldown(); // 無敵タイマー
 }
 
-void Enemy::UpdateStateAction()  
-{  
-	switch (enemy_state)  
-	{  
-	case STATE_IDLE:  
-	
-		obj_position = enemy_move->MoveToOrigin(obj_position);
+void Enemy::UpdateGameClear()
+{
+	StopHandEffect();
+	// 一度だけ死亡/打ち上げ演出開始
+	if (!enemy_isdie)
+	{
+		EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyDeath, obj_position);      // 単発（死亡演出）
+		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::FireWorks, obj_position); // ループ(花火)
+		//ec.PlayLoop(EffectCreator::EffectType::FireWorks, obj_position); 
+		enemy_isdie = true;
+	}
+	else
+	{
+		// 位置が変わる可能性があるなら追従（静止なら不要）
+		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::FireWorks, obj_position);
+	}
 
-		break;  
+	enemy_state = STATE_DIE;
+	enemy_animater->Update(); // アニメ更新
+}
 
-	case STATE_CHARGE:  
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd())  
-		{  
-			enemy_attacktype = GetRand(1);
+void Enemy::UpdateGameOver()
+{
+	enemy_state = STATE_SPECIALATTACK;
+	enemy_animater->Update(); // アニメ更新
+}
 
-			if (enemy_attacktype == 0)
-			{
-				enemy_state = STATE_RUNLEFT;
-			}
-			else if (enemy_attacktype == 1)
-			{
-				enemy_state = STATE_RUNRIGHT;
-			}
+// 攻撃種に応じたエフェクト種マッピング
+EffectCreator::EffectType Enemy::MapEffectTypeForAttack(int attackState) const
+{
+	switch (attackState)
+	{
+	case STATE_FIREATTACK: return EffectCreator::EffectType::BulletStraight; // 炎
 
-		}  
-		break;  
+	case STATE_WATERATTACK: return EffectCreator::EffectType::BulletDiffusion; // 水
 
-	case STATE_RUNLEFT:  
+	case STATE_WINDATTACK: return EffectCreator::EffectType::BulletHoming; // 風
 
-		obj_position = enemy_dodge->DodgeEnemy(obj_position, obj_direction,enemy_state);
+	default: return EffectCreator::EffectType::BulletSpecial; // 必殺技
 
-		if (enemy_dodge->GetIsDodgeEnd())
+	}
+}
+
+void Enemy::StartHandEffectForAttack()
+{
+	// 既に同じ攻撃種のエフェクトが出ているなら何もしない
+	if (enemy_hand_effect_handle >= 0 && enemy_hand_effect_attack_state == enemy_attacktype) return;
+
+	// 既存を止める
+	StopHandEffect();
+
+	// 手位置取得
+	VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
+	// 少し上 or 任意オフセットを加味
+	handPos = VAdd(handPos, VGet(0, 0.0f, 0));
+
+	const auto effType = MapEffectTypeForAttack(enemy_attacktype);
+	enemy_hand_effect_handle = EffectCreator::GetEffectCreator().PlayReturn(effType, handPos);
+	enemy_hand_effect_attack_state = enemy_attacktype;
+}
+
+void Enemy::StopHandEffect()
+{
+	if (enemy_hand_effect_handle >= 0)
+	{
+		// Effekseer 側で個別停止 API が無いため寿命放置でも良い。
+		// 必要なら StopEffekseer3DEffect(enemy_hand_effect_handle); を呼ぶが
+		// ここでは明示停止は行わずハンドル無効化のみ。
+		StopEffekseer3DEffect(enemy_hand_effect_handle);
+		enemy_hand_effect_handle = -1;
+		enemy_hand_effect_attack_state = -1;
+	}
+}
+
+void Enemy::UpdateStateAction()
+{
+	switch (enemy_state)
+	{
+	case STATE_IDLE:
+		obj_position = enemy_move->MoveToOrigin(obj_position); // 原点へ戻る
+		break;
+
+	case STATE_CHARGE:
+		// GROUNDATTACK から離脱した場合リセット
+		if (enemy_groundattack_charge_played && enemy_state != STATE_GROUNDATTACK)
 		{
-			enemy_state = STATE_CHASE;
+			enemy_groundattack_charge_played = false;
 		}
-
-		break;
-
-	case STATE_RUNRIGHT:  
-
-		obj_position = enemy_dodge->DodgeEnemy(obj_position, obj_direction,enemy_state);
-
-		if (enemy_dodge->GetIsDodgeEnd())
+		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) // アニメ終了→次行動決定
 		{
-			enemy_state = STATE_CHASE;
+			enemy_dodgechose = GetRand(1); // 回避方向乱数
+
+			ChoseAttackType(); // 攻撃種選択
+			// 攻撃種決定直後に手エフェクト生成
+			StartHandEffectForAttack();
+
+			if (enemy_dodgechose == 0)      enemy_state = STATE_RUNLEFT;
+			
+			else if (enemy_dodgechose == 1) enemy_state = STATE_RUNRIGHT;
 		}
-
 		break;
 
-	case STATE_CHASE:  
-		obj_position = enemy_move->MoveToTarget(obj_position, player_refrence->GetPosition());  
-
-		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_refrence->GetPosition()))  
-		{  
-			enemy_attacktype = GetRand(2);  
-
-			if (enemy_attacktype == 0)  
-			{  
-				enemy_state = STATE_FIREATTACK;  
-			}  
-			else if (enemy_attacktype == 1)  
-			{  
-				enemy_state = STATE_WATERATTACK;
-			}  
-			else if (enemy_attacktype == 2)  
-			{  
-				enemy_state = STATE_WINDATTACK;  
-			}  
-		}  
-
+	case STATE_RUNLEFT:
+		obj_position = enemy_dodge->DodgeEnemy(obj_position, obj_direction, enemy_state);
+		if (enemy_dodge->GetIsDodgeEnd()) enemy_state = STATE_CHASE; // 回避完了→追跡
 		break;
 
-	case STATE_FIREATTACK:  
+	case STATE_RUNRIGHT:
+		obj_position = enemy_dodge->DodgeEnemy(obj_position, obj_direction, enemy_state);
+		if (enemy_dodge->GetIsDodgeEnd()) enemy_state = STATE_CHASE;
+		break;
 
-		if (enemy_animater->GetAmimFrame() == 60.0f)  
-		{  
-
-			character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname);
-			character_handposition = VAdd(character_handposition, VGet(0, BULLET_HIGHT, 0));
-
-			enemy_bullet->FireStraight(character_handposition,obj_direction,FIREBULLET_SPEED);
-
-		}  
-
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
-		{  
-			enemy_state = STATE_CHARGE;  
-		}  
-
-		break;  
-
-	case STATE_WATERATTACK:  
-		if (enemy_animater->GetAmimFrame() == 20.0f)  
-		{  
-			character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname);
-			character_handposition = VAdd(character_handposition,VGet(0, BULLET_HIGHT, 0));
-
-			enemy_bullet->FireDiffusion(character_handposition, obj_direction, WATERBULLET_SPEED);
-		
-		}  
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
-		{  
-			enemy_state = STATE_CHARGE;  
-		}  
-
-		break;  
-
-	case STATE_WINDATTACK:  
-		
-		if (enemy_animater->GetAmimFrame() >= 20.0f)  
+	case STATE_CHASE:
+		obj_position = enemy_move->MoveToTarget(obj_position, player_refrence->GetPosition()); // 追従
+		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_refrence->GetPosition()))
 		{
-			character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname);
+			enemy_state = static_cast<EnemyState>(enemy_attacktype); // 攻撃へ
+		}
+		break;
 
-			// 変更: プレイヤー参照を渡す
-			enemy_bullet->FireHoming(character_handposition, obj_direction, FIREBULLET_SPEED, player_refrence);
-		}  
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
-		{  
-			enemy_state = STATE_CHARGE;  
-		}  
+	case STATE_FIREATTACK:
+		if (enemy_animater->GetAmimFrame() == FIREATTACK_TIMING)
+		{
+			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
+			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
+			enemy_bullet->FireStraight(handPos, obj_direction, FIREBULLET_SPEED);
+		}
+		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
+		break;
+
+	case STATE_WATERATTACK:
+		if (enemy_animater->GetAmimFrame() == WATERATTACK_TIMING)
+		{
+			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
+			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
+			enemy_bullet->FireDiffusion(handPos, obj_direction, WATERBULLET_SPEED);
+		}
+		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
+		break;
+
+	case STATE_WINDATTACK:
+		if (enemy_animater->GetAmimFrame() >= WINDATTACK_TIMING)
+		{
+			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
+			enemy_bullet->FireHoming(handPos, obj_direction, WINDBULLET_SPEED, player_refrence);
+		}
+		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
 		break;
 
 	case STATE_WALKBACK:
-
+		// TODO: 実装予定
 		break;
 
 	case STATE_FLOAT:
-
-		obj_position = enemy_move->MoveToOrigin(obj_position);
-
-		if (enemy_move->GetIsOrigin())
-		{
-			enemy_state = STATE_GROUNDATTACK;
-		}
-
+		obj_position = enemy_move->MoveToOrigin(obj_position); // float 中は中央へ
+		if (enemy_move->GetIsOrigin()) enemy_state = STATE_GROUNDATTACK;
 		break;
 
 	case STATE_GROUNDATTACK:
-		
-		obj_position = enemy_move->MoveToSky(obj_position);
-
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
+		// 一度だけチャージエフェクトを再生
+		if (!enemy_groundattack_charge_played)
 		{
-			enemy_state = STATE_SPECIALATTACK;
+			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyCharge, obj_position);
+			enemy_groundattack_charge_played = true;
 		}
-
+		if (obj_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE; // HP 低下遷移
+		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) enemy_state = STATE_SPECIALATTACK; // 終了→特殊
+		if (enemy_animater->GetAmimFrame() == SPECIALEATTACK_TIMING) enemy_groundattack_charge_played = false; // 再生解除
 		break;
+
 	case STATE_SPECIALATTACK:
-
-		if (enemy_animater->GetAmimFrame() == 35.0f)
+		if (enemy_animater->GetAmimFrame() == SPECIALEATTACK_TIMING)
 		{
-			character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname);
-			character_handposition = VAdd(character_handposition, VGet(0, BULLET_HIGHT, 0));
-			enemy_bullet->FireSpecialAttack	(character_handposition, obj_direction, FIREBULLET_SPEED);
-		}
+			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::Roar, obj_position);
 
+			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
+			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
+			enemy_bullet->FireSpecialAttack(handPos, obj_direction, SPECIALBULLET_SPEED);
+		}
 		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
 		{
 			enemy_state = STATE_CHARGE;
+			enemy_attacktype = 0;
+			StopHandEffect();
 		}
-
 		break;
 
-	case STATE_JUMPATTACK:
-
+	case STATE_ONDAMAGE:
+		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
 		break;
 
-	default:  
-		// Handle unexpected states  
-		break;  
-	}  
+	default:
+		break;
+	}
+}
+
+void Enemy::ChoseAttackType()
+{
+	if (attack_kind.empty()) return; // 念のため安全策
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> dist(0, static_cast<int>(attack_kind.size()) - 1);
+
+	if (obj_hp >= ENEMY_FHASE_ONE)
+	{
+		// 旧: enemy_attacktype = attack_kind[STATE_FIREATTACK]; // OOB の原因
+		enemy_attacktype = STATE_FIREATTACK; // 直接設定
+	}
+	else if (obj_hp >= ENEMY_FHASE_TWO)
+	{
+		enemy_attacktype = attack_kind[dist(gen)];
+	}
+	else if (obj_hp >= ENEMY_FHASE_THREE)
+	{
+		enemy_attacktype = attack_kind[dist(gen)];
+	}
+	else if (obj_hp >= ENEMY_FHASE_FOUR && !enemy_specialattack->GetIsCharge())
+	{
+		enemy_attacktype = STATE_FLOAT;
+	}
+	else if (!enemy_specialattack->GetIsActive())
+	{
+		enemy_attacktype = attack_kind[dist(gen)];
+	}
+}
+
+void Enemy::UpdateHandEffect()
+{
+	// 手エフェクトを追従させる
+	if (enemy_hand_effect_handle >= 0)
+	{
+		VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
+		SetPosPlayingEffekseer3DEffect(enemy_hand_effect_handle, handPos.x, handPos.y, handPos.z);
+	}
 }
 
 void Enemy::UpdateAngle()
 {
-	// ３Ｄモデル２から３Ｄモデル１に向かうベクトルを算出
-	 obj_direction = VSub(player_refrence->GetPosition(), obj_position);
-
-	// atan2 を使用して角度を取得
+	// プレイヤー方向ベクトル
+	obj_direction = VSub(player_refrence->GetPosition(), obj_position);
+	// 角度算出(Yaw)
 	float angle = atan2(obj_direction.x, obj_direction.z);
-
-	// atan2 で取得した角度に３Ｄモデルを正面に向かせるための補正値( DX_PI_F )を
-	// 足した値を３Ｄモデルの Y軸回転値として設定
-	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f));
+	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f)); // モデル向き反映
 }
 
 void Enemy::SetPosition()
 {
-	//プレイヤーのモデルの設置
-	MV1SetPosition(obj_modelhandle, obj_position);
+	MV1SetPosition(obj_modelhandle, obj_position); // 位置適用
 }
 
 void Enemy::Draw()
 {
-	MV1DrawModel(obj_modelhandle);
+	MV1DrawModel(obj_modelhandle); // 描画
 }

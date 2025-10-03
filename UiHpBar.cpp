@@ -1,84 +1,80 @@
 #include "stdafx.hpp"
 #include "UiHpBar.hpp"
+#include "UiManager.hpp"
 #include "Player.hpp"
-#include "DxLib.h"
 
 UiHpBar::UiHpBar(const std::shared_ptr<Player>& player)
     : player_(player)
 {
-    zOrder_ = 0; // HUD層
+    zOrder_ = 0; // HUD 背面層
 
-    // 初期数値をコンストラクタで設定
     if (auto playerLocked = player_.lock())
     {
-        maxHp_ = playerLocked->GetHp();
-        if (maxHp_ < 1) maxHp_ = 1; // 0除算防止
-        displayHp_ = maxHp_;
+        hpbar_maxhp = playerLocked->GetHp();
+        if (hpbar_maxhp < 1) hpbar_maxhp = 1; // 0 回避
+        hpbar_display = hpbar_maxhp;
     }
     else
     {
-        maxHp_ = 1;       // 参照不可時の安全値
-        displayHp_ = 1;
+        hpbar_maxhp = 1;
+        hpbar_display = 1;
     }
 }
 
-void UiHpBar::Update(float dt)
+void UiHpBar::Update()
 {
     auto playerLocked = player_.lock();
-    if (!playerLocked) return; // プレイヤー消滅等
+    if (!playerLocked) return;
 
-    int realHp = playerLocked->GetHp();
-    if (realHp < 0) realHp = 0;
+    int hpbar_real = playerLocked->GetHp();
+    if (hpbar_real < 0) hpbar_real = 0;
 
-    // Max HP を動的に上方更新（将来の最大値増加に対応）
-    if (realHp > maxHp_) maxHp_ = realHp;
+    if (hpbar_real > hpbar_maxhp) hpbar_maxhp = hpbar_real; // 上限更新
 
-    if (displayHp_ > realHp)
+    if (hpbar_display > hpbar_real)
     {
-        // ダメージ時は遅延して追従
-        int decayAmount = static_cast<int>(catchUpSpeed_ * dt);
+        int decayAmount = static_cast<int>(DELAY_SPEED * DISPLAY_); // 減衰速度
         if (decayAmount < 1) decayAmount = 1;
-        displayHp_ -= decayAmount;
-        if (displayHp_ < realHp) displayHp_ = realHp; // 行き過ぎ補正
+        hpbar_display -= decayAmount;
+        if (hpbar_display < hpbar_real) hpbar_display = hpbar_real; // 下抜け補正
     }
-    else if (displayHp_ < realHp)
+    else if (hpbar_display < hpbar_real)
     {
-        // 回復は即座に反映（必要なら遅延処理追加可）
-        displayHp_ = realHp;
+        hpbar_display = hpbar_real; // 回復は即時反映
     }
 }
 
 void UiHpBar::Draw() const
 {
     auto playerLocked = player_.lock();
-    if (!playerLocked || maxHp_ <= 0) return;
+    if (!playerLocked || hpbar_maxhp <= 0) return;
 
-    int realHp = playerLocked->GetHp();
-    if (realHp < 0) realHp = 0;
+    int hpbar_real = playerLocked->GetHp();
+    if (hpbar_real < 0) hpbar_real = 0;
 
-    float realRatio = static_cast<float>(realHp) / static_cast<float>(maxHp_);
-    float delayedRatio = static_cast<float>(displayHp_) / static_cast<float>(maxHp_);
+    float realRatio = static_cast<float>(hpbar_real) / static_cast<float>(hpbar_maxhp);
+    float delayedRatio = static_cast<float>(hpbar_display) / static_cast<float>(hpbar_maxhp);
     if (realRatio < 0) realRatio = 0; if (realRatio > 1) realRatio = 1;
     if (delayedRatio < 0) delayedRatio = 0; if (delayedRatio > 1) delayedRatio = 1;
 
     // 背景
-    DrawBox(baseX_ - 2, baseY_ - 2, baseX_ + width_ + 2, baseY_ + height_ + 2, GetColor(0, 0, 0), TRUE);
-    DrawBox(baseX_, baseY_, baseX_ + width_, baseY_ + height_, GetColor(64, 64, 64), TRUE);
+    DrawBox(hpbar_x - 2, hpbar_y - 2, hpbar_x + hpbar_width + 2, hpbar_y + hpbar_height + 2, Pallet::Aqua.GetHandle(), TRUE);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::Gray.GetHandle(), TRUE);
 
-    // 遅延バー(赤寄り)
-    int delayedWidth = static_cast<int>(width_ * delayedRatio);
-    DrawBox(baseX_, baseY_, baseX_ + delayedWidth, baseY_ + height_, GetColor(180, 60, 60), TRUE);
+    // 遅延バー(赤系)
+    int hpbar_delay_width = static_cast<int>(hpbar_width * delayedRatio);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_delay_width, hpbar_y + hpbar_height, GetColor(180, 60, 60), TRUE);
 
-    // 実HP(緑→黄→赤グラデ)
-    int realWidth = static_cast<int>(width_ * realRatio);
-    int colorR = static_cast<int>(255 * (1.0f - realRatio));
-    int colorG = static_cast<int>(220 * realRatio);
-    DrawBox(baseX_, baseY_, baseX_ + realWidth, baseY_ + height_, GetColor(colorR, colorG, 64), TRUE);
+    // 現在 HP (グラデーション寄り演出)
+    int realWidth = static_cast<int>(hpbar_width * realRatio);
+    int color_r = static_cast<int>(255 * (1.0f - realRatio));
+    int color_g = static_cast<int>(220 * realRatio);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + realWidth, hpbar_y + hpbar_height, GetColor(color_r, color_g, 64), TRUE);
 
     // 枠
-    DrawBox(baseX_, baseY_, baseX_ + width_, baseY_ + height_, GetColor(255, 255, 255), FALSE);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::White.GetHandle(), FALSE);
 
-    // 数値
-    SetFontSize(20);
-    DrawFormatString(baseX_, baseY_ + height_ + 8, GetColor(255, 255, 255), "HP: %d / %d", realHp, maxHp_);
+    // 数値表示(必要なら有効化)
+    //SetFontSize(40);
+    //DrawFormatString(hpbar_x, hpbar_y + hpbar_height + 8, Pallet::White.GetHandle(), "HP: %d / %d", hpbar_real, hpbar_maxhp);
 }

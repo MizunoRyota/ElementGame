@@ -6,6 +6,7 @@ class Player;
 class Enemy;
 class Shadow;
 class BulletCreator;
+
 /// @brief ステージシーン
 class GameScene : public Scene
 {

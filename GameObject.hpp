@@ -9,14 +9,23 @@ public:
 
 	virtual void Initialize() abstract;
 	virtual void Update() abstract;
+
+	virtual void DrawTitle() abstract;
 	virtual void Draw() abstract; 
+	virtual void DrawGameOver() abstract;
+	virtual void DrawGameClear() abstract;
+
+	// 追加: シーン別更新処理（必要なクラスでオーバーライド）
+	virtual void UpdateGameClear() abstract;
+	virtual void UpdateGameOver() abstract;
+	virtual void UpdateTitle() abstract;
 
 	virtual const int& GetDamageStrength() const { return obj_damagestrength; }
 	virtual const int& GetHp() const { return obj_hp; }
 	virtual const int& GetHandle() const { return obj_modelhandle; }
 	virtual const VECTOR& GetPosition() const { return obj_position; }
 	virtual const VECTOR& GetDirection() const { return obj_direction; }
-	virtual const VECTOR& GetTarget() const { return VAdd(obj_position, VGet(0, TARGETHIGHT, 0)); }
+	virtual VECTOR GetTarget() const { return VAdd(obj_position, VGet(0, TARGETHIGHT, 0)); }
 	std::string GetNameTag() const { return obj_name; }
 
 	virtual const std::shared_ptr<GameObject> SetGameObject(const std::shared_ptr<GameObject>& setplayer) { return setplayer; }

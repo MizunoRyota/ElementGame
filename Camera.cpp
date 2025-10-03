@@ -1,9 +1,9 @@
 #include "stdafx.hpp"
-#include "Window.hpp"
 #include "GameObject.hpp"
-#include "Player.hpp"
-#include "Input.hpp"
 #include "Camera.hpp"
+#include "Player.hpp"
+#include "Enemy.hpp"
+#include "Input.hpp"
 
 /// <summary>
 /// コンストラクタ
@@ -27,7 +27,7 @@ Camera::Camera()
     //パースの設定
     SetupCamera_Perspective(90.0f * DX_PI_F / 180.0f);
     //奥行0.25～400までをカメラの描画範囲とする
-    SetCameraNearFar(0.1f, 400.0f);
+    SetCameraNearFar(CAMERA_NEAR, CAMERA_FAR);
     // カメラに位置を反映.
     SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
 
@@ -47,20 +47,41 @@ void Camera::Initialize()
 {
 
 }
+
+void Camera::UpdateTitle()
+{
+    if (!enemy) return;
+
+    // 目標: 敵の少し後方( -Z ) かつ少し上
+    const VECTOR targetFocus = enemy->GetPosition();
+    const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -5.0f));
+
+    // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
+    camera_position = Lerp(camera_position, targetCamPos, 0.01f);
+    camera_targetpos = Lerp(camera_targetpos, targetFocus, 0.01f);
+
+    // 向きベクトル更新 (必要なら)
+    camera_dirction = VSub(camera_targetpos, camera_position);
+
+    SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
+}
+
 /// <summary>
 /// 更新
 /// </summary>
 void Camera::Update()
 {
+
+
     // カメラの目線の位置
     camera_position = VAdd(player->GetPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
     
     // マウスによる回転
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
-    angleHorizontal += (mouseX - (WindowWidth /2)) * 0.001f;
-    angleVertical += (mouseY - (WindowHight /2)) * -0.001f;
-    SetMousePoint((WindowWidth /2), (WindowHight /2));
+    angleHorizontal += (mouseX - (SCREEN_WIDTH /2)) * 0.001f;
+    angleVertical += (mouseY - (SCREEN_HEIGHT /2)) * -0.001f;
+    SetMousePoint((SCREEN_WIDTH /2), (SCREEN_HEIGHT /2));
 
     // 垂直角度制限
     float maxPitch = DX_PI_F / 2 - 0.1f;
@@ -124,50 +145,36 @@ void Camera::Update()
     SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
 
 }
-/// <summary>
-/// 
-/// </summary>
-void Camera::Draw()
-{
 
-}
-/// <summary>
-/// 
-/// </summary>
-/// <param name="pos"></param>
-void Camera::UpdateClear(const VECTOR& pos)
+VECTOR Camera::Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float t)
 {
-    // カメラの目線の位置を初期化
-    camera_position = VGet(0,2.0f,10.0f);
-    // カメラのターゲット位置を初期化
-    camera_targetpos = pos;
+    // t を 0-1 にクランプ (念のため)
+    float ct = t;
+    if (ct < 0.0f) ct = 0.0f; else if (ct > 1.0f) ct = 1.0f;
+    return VAdd(camera_pos, VScale(VSub(target_pos, camera_pos), ct));
+}
+
+/// <summary>
+/// ゲームクリアシーン用：敵を注視しつつ滑らかに所定位置へ移動 (Lerp)
+/// </summary>
+void Camera::UpdateGameClear()
+{
+    if (!enemy) return;
+
+    // 目標: 敵の少し後方( -Z ) かつ少し上
+    const VECTOR targetFocus = VAdd(enemy->GetPosition(), VGet(0, 2.0f, 0));
+    const VECTOR targetCamPos = VAdd(targetFocus, VGet(0.0f, 1.0f, -10.0f));
+
+    // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
+    camera_position = Lerp(camera_position, targetCamPos, 0.01f);
+    camera_targetpos = Lerp(camera_targetpos, targetFocus,   0.01f);
+
+    // 向きベクトル更新 (必要なら)
+    camera_dirction = VSub(camera_targetpos, camera_position);
 
     SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
 }
-/// <summary>
-/// 
-/// </summary>
-/// <param name="pos"></param>
-void Camera::UpdateTitle(const VECTOR& pos)
-{
-    // カメラの目線の位置を初期化
-    camera_position = VGet(-3.0f, 0.50f, 8.0f);
-    // カメラのターゲット位置を初期化
-    camera_targetpos = VAdd(pos, VGet(-3.0f,0,0));
-    SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
-}
-/// <summary>
-/// 
-/// </summary>
-/// <param name="pos"></param>
-void Camera::UpdateGameOver(const VECTOR& pos)
-{
-    // カメラの目線の位置を初期化
-    camera_position = VGet(-3.0f, 3.0f, 5.0f);
-    // カメラのターゲット位置を初期化
-    camera_targetpos = pos;
-    SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
-}
+
 /// <summary>
 /// 
 /// </summary>

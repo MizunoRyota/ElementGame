@@ -1,46 +1,42 @@
 #include "stdafx.hpp"
 #include "UiEnemyHpBar.hpp"
-#include "Window.hpp"
 #include "Enemy.hpp"
-#include "DxLib.h"
 
 // 敵 HP バー UI コンストラクタ
 // 対象となる Enemy を weak_ptr で保持し寿命管理を委ねる
 UiEnemyHpBar::UiEnemyHpBar(const std::shared_ptr<Enemy>& enemy)
     : enemy_(enemy)
 {
-    zOrder_ = 0; // 将来: 他 UI と重なり制御したい場合は外部から SetZ で変更
+    zOrder_ = 0; // 背景層 (必要なら SetZ で変更)
 }
 
 // 毎フレーム更新
-// 実 HP(realHp) と表示用 HP(displayHp_) を分離し、減少のみ遅延表示で演出
-void UiEnemyHpBar::Update(float dt)
+// 実 HP(hpbar_real) と表示用 HP(hpbar_display) を分離し、減少のみ遅延表示で演出
+void UiEnemyHpBar::Update()
 {
     if (auto enemyLocked = enemy_.lock())
     {
-        // 初回に最大 HP として現在値をキャッシュ（Enemy に明確な MaxHP API が無いため仮取得）
-        if (maxHp_ == 0)
+        if (hpbar_maxhp == 0) // 初回取得
         {
-            maxHp_ = enemyLocked->GetHp();
-            displayHp_ = maxHp_;
+            hpbar_maxhp = enemyLocked->GetHp();
+            hpbar_display = hpbar_maxhp;
         }
+        int hpbar_real = enemyLocked->GetHp();
+        if (hpbar_real < 0) hpbar_real = 0;
 
-        int realHp = enemyLocked->GetHp();
-        if (realHp < 0) realHp = 0;
-
-        // ダメージ時: displayHp_ を catchUpSpeed_ 速度で追従減少
-        if (displayHp_ > realHp)
+        // ダメージ時: hpbar_display を DELAY_SPEED 速度で追従減少
+        if (hpbar_display > hpbar_real)
         {
-            int decayAmount = static_cast<int>(catchUpSpeed_ * dt);
+            int decayAmount = static_cast<int>(DELAY_SPEED * DISPLAY_);
             if (decayAmount < 1) decayAmount = 1; // 最低 1 減少
-            displayHp_ -= decayAmount;
-            if (displayHp_ < realHp) displayHp_ = realHp; // 行き過ぎ補正
+            hpbar_display -= decayAmount;
+            if (hpbar_display < hpbar_real) hpbar_display = hpbar_real; // 行き過ぎ補正
         }
         // 回復時: 即時反映（必要なら遅延表現を追加可能）
-        else if (displayHp_ < realHp)
+        else if (hpbar_display < hpbar_real)
         {
-            displayHp_ = realHp;
-            if (realHp > maxHp_) maxHp_ = realHp; // 予期せぬ最大値更新にも対応
+            hpbar_display = hpbar_real; // 回復は即時
+            if (hpbar_real > hpbar_maxhp) hpbar_maxhp = hpbar_real; // 上限調整
         }
     }
 }
@@ -50,13 +46,13 @@ void UiEnemyHpBar::Update(float dt)
 void UiEnemyHpBar::Draw() const
 {
     auto enemyLocked = enemy_.lock();
-    if (!enemyLocked || maxHp_ <= 0) return; // 対象消滅 or 未初期化なら描画しない
+    if (!enemyLocked || hpbar_maxhp <= 0) return; // 対象消滅 or 未初期化なら描画しない
 
-    int realHp = enemyLocked->GetHp();
-    if (realHp < 0) realHp = 0;
+    int hpbar_real = enemyLocked->GetHp();
+    if (hpbar_real < 0) hpbar_real = 0;
 
-    float realRatio = static_cast<float>(realHp) / static_cast<float>(maxHp_);
-    float delayedRatio = static_cast<float>(displayHp_) / static_cast<float>(maxHp_);
+    float realRatio = static_cast<float>(hpbar_real) / static_cast<float>(hpbar_maxhp);
+    float delayedRatio = static_cast<float>(hpbar_display) / static_cast<float>(hpbar_maxhp);
     // 0~1 にクランプ
     if (realRatio < 0) realRatio = 0; if (realRatio > 1) realRatio = 1;
     if (delayedRatio < 0) delayedRatio = 0; if (delayedRatio > 1) delayedRatio = 1;
@@ -64,30 +60,31 @@ void UiEnemyHpBar::Draw() const
     // 画面サイズ取得（失敗時フォールバック）
     int screenWidth, screenHeight;
     GetGraphSize(GetDrawScreen(), &screenWidth, &screenHeight); // 簡易取得
-    if (screenWidth <= 0) screenWidth = 1920;
+    if (screenWidth <= 0) screenWidth = 1920; // フォールバック
     if (screenHeight <= 0) screenHeight = 1080;
 
-    int baseX = screenWidth - offsetX_ - width_; // 右端基準
-    int baseY = offsetY_;
+    int hpbar_x = screenWidth - offset_x - hpbar_width; // 右上配置
+    int hpbar_y = offset_y;
 
     // ---- 背景 / ベース ----
-    DrawBox(baseX - 2, baseY - 2, baseX + width_ + 2, baseY + height_ + 2, GetColor(0, 0, 0), TRUE); // 外枠背景 (縁取り用)
-    DrawBox(baseX, baseY, baseX + width_, baseY + height_, GetColor(64, 64, 64), TRUE);             // バー背景
+    DrawBox(hpbar_x - 2, hpbar_y - 2, hpbar_x + hpbar_width + 2, hpbar_y + hpbar_height + 2, Pallet::Aqua.GetHandle(), TRUE); // 外枠背景 (縁取り用)
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::Gray.GetHandle(), TRUE);             // バー背景
 
     // ---- 遅延表示レイヤ（ダメージ演出: 暗赤）----
-    int delayedWidth = static_cast<int>(width_ * delayedRatio);
-    DrawBox(baseX, baseY, baseX + delayedWidth, baseY + height_, GetColor(150, 40, 40), TRUE);
+    int hpbar_delay_width = static_cast<int>(hpbar_width * delayedRatio);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_delay_width, hpbar_y + hpbar_height, GetColor(150, 40, 40), TRUE);
 
     // ---- 実 HP レイヤ（上に重ねる）----
-    int realWidth = static_cast<int>(width_ * realRatio);
-    int colorR = 200; // 固定赤系ベース（好みに応じてグラデ調整可）
-    int colorG = static_cast<int>(50 * realRatio);   // 減少で暗く
+    int realWidth = static_cast<int>(hpbar_width * realRatio);
+    int color_r = 200; // 固定赤系ベース（好みに応じてグラデ調整可）
+    int color_g = static_cast<int>(50 * realRatio);   // 減少で暗く
     int colorB = static_cast<int>(180 * realRatio);  // 減少で紫→赤寄り
-    DrawBox(baseX, baseY, baseX + realWidth, baseY + height_, GetColor(colorR, colorG, colorB), TRUE);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + realWidth, hpbar_y + hpbar_height, GetColor(color_r, color_g, colorB), TRUE);
 
     // ---- 枠線 ----
-    DrawBox(baseX, baseY, baseX + width_, baseY + height_, GetColor(255, 255, 255), FALSE);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::White.GetHandle(), FALSE);
 
     // ---- テキスト（数値）----
-    DrawFormatString(baseX, baseY + height_ + 8, GetColor(255, 255, 255), "ENEMY HP: %d / %d", realHp, maxHp_);
+    //DrawFormatString(hpbar_x, hpbar_y + hpbar_height + 8, Pallet::White.GetHandle(), "ENEMY HP: %d / %d", hpbar_real, hpbar_maxhp);
+
 }

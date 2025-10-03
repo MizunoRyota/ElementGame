@@ -2,12 +2,15 @@
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "Pallet.hpp"
+#include "Screen.hpp"
 #include <algorithm>
-#include <cmath>
 #include <cassert>
+#include <cmath>
+#include <cstdint>
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <math.h>
 #include <random>  
 #include <string>
 #include <string_view>

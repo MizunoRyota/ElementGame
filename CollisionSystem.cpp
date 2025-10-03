@@ -6,24 +6,17 @@
 #include "Collision.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
+#include "EffectCreator.hpp" // 追加
 
 namespace
 {
-	constexpr int BULLET_DAMAGE_TO_ENEMY   = 10;
+	constexpr int BULLET_DAMAGE_TO_ENEMY   = 1;
 	constexpr int BULLET_DAMAGE_TO_PLAYER = 10;
 }
 
 // 当たり判定用の暫定パラメータ(モデルに合わせて調整)
 namespace
 {
-	// 敵のカプセル設定
-	constexpr float ENEMY_CAPSULE_RADIUS = 0.6f;
-	constexpr float ENEMY_CAPSULE_HEIGHT = 1.0f;
-
-	// プレイヤーのカプセル設定
-	constexpr float PLAYER_CAPSULE_RADIUS = 0.5f;
-	constexpr float PLAYER_CAPSULE_HEIGHT = 1.0f;
-
 	// カプセル基点は足元とし、Y+ に高さ
 	inline VECTOR MakeCapsuleTop(const VECTOR& base, float height)
 	{
@@ -44,7 +37,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 	if (enemy)
 	{
 		enemyBase = enemy->GetPosition();
-		(void)MakeCapsuleTop(enemyBase, ENEMY_CAPSULE_HEIGHT); // 使わないが高さはここで管理
+		(void)MakeCapsuleTop(enemyBase, enemy->GetCapsuleHeight()); // 使わないが高さはここで管理
 	}
 
 	// プレイヤーのカプセル(下端)
@@ -52,7 +45,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 	if (player)
 	{
 		playerBase = player->GetPosition();
-		(void)MakeCapsuleTop(playerBase, PLAYER_CAPSULE_HEIGHT);
+		(void)MakeCapsuleTop(playerBase, player->GetCapsuleHeight());
 	}
 
 	const int count = bc.GetBulletCount();
@@ -62,20 +55,30 @@ void CollisionSystem::Resolve(SharedData& shared)
 		if (!bullet || !bullet->IsActive()) continue;
 
 		const VECTOR sphereCenter = bullet->GetPosition();
-		const float  sphereRadius = Bullet::BULLET_RADIUS;
+		const float  sphere_radius = bullet->GetBulletRadius();
 
 		// 敵へのヒットチェック
 		if (enemy)
 		{
 			const bool hitEnemy = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, enemyBase, enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
+				sphereCenter, sphere_radius, enemyBase, enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
 
 			if (hitEnemy)
 			{
 				if (enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY))
 				{
-					// TODO: ヒットエフェクト等
+					// エフェクト: ダメージ or 死亡
+					if (enemy->IsDead())
+					{
+						//EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyDeath, enemy->GetPosition());
+					}
+					else
+					{
+						//EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, enemy->GetHitPosition());
+					}
 				}
+				// 弾ヒットエフェクト
+				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
 				bullet->ChangeActiveFalse();
 				bullet->ResetPosition();
 
@@ -87,13 +90,14 @@ void CollisionSystem::Resolve(SharedData& shared)
 		if (player)
 		{
 			const bool hitPlayer = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, playerBase, player->GetCapsuleRadius(), player->GetCapsuleHeight());
+				sphereCenter, sphere_radius, playerBase, player->GetCapsuleRadius(), player->GetCapsuleHeight());
 
 			if (hitPlayer)
 			{
 				if (player->TakeDamage(BULLET_DAMAGE_TO_PLAYER))
 				{
-					// TODO: 画面揺れ, 無敵演出, 効果音等
+					// エフェクト: 被弾
+					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, player->GetPosition());
 				}
 				bullet->ChangeActiveFalse();
 				bullet->ResetPosition();

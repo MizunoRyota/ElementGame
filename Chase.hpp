@@ -6,10 +6,8 @@ public:
 	Chase();
 	~Chase();
 
-	bool RangeWithin(const VECTOR& enemypos, const VECTOR& targetpos);
+	bool RangeWithin(const VECTOR& enemypos, const VECTOR& targetpos); // 追跡レンジ内判定
 
 private:
-	
-	static constexpr float CHASE_RANGE = 15.0f;	//アニメーションを進める速度
-
+	static constexpr float CHASE_RANGE = 8.0f; // 追跡終了距離
 };

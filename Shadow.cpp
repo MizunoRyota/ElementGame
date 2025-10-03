@@ -37,7 +37,6 @@ void Shadow::Initialize()
 void Shadow::Update()
 {
 
-
     static float angle = 0.0f; // ラジアン単位での角度
     angle += SHADOW_ANGLESPEED; // 動く速さ（必要に応じて調整）
 

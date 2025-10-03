@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 class BulletCreator;
 class GameObject;
 class Player;        // 追加
@@ -10,12 +12,13 @@ public:
 	BulletFire();
 	~BulletFire();
 
-	void FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed);	//直線に発射
+	void FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed); //直線に発射
 
-	void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed);	//拡散弾を発射
+	void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed); //拡散弾を発射
 
 	void FireVirtical(const VECTOR& pos, const VECTOR& dir, const float& speed);
 
+	//void FireRotate();
 
 	// 追加: ホーミング(ターゲット付き)
 	void FireHoming(const VECTOR& pos,
@@ -23,24 +26,49 @@ public:
 		const float& speed,
 		const std::shared_ptr<GameObject>& target);
 
-	void FireSpecialAttack (const VECTOR& pos, const VECTOR& dir, const float& speed);	//全方位に発射
+	void FireSpecialAttack (const VECTOR& pos, const VECTOR& dir, const float& speed); //全方位に発射
 
-	void FireUpdate();	//発射の更新
+	void FireUpdate(); //発射の更新
 
-	VECTOR BulletRotateHorizontal(const VECTOR& dir ,float angle);		//水平向き変更
+	VECTOR BulletRotateHorizontal(const VECTOR& dir ,float angle); //水平向き変更
 
-	VECTOR BulletRotateVertical(const VECTOR& dir, float angle);		//垂直向き変更
+	VECTOR BulletRotateVertical(const VECTOR& dir, float angle); //垂直向き変更
+
+	// 追加: エフェクトフレーバー
+	enum class EffectFlavor
+	{
+		Fire = 0,
+		Water = 1,
+		Wind = 2,
+		Special = 3,
+		Hit = 4,
+		FireGround = 5,
+	};
+
+	// エフェクトインデックス変換ヘルパー
+	static int ToEffectIndex(EffectFlavor f);
 
 private:
-	static constexpr int DIFFUSION_NUM = 30;		//拡散弾の数
-	static constexpr int ALLRANGE_NUM = 30;		//全方位弾の数
-	static constexpr float BULLET_COOLTIME = 10;	//
 
+	static constexpr int DIFFUSION_NUM = 5; //拡散弾の数
+	static constexpr int DIFFUSION_OFFSET = 2; //拡散弾の最初の弾のずれ
+	static constexpr int DIFFUSION_RADIUS = 30; //拡散弾の角度
+
+	static constexpr int ALLRANGE_NUM = 30; //全方位弾の数
+	static constexpr float BULLET_COOLTIME = 10; //
+	static constexpr int VERTICAL_NUM = 30;
+	static constexpr int HORIZONTAL_NUM = 20;
 	// 追加: ホーミングパラメータ
 	static constexpr float HOMING_DURATION = 20.0f;             // 追尾するフレーム数
 	static constexpr float HOMING_TURN_SPEED = DX_PI_F / 30.0f; // 1f最大回頭角(=6°)
 
-	float bullet_firecooltimer = 0;	//弾の発射クールタイム
+	// マーカー関連パラメータ
+	static constexpr float MARKER_HEIGHT = 3.0f; // 円錐の高さ
+	static constexpr float MARKER_RADIUS = 1.2f; // 底面半径
+	static constexpr int   MARKER_SLICES = 16;   // 分割数
+
+	float bullet_firecooltimer = 0; //弾の発射クールタイム
 
 };
+
 

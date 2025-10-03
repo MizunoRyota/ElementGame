@@ -2,14 +2,16 @@
 #include "Dxlib.h"
 #include "EffekseerForDXLib.h"
 #include "TitleScene.hpp"
+#include "Tutorial.hpp"
 #include "GameScene.hpp"
+#include "GameOverScene.hpp"
+#include "GameClearScene.hpp"
 #include "SceneManager.hpp"
-
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// 画面モードのセット
-	SetGraphMode(1920, 1080, 32);
-	ChangeWindowMode(TRUE);
+	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
+	ChangeWindowMode(FALSE);
 
 	// DXライブラリを初期化する。
 	if (DxLib_Init() == -1) return -1;
@@ -42,8 +44,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	std::shared_ptr<SceneManager> scene_manager = std::make_shared<SceneManager>();
 
 	scene_manager->Add<TitleScene>("TitleScene");
+	scene_manager->Add<TutorialScene>("TutorialScene");
+
 	scene_manager->Add<GameScene>("GameScene");
+	scene_manager->Add<GameOverScene>("GameOverScene");
+	scene_manager->Add<GameClearScene>("GameClearScene");
+
 	bool debugPauseFlag = false;
+
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
 		// ぼたんおしたら

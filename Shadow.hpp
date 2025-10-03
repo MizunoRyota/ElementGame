@@ -11,6 +11,16 @@ public:
     void Update() override;         //更新
     void Draw() override ;          //描画
 
+    // シーン別描画 (影は共通で描画不要なので空)
+    void DrawTitle() override {};
+    void DrawGameOver() override {};
+    void DrawGameClear() override {};
+
+    // シーン別更新 (ライト回転は常に同じで良いので空実装)
+    void UpdateGameClear() override {};
+    void UpdateGameOver() override {};
+    void UpdateTitle() override {};
+
     int GetShadowMapHandle() const { return obj_modelhandle; }  //影のハンドルを返す
     VECTOR GetLightDir()const { return obj_direction; }         //ライトの方向を返す
 

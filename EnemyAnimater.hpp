@@ -8,6 +8,7 @@ public:
 	EnemyAnimater(int modelhandle,  EnemyState& enemystate);
 	virtual~EnemyAnimater();
 
+	// エネミー用アニメーション種別
 	enum class AnimKind : int
 	{
 		OnDamage = 0,
@@ -19,18 +20,18 @@ public:
 		RunLeft = 6,
 		Charge = 7,
 		RunRight = 8,
-		WindAttack = 9,
+		FireAttack = 9,
 		WaterAttack = 10,
-		FireAttack = 11,
+		WindAttack = 11,
 		JumpAttack = 12,
 		Idle = 13,
 		Chase = 14,
 	};
-	void InitializeAnimationData()override;
+	void InitializeAnimationData()override; // モーションデータ登録
 
-	void Update()override;
-	void SwitchAnimation()override;
+	void Update()override; // 状態更新
+	void SwitchAnimation()override; // ステートに応じた遷移
 
 protected:
-	EnemyState& enemy_state;
+	EnemyState& enemy_state; // 参照: エネミー行動ステート
 };
