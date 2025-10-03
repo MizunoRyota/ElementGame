@@ -17,6 +17,8 @@ public:
     /// @remark デフォルトでは何もしません。
     virtual void Initialize();
 
+    virtual void WhiteOut();
+
     /// @brief シーンを更新します。
     /// @remark デフォルトでは何もしません。
     virtual void Update();
@@ -38,9 +40,18 @@ protected:
 
 private:
 
+    static constexpr int  WHITEOUT_TIME = 1000;
+    static constexpr int  WHITEOUT_TIMESPEED = 50;
+
+
     /// @brief SceneManager への参照
     /// @note ポインタを使うより安全です。
     SceneManager& m_manager;
 
     SharedData& m_sharedData;
+
+
+
+    bool whiteout_isend;
+
 };

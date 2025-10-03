@@ -7008,7 +7008,7 @@ auto input_adapter(T (&array)[N]) -> decltype(input_adapter(array, array + N)) /
     return input_adapter(array, array + N);
 }
 
-// This class only handles inputs of input_buffer_adapter type.
+// This class only effect_handles inputs of input_buffer_adapter type.
 // It's required so that expressions like {ptr, len} can be implicitly cast
 // to the correct adapter.
 class span_input_adapter
@@ -8035,7 +8035,7 @@ class lexer : public lexer_base<BasicJsonType>
           locale's decimal point is used instead of `.` to work with the
           locale-dependent converters.
     */
-    token_type scan_number()  // lgtm [cpp/use-of-goto] `goto` is used in this function to implement the number-parsing state machine described above. By design, any finite input will eventually reach the "done" state or return token_type::parse_error. In each intermediate state, 1 byte of the input is appended to the token_buffer vector, and only the already initialized variables token_buffer, number_type, and error_message are manipulated.
+    token_type scan_number()  // lgtm [cpp/use-of-goto] `goto` is used in this function to implement the number-parsing state machine described above. By design, any finite input will eventually reach the "done" state or return token_type::parse_error. In each intermediate state, 1 byte of the input is appended to the token_buffer vector, and only the already effect_initialized variables token_buffer, number_type, and error_message are manipulated.
     {
         // reset token_buffer to store the number's bytes
         reset();
@@ -13665,7 +13665,7 @@ template<typename IteratorType> class iteration_proxy_value;
 @brief a template for a bidirectional iterator for the @ref basic_json class
 This class implements a both iterators (iterator and const_iterator) for the
 @ref basic_json class.
-@note An iterator is called *initialized* when a pointer to a JSON value has
+@note An iterator is called *effect_initialized* when a pointer to a JSON value has
       been set (e.g., by a constructor or a copy assignment). If the iterator is
       default-constructed, it is *uninitialized* and most methods are undefined.
       **The library uses assertions to detect calls on uninitialized iterators.**
@@ -13729,7 +13729,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
     @brief constructor for a given JSON instance
     @param[in] object  pointer to a JSON object for this iterator
     @pre object != nullptr
-    @post The iterator is initialized; i.e. `m_object != nullptr`.
+    @post The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     explicit iter_impl(pointer object) noexcept : m_object(object)
     {
@@ -13789,7 +13789,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
     @brief converting assignment
     @param[in] other const iterator to copy from
     @return const/non-const iterator
-    @note It is not checked whether @a other is initialized.
+    @note It is not checked whether @a other is effect_initialized.
     */
     iter_impl& operator=(const iter_impl<const BasicJsonType>& other) noexcept
     {
@@ -13804,7 +13804,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
     /*!
     @brief converting constructor
     @param[in] other  non-const iterator to copy from
-    @note It is not checked whether @a other is initialized.
+    @note It is not checked whether @a other is effect_initialized.
     */
     iter_impl(const iter_impl<typename std::remove_const<BasicJsonType>::type>& other) noexcept
         : m_object(other.m_object), m_it(other.m_it)
@@ -13814,7 +13814,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
     @brief converting assignment
     @param[in] other  non-const iterator to copy from
     @return const/non-const iterator
-    @note It is not checked whether @a other is initialized.
+    @note It is not checked whether @a other is effect_initialized.
     */
     iter_impl& operator=(const iter_impl<typename std::remove_const<BasicJsonType>::type>& other) noexcept // NOLINT(cert-oop54-cpp)
     {
@@ -13826,7 +13826,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
   JSON_PRIVATE_UNLESS_TESTED:
     /*!
     @brief set the iterator to the first value
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     void set_begin() noexcept
     {
@@ -13870,7 +13870,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief set the iterator past the last value
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     void set_end() noexcept
     {
@@ -13909,7 +13909,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
   public:
     /*!
     @brief return a reference to the value pointed to by the iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     reference operator*() const
     {
@@ -13953,7 +13953,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief dereference the iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     pointer operator->() const
     {
@@ -13995,7 +13995,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief post-increment (it++)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl operator++(int)& // NOLINT(cert-dcl21-cpp)
     {
@@ -14006,7 +14006,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief pre-increment (++it)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl& operator++()
     {
@@ -14046,7 +14046,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief post-decrement (it--)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl operator--(int)& // NOLINT(cert-dcl21-cpp)
     {
@@ -14057,7 +14057,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief pre-decrement (--it)
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl& operator--()
     {
@@ -14097,7 +14097,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief comparison: equal
-    @pre (1) Both iterators are initialized to point to the same object, or (2) both iterators are value-initialized.
+    @pre (1) Both iterators are effect_initialized to point to the same object, or (2) both iterators are value-effect_initialized.
     */
     template < typename IterImpl, detail::enable_if_t < (std::is_same<IterImpl, iter_impl>::value || std::is_same<IterImpl, other_iter_impl>::value), std::nullptr_t > = nullptr >
     bool operator==(const IterImpl& other) const
@@ -14108,7 +14108,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
             JSON_THROW(invalid_iterator::create(212, "cannot compare iterators of different containers", m_object));
         }
 
-        // value-initialized forward iterators can be compared, and must compare equal to other value-initialized iterators of the same type #4493
+        // value-effect_initialized forward iterators can be compared, and must compare equal to other value-effect_initialized iterators of the same type #4493
         if (m_object == nullptr)
         {
             return true;
@@ -14137,7 +14137,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief comparison: not equal
-    @pre (1) Both iterators are initialized to point to the same object, or (2) both iterators are value-initialized.
+    @pre (1) Both iterators are effect_initialized to point to the same object, or (2) both iterators are value-effect_initialized.
     */
     template < typename IterImpl, detail::enable_if_t < (std::is_same<IterImpl, iter_impl>::value || std::is_same<IterImpl, other_iter_impl>::value), std::nullptr_t > = nullptr >
     bool operator!=(const IterImpl& other) const
@@ -14147,7 +14147,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief comparison: smaller
-    @pre (1) Both iterators are initialized to point to the same object, or (2) both iterators are value-initialized.
+    @pre (1) Both iterators are effect_initialized to point to the same object, or (2) both iterators are value-effect_initialized.
     */
     bool operator<(const iter_impl& other) const
     {
@@ -14157,10 +14157,10 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
             JSON_THROW(invalid_iterator::create(212, "cannot compare iterators of different containers", m_object));
         }
 
-        // value-initialized forward iterators can be compared, and must compare equal to other value-initialized iterators of the same type #4493
+        // value-effect_initialized forward iterators can be compared, and must compare equal to other value-effect_initialized iterators of the same type #4493
         if (m_object == nullptr)
         {
-            // the iterators are both value-initialized and are to be considered equal, but this function checks for smaller, so we return false
+            // the iterators are both value-effect_initialized and are to be considered equal, but this function checks for smaller, so we return false
             return false;
         }
 
@@ -14187,7 +14187,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief comparison: less than or equal
-    @pre (1) Both iterators are initialized to point to the same object, or (2) both iterators are value-initialized.
+    @pre (1) Both iterators are effect_initialized to point to the same object, or (2) both iterators are value-effect_initialized.
     */
     bool operator<=(const iter_impl& other) const
     {
@@ -14196,7 +14196,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief comparison: greater than
-    @pre (1) Both iterators are initialized to point to the same object, or (2) both iterators are value-initialized.
+    @pre (1) Both iterators are effect_initialized to point to the same object, or (2) both iterators are value-effect_initialized.
     */
     bool operator>(const iter_impl& other) const
     {
@@ -14205,7 +14205,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief comparison: greater than or equal
-    @pre (1) The iterator is initialized; i.e. `m_object != nullptr`, or (2) both iterators are value-initialized.
+    @pre (1) The iterator is effect_initialized; i.e. `m_object != nullptr`, or (2) both iterators are value-effect_initialized.
     */
     bool operator>=(const iter_impl& other) const
     {
@@ -14214,7 +14214,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief add to iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl& operator+=(difference_type i)
     {
@@ -14251,7 +14251,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief subtract from iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl& operator-=(difference_type i)
     {
@@ -14260,7 +14260,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief add to iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl operator+(difference_type i) const
     {
@@ -14271,7 +14271,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief addition of distance and iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     friend iter_impl operator+(difference_type i, const iter_impl& it)
     {
@@ -14282,7 +14282,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief subtract from iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     iter_impl operator-(difference_type i) const
     {
@@ -14293,7 +14293,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief return difference
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     difference_type operator-(const iter_impl& other) const
     {
@@ -14322,7 +14322,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief access to successor
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     reference operator[](difference_type n) const
     {
@@ -14360,7 +14360,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief return the key of an object iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     const typename object_t::key_type& key() const
     {
@@ -14376,7 +14376,7 @@ class iter_impl // NOLINT(cppcoreguidelines-special-member-functions,hicpp-speci
 
     /*!
     @brief return the value of an iterator
-    @pre The iterator is initialized; i.e. `m_object != nullptr`.
+    @pre The iterator is effect_initialized; i.e. `m_object != nullptr`.
     */
     reference value() const
     {
@@ -20667,7 +20667,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
                 (t == value_t::binary && binary == nullptr)
             )
             {
-                // not initialized (e.g., due to exception in the ctor)
+                // not effect_initialized (e.g., due to exception in the ctor)
                 return;
             }
             if (t == value_t::array || t == value_t::object)

@@ -5,8 +5,8 @@
 #include "Shadow.hpp"
 #include "BulletCreator.hpp"
 #include "SharedData.hpp"
-// ★ 追加
 #include "CollisionSystem.hpp"
+#include "EffectCreator.hpp"
 
 GameScene::GameScene(SceneManager& manager, SharedData& sharedData)
     : Scene{ manager ,sharedData} {}
@@ -19,23 +19,31 @@ void GameScene::Initialize()
     player_refrence = std::dynamic_pointer_cast<Player>(GetSharedData().FindObject("Player"));
     enemy_refrence = std::dynamic_pointer_cast<Enemy>(GetSharedData().FindObject("Enemy"));
     shadow = std::dynamic_pointer_cast<Shadow>(GetSharedData().FindObject("Shadow"));
+
+    // エフェクト初期化
+    EffectCreator::GetEffectCreator().Initialize();
 }
 
 void GameScene::Update()
 {
 
     BulletCreator::GetBulletCreator().Update();
-    GetSharedData().UpdateAll();
+    GetSharedData().UpdateGame();
 
     // Effekseerにより再生中のエフェクトを更新する。
     // ★ 追加: すべての更新後に衝突判定を一括で解決
     CollisionSystem::Resolve(GetSharedData());
 
-    UpdateEffekseer3D();
+    // 置き換え: 直接UpdateEffekseer3D()ではなく、マネージャ更新
+    EffectCreator::GetEffectCreator().Update();
 
-    if (player_refrence->GetHp() <= 0 || enemy_refrence->GetHp() <= 0)
+    if (player_refrence->GetHp() <= 0 )
     {
-        ChangeScene("TitleScene");
+        ChangeScene("GameOverScene");
+    }
+    else if (enemy_refrence->GetHp() <= 0)
+    {
+        ChangeScene("GameClearScene");
     }
 }
 
@@ -47,7 +55,7 @@ void GameScene::Draw()
 	//シャドウマップの準備
 	ShadowMap_DrawSetup(shadow->GetHandle());
 
-    GetSharedData().DrawAll();
+    GetSharedData().DrawShadowReady();
     BulletCreator::GetBulletCreator().Draw();
 	//シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
@@ -55,13 +63,11 @@ void GameScene::Draw()
     // 描画に使用するシャドウマップを設定
 	SetUseShadowMap(0, shadow->GetHandle());
 
-    GetSharedData().DrawAll();
     BulletCreator::GetBulletCreator().Draw();
+    GetSharedData().DrawAll();
 
-    DrawEffekseer3D();
-
-	// 描画に使用するシャドウマップの設定を解除
-	SetUseShadowMap(0, -1);
+    // ここで一旦シャドウマップ適用を解除(エフェクトが暗くなる/欠けるのを防ぐ)
+    SetUseShadowMap(0, -1);
 
     ScreenFlip();
 

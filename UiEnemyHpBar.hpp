@@ -1,29 +1,34 @@
 #pragma once
 #include "UiManager.hpp"
-#include <memory>
 
 class Enemy;
 
-// 敵HPバー UI 要素 (画面右上表示)
+// 敵 HP バー (画面右上表示)
 class UiEnemyHpBar : public IUiElement
 {
 public:
-    explicit UiEnemyHpBar(const std::shared_ptr<Enemy>& enemy);
-    void Update(float dt) override;
-    void Draw() const override;
-
-    void SetOffset(int x, int y) { offsetX_ = x; offsetY_ = y; }
-    void SetSize(int w, int h) { width_ = w; height_ = h; }
+    explicit UiEnemyHpBar(const std::shared_ptr<Enemy>& enemy); // 敵参照
+    void UpdateTitle() override {};
+    void Update() override;      // 値更新
+    void UpdateGameClear()override {};
+    void UpdateGameOver()override {};
+    void Draw() const override; // 描画
+    void DrawTitle() const override {};  // 描画
+    void DrawTutorial() const override {};
+    void DrawGameOver() const override {};  // 描画
+    void DrawGameClear() const override {};  // 描画
+    void SetOffset(int x, int y) { offset_x = x; offset_y = y; } // 右上オフセット
+    void SetSize(int w, int h) { hpbar_width = w; hpbar_height = h; } // バーサイズ
 
 private:
-    std::weak_ptr<Enemy> enemy_;
-    int maxHp_ = 0;
-    int displayHp_ = 0;
-    static constexpr float catchUpSpeed_ = 10.0f; // 遅延追従速度
+    std::weak_ptr<Enemy> enemy_; // HP 参照
+    int hpbar_maxhp = 0;         // 最大 HP
+    int hpbar_display = 0;       // 遅延表示 HP
+    static constexpr float DELAY_SPEED = 10.0f; // 減衰速度
 
-    // 右上アンカー用
-    int offsetX_ = 50; // 右端からのオフセット
-    int offsetY_ = 50; // 上から
-    int width_ = 600;  // 以前:400 -> 拡大
-    int height_ = 40;  // 以前:30  -> 拡大
+    // レイアウト (右上基準: 画面幅 - offset_x - width)
+    int offset_x = 50; // 右端からの距離
+    int offset_y = 50; // 上端からの距離
+    int hpbar_width = 750;  // 幅
+    int hpbar_height = 50;  // 高さ
 };

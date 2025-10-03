@@ -1,305 +1,426 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Main">
-      <UniqueIdentifier>{1630198d-5d2b-4195-98d3-5a8a86236c06}</UniqueIdentifier>
+    <Filter Include="GameCode">
+      <UniqueIdentifier>{0ed5d6ab-4da2-4a53-a125-1a3565d685f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject">
-      <UniqueIdentifier>{31df1314-f410-4b59-89ef-692b17fb5df2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Character">
-      <UniqueIdentifier>{44c70365-2c34-4c55-9ffd-ce12fa67fd3e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Animater">
+    <Filter Include="GameCode\Animater">
       <UniqueIdentifier>{8a7af727-472c-4ff3-bc8c-de8db30de933}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Camera">
-      <UniqueIdentifier>{00abc5e3-3331-4a32-bcf5-196bb59f760d}</UniqueIdentifier>
+    <Filter Include="GameCode\Main">
+      <UniqueIdentifier>{1630198d-5d2b-4195-98d3-5a8a86236c06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Bullet">
-      <UniqueIdentifier>{37e8ccf7-5977-4174-a3ba-8827119e09e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tool">
-      <UniqueIdentifier>{051b75a7-5bbf-410d-8c39-4c9026fb5564}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{6fff5b48-3074-486d-8207-a09793066e48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Inpput">
+    <Filter Include="GameCode\Inpput">
       <UniqueIdentifier>{f1f0b8e3-3e25-4ec1-8ed7-26694f80a6bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\GameScene">
-      <UniqueIdentifier>{9e3164bc-939c-42ba-b6bd-1d1f8dfa74de}</UniqueIdentifier>
+    <Filter Include="GameCode\GameObject">
+      <UniqueIdentifier>{31df1314-f410-4b59-89ef-692b17fb5df2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene\TitleScene">
-      <UniqueIdentifier>{019dfc99-19f5-4915-a0a1-088397964c81}</UniqueIdentifier>
+    <Filter Include="GameCode\GameObject\Character">
+      <UniqueIdentifier>{44c70365-2c34-4c55-9ffd-ce12fa67fd3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Effect">
-      <UniqueIdentifier>{ff3be3ed-27f5-431a-8258-fc9582e7d245}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Environment">
-      <UniqueIdentifier>{5ed39de5-b1fb-424c-812e-28e58d93450b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Environment\SkyDome">
-      <UniqueIdentifier>{ba652bd0-37eb-480a-b89d-85709301f163}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Environment\Stage">
-      <UniqueIdentifier>{4e716f77-8fb7-4d80-989d-34c442ce9799}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Environment\Shadow">
-      <UniqueIdentifier>{b3143ca5-715c-4aee-8871-30f6ae60ffe1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameObject\Character\Player">
+    <Filter Include="GameCode\GameObject\Character\Player">
       <UniqueIdentifier>{3ae4b057-6ff8-4fef-8ca6-6e1f53dab1b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Player\Animater">
+    <Filter Include="GameCode\GameObject\Character\Player\Animater">
       <UniqueIdentifier>{c9a1fd2e-df6c-4527-816b-9c3fcc741959}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Player\Move">
+    <Filter Include="GameCode\GameObject\Character\Player\Move">
       <UniqueIdentifier>{a116cb2a-59b3-4a85-bc1e-ec72205a1c2b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Enemy">
+    <Filter Include="GameCode\GameObject\Character\Enemy">
       <UniqueIdentifier>{41489dde-1c7d-4197-9590-ca1e67e52970}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Enemy\EnemyAnimater">
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyAnimater">
       <UniqueIdentifier>{60025210-6a98-4fd0-97e4-383d864db5de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Enemy\Chase">
+    <Filter Include="GameCode\GameObject\Character\Enemy\Chase">
       <UniqueIdentifier>{a4ba7c3a-81ba-4fc7-80b7-c9724b0a640b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Enemy\Dodge">
+    <Filter Include="GameCode\GameObject\Character\Enemy\Dodge">
       <UniqueIdentifier>{d26da190-2458-417c-80a4-5cc6137c120f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Enemy\SpecialAttack">
+    <Filter Include="GameCode\GameObject\Character\Enemy\SpecialAttack">
       <UniqueIdentifier>{4702b65b-bf49-46a9-aebf-e594d3d45681}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameObject\Character\Enemy\Move">
+    <Filter Include="GameCode\GameObject\Character\Enemy\Move">
       <UniqueIdentifier>{fca42b90-0ee5-4188-b4d2-34cbf2748018}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI">
-      <UniqueIdentifier>{a9c3ee61-d804-4a2e-b3ec-5b0739e3ac54}</UniqueIdentifier>
+    <Filter Include="GameCode\Environment">
+      <UniqueIdentifier>{5ed39de5-b1fb-424c-812e-28e58d93450b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collision">
+    <Filter Include="GameCode\Environment\SkyDome">
+      <UniqueIdentifier>{ba652bd0-37eb-480a-b89d-85709301f163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Environment\Stage">
+      <UniqueIdentifier>{4e716f77-8fb7-4d80-989d-34c442ce9799}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Environment\Shadow">
+      <UniqueIdentifier>{b3143ca5-715c-4aee-8871-30f6ae60ffe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Effects">
+      <UniqueIdentifier>{ff3be3ed-27f5-431a-8258-fc9582e7d245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Collision">
       <UniqueIdentifier>{0fdaeebd-f235-4297-8031-1b410dabd82d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UI\HpBar">
+    <Filter Include="GameCode\Camera">
+      <UniqueIdentifier>{00abc5e3-3331-4a32-bcf5-196bb59f760d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Bullet">
+      <UniqueIdentifier>{37e8ccf7-5977-4174-a3ba-8827119e09e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Scene">
+      <UniqueIdentifier>{6fff5b48-3074-486d-8207-a09793066e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Scene\GameScene">
+      <UniqueIdentifier>{9e3164bc-939c-42ba-b6bd-1d1f8dfa74de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Scene\TitleScene">
+      <UniqueIdentifier>{019dfc99-19f5-4915-a0a1-088397964c81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Scene\SceneManager">
+      <UniqueIdentifier>{75e373ad-e0ad-4ec6-baaa-1d5d5f2624d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Scene\GameOverScene">
+      <UniqueIdentifier>{98b79714-910f-4efe-9aa6-ddc107ef16e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Tool">
+      <UniqueIdentifier>{051b75a7-5bbf-410d-8c39-4c9026fb5564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI">
+      <UniqueIdentifier>{a9c3ee61-d804-4a2e-b3ec-5b0739e3ac54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\HpBar">
       <UniqueIdentifier>{f9e80f33-fa24-4791-a5dd-d439cb7043d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\DarkFilm">
+      <UniqueIdentifier>{11f0bb55-53d5-4f7d-9758-63c63529b5cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\DashBar">
+      <UniqueIdentifier>{ee9a0b3a-dc3f-4652-b604-8068cc185efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\reticle">
+      <UniqueIdentifier>{73d38cff-7ce7-45f0-9c8d-e0af0a862a95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\TEXT">
+      <UniqueIdentifier>{fafbbafd-1f27-4cd1-8a8a-9f1988d76b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\TakeDamage">
+      <UniqueIdentifier>{29bd283d-d3ba-4d3b-8fde-f852a0c70624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Scene\GameClearScene">
+      <UniqueIdentifier>{0d699f37-03b0-468d-9de6-01e716559558}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\SceneGraph">
+      <UniqueIdentifier>{4e95de11-1039-4eb8-aeb5-0d0417241474}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\UI\Timer">
+      <UniqueIdentifier>{3b74f323-f342-4d8f-814c-cfb567308a25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\Scene\Tutorial">
+      <UniqueIdentifier>{261a3540-8a27-476d-8654-fe0cb5ab80b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\BehaviorTree">
+      <UniqueIdentifier>{d09d72d1-1809-449e-853d-33b593715a39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\BlackBoard">
+      <UniqueIdentifier>{2203c25d-6762-4fb9-af0d-c5271456173b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\BehaviorTree\Seqence">
+      <UniqueIdentifier>{4b5c330f-4ff8-498e-99dd-a65be8b6c5ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBase.hpp">
-      <Filter>GameObject\Character</Filter>
+      <Filter>GameCode\GameObject\Character</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.hpp">
-      <Filter>GameObject</Filter>
+      <Filter>GameCode\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="AnimaterBase.hpp">
-      <Filter>Animater</Filter>
+      <Filter>GameCode\Animater</Filter>
     </ClInclude>
     <ClInclude Include="AnimationData.hpp">
-      <Filter>Animater</Filter>
+      <Filter>GameCode\Animater</Filter>
     </ClInclude>
     <ClInclude Include="Player.hpp">
-      <Filter>GameObject\Character\Player</Filter>
+      <Filter>GameCode\GameObject\Character\Player</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.hpp">
-      <Filter>Bullet</Filter>
+      <Filter>GameCode\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="BulletCreator.hpp">
-      <Filter>Bullet</Filter>
+      <Filter>GameCode\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Color.hpp">
-      <Filter>Tool</Filter>
+      <Filter>GameCode\Tool</Filter>
     </ClInclude>
     <ClInclude Include="Pallet.hpp">
-      <Filter>Tool</Filter>
+      <Filter>GameCode\Tool</Filter>
     </ClInclude>
     <ClInclude Include="Shadow.hpp">
-      <Filter>Environment\Shadow</Filter>
+      <Filter>GameCode\Environment\Shadow</Filter>
     </ClInclude>
     <ClInclude Include="Input.hpp">
-      <Filter>Inpput</Filter>
+      <Filter>GameCode\Inpput</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
-      <Filter>Tool</Filter>
+      <Filter>GameCode\Tool</Filter>
     </ClInclude>
     <ClInclude Include="Camera.hpp">
-      <Filter>Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.hpp">
-      <Filter>Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.hpp">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.hpp">
-      <Filter>Scene</Filter>
+      <Filter>GameCode\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Stage.hpp">
-      <Filter>Environment\Stage</Filter>
+      <Filter>GameCode\Environment\Stage</Filter>
     </ClInclude>
-    <ClInclude Include="SharedData.hpp" />
     <ClInclude Include="GameScene.hpp">
-      <Filter>Scene\GameScene</Filter>
+      <Filter>GameCode\Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="PlayerState.hpp">
-      <Filter>GameObject\Character\Player\Animater</Filter>
+      <Filter>GameCode\GameObject\Character\Player\Animater</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAnimater.hpp">
-      <Filter>GameObject\Character\Player\Animater</Filter>
+      <Filter>GameCode\GameObject\Character\Player\Animater</Filter>
     </ClInclude>
     <ClInclude Include="Skydome.hpp">
-      <Filter>Environment\SkyDome</Filter>
+      <Filter>GameCode\Environment\SkyDome</Filter>
     </ClInclude>
     <ClInclude Include="TitleScene.hpp">
-      <Filter>Scene\TitleScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.hpp">
-      <Filter>Effect</Filter>
+      <Filter>GameCode\Scene\TitleScene</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.hpp">
-      <Filter>GameObject\Character\Enemy</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAnimater.hpp">
-      <Filter>GameObject\Character\Enemy\EnemyAnimater</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyAnimater</Filter>
     </ClInclude>
     <ClInclude Include="EnemyState.hpp">
-      <Filter>GameObject\Character\Enemy\EnemyAnimater</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyAnimater</Filter>
     </ClInclude>
     <ClInclude Include="Chase.hpp">
-      <Filter>GameObject\Character\Enemy\Chase</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\Chase</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.hpp">
-      <Filter>Tool</Filter>
+      <Filter>GameCode\Tool</Filter>
     </ClInclude>
     <ClInclude Include="BulletFire.hpp">
-      <Filter>Bullet</Filter>
+      <Filter>GameCode\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Dodge.hpp">
-      <Filter>GameObject\Character\Enemy\Dodge</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\Dodge</Filter>
     </ClInclude>
     <ClInclude Include="PlayerMove.hpp">
-      <Filter>GameObject\Character\Player\Move</Filter>
+      <Filter>GameCode\GameObject\Character\Player\Move</Filter>
     </ClInclude>
     <ClInclude Include="SpecialAttack.hpp">
-      <Filter>GameObject\Character\Enemy\SpecialAttack</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\SpecialAttack</Filter>
     </ClInclude>
     <ClInclude Include="EnemyMove.hpp">
-      <Filter>GameObject\Character\Enemy\Move</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\Move</Filter>
     </ClInclude>
     <ClInclude Include="Collision.hpp">
-      <Filter>Collision</Filter>
+      <Filter>GameCode\Collision</Filter>
     </ClInclude>
     <ClInclude Include="CollisionSystem.hpp">
-      <Filter>Collision</Filter>
+      <Filter>GameCode\Collision</Filter>
     </ClInclude>
     <ClInclude Include="UiManager.hpp">
-      <Filter>UI</Filter>
+      <Filter>GameCode\UI</Filter>
     </ClInclude>
     <ClInclude Include="UiEnemyHpBar.hpp">
-      <Filter>UI\HpBar</Filter>
+      <Filter>GameCode\UI\HpBar</Filter>
     </ClInclude>
     <ClInclude Include="UiHpBar.hpp">
-      <Filter>UI\HpBar</Filter>
+      <Filter>GameCode\UI\HpBar</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.hpp">
+      <Filter>GameCode\UI\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.hpp">
+      <Filter>GameCode\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectCreator.hpp">
+      <Filter>GameCode\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="DarkFilm.hpp">
+      <Filter>GameCode\UI\DarkFilm</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>GameCode\Scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.hpp">
+      <Filter>GameCode\Scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="UiDashBar.hpp">
+      <Filter>GameCode\UI\DashBar</Filter>
+    </ClInclude>
+    <ClInclude Include="Reticle.hpp">
+      <Filter>GameCode\UI\reticle</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.hpp">
+      <Filter>GameCode\UI\TEXT</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.hpp">
+      <Filter>GameCode\Scene\GameOverScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedData.hpp">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="TakeDamageUi.hpp">
+      <Filter>GameCode\UI\TakeDamage</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClearScene.hpp">
+      <Filter>GameCode\Scene\GameClearScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraph.hpp">
+      <Filter>GameCode\UI\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Tutorial.hpp">
+      <Filter>GameCode\Scene\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Blackboard.hpp">
+      <Filter>GameCode\BlackBoard</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviorTree.hpp">
+      <Filter>GameCode\BehaviorTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Main</Filter>
+      <Filter>GameCode\Main</Filter>
     </ClCompile>
     <ClCompile Include="AnimaterBase.cpp">
-      <Filter>Animater</Filter>
+      <Filter>GameCode\Animater</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>GameObject\Character\Player</Filter>
+      <Filter>GameCode\GameObject\Character\Player</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
-      <Filter>Bullet</Filter>
+      <Filter>GameCode\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="BulletCreator.cpp">
-      <Filter>Bullet</Filter>
+      <Filter>GameCode\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Color.cpp">
-      <Filter>Tool</Filter>
+      <Filter>GameCode\Tool</Filter>
     </ClCompile>
     <ClCompile Include="Shadow.cpp">
-      <Filter>Environment\Shadow</Filter>
+      <Filter>GameCode\Environment\Shadow</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>Inpput</Filter>
+      <Filter>GameCode\Inpput</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>GameCode\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
-      <Filter>Environment\Stage</Filter>
+      <Filter>GameCode\Environment\Stage</Filter>
     </ClCompile>
-    <ClCompile Include="SharedData.cpp" />
     <ClCompile Include="GameScene.cpp">
-      <Filter>Scene\GameScene</Filter>
+      <Filter>GameCode\Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAnimater.cpp">
-      <Filter>GameObject\Character\Player\Animater</Filter>
+      <Filter>GameCode\GameObject\Character\Player\Animater</Filter>
     </ClCompile>
     <ClCompile Include="Skydome.cpp">
-      <Filter>Environment\SkyDome</Filter>
+      <Filter>GameCode\Environment\SkyDome</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
-      <Filter>Scene\TitleScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Effect</Filter>
+      <Filter>GameCode\Scene\TitleScene</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>GameObject\Character\Enemy</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAnimater.cpp">
-      <Filter>GameObject\Character\Enemy\EnemyAnimater</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyAnimater</Filter>
     </ClCompile>
     <ClCompile Include="Chase.cpp">
-      <Filter>GameObject\Character\Enemy\Chase</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\Chase</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Tool</Filter>
+      <Filter>GameCode\Tool</Filter>
     </ClCompile>
     <ClCompile Include="BulletFire.cpp">
-      <Filter>Bullet</Filter>
+      <Filter>GameCode\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Dodge.cpp">
-      <Filter>GameObject\Character\Enemy\Dodge</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\Dodge</Filter>
     </ClCompile>
     <ClCompile Include="PlayerMove.cpp">
-      <Filter>GameObject\Character\Player\Move</Filter>
+      <Filter>GameCode\GameObject\Character\Player\Move</Filter>
     </ClCompile>
     <ClCompile Include="SpecialAttack.cpp">
-      <Filter>GameObject\Character\Enemy\SpecialAttack</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\SpecialAttack</Filter>
     </ClCompile>
     <ClCompile Include="EnemyMove.cpp">
-      <Filter>GameObject\Character\Enemy\Move</Filter>
+      <Filter>GameCode\GameObject\Character\Enemy\Move</Filter>
     </ClCompile>
     <ClCompile Include="Collision.cpp">
-      <Filter>Collision</Filter>
+      <Filter>GameCode\Collision</Filter>
     </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
-      <Filter>Collision</Filter>
+      <Filter>GameCode\Collision</Filter>
     </ClCompile>
     <ClCompile Include="CharacterBase.cpp">
-      <Filter>GameObject\Character</Filter>
+      <Filter>GameCode\GameObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="UiManager.cpp">
-      <Filter>UI</Filter>
+      <Filter>GameCode\UI</Filter>
     </ClCompile>
     <ClCompile Include="UiEnemyHpBar.cpp">
-      <Filter>UI\HpBar</Filter>
+      <Filter>GameCode\UI\HpBar</Filter>
     </ClCompile>
     <ClCompile Include="UiHpBar.cpp">
-      <Filter>UI\HpBar</Filter>
+      <Filter>GameCode\UI\HpBar</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>GameCode\UI\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="DarkFilm.cpp">
+      <Filter>GameCode\UI\DarkFilm</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>GameCode\Scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>GameCode\Scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectCreator.cpp">
+      <Filter>GameCode\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="UiDashBar.cpp">
+      <Filter>GameCode\UI\DashBar</Filter>
+    </ClCompile>
+    <ClCompile Include="Reticle.cpp">
+      <Filter>GameCode\UI\reticle</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>GameCode\UI\TEXT</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>GameCode\Scene\GameOverScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedData.cpp">
+      <Filter>GameCode</Filter>
+    </ClCompile>
+    <ClCompile Include="TakeDamageUi.cpp">
+      <Filter>GameCode\UI\TakeDamage</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClearScene.cpp">
+      <Filter>GameCode\Scene\GameClearScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneGraph.cpp">
+      <Filter>GameCode\UI\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Tutorial.cpp">
+      <Filter>GameCode\Scene\Tutorial</Filter>
+    </ClCompile>
+    <ClCompile Include="Blackboard.cpp">
+      <Filter>GameCode\BlackBoard</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviorTree.cpp">
+      <Filter>GameCode\BehaviorTree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

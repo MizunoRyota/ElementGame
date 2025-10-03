@@ -15,152 +15,115 @@ PlayerMove::~PlayerMove()
 
 void PlayerMove::Update( std::shared_ptr<Input>& input,  std::shared_ptr<Camera>& camera)
 {
-	// パッド入力によって移動パラメータを設定する
-	VECTOR	upMoveVec;		// 方向ボタン「↑」を入力をしたときのプレイヤーの移動方向ベクトル
-	VECTOR	leftMoveVec;	// 方向ボタン「←」を入力をしたときのプレイヤーの移動方向ベクトル
+	VECTOR	upMoveVec;      
+	VECTOR	leftMoveVec;    
 	moveVec = VGet(0, 0, 0);
-	UpdateMoveParameterWithPad(input, camera, upMoveVec, leftMoveVec, moveVec);	//プレイヤー座標更新処理
-
-	MoveAngle(camera->GetCameraDir()); //プレイヤーが進む方向にモデルを回転
-
-	// 移動ベクトルを元にコリジョンを考慮しつつプレイヤーを移動
+	UpdateMoveParameterWithPad(input, camera, upMoveVec, leftMoveVec, moveVec); 
+	DecreaseDashEnergy();
+	MoveAngle(camera->GetCameraDir()); 
 	Move(moveVec);
-
 }
 
 void PlayerMove::UpdateMoveParameterWithPad( std::shared_ptr<Input>& input,  std::shared_ptr<Camera>& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec)
 {
-
-	// プレイヤーの移動方向のベクトルを算出
-	// 方向ボタン「↑」を押したときのプレイヤーの移動ベクトルはカメラの視線方向からＹ成分を抜いたもの
-	upMoveVec = VSub(camera->GetTarget(), camera->GetPosition());
+	upMoveVec = VSub(camera->GetCameraTarget(), camera->GetPosition());
 	upMoveVec.y = 0.0f;
-
-	// 方向ボタン「←」を押したときのプレイヤーの移動ベクトルは上を押したときの方向ベクトルとＹ軸のプラス方向のベクトルに垂直な方向
 	leftMoveVec = VCross(upMoveVec, VGet(0.0f, 1.0f, 0.0f));
-
-	// 二つのベクトルを正規化( ベクトルの長さを１．０にすること )
 	upMoveVec = VNorm(upMoveVec);
 	leftMoveVec = VNorm(leftMoveVec);
-
-	// このフレームでの移動ベクトルを初期化
 	moveVec = VGet(0.0f, 0.0f, 0.0f);
 
-	// 移動したかどうかのフラグを初期状態では「移動していない」を表すFALSEにする
 	bool isPressMoveButton = false;
 
-	// パッドの３ボタンと左シフトがどちらも押されていなかったらプレイヤーの移動処理
-	if (CheckHitKey(KEY_INPUT_LSHIFT) == 0)
+	// クールタイム中またはエネルギー枯渇時はダッシュ入力を無効化
+	bool dashKey = (CheckHitKey(KEY_INPUT_LSHIFT) != 0);
+	if (dash_cooldown > 0 || dash_energy <= 0)
 	{
-		// 方向ボタン「←」が入力されたらカメラの見ている方向から見て左方向に移動する
-		if (input->GetNowFrameInput() & PAD_INPUT_LEFT || (CheckHitKey(KEY_INPUT_A) != 0))
-		{
-			// 移動ベクトルに「←」が入力された時の移動ベクトルを加算する
-			moveVec = VAdd(moveVec, leftMoveVec);
-
-			// 移動したかどうかのフラグを「移動した」にする
-			isPressMoveButton = true;
-		}
-		else
-			// 方向ボタン「→」が入力されたらカメラの見ている方向から見て右方向に移動する
-			if (input->GetNowFrameInput() & PAD_INPUT_RIGHT || (CheckHitKey(KEY_INPUT_D) != 0))
-			{
-				// 移動ベクトルに「←」が入力された時の移動ベクトルを反転したものを加算する
-				moveVec = VAdd(moveVec, VScale(leftMoveVec, -1.0f));
-
-				// 移動したかどうかのフラグを「移動した」にする
-				isPressMoveButton = true;
-			}
-
-		// 方向ボタン「↑」が入力されたらカメラの見ている方向に移動する
-		if (input->GetNowFrameInput() & PAD_INPUT_UP || (CheckHitKey(KEY_INPUT_W) != 0))
-		{
-
-			// 移動ベクトルに「↑」が入力された時の移動ベクトルを加算する
-			moveVec = VAdd(moveVec, upMoveVec);
-
-			// 移動したかどうかのフラグを「移動した」にする
-			isPressMoveButton = true;
-		}
-		else
-			// 方向ボタン「↓」が入力されたらカメラの方向に移動する
-			if (input->GetNowFrameInput() & PAD_INPUT_DOWN || (CheckHitKey(KEY_INPUT_S) != 0))
-			{
-				// 移動ベクトルに「↑」が入力された時の移動ベクトルを反転したものを加算する
-				moveVec = VAdd(moveVec, VScale(upMoveVec, -1.0f));
-
-				// 移動したかどうかのフラグを「移動した」にする
-				isPressMoveButton = true;
-			}
+		move_isdash = false;
 	}
-	// 移動ボタンが押されたかどうかで処理を分岐
+	else
+	{
+		move_isdash = dashKey;
+	}
+
+	if ((input->GetNowFrameInput() & PAD_INPUT_LEFT) || (CheckHitKey(KEY_INPUT_A) != 0))
+	{
+		moveVec = VAdd(moveVec, leftMoveVec);
+		isPressMoveButton = true;
+	}
+	else if ((input->GetNowFrameInput() & PAD_INPUT_RIGHT) || (CheckHitKey(KEY_INPUT_D) != 0))
+	{
+		moveVec = VAdd(moveVec, VScale(leftMoveVec, -1.0f));
+		isPressMoveButton = true;
+	}
+
+	if ((input->GetNowFrameInput() & PAD_INPUT_UP) || (CheckHitKey(KEY_INPUT_W) != 0))
+	{
+		moveVec = VAdd(moveVec, upMoveVec);
+		isPressMoveButton = true;
+	}
+	else if ((input->GetNowFrameInput() & PAD_INPUT_DOWN) || (CheckHitKey(KEY_INPUT_S) != 0))
+	{
+		moveVec = VAdd(moveVec, VScale(upMoveVec, -1.0f));
+		isPressMoveButton = true;
+	}
+
 	if (isPressMoveButton)
 	{
-		// 移動ベクトルを正規化したものをプレイヤーが向くべき方向として保存
 		move_targetdirection = VNorm(moveVec);
+		float speed = MOVE_SPEED * (move_isdash && dash_energy > 0 && dash_cooldown == 0 ? DASH_MULTIPLIER : 1.0f);
+		moveVec = VScale(move_targetdirection, speed);
+	}
+}
 
-		// プレイヤーが向くべき方向ベクトルをプレイヤーのスピード倍したものを移動ベクトルとする
-		moveVec = VScale(move_targetdirection, MOVE_SPEED);
+void PlayerMove::DecreaseDashEnergy()
+{
+	// クールタイム中
+	if (dash_cooldown > 0)
+	{
+		--dash_cooldown; // クールタイム経過
+		return; // クール中は回復も消費もしない
+	}
+
+	if (move_isdash && dash_energy > 0)
+	{
+		--dash_energy;
+		if (dash_energy <= 0)
+		{
+			dash_energy = 0;
+			dash_cooldown = DASH_COOLDOWN_FRAMES; // 枯渇でクールタイム開始
+			move_isdash = false;
+		}
+	}
+	else
+	{
+		// 通常回復（クールタイムが終わっている時）
+		if (dash_energy < DASH_MAXENERGY)
+		{
+			++dash_energy;
+		}
 	}
 }
 
 void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 {
-	// プレイヤーの移動方向にモデルの方向を近づける
-	float targetAngle;			// 目標角度
-	float difference;			// 目標角度と現在の角度との差
-
-	// 目標の方向ベクトルから角度値を算出する
-	targetAngle = static_cast<float>(atan2(targetPosition.x, targetPosition.z));
-
-	// 目標の角度と現在の角度との差を割り出す
-	// 最初は単純に引き算
-	difference = targetAngle - move_angle;
-
-	// ある方向からある方向の差が１８０度以上になることは無いので
-	// 差の値が１８０度以上になっていたら修正する
-	if (difference < -DX_PI_F)
-	{
-		difference += DX_TWO_PI_F;
-	}
-	else if (difference > DX_PI_F)
-	{
-		difference -= DX_TWO_PI_F;
-	}
-
-	// 角度の差が０に近づける
+	float targetAngle = static_cast<float>(atan2(targetPosition.x, targetPosition.z));
+	float difference = targetAngle - move_angle;
+	if (difference < -DX_PI_F) difference += DX_TWO_PI_F; else if (difference > DX_PI_F) difference -= DX_TWO_PI_F;
 	if (difference > 0.0f)
 	{
-		// 差がプラスの場合は引く
 		difference -= ANGLE_SPEED;
-		if (difference < 0.0f)
-		{
-			difference = 0.0f;
-		}
+		if (difference < 0.0f) difference = 0.0f;
 	}
 	else
 	{
-		// 差がマイナスの場合は足す
 		difference += ANGLE_SPEED;
-		if (difference > 0.0f)
-		{
-			difference = 0.0f;
-		}
+		if (difference > 0.0f) difference = 0.0f;
 	}
-
-	// モデルの角度を更新
 	move_angle = targetAngle - difference;
 }
 
 void PlayerMove::Move(const VECTOR& MoveVector)
 {
-	// x軸かy軸方向に 0.01f 以上移動した場合は「移動した」フラグを１にする
-	if (fabs(MoveVector.x) > 0.01f || fabs(MoveVector.z) > 0.01f)
-	{
-		move_ismove = true;
-	}
-	else
-	{
-		move_ismove = false;
-	}
+	move_ismove = (fabs(MoveVector.x) > 0.01f || fabs(MoveVector.z) > 0.01f);
 }

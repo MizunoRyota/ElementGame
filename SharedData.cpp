@@ -1,16 +1,24 @@
 #include "stdafx.hpp"
 #include "SharedData.hpp"
+#include "EffectCreator.hpp"
 #include "Shadow.hpp"
 #include "Input.hpp"
 #include "Camera.hpp"
 #include "Player.hpp"
-#include "Effect.hpp"
 #include "Stage.hpp"
 #include "Skydome.hpp"
 #include "Enemy.hpp"
 #include "UiManager.hpp"
 #include "UiHpBar.hpp"
 #include "UiEnemyHpBar.hpp"
+#include "GameTimer.hpp"
+#include "DarkFilm.hpp"
+#include "reticle.hpp"
+#include "UiDashBar.hpp"
+#include "Text.hpp"
+#include "TakeDamageUi.hpp"
+#include "BulletCreator.hpp"
+#include "SceneGraph.hpp"
 
 SharedData::SharedData()
 {
@@ -23,62 +31,202 @@ SharedData::SharedData()
     enemy = std::make_shared<Enemy>();
     ui = std::make_shared<UiManager>();
     camera->SetPlayer(player);
+    camera->SetEnemy(enemy);
+
     enemy->SetPlayer(player);
     player->SetEnemy(enemy);
     player->SetCamera(camera);
     player->SetInput(input);
 
     // UI要素登録 (プレイヤーHP / 敵HP)
-    ui->AddElement(std::make_shared<UiHpBar>(player));
-    ui->AddElement(std::make_shared<UiEnemyHpBar>(enemy));
+    ui->AddElement(std::make_shared<DarkFilm>(enemy));      // 暗転を追加
+    ui->AddElement(std::make_shared<UiHpBar>(player));      // プレイヤーのHPバー
+    ui->AddElement(std::make_shared<UiEnemyHpBar>(enemy));  // エネミーのHPバー
+    ui->AddElement(std::make_shared<GameTimer>());          // ゲームタイマー追加
+    ui->AddElement(std::make_shared<UiDashBar>(player));    // ゲームタイマー追加
+    ui->AddElement(std::make_shared<TakeDamageUi>(player));    // ゲームタイマー追加
+    ui->AddElement(std::make_shared<Reticle>());            // レティクル
+    ui->AddElement(std::make_shared<Text>());
+    ui->AddElement(std::make_shared<SceneGraph>());
 
-    AddList(skydome);
-    AddList(stage);
-    AddList(shadow);
-    AddList(input);
-    AddList(player);
-    AddList(enemy);
-    AddList(camera);
+
+    AddGameClearList(camera);
+    AddTitleList(stage);
+    AddTitleList(skydome);
+    AddTitleList(enemy);
+
+    AddGameClearList(camera);
+    AddGameOverList(stage);
+    AddGameOverList(skydome);
+    AddGameOverList(enemy);
+
+    AddGameClearList(camera);
+    AddGameClearList(stage);
+    AddGameClearList(skydome);
+    AddGameClearList(enemy);
+
+    //ゲームオブジェクト登録
+    AddGameList(skydome);
+    AddGameList(stage);
+    AddGameList(shadow);
+    AddGameList(input);
+    AddGameList(player);
+    AddGameList(enemy);
+    AddGameList(camera);
+
+    //影を写すオブジェクト登録
+    AddShadowReady(stage);
+    AddShadowReady(player);
+    AddShadowReady(enemy);
+
 }
 
 SharedData::~SharedData()
 {
 }
 
-void SharedData::AddList(std::shared_ptr<GameObject> obj)
+void SharedData::AddTitleList(std::shared_ptr<GameObject> obj)
 {
-    objects.push_back(obj);
+    objects_title.push_back(obj);
+}
+
+void SharedData::AddGameList(std::shared_ptr<GameObject> obj)
+{
+    objects_game.push_back(obj);
+}
+
+void SharedData::AddGameClearList(std::shared_ptr<GameObject> obj)
+{
+    objects_gameclear.push_back(obj);
+}
+
+void SharedData::AddGameOverList(std::shared_ptr<GameObject> obj)
+{
+    objects_gameover.push_back(obj);
+
+}
+void SharedData::AddShadowReady(std::shared_ptr<GameObject> obj)
+{
+    objects_shadow_ready.push_back(obj);
 }
 
 void SharedData::InitializeAll()
 {
-    for (auto object : objects)
+    for (auto object : objects_game)
     {
         object->Initialize();
     }
+    BulletCreator::GetBulletCreator().Initialize();
+    EffectCreator::GetEffectCreator().Initialize();
 }
 
-void SharedData::UpdateAll()
+void SharedData::UpdateTitle()
 {
-    for (auto object : objects)
+    for (auto object : objects_game)
+    {
+        object->UpdateTitle();
+    }
+    if (ui) ui->UpdateTitle();
+}
+
+void SharedData::UpdateTutorial()
+{
+    for (auto object : objects_game)
+    {
+        object->UpdateTitle();
+    }
+    if (ui) ui->UpdateTutorial();
+}
+
+void SharedData::UpdateGame()
+{
+    for (auto object : objects_game)
     {
         object->Update();
     }
-    if (ui) ui->Update(1.0f / 60.0f);
+    if (ui) ui->Update();
+}
+
+void SharedData::UpdateGameClear()
+{
+    for (auto object : objects_game)
+    {
+        object->UpdateGameClear();
+    }
+    if (ui) ui->UpdateGameClear();
+}
+
+void SharedData::UpdateGameOver()
+{
+    for (auto object : objects_game)
+    {
+        object->UpdateGameOver();
+    }
+    if (ui) ui->UpdateGameOver();
+}
+
+void SharedData::DrawShadowReady()
+{
+    for (auto object : objects_shadow_ready)
+    {
+        object->Draw();
+    }
+}
+
+void SharedData::DrawTitle()
+{
+    for (auto object : objects_game)
+    {
+        object->Draw();
+    }
+    if (ui) ui->DrawTitle();
+}
+
+void SharedData::DrawTutorial()
+{
+    for (auto object : objects_game)
+    {
+        object->Draw();
+    }
+    if (ui) ui->DrawTutorial();
 }
 
 void SharedData::DrawAll()
 {
-    for (auto object : objects)
+    for (auto object : objects_game)
     {
         object->Draw();
     }
     if (ui) ui->Draw();
+    // 置き換え: 直接DrawEffekseer3D()ではなく、マネージャ描画
+    EffectCreator::GetEffectCreator().Draw();
+}
+
+void SharedData::DrawGameClear()
+{
+    for (auto object : objects_game)
+    {
+        object->Draw();
+    }
+    if (ui) ui->DrawGameClear();
+    // 置き換え: 直接DrawEffekseer3D()ではなく、マネージャ描画
+    EffectCreator::GetEffectCreator().Draw();
+}
+
+void SharedData::DrawGameOver()
+{
+    for (auto object : objects_gameover)
+    {
+        object->DrawGameOver();
+    }
+    // 置き換え: 直接DrawEffekseer3D()ではなく、マネージャ描画
+    EffectCreator::GetEffectCreator().Draw();
+    if (ui) ui->DrawGameOver();
 }
 
 std::shared_ptr<GameObject> SharedData::FindObject(std::string_view obj_name)
 {
-    for (auto object : objects)
+    for (auto object : objects_game)
     {
         if (object->GetNameTag() == obj_name)
         {

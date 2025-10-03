@@ -1,28 +1,34 @@
 #pragma once
 #include "UiManager.hpp"
-#include <memory>
 
 class Player;
 
-// プレイヤーHPバー UI 要素
+// プレイヤー HP バー UI 要素
 class UiHpBar : public IUiElement
 {
 public:
-    explicit UiHpBar(const std::shared_ptr<Player>& player);
-    void Update(float dt) override;
-    void Draw() const override;
-
-    void SetPosition(int x, int y) { baseX_ = x; baseY_ = y; }
-    void SetSize(int w, int h) { width_ = w; height_ = h; }
+    explicit UiHpBar(const std::shared_ptr<Player>& player); // プレイヤー参照で初期化
+    void UpdateTitle() override {};
+    void Update() override;      // 値更新
+    void UpdateGameClear()override {};
+    void UpdateGameOver()override {};
+    void Draw() const override; // 描画
+    void DrawTitle() const override {};  // 描画
+    void DrawTutorial() const override {};
+    void DrawGameOver() const override {};  // 描画
+    void DrawGameClear() const override {};  // 描画
+    void SetPosition(int x, int y) { hpbar_x = x; hpbar_y = y; } // 位置変更
+    void SetSize(int w, int h) { hpbar_width = w; hpbar_height = h; } // サイズ変更
 
 private:
-    std::weak_ptr<Player> player_;
-    int maxHp_ = 0;
-    int displayHp_ = 0;         // 遅延表示用
-    static constexpr float catchUpSpeed_ = 120.0f; // 1秒で120減少追従
+    std::weak_ptr<Player> player_; // HP 取得用参照
+    int hpbar_maxhp = 0;           // 最大 HP(動的調整可)
+    int hpbar_display = 0;         // 遅延表示用 HP
+    static constexpr float DELAY_SPEED = 120.0f; // 1 秒あたり減衰速度(60fps 前提)
 
-    int baseX_ = 50;
-    int baseY_ = 50;
-    int width_ = 600;   // 以前:400 -> 拡大
-    int height_ = 40;   // 以前:30  -> 拡大
+    // レイアウト
+    int hpbar_x = 50;
+    int hpbar_y = 50;
+    int hpbar_width = 750;  // バー幅
+    int hpbar_height = 50;  // バー高さ
 };

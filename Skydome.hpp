@@ -10,6 +10,16 @@ public:
 
 	void Update()override;		//更新
 	void Draw()override;		//描画
+
+	// シーン別描画 (特別処理なし)
+	void DrawTitle() override { Draw(); }
+	void DrawGameOver() override { Draw(); }
+	void DrawGameClear() override { Draw(); }
+
+	// シーン別更新 (空実装)
+	void UpdateGameClear() override {};
+	void UpdateGameOver() override {};
+	void UpdateTitle() override {};
 private:
 	// 静的定数.
 	static constexpr float SCALE = 0.20f;			// 大きさ

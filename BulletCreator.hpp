@@ -2,6 +2,7 @@
 
 class Bullet;
 
+// 弾インスタンスをプール管理し生成/更新するシングルトン
 class BulletCreator
 {
 private:
@@ -10,18 +11,19 @@ private:
 	~BulletCreator();
 
 public:
-	void CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed);
+	void CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed, int effectTypeIndex); // 通常弾生成
 	// 追加: ホーミング弾生成
 	void CreateHomingBullet(const VECTOR& pos,
 		const VECTOR& dir,
 		float speed,
 		std::function<VECTOR()> targetGetter,
 		float homingTime,
-		float turnSpeedRad);
+		float turnSpeedRad,
+		int effectTypeIndex);
 
-	void Initialize();
-	void Update();
-	void Draw();
+	void Initialize(); // プール初期化
+	void Update();     // 全弾更新
+	void Draw();       // デバッグ描画
 
 	std::shared_ptr<Bullet> GetBullet(int index) const { return bullets[index]; }
 	int GetBulletCount() const { return static_cast<int>(bullets.size()); }
@@ -33,10 +35,8 @@ public:
 	}
 
 private:
-	static const int BULLET_NUM = 400;
-	static constexpr float BULLET_COOLDOWN_TIME = 20;
-
-	float bullet_cooldowntimer = 0;
-
-	std::vector<std::shared_ptr<Bullet>> bullets;
+	static const int BULLET_NUM = 400;            // プール最大数
+	static constexpr float BULLET_COOLDOWN_TIME = 20; // 生成クール（未使用 or 予約）
+	float bullet_cooldowntimer = 0;               // クール残
+	std::vector<std::shared_ptr<Bullet>> bullets; // 弾配列
 };

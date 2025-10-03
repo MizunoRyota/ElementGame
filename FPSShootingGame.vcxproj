@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
       <AdditionalIncludeDirectories>Dxlib.h;EffekseerForDXLib.h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -138,6 +138,8 @@
   <ItemGroup>
     <ClInclude Include="AnimaterBase.hpp" />
     <ClInclude Include="AnimationData.hpp" />
+    <ClInclude Include="BehaviorTree.hpp" />
+    <ClInclude Include="Blackboard.hpp" />
     <ClInclude Include="Bullet.hpp" />
     <ClInclude Include="BulletCreator.hpp" />
     <ClInclude Include="BulletFire.hpp" />
@@ -148,12 +150,16 @@
     <ClInclude Include="CollisionSystem.hpp" />
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="Dodge.hpp" />
-    <ClInclude Include="Effect.hpp" />
+    <ClInclude Include="DarkFilm.hpp" />
+    <ClInclude Include="EffectCreator.hpp" />
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="EnemyAnimater.hpp" />
     <ClInclude Include="EnemyMove.hpp" />
     <ClInclude Include="EnemyState.hpp" />
+    <ClInclude Include="GameClearScene.hpp" />
     <ClInclude Include="GameObject.hpp" />
+    <ClInclude Include="GameOverScene.hpp" />
+    <ClInclude Include="GameTimer.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Pallet.hpp" />
@@ -161,7 +167,9 @@
     <ClInclude Include="PlayerAnimater.hpp" />
     <ClInclude Include="PlayerMove.hpp" />
     <ClInclude Include="PlayerState.hpp" />
+    <ClInclude Include="Reticle.hpp" />
     <ClInclude Include="Scene.hpp" />
+    <ClInclude Include="SceneGraph.hpp" />
     <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="Shadow.hpp" />
     <ClInclude Include="SharedData.hpp" />
@@ -170,14 +178,20 @@
     <ClInclude Include="SpecialAttack.hpp" />
     <ClInclude Include="Stage.hpp" />
     <ClInclude Include="stdafx.hpp" />
+    <ClInclude Include="TakeDamageUi.hpp" />
+    <ClInclude Include="Text.hpp" />
     <ClInclude Include="TitleScene.hpp" />
+    <ClInclude Include="Tutorial.hpp" />
+    <ClInclude Include="UiDashBar.hpp" />
     <ClInclude Include="UiEnemyHpBar.hpp" />
     <ClInclude Include="UiHpBar.hpp" />
     <ClInclude Include="UiManager.hpp" />
-    <ClInclude Include="Window.hpp" />
+    <ClInclude Include="Screen.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimaterBase.cpp" />
+    <ClCompile Include="BehaviorTree.cpp" />
+    <ClCompile Include="Blackboard.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletCreator.cpp" />
     <ClCompile Include="BulletFire.cpp" />
@@ -188,16 +202,22 @@
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Dodge.cpp" />
-    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="DarkFilm.cpp" />
+    <ClCompile Include="EffectCreator.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimater.cpp" />
     <ClCompile Include="EnemyMove.cpp" />
+    <ClCompile Include="GameClearScene.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimater.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
+    <ClCompile Include="Reticle.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneGraph.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="SharedData.cpp" />
@@ -209,7 +229,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TakeDamageUi.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="Tutorial.cpp" />
+    <ClCompile Include="UiDashBar.cpp" />
     <ClCompile Include="UiEnemyHpBar.cpp" />
     <ClCompile Include="UiHpBar.cpp" />
     <ClCompile Include="UiManager.cpp" />

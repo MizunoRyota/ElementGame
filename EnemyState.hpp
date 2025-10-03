@@ -1,6 +1,6 @@
 #pragma once
 //アニメーションを変更するときはanimation_dataの中身を変更することをわすれないで！！！
-enum EnemyState
+enum EnemyState : int
 {
 	STATE_ONDAMAGE,
 	STATE_WALKBACK,
@@ -11,9 +11,9 @@ enum EnemyState
 	STATE_RUNLEFT,
 	STATE_CHARGE,
 	STATE_RUNRIGHT,
-	STATE_WINDATTACK,
-	STATE_WATERATTACK,
 	STATE_FIREATTACK,
+	STATE_WATERATTACK,
+	STATE_WINDATTACK,
 	STATE_JUMPATTACK,
 	STATE_IDLE,
 	STATE_CHASE,
