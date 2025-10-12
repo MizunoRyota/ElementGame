@@ -75,7 +75,6 @@ SharedData::SharedData()
     AddGameList(camera);
 
     //影を写すオブジェクト登録
-    AddShadowReady(stage);
     AddShadowReady(player);
     AddShadowReady(enemy);
 
@@ -112,12 +111,12 @@ void SharedData::AddShadowReady(std::shared_ptr<GameObject> obj)
 
 void SharedData::InitializeAll()
 {
+    EffectCreator::GetEffectCreator().Initialize();
     for (auto object : objects_game)
     {
         object->Initialize();
     }
     BulletCreator::GetBulletCreator().Initialize();
-    EffectCreator::GetEffectCreator().Initialize();
 }
 
 void SharedData::UpdateTitle()
@@ -145,6 +144,8 @@ void SharedData::UpdateGame()
         object->Update();
     }
     if (ui) ui->Update();
+    EffectCreator::GetEffectCreator().Update();
+
 }
 
 void SharedData::UpdateGameClear()

@@ -3,31 +3,36 @@
 
 void EffectCreator::Initialize()
 {
+
 	if (effect_initialized) return; // 多重初期化防止
 	effect_initialized = true;
+
 	Effekseer_Sync3DSetting(); // カメラ同期
 
 	// 各エフェクト読み込み（失敗すると -1 が残る）
 	effect_handles[(int)EffectType::BulletStraight] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/fire.efkefc", 0.3f);
 	effect_handles[(int)EffectType::BulletDiffusion] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/water.efkefc", 0.3f);
 	effect_handles[(int)EffectType::BulletHoming] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/wind.efkefc", 0.2f);
-	effect_handles[(int)EffectType::BulletSpecial] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/SpecialAttack.efkefc", 0.50f);
+	effect_handles[(int)EffectType::BulletSpecial] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/SpecialAttack.efkefc", 0.40f);
 	effect_handles[(int)EffectType::BulletHit] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Hit.efkefc", 0.15f);
 	effect_handles[(int)EffectType::FireGround] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/FireGround.efkefc", 4.5f);
 	effect_handles[(int)EffectType::EnemyDeath] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/BossDeath.efkefc", 1.0f);
 	effect_handles[(int)EffectType::EnemyCharge] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Charge.efkefc", 3.5f);
-	effect_handles[(int)EffectType::MagicCircle] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/MagicCircle.efkefc", 3.5f);
+	effect_handles[(int)EffectType::Laser] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Laser.efkefc", 0.10f);
 	effect_handles[(int)EffectType::Roar] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Roar.efkefc", 3.5f);
 	effect_handles[(int)EffectType::FireWorks] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/FireWorks.efkefc", 0.5f);
+	effect_handles[(int)EffectType::HandEffect] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/hand_effect.efkefc", 0.04f);
+	effect_handles[(int)EffectType::HandCharge] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/hand_charge.efkefc", 0.04f);
+
 
 }
 
 void EffectCreator::Update()
 {
 	Effekseer_Sync3DSetting(); // カメラ/行列同期
-	UpdateEffekseer3D();       // 再生中全更新
 
-	// ループ再生チェック
+
+	//// ループ再生チェック
 	for (int i = 0; i < EFFECT_NUM; ++i)
 	{
 		if (!loop_enabled[i]) continue;
@@ -55,6 +60,9 @@ void EffectCreator::Update()
 			}
 		}
 	}
+
+	UpdateEffekseer3D();       // 再生中全更新
+
 }
 
 void EffectCreator::Draw()
@@ -86,12 +94,12 @@ void EffectCreator::PlayLoop(EffectType type, const VECTOR& position)
 	// 既に再生中でなければここで開始( Update でも開始されるがラグを無くす )
 	if (loop_playing_handles[index] < 0)
 	{
-		int h = effect_handles[index];
-		if (h >= 0)
+		int play_handle = effect_handles[index];
+		if (play_handle >= 0)
 		{
-			loop_playing_handles[index] = PlayEffekseer3DEffect(h);
+			loop_playing_handles[index] = PlayEffekseer3DEffect(play_handle);
 			if (loop_playing_handles[index] >= 0)
-				SetPosPlayingEffekseer3DEffect(loop_playing_handles[index], position.x, position.y, position.z);
+			SetPosPlayingEffekseer3DEffect(loop_playing_handles[index], position.x, position.y, position.z);
 		}
 	}
 	else
@@ -120,5 +128,18 @@ void EffectCreator::SetLoopPosition(EffectType type, const VECTOR& position)
 	if (loop_playing_handles[index] >= 0)
 	{
 		SetPosPlayingEffekseer3DEffect(loop_playing_handles[index], position.x, position.y, position.z);
+	}
+}
+
+void EffectCreator::SetRotateEffect(EffectType type, const VECTOR& dir)
+{
+	int index = (int)type;
+	if (index < 0 || index >= EFFECT_NUM) return;
+
+	float dirction = VSquareSize(dir);
+
+	if (loop_playing_handles[index] >= 0)
+	{
+		SetRotationPlayingEffekseer3DEffect(loop_playing_handles[index], dir.y, -dir.x, dir.z);
 	}
 }

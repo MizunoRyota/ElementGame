@@ -41,7 +41,7 @@ void TakeDamageUi::Update()
 
 	if (tookDamageThisFrame)
 	{
-		alpha_ = 255.0f;
+		alpha_ = ALPHA_MAX;
 	}
 	else
 	{
@@ -54,7 +54,7 @@ void TakeDamageUi::Draw() const
 {
 	if (alpha_ <= 0.0f) return; // Š®‘S‚É“§–¾‚È‚ç•`‰æ•s—v
 	int a = static_cast<int>(alpha_);
-	if (a > 255) a = 255; if (a < 0) a = 0;
+	if (a > ALPHA_MAX) a = ALPHA_MAX; if (a < 0) a = 0;
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, a);
 	DrawGraph(0, 0, graph_handle, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);

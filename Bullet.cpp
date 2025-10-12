@@ -100,7 +100,7 @@ void Bullet::StopEffect()
 			ResetPosition();
 		}
 	}
-	else if (bullet_life <= 0)
+	else if (bullet_life <= 0 || bullet_position.y <= 0)
 	{
 		ChangeActiveFalse();
 		ResetPosition();

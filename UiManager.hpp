@@ -17,14 +17,14 @@ public:
     virtual void DrawGameOver() const abstract;  // 描画
     virtual void DrawGameClear() const abstract;  // 描画
 
-    int GetZ() const { return zOrder_; }            // Z ソートキー
-    void SetZ(int z) { zOrder_ = z; dirty_ = true; } // Z 変更
-    bool IsVisible() const { return visible_; }      // 表示切替
-    void SetVisible(bool v) { visible_ = v; }
+    int GetZ() const { return order_z; }            // Z ソートキー
+    void SetZ(int z) { order_z = z; dirty_ = true; } // Z 変更
+    bool IsVisible() const { return uielement_visible; }      // 表示切替
+    void SetVisible(bool v) { uielement_visible = v; }
 protected:
     static constexpr float DISPLAY_ = 1.0f / 60.0f; // 1 フレーム時間(遅延計算用)
-    int  zOrder_ = 0;   // 描画優先度(小さい→背面)
-    bool visible_ = true; // 表示フラグ
+    int  order_z = 0;   // 描画優先度(小さい→背面)
+    bool uielement_visible = true; // 表示フラグ
     bool dirty_ = false;  // ソート再要求
     int graph_handle = 0; //画像ハンドル
 };

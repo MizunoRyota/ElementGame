@@ -69,7 +69,7 @@ void GameTimer::DrawGameClear() const
 
 void GameTimer::Draw() const
 {
-    if (!visible_) return;
+    if (!uielement_visible) return;
 
     DrawGraph(SCREEN_WIDTH / HARF + OFFSET_X_SIXTY, TIMER_GAMETITLE_Y, graph_array[timer_firest], true);
     DrawGraph(SCREEN_WIDTH / HARF + OFFSET_X_THIRTY, TIMER_GAMETITLE_Y, graph_array[timer_second], true);

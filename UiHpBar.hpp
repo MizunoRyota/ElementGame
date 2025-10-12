@@ -21,14 +21,22 @@ public:
     void SetSize(int w, int h) { hpbar_width = w; hpbar_height = h; } // サイズ変更
 
 private:
-    std::weak_ptr<Player> player_; // HP 取得用参照
+    static constexpr float DELAY_SPEED = 10.0f; // 減衰速度
+
+    static constexpr int G_DECREASE_RAITO = 50; // 減衰速度
+    static constexpr int B_DECREASE_RAITO = 180; // 減衰速度
+
+    static constexpr float BAR_FRAME = 2.0f; // 減衰速度
+    static constexpr int BAR_R = 200; // 固定赤系ベース（好みに応じてグラデ調整可）
+
     int hpbar_maxhp = 0;           // 最大 HP(動的調整可)
     int hpbar_display = 0;         // 遅延表示用 HP
-    static constexpr float DELAY_SPEED = 120.0f; // 1 秒あたり減衰速度(60fps 前提)
 
     // レイアウト
     int hpbar_x = 50;
     int hpbar_y = 50;
     int hpbar_width = 750;  // バー幅
     int hpbar_height = 50;  // バー高さ
+
+    std::weak_ptr<Player> player_; // HP 取得用参照
 };

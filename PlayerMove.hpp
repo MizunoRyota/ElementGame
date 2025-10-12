@@ -28,7 +28,8 @@ public:
 
 private:
 	static constexpr float	MOVE_SPEED = 0.075f;     // 移動速度
-	static constexpr float	DASH_MULTIPLIER = 2.0f; // ダッシュ時の倍率
+	static constexpr float	DASH_MULTIPLIER = 3.0f; // ダッシュ時の倍率
+	static constexpr float	DASH_DECREACE_NUM = 0.5f; // ダッシュの最大エネルギー(フレーム数)
 	static constexpr int	DASH_MAXENERGY = 50; // ダッシュの最大エネルギー(フレーム数)
 	static constexpr int	DASH_COOLDOWN_FRAMES = 60; // エネルギー枯渇後のクールタイム(フレーム)
 
@@ -42,7 +43,7 @@ private:
 	
 	float move_angle;                               //プレイヤーが向く方向
 	
-	int dash_energy = DASH_MAXENERGY;               // 現在のダッシュエネルギー
+	float dash_energy = DASH_MAXENERGY;               // 現在のダッシュエネルギー
 	int dash_cooldown = 0;                          // 枯渇後クールタイム(0で未発動)
 };
 

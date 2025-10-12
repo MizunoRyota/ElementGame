@@ -6,7 +6,7 @@
 UiDashBar::UiDashBar(const std::shared_ptr<Player>& player)
     : player_(player)
 {
-    zOrder_ = 1; // HPバーより前面に配置
+    order_z = 1; // HPバーより前面に配置
     graph_handle = LoadGraph("data/Texture/Dash.png");
 }
 

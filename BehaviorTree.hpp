@@ -1,9 +1,17 @@
 #pragma once
 class BehaviorTree
 {
+public:
 	BehaviorTree();
 	~BehaviorTree();
-public:
+
+	enum class Status
+	{
+		Idle,
+		Success,
+		Failure,
+		Running,
+	};
 
 
 

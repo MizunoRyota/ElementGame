@@ -26,9 +26,9 @@ void Stage::Initialize()
 {
 	obj_direction = VGet(0, 0, 0);
 	obj_position = VGet(0, 0, 0);
-	auto& ec = EffectCreator::GetEffectCreator();
 
-	ec.PlayLoop(EffectCreator::EffectType::FireGround, obj_position);  // ループ(firld)
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::FireGround, obj_position); // ループ(花火)
+
 }
 
 /// <summary>
@@ -36,6 +36,7 @@ void Stage::Initialize()
 /// </summary>
 void Stage::Update()
 {
+
 	//EffectCreator::GetEffectCreator().UpdateEffect(EffectCreator::EffectType::FireGround, VAdd(obj_position,VGet(0,-0.5f,0)));
 	// 位置が変わる可能性があるなら追従（静止なら不要）
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::FireGround, VAdd(obj_position, VGet(0, -0.1f, 0)));

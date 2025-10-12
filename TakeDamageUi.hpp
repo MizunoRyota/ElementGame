@@ -17,6 +17,7 @@ public:
 	void DrawGameClear() const override {};  // •`‰æ
 	void DrawGameOver() const override {};  // •`‰æ
 private:
+	static constexpr int ALPHA_MAX = 255;
 	int text_graph;
 	float alpha_ = 0.0f;               // 0.0~255.0 g—p
 	float fade_in_speed_ = 25.0f;      // ”í’eã¸‘¬“x

@@ -28,11 +28,13 @@ public:
 	 void Update()override;         // フレーム更新
 	 void Move();                   // 位置更新
 	 void Draw()override;           // 描画
-	 void UpdateStateAction()override; // 入力に応じたステート更新＆攻撃処理
 
+	 void UpdateStateAction()override; // 入力に応じたステート更新＆攻撃処理
 	 void UpdateGameClear() override {};
 	 void UpdateGameOver() override {};
 	 void UpdateTitle() override {};
+
+	 void UpdateHandEffect();
 
 	 void SetInput(const std::shared_ptr<Input>& setinput) { input_reference = setinput; }  // 入力参照設定
 	 void SetCamera(const std::shared_ptr<Camera>& setcamera) { camera_reference = setcamera; } // カメラ参照設定

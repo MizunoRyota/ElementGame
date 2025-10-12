@@ -27,6 +27,16 @@ Player::Player()
 
 	player_state = STATE_HANDIDLE; // 初期ステート
 
+
+	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
+
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandEffect, character_handposition); // ループ(花火)
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandCharge, character_handposition); // ループ(花火)
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition); // ループ(花火)
+
+
+
+
 	// 被弾後クール(30f)設定
 	ConfigureDamageCooldown(30);
 }
@@ -53,13 +63,20 @@ void Player::Initialize()
 void Player::Update()
 {
 
+	if ((CheckHitKey(KEY_INPUT_K) != 0))
+	{
+		obj_hp = 0;
+	}
+
 	player_bullet->FireUpdate(); // 弾クール更新
 
 	player_move->Update(input_reference, camera_reference); // 入力→移動量計算
 
+	Move(); // 位置反映
+
 	UpdateStateAction(); // 攻撃入力/ステート決定
 
-	Move(); // 位置反映
+	UpdateHandEffect();
 
 	player_animater->Update(); // アニメーション更新
 
@@ -67,26 +84,36 @@ void Player::Update()
 	TickDamageCooldown(); // 無敵タイマー
 }
 
+void Player::UpdateHandEffect()
+{
+	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandEffect, character_handposition);
+	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandCharge, character_handposition);
+	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Laser, character_handposition);
+	EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::Laser, camera_reference->GetCameraDir());
+
+
+}
+
 /// <summary>
 /// 
 /// </summary>
 void Player::UpdateStateAction()
 {
+
+	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
+
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 	{
 		player_state = STATE_ATTACK; // 攻撃ステート
 
-		character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
-
-		character_handposition = VAdd(character_handposition, VScale(camera_reference->GetCameraDir(), BULLETFIRE_DISTANCE)); // カメラ方向前方へオフセット
-
-		player_bullet->FireStraight(character_handposition, camera_reference->GetCameraDir(), BULLET_SPEED); // 発射
+		player_bullet->FireStraight(VAdd(character_handposition, VScale(camera_reference->GetCameraDir(), BULLETFIRE_DISTANCE)), camera_reference->GetCameraDir(), BULLET_SPEED); // 発射
 
 	}
 	else
 	{
 		player_state = STATE_HANDIDLE; // 待機
 	}
+
 }
 
 /// <summary>
@@ -96,6 +123,7 @@ void Player::Move()
 {
 	// 入力で得た移動量反映
 	obj_position = VAdd(obj_position, player_move->GetMoveScale());
+	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
 
 	CheckMoveRange(); // 範囲外補正
 	// 当たり判定をして、新しい座標を保存する

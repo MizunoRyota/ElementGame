@@ -162,6 +162,7 @@
     <ClInclude Include="GameTimer.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="NodeBase.hpp" />
     <ClInclude Include="Pallet.hpp" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayerAnimater.hpp" />
@@ -212,6 +213,7 @@
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NodeBase.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimater.cpp" />
     <ClCompile Include="PlayerMove.cpp" />

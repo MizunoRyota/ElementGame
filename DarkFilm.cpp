@@ -6,7 +6,7 @@
 DarkFilm::DarkFilm(const std::shared_ptr<Enemy>& enemy)
     : enemy_(enemy)
 {
-    zOrder_ = 0; // HUD‘w
+    order_z = 0; // HUD‘w
     film_alpha = 0;
     film_isblackout = false;
 }

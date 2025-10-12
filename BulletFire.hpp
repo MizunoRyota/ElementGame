@@ -66,6 +66,12 @@ private:
 	static constexpr float MARKER_HEIGHT = 3.0f; // 円錐の高さ
 	static constexpr float MARKER_RADIUS = 1.2f; // 底面半径
 	static constexpr int   MARKER_SLICES = 16;   // 分割数
+	//必殺技の弾
+	static constexpr float RING_RADIUS = 20;  // 最大半径
+	static constexpr float DROP_HEIGHT = 30;  // 上空高さ
+	static constexpr int   INNER_RINGS = 10;  // 同心円数
+	static constexpr float RADIUS_STEP = 8.0f;// 半径減少ステップ
+	static constexpr float MARKER_LIFE = 60.0f; // マーカー寿命
 
 	float bullet_firecooltimer = 0; //弾の発射クールタイム
 

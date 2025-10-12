@@ -3,6 +3,7 @@
 #include "EffekseerForDXLib.h"
 #include "Pallet.hpp"
 #include "Screen.hpp"
+#include <any>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -11,8 +12,10 @@
 #include <iostream>
 #include <memory>
 #include <math.h>
+#include <optional>
 #include <random>  
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <unordered_map>
 #include <vector>

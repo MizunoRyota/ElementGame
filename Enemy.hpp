@@ -98,7 +98,7 @@ private:
 	static constexpr int DAMAGE_STRENGTH = 10;                 // 与ダメージ基礎値
 	static constexpr int ENEMY_HITEFFECT_HEIGHT = 2.25f;       // 被弾エフェクトの高さオフセット
 	static constexpr float ENEMY_SCALE = 0.025f;               // モデル拡大率
-	static constexpr int ENEMY_MAXHP = 75;                    // 最大HP
+	static constexpr int ENEMY_MAXHP = 60;                    // 最大HP
 
 	// ===== フェーズ用HP閾値 =====
 	static constexpr int ENEMY_FHASE_ONE = 150;   // Phase1 開始HP

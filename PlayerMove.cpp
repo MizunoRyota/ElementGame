@@ -17,6 +17,7 @@ void PlayerMove::Update( std::shared_ptr<Input>& input,  std::shared_ptr<Camera>
 {
 	VECTOR	upMoveVec;      
 	VECTOR	leftMoveVec;    
+
 	moveVec = VGet(0, 0, 0);
 	UpdateMoveParameterWithPad(input, camera, upMoveVec, leftMoveVec, moveVec); 
 	DecreaseDashEnergy();
@@ -87,7 +88,7 @@ void PlayerMove::DecreaseDashEnergy()
 
 	if (move_isdash && dash_energy > 0)
 	{
-		--dash_energy;
+		dash_energy -= DASH_DECREACE_NUM;
 		if (dash_energy <= 0)
 		{
 			dash_energy = 0;

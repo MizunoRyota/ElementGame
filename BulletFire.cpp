@@ -84,12 +84,8 @@ void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const f
 	if (bullet_firecooltimer > 0) return;
 	bullet_firecooltimer = BULLET_COOLTIME;
 
-	int RING_BULLET_NUM = 18;                 // 外周初期弾数
-	static constexpr float RING_RADIUS = 40;  // 最大半径
-	static constexpr float DROP_HEIGHT = 30;  // 上空高さ
-	static constexpr int   INNER_RINGS = 10;  // 同心円数
-	static constexpr float RADIUS_STEP = 8.0f;// 半径減少ステップ
-	static constexpr float MARKER_LIFE = 60.0f; // マーカー寿命
+	int RING_BULLET_NUM = 12;                 // 外周初期弾数
+
 
 	const VECTOR downDir = VGet(0.0f, -1.0f, 0.0f); // 落下方向
 

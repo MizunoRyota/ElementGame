@@ -52,7 +52,8 @@ void Enemy::Initialize()
 
 	obj_direction = VGet(0, 0, 1.0f); // 初期位置
 
-	if (obj_hp <= 0) obj_hp = ENEMY_MAXHP; // HP リセット
+	obj_hp = ENEMY_MAXHP; // HP リセット
+
 	// エフェクト再生フラグ初期化
 	enemy_groundattack_charge_played = false;
 	
@@ -78,6 +79,11 @@ void Enemy::UpdateTitle()
 
 void Enemy::Update()
 {
+	if ((CheckHitKey(KEY_INPUT_J) != 0))
+	{
+		obj_hp = 0;
+	}
+
 	enemy_animater->Update(); // アニメ更新
 	UpdateAngle(); // 向き更新
 	UpdateStateAction(); // ステート毎挙動

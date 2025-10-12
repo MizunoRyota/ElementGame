@@ -25,7 +25,7 @@ Camera::Camera()
     //垂直角度は0度
     angleVertical = 0.0f;
     //パースの設定
-    SetupCamera_Perspective(90.0f * DX_PI_F / 180.0f);
+    SetupCamera_Perspective(70.0f * DX_PI_F / 180.0f);
     //奥行0.25～400までをカメラの描画範囲とする
     SetCameraNearFar(CAMERA_NEAR, CAMERA_FAR);
     // カメラに位置を反映.
@@ -54,7 +54,7 @@ void Camera::UpdateTitle()
 
     // 目標: 敵の少し後方( -Z ) かつ少し上
     const VECTOR targetFocus = enemy->GetPosition();
-    const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -5.0f));
+    const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -7.50f));
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
     camera_position = Lerp(camera_position, targetCamPos, 0.01f);

@@ -6,7 +6,7 @@
 UiHpBar::UiHpBar(const std::shared_ptr<Player>& player)
     : player_(player)
 {
-    zOrder_ = 0; // HUD îwñ ëw
+    order_z = 0; // HUD îwñ ëw
 
     if (auto playerLocked = player_.lock())
     {
@@ -58,12 +58,12 @@ void UiHpBar::Draw() const
     if (delayedRatio < 0) delayedRatio = 0; if (delayedRatio > 1) delayedRatio = 1;
 
     // îwåi
-    DrawBox(hpbar_x - 2, hpbar_y - 2, hpbar_x + hpbar_width + 2, hpbar_y + hpbar_height + 2, Pallet::Aqua.GetHandle(), TRUE);
+    DrawBox(hpbar_x - BAR_FRAME, hpbar_y - BAR_FRAME, hpbar_x + hpbar_width + BAR_FRAME, hpbar_y + hpbar_height + BAR_FRAME, Pallet::Aqua.GetHandle(), TRUE);
     DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::Gray.GetHandle(), TRUE);
 
     // íxâÑÉoÅ[(ê‘ån)
     int hpbar_delay_width = static_cast<int>(hpbar_width * delayedRatio);
-    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_delay_width, hpbar_y + hpbar_height, GetColor(180, 60, 60), TRUE);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_delay_width, hpbar_y + hpbar_height, Pallet::Red.GetHandle(), TRUE);
 
     // åªç› HP (ÉOÉâÉfÅ[ÉVÉáÉìäÒÇËââèo)
     int realWidth = static_cast<int>(hpbar_width * realRatio);

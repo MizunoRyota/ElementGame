@@ -2,9 +2,9 @@
 class Blackboard
 {
 public:
-	template<class character>
+
 
 private:
-
+	std::unordered_map < std::string, std::any> data;
 };
 

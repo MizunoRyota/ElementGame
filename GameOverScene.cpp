@@ -29,13 +29,13 @@ void GameOverScene::Initialize()
 
 void GameOverScene::Update()
 {
-
+    bool check_isclick = ((GetMouseInput() & MOUSE_INPUT_LEFT));
     GetSharedData().UpdateGameOver();
 
     // 置き換え: 直接UpdateEffekseer3D()ではなく、マネージャ更新
     EffectCreator::GetEffectCreator().Update();
 
-    if (CheckHitKey(MOUSE_INPUT_LEFT) != 0)
+    if (check_isclick)
     {
         ChangeScene("TitleScene");
     }
