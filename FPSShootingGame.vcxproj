@@ -149,6 +149,7 @@
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="CollisionSystem.hpp" />
     <ClInclude Include="Color.hpp" />
+    <ClInclude Include="Crystal.hpp" />
     <ClInclude Include="Dodge.hpp" />
     <ClInclude Include="DarkFilm.hpp" />
     <ClInclude Include="EffectCreator.hpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="Dodge.cpp" />
     <ClCompile Include="DarkFilm.cpp" />
     <ClCompile Include="EffectCreator.cpp" />

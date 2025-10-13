@@ -26,21 +26,21 @@ EnemyAnimater::~EnemyAnimater()
 
 void EnemyAnimater::InitializeAnimationData()
 {
-	animation_data[static_cast<int>(AnimKind::OnDamage)] = AnimationState(static_cast<int>(AnimKind::OnDamage),0, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::Walkback)] = AnimationState(static_cast<int>(AnimKind::Walkback),1, 0, 0, 0.5f,true);
-	animation_data[static_cast<int>(AnimKind::Die)] = AnimationState(static_cast<int>(AnimKind::Die),2, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::GroundAttack)] = AnimationState(static_cast<int>(AnimKind::GroundAttack),3, 0, 0, 0.25f,false);
-	animation_data[static_cast<int>(AnimKind::Float)] = AnimationState(static_cast<int>(AnimKind::Float), 4, 0, 0, 0.5f, true);
-	animation_data[static_cast<int>(AnimKind::SpecialAttack)] = AnimationState(static_cast<int>(AnimKind::SpecialAttack), 5, 0, 0, 0.5f, false);
-	animation_data[static_cast<int>(AnimKind::RunLeft)] = AnimationState(static_cast<int>(AnimKind::RunLeft),6, 0, 0, 0.5f,true);
-	animation_data[static_cast<int>(AnimKind::Charge)] = AnimationState(static_cast<int>(AnimKind::Charge),7, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::RunRight)] = AnimationState(static_cast<int>(AnimKind::RunRight),8, 0, 0, 0.5f,true);
-	animation_data[static_cast<int>(AnimKind::FireAttack)] = AnimationState(static_cast<int>(AnimKind::FireAttack),9, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::WaterAttack)] = AnimationState(static_cast<int>(AnimKind::WaterAttack),10, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::WindAttack)] = AnimationState(static_cast<int>(AnimKind::WindAttack),11, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::JumpAttack)] = AnimationState(static_cast<int>(AnimKind::JumpAttack),12, 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::Idle)] = AnimationState(static_cast<int>(AnimKind::Idle),13, 0, 0, 0.25f,true);
-	animation_data[static_cast<int>(AnimKind::Chase)] = AnimationState(static_cast<int>(AnimKind::Chase),14, 0, 0, 0.5f,true);
+	animation_data[static_cast<int>(AnimKind::WalkBack)] = AnimationState(static_cast<int>(AnimKind::WalkBack),(static_cast<int>(AnimKind::WalkBack)), 0, 0, 0.5f,true);
+	animation_data[static_cast<int>(AnimKind::Die)] = AnimationState(static_cast<int>(AnimKind::Die), (static_cast<int>(AnimKind::Die)), 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(AnimKind::GroundAttack)] = AnimationState(static_cast<int>(AnimKind::GroundAttack), (static_cast<int>(AnimKind::GroundAttack)), 0, 0, 0.25f,false);
+	animation_data[static_cast<int>(AnimKind::Float)] = AnimationState(static_cast<int>(AnimKind::Float), (static_cast<int>(AnimKind::Float)), 0, 0, 0.5f, true);
+	animation_data[static_cast<int>(AnimKind::SpecialAttack)] = AnimationState(static_cast<int>(AnimKind::SpecialAttack), (static_cast<int>(AnimKind::SpecialAttack)), 0, 0, 0.5f, false);
+	animation_data[static_cast<int>(AnimKind::RunLeft)] = AnimationState(static_cast<int>(AnimKind::RunLeft), (static_cast<int>(AnimKind::RunLeft)), 0, 0, 0.5f,true);
+	animation_data[static_cast<int>(AnimKind::Charge)] = AnimationState(static_cast<int>(AnimKind::Charge), (static_cast<int>(AnimKind::Charge)), 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(AnimKind::RunRight)] = AnimationState(static_cast<int>(AnimKind::RunRight), (static_cast<int>(AnimKind::RunRight)), 0, 0, 0.5f,true);
+	animation_data[static_cast<int>(AnimKind::FireAttack)] = AnimationState(static_cast<int>(AnimKind::FireAttack), (static_cast<int>(AnimKind::FireAttack)), 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(AnimKind::WaterAttack)] = AnimationState(static_cast<int>(AnimKind::WaterAttack), (static_cast<int>(AnimKind::WaterAttack)), 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(AnimKind::WindAttack)] = AnimationState(static_cast<int>(AnimKind::WindAttack), (static_cast<int>(AnimKind::WindAttack)), 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(AnimKind::JumpAttack)] = AnimationState(static_cast<int>(AnimKind::JumpAttack), (static_cast<int>(AnimKind::JumpAttack)), 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(AnimKind::Idle)] = AnimationState(static_cast<int>(AnimKind::Idle), (static_cast<int>(AnimKind::Idle)), 0, 0, 0.25f,true);
+	animation_data[static_cast<int>(AnimKind::Chase)] = AnimationState(static_cast<int>(AnimKind::Chase), (static_cast<int>(AnimKind::Chase)), 0, 0, 0.5f,true);
+	animation_data[static_cast<int>(AnimKind::OnDamage)] = AnimationState(static_cast<int>(AnimKind::OnDamage), (static_cast<int>(AnimKind::OnDamage)), 0, 0, 0.5f,false);
 }
 
 void EnemyAnimater::Update()
@@ -58,7 +58,7 @@ void EnemyAnimater::SwitchAnimation()
 		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::OnDamage)));
 		break;
 	case STATE_WALKBACK:
-		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::Walkback)));
+		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::WalkBack)));
 		break;
 	case STATE_DIE:
 		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::Die)));

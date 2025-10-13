@@ -8,7 +8,7 @@ Stage::Stage()
 	obj_position = VGet(0, STAGE_HIGHT, 0);
 	obj_modelhandle = 0;
 	obj_effecthandle = -1;
-	obj_modelhandle = MV1LoadModel(_T("data/3dmodel/Stage/Stage3.mv1"));
+	obj_modelhandle = MV1LoadModel(_T("data/3dmodel/Stage/Stage5.mv1"));
 	// 3Dモデルのスケール決定
 	MV1SetScale(obj_modelhandle, VGet(SCALE, SCALE, SCALE));
 	MV1SetPosition(obj_modelhandle, obj_position);

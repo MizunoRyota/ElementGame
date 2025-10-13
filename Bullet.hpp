@@ -42,7 +42,7 @@ private:
 	static constexpr float BULLET_COUNT = 0.5f;  // 1f Œ¸ŽZ—Ê
 
 	static constexpr int SHADOW_DIV = 16;  // ‰e‚Ì”¼Œa
-	static constexpr float SHADOW_TOP_HEIGHT = -0.1f;  // ‰e‚Ì”¼Œa
+	static constexpr float SHADOW_TOP_HEIGHT = -0.01f;  // ‰e‚Ì”¼Œa
 
 
 	bool  bullet_isactive;   // —LŒø‚©

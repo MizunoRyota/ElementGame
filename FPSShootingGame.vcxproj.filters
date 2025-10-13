@@ -127,6 +127,9 @@
     <Filter Include="GameCode\BlackBoard">
       <UniqueIdentifier>{2203c25d-6762-4fb9-af0d-c5271456173b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\Crystal">
+      <UniqueIdentifier>{4d375047-6e4a-4de8-a977-e9db483827e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBase.hpp">
@@ -285,6 +288,9 @@
     <ClInclude Include="NodeBase.hpp">
       <Filter>GameCode\BehaviorTree</Filter>
     </ClInclude>
+    <ClInclude Include="Crystal.hpp">
+      <Filter>GameCode\Crystal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -424,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="NodeBase.cpp">
       <Filter>GameCode\BehaviorTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Crystal.cpp">
+      <Filter>GameCode\Crystal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

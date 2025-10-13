@@ -14,8 +14,8 @@ Enemy::Enemy()
 {
 	obj_name = "Enemy"; // 識別名
 	enemy_attacktype = 0; // 次攻撃ステート種別初期
-	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/Enemy4.mv1"); // モデル読み込み
-	character_handname = MV1SearchFrame(obj_modelhandle, "m1.R"); // 手ボーンID
+	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/Monster.mv1"); // モデル読み込み
+	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 手ボーンID
 	enemy_isdie = false;
 	enemy_state = STATE_CHARGE; // 初期ステート
 	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE)); // スケール適用

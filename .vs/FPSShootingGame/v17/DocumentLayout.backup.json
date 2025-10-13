@@ -1,0 +1,288 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Bullet.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Bullet.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Bullet.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Enemy.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Enemy.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyAnimater.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:EnemyAnimater.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyAnimater.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:EnemyAnimater.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyState.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:EnemyState.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Enemy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Crystal.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Crystal.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Crystal.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Crystal.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\user\\Downloads\\BehaviourTree\\BehaviourTree\\INode\\INode.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\GameObject.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:GameObject.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\CharacterBase.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:CharacterBase.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Player.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Player.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Stage.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Stage.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{59D53391-4440-40D7-B812-341078023F3A}|FPSShootingGame.vcxproj|solutionrelative:Player.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Bullet.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Bullet.hpp",
+              "RelativeDocumentMoniker": "Bullet.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Bullet.hpp*",
+              "RelativeToolTip": "Bullet.hpp*",
+              "ViewState": "AgIAABcAAAAAAAAAAAAlwCwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T16:26:02.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Bullet.cpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Bullet.cpp",
+              "RelativeDocumentMoniker": "Bullet.cpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Bullet.cpp",
+              "RelativeToolTip": "Bullet.cpp",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAAAKgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-13T16:25:49.142Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EnemyAnimater.cpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyAnimater.cpp",
+              "RelativeDocumentMoniker": "EnemyAnimater.cpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyAnimater.cpp",
+              "RelativeToolTip": "EnemyAnimater.cpp",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAMwBwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-13T13:28:30.324Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EnemyAnimater.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyAnimater.hpp",
+              "RelativeDocumentMoniker": "EnemyAnimater.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyAnimater.hpp",
+              "RelativeToolTip": "EnemyAnimater.hpp",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAcwA0AAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T13:26:52.388Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EnemyState.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyState.hpp",
+              "RelativeDocumentMoniker": "EnemyState.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\EnemyState.hpp",
+              "RelativeToolTip": "EnemyState.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T13:23:32.575Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Enemy.cpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Enemy.cpp",
+              "RelativeDocumentMoniker": "Enemy.cpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Enemy.cpp",
+              "RelativeToolTip": "Enemy.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-13T13:19:12.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Enemy.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Enemy.hpp",
+              "RelativeDocumentMoniker": "Enemy.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Enemy.hpp",
+              "RelativeToolTip": "Enemy.hpp",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAGMAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T13:19:11.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "INode.h",
+              "DocumentMoniker": "C:\\Users\\user\\Downloads\\BehaviourTree\\BehaviourTree\\INode\\INode.h",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\Downloads\\BehaviourTree\\BehaviourTree\\INode\\INode.h",
+              "ToolTip": "C:\\Users\\user\\Downloads\\BehaviourTree\\BehaviourTree\\INode\\INode.h",
+              "RelativeToolTip": "..\\..\\..\\..\\Downloads\\BehaviourTree\\BehaviourTree\\INode\\INode.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T11:45:32.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GameObject.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\GameObject.hpp",
+              "RelativeDocumentMoniker": "GameObject.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\GameObject.hpp",
+              "RelativeToolTip": "GameObject.hpp",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T11:17:52.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CharacterBase.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\CharacterBase.hpp",
+              "RelativeDocumentMoniker": "CharacterBase.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\CharacterBase.hpp",
+              "RelativeToolTip": "CharacterBase.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T11:17:43.585Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Player.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Player.hpp",
+              "RelativeDocumentMoniker": "Player.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Player.hpp",
+              "RelativeToolTip": "Player.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T11:17:37.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Crystal.cpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Crystal.cpp",
+              "RelativeDocumentMoniker": "Crystal.cpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Crystal.cpp",
+              "RelativeToolTip": "Crystal.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-13T11:17:11.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Crystal.hpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Crystal.hpp",
+              "RelativeDocumentMoniker": "Crystal.hpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Crystal.hpp",
+              "RelativeToolTip": "Crystal.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-10-13T11:03:24.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Stage.cpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Stage.cpp",
+              "RelativeDocumentMoniker": "Stage.cpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Stage.cpp",
+              "RelativeToolTip": "Stage.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-13T08:40:24.446Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Player.cpp",
+              "DocumentMoniker": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Player.cpp",
+              "RelativeDocumentMoniker": "Player.cpp",
+              "ToolTip": "C:\\Users\\user\\Desktop\\\u30D0\u30C3\u30AF\u30A2\u30C3\u30D7\\ElemntGame\\ElementGame\\Player.cpp",
+              "RelativeToolTip": "Player.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-10-12T23:15:36.572Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 140,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

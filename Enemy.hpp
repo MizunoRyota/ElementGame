@@ -97,7 +97,7 @@ private:
 	static constexpr float TAKEDAMAGE_COOLDOWN = 10.0f;        // 被弾無敵時間(フレーム)
 	static constexpr int DAMAGE_STRENGTH = 10;                 // 与ダメージ基礎値
 	static constexpr int ENEMY_HITEFFECT_HEIGHT = 2.25f;       // 被弾エフェクトの高さオフセット
-	static constexpr float ENEMY_SCALE = 0.025f;               // モデル拡大率
+	static constexpr float ENEMY_SCALE = 0.02f;               // モデル拡大率
 	static constexpr int ENEMY_MAXHP = 60;                    // 最大HP
 
 	// ===== フェーズ用HP閾値 =====

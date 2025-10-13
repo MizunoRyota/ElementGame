@@ -1,5 +1,5 @@
-#include "GameObject.hpp"
 #pragma once
+#include "GameObject.hpp"
 
 class CharacterBase : public GameObject
 {
