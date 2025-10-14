@@ -27,7 +27,7 @@ namespace
 void CollisionSystem::Resolve(SharedData& shared)
 {
 	// 必要な参照を取得
-	auto enemy  = std::dynamic_pointer_cast<Enemy>(shared.FindObject("Enemy"));
+	auto enemy = std::dynamic_pointer_cast<Enemy>(shared.FindObject("Enemy"));
 	auto player = std::dynamic_pointer_cast<Player>(shared.FindObject("Player"));
 
 	auto& bc = BulletCreator::GetBulletCreator();
@@ -63,20 +63,10 @@ void CollisionSystem::Resolve(SharedData& shared)
 			const bool hitEnemy = Collision::CheckSphereCapsuleCollision(
 				sphereCenter, sphere_radius, enemyBase, enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
 
-			if (hitEnemy)
+			if (hitEnemy && enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
 			{
-				if (enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY))
-				{
-					// エフェクト: ダメージ or 死亡
-					if (enemy->IsDead())
-					{
-						//EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyDeath, enemy->GetPosition());
-					}
-					else
-					{
-						//EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, enemy->GetHitPosition());
-					}
-				}
+				enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
+
 				// 弾ヒットエフェクト
 				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
 				bullet->ChangeActiveFalse();

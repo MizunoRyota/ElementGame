@@ -9,7 +9,7 @@ bool CharacterBase::TakeDamage(int amount)
 
 	obj_hp -= amount;
 	if (obj_hp < 0) obj_hp = 0;
-	damage_invincible_timer_ = damage_invincible_duration;
+	//damage_invincible_timer_ = damage_invincible_duration;
 	return true;
 }
 

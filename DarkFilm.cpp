@@ -15,7 +15,7 @@ void DarkFilm::Update()
 {
     if (auto enemy_locked = enemy_.lock())
     {
-        if (enemy_locked->GetEnemyState() == STATE_SPECIALATTACK || enemy_locked->GetEnemyState() == STATE_FLOAT || enemy_locked->GetEnemyState() == STATE_GROUNDATTACK)
+        if (enemy_locked->GetEnemyState() == STATE_SPECIALATTACK || enemy_locked->GetEnemyState() == STATE_FLOAT || enemy_locked->GetEnemyState() == STATE_SPECIAL_CHARGE)
         {
             if (film_isblackout == true)
             {

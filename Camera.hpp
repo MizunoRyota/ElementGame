@@ -43,13 +43,13 @@ public:
 
 private:
 	static constexpr float   CAMERA_NEAR = 0.1f; 		// カメラのNEAR
-	static constexpr float   CAMERA_FAR = 400.0f; 		// カメラのFAR
+	static constexpr float   CAMERA_FAR = 300.0f; 		// カメラのFAR
 	static constexpr float   CAMERA_TARGET_PLAYERHIGHT = 0.650f; 		// プレイヤーからカメラの注視点への高さ
 	static constexpr float   TOPLAYER_LENGTH = 1.30f; 				// プレイヤーとの距離
 	static constexpr float	 ANGLE_SPEED = 0.02f; 					// 向きが変わるスピード
 	static constexpr float	 CAMERA_PLAYERTARGET_HIGHT = 1.8f; 		// プレイヤー座標からどれだけ高い位置を注視点とするか
 
-	float            angleVertical; 					// カメラの垂直角度
+	float            angleVertical; 				// カメラの垂直角度
 	float            angleHorizontal; 				// カメラの水平角度
 	float            shakeOffset; 					// カメラを揺らしたときのずらした値の保存
 
@@ -58,9 +58,9 @@ private:
 	bool isShake; 				// 揺れているか
 	Input* rightInput; 			// 右スティック情報
 	VECTOR OriginalOffset; 		// 
-	VECTOR camera_angle; 			// 向きベクトル
-	VECTOR camera_position; 			// ポジション.
-	VECTOR camera_targetpos; 		// カメラが注視するポジション
+	VECTOR camera_angle; 		// 向きベクトル
+	VECTOR camera_position; 	// ポジション.
+	VECTOR camera_targetpos; 	// カメラが注視するポジション
 
 	VECTOR camera_dirction; 	// カメラの向き（ターゲット位置）
 

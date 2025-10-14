@@ -24,7 +24,7 @@ public:
 		OnDamage = 0,
 		Walkback = 1,
 		Die = 2,
-		GroundAttack = 3,
+		SpecialCharge = 3,
 		Float = 4,
 		SpecialAttack = 5,
 		RunLeft = 6,
@@ -117,7 +117,7 @@ private:
 
 	EnemyState enemy_state;            // 現在の行動ステート
 	std::vector<int> attack_kind;      // ランダム選択用 攻撃ステート一覧 (STATE_FIRE/WATER/WINDATTACK)
-	bool enemy_groundattack_charge_played = false; // GroundAttackチャージエフェクト再生済みフラグ
+	bool enemy_groundattack_charge_played = false; // SpecialChargeチャージエフェクト再生済みフラグ
 
 	// ハンドエフェクト用再生ハンドル
 	int enemy_hand_effect_handle = -1; 

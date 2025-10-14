@@ -13,7 +13,7 @@ public:
 	{
 		WalkBack = 0,
 		Die = 1,
-		GroundAttack = 2,
+		SpecialCharge = 2,
 		Float = 3,
 		SpecialAttack = 4,
 		RunLeft = 5,

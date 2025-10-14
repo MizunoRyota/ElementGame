@@ -23,14 +23,12 @@ void EffectCreator::Initialize()
 	effect_handles[(int)EffectType::FireWorks] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/FireWorks.efkefc", 0.5f);
 	effect_handles[(int)EffectType::HandEffect] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/hand_effect.efkefc", 0.04f);
 	effect_handles[(int)EffectType::HandCharge] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/hand_charge.efkefc", 0.04f);
-
-
+	effect_handles[(int)EffectType::Barrior] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Barrior.efkefc", 1.2f);
 }
 
 void EffectCreator::Update()
 {
 	Effekseer_Sync3DSetting(); // カメラ/行列同期
-
 
 	//// ループ再生チェック
 	for (int i = 0; i < EFFECT_NUM; ++i)

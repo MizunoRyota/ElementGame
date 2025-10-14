@@ -56,7 +56,6 @@ void GameScene::Draw()
 	ShadowMap_DrawSetup(shadow->GetHandle());
 
     GetSharedData().DrawShadowReady();
-    BulletCreator::GetBulletCreator().Draw();
 	//シャドウマップへの描画を終了
 	ShadowMap_DrawEnd();
 

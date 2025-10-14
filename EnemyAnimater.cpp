@@ -28,7 +28,7 @@ void EnemyAnimater::InitializeAnimationData()
 {
 	animation_data[static_cast<int>(AnimKind::WalkBack)] = AnimationState(static_cast<int>(AnimKind::WalkBack),(static_cast<int>(AnimKind::WalkBack)), 0, 0, 0.5f,true);
 	animation_data[static_cast<int>(AnimKind::Die)] = AnimationState(static_cast<int>(AnimKind::Die), (static_cast<int>(AnimKind::Die)), 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(AnimKind::GroundAttack)] = AnimationState(static_cast<int>(AnimKind::GroundAttack), (static_cast<int>(AnimKind::GroundAttack)), 0, 0, 0.25f,false);
+	animation_data[static_cast<int>(AnimKind::SpecialCharge)] = AnimationState(static_cast<int>(AnimKind::SpecialCharge), (static_cast<int>(AnimKind::SpecialCharge)), 0, 0, 0.25f,true);
 	animation_data[static_cast<int>(AnimKind::Float)] = AnimationState(static_cast<int>(AnimKind::Float), (static_cast<int>(AnimKind::Float)), 0, 0, 0.5f, true);
 	animation_data[static_cast<int>(AnimKind::SpecialAttack)] = AnimationState(static_cast<int>(AnimKind::SpecialAttack), (static_cast<int>(AnimKind::SpecialAttack)), 0, 0, 0.5f, false);
 	animation_data[static_cast<int>(AnimKind::RunLeft)] = AnimationState(static_cast<int>(AnimKind::RunLeft), (static_cast<int>(AnimKind::RunLeft)), 0, 0, 0.5f,true);
@@ -63,8 +63,8 @@ void EnemyAnimater::SwitchAnimation()
 	case STATE_DIE:
 		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::Die)));
 		break;
-	case STATE_GROUNDATTACK:
-		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::GroundAttack)));
+	case STATE_SPECIAL_CHARGE:
+		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::SpecialCharge)));
 		break;
 	case STATE_FLOAT:
 		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::Float)));

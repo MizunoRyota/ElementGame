@@ -20,6 +20,7 @@ public:
 		FireWorks,
 		HandEffect,
 		HandCharge,
+		Barrior,
 	};
 
 	static EffectCreator& GetEffectCreator()
@@ -49,7 +50,7 @@ private:
 	EffectCreator(const EffectCreator&) = delete;
 	EffectCreator& operator=(const EffectCreator&) = delete;
 
-	static constexpr int EFFECT_NUM = 13;          // 読み込む最大エフェクト数
+	static constexpr int EFFECT_NUM = 14;          // 読み込む最大エフェクト数
 	static constexpr float EFFECT_HIGHT = 0.3f;   // 再生基準高さオフセット
 	static constexpr float EFFECT_SCALE = 4.5f;   // 共通スケール(未使用)
 	static constexpr float EFFCT_PLAYSPEED = 0.20f; // 再生時間増加量
@@ -62,10 +63,10 @@ private:
 	bool  effect_isend;          // 再生完了フラグ
 
 	bool effect_initialized = false;      // 初期化済み
-	int  effect_handles[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; // 読み込み済みハンドル群
+	int  effect_handles[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; // 読み込み済みハンドル群
 
 	// ループ再生管理
 	bool   loop_enabled[EFFECT_NUM]{ false };
-	int    loop_playing_handles[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
-	VECTOR loop_positions[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }; // 最後に設定された位置
+	int    loop_playing_handles[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+	VECTOR loop_positions[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}; // 最後に設定された位置
 };

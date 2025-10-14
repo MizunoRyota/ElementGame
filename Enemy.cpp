@@ -178,7 +178,7 @@ void Enemy::UpdateStateAction()
 
 	case STATE_CHARGE:
 		// GROUNDATTACK から離脱した場合リセット
-		if (enemy_groundattack_charge_played && enemy_state != STATE_GROUNDATTACK)
+		if (enemy_groundattack_charge_played && enemy_state != STATE_SPECIAL_CHARGE)
 		{
 			enemy_groundattack_charge_played = false;
 		}
@@ -249,26 +249,39 @@ void Enemy::UpdateStateAction()
 
 	case STATE_FLOAT:
 		obj_position = enemy_move->MoveToOrigin(obj_position); // float 中は中央へ
-		if (enemy_move->GetIsOrigin()) enemy_state = STATE_GROUNDATTACK;
+		if (enemy_move->GetIsOrigin()) enemy_state = STATE_SPECIAL_CHARGE;
 		break;
 
-	case STATE_GROUNDATTACK:
-		// 一度だけチャージエフェクトを再生
+	case STATE_SPECIAL_CHARGE:
+		// チャージエフェクトを再生
 		if (!enemy_groundattack_charge_played)
 		{
-			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyCharge, obj_position);
+			enemy_specialattack->Initialize();
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Barrior, obj_position); // ループ(花火)
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyCharge, obj_position);
+			
 			enemy_groundattack_charge_played = true;
 		}
+		
+		enemy_specialattack->UpdateChrgeCount();
+
 		if (obj_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE; // HP 低下遷移
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) enemy_state = STATE_SPECIALATTACK; // 終了→特殊
-		if (enemy_animater->GetAmimFrame() == SPECIALEATTACK_TIMING) enemy_groundattack_charge_played = false; // 再生解除
+
+		if (enemy_isaction = !enemy_specialattack->GetIsCharge())
+		{
+			enemy_state = STATE_SPECIALATTACK; // 終了→特殊
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior); // ループ(花火)
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge); // ループ(花火)
+
+		}
+
 		break;
 
 	case STATE_SPECIALATTACK:
 		if (enemy_animater->GetAmimFrame() == SPECIALEATTACK_TIMING)
 		{
-			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::Roar, obj_position);
 
+			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::Roar, obj_position);
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
 			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
 			enemy_bullet->FireSpecialAttack(handPos, obj_direction, SPECIALBULLET_SPEED);

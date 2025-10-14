@@ -166,5 +166,17 @@ void Bullet::Draw()
 {
 	// 可視デバッグが必要なら描画を有効化
 	//DrawSphere3D(bullet_position, bullet_radius, 10, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
-	DrawCone3D(VGet(bullet_position.x, SHADOW_TOP_HEIGHT, bullet_position.z), VGet(bullet_position.x, 0, bullet_position.z), bullet_radius, SHADOW_DIV, Pallet::Black.GetHandle(), Pallet::Black.GetHandle(), true);
+	  // 描画ブレンドモードをノーブレンドにする
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+	if (bullet_radius == BULLET_SPECIAL_RADIUS)
+	{
+		DrawCone3D(VGet(bullet_position.x, SHADOW_TOP_HEIGHT, bullet_position.z), VGet(bullet_position.x, 0, bullet_position.z), bullet_radius, SHADOW_DIV, Pallet::Red.GetHandle(), Pallet::Red.GetHandle(), true);
+	}
+	else
+	{
+		DrawCone3D(VGet(bullet_position.x, SHADOW_TOP_HEIGHT, bullet_position.z), VGet(bullet_position.x, 0, bullet_position.z), bullet_radius, SHADOW_DIV, Pallet::Black.GetHandle(), Pallet::Black.GetHandle(), true);
+	}
+
+	// 描画ブレンドモードをアルファブレンド（５０％）にする
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

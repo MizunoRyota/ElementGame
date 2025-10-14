@@ -84,8 +84,7 @@ void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const f
 	if (bullet_firecooltimer > 0) return;
 	bullet_firecooltimer = BULLET_COOLTIME;
 
-	int RING_BULLET_NUM = 12;                 // ŠOü‰Šú’e”
-
+	int RING_BULLET_NUM = 16;                 // ŠOü‰Šú’e”
 
 	const VECTOR downDir = VGet(0.0f, -1.0f, 0.0f); // —‰º•ûŒü
 
