@@ -61,11 +61,11 @@ void UiEnemyHpBar::Draw() const
     int screenWidth = SCREEN_WIDTH;
     int screenHeight = SCREEN_HEIGHT;
 
-    int hpbar_x = screenWidth - offset_x - hpbar_width; // 右上配置
+    int hpbar_x = SCREEN_WIDTH / 2 - 600; // 右上配置
     int hpbar_y = offset_y;
 
     // ---- 背景 / ベース ----
-    DrawBox(hpbar_x - BAR_FRAME, hpbar_y - BAR_FRAME, hpbar_x + hpbar_width + BAR_FRAME, hpbar_y + hpbar_height + BAR_FRAME, Pallet::Aqua.GetHandle(), TRUE); // 外枠背景 (縁取り用)
+    DrawBoxAA(hpbar_x - BAR_FRAME, hpbar_y - BAR_FRAME, hpbar_x + hpbar_width + BAR_FRAME, hpbar_y + hpbar_height + BAR_FRAME, Pallet::Aqua.GetHandle(), TRUE); // 外枠背景 (縁取り用)
     DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::Gray.GetHandle(), TRUE);             // バー背景
 
     // ---- 遅延表示レイヤ（ダメージ演出: 暗赤）----

@@ -56,6 +56,6 @@ void TakeDamageUi::Draw() const
 	int a = static_cast<int>(alpha_);
 	if (a > ALPHA_MAX) a = ALPHA_MAX; if (a < 0) a = 0;
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, a);
-	DrawGraph(0, 0, graph_handle, TRUE);
+	DrawGraphF(0, 0, graph_handle, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

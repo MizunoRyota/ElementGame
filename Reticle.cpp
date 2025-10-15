@@ -18,5 +18,5 @@ void Reticle::Update()
 
 void Reticle::Draw() const
 {
-	DrawGraph(0, 0, graph_handle, true);
+	DrawGraphF(0, 0, graph_handle, true);
 }

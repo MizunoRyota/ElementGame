@@ -38,8 +38,8 @@ private:
     static constexpr int TIMER_THIRD_SPEEFD = 30;
     static constexpr int TIMER_FOURTH_SPEEFD = 20;
 
-
-    float timer_elapsed = 0.0f; // Œo‰ß•b
+    int timer_elapsed = 0; // Œo‰ß•b
+    int timer_firsttime=0;
     bool  timer_paused  = false;
     int graph_array[NUMBERS];
     int timer_firest = 0;

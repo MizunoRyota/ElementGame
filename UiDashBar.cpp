@@ -22,7 +22,7 @@ void UiDashBar::Draw() const
 
     // 移動コンポーネントからダッシュエネルギー取得
     auto player_move = playerLocked->GetPlayerMove();
-    int energy = player_move->GetDashEnergy();
+    float energy = player_move->GetDashEnergy();
     int maxEnergy = player_move->GetDashEnergyMax();
     int cooldown = player_move->GetDashCooldown();
     if (maxEnergy <= 0) return;
@@ -82,7 +82,7 @@ void UiDashBar::Draw() const
         // 残りクールタイム割合で斜線的マスク(簡易: 矩形で暗く)
         int alpha = 120; // 固定半透明
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-        DrawBox(energy_x, energy_y, energy_x + bar_width, energy_y + bar_height, GetColor(0, 0, 0), TRUE);
+        DrawBox(energy_x, energy_y, energy_x + bar_width, energy_y + bar_height, Pallet::White.GetHandle(), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
@@ -91,7 +91,7 @@ void UiDashBar::Draw() const
     //DrawFormatString(energy_x, energy_y + bar_height + 6, Pallet::White.GetHandle(), "EN:%d CD:%d", energy, cooldown);
     if ((CheckHitKey(KEY_INPUT_LSHIFT) != 0))
     {
-        DrawGraph(0, 0, graph_handle, true);
+        DrawGraphF(0, 0, graph_handle, true);
     }
 
 }

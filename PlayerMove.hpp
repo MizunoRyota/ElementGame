@@ -22,7 +22,7 @@ public:
 	const float& GetMoceAngle() const { return move_angle; }
 	const bool& GetIsmove() const { return move_ismove; }
 	const bool& GetIsDash() const { return move_isdash; }
-	int GetDashEnergy() const { return dash_energy; }
+	float GetDashEnergy() const { return dash_energy; }
 	int GetDashEnergyMax() const { return DASH_MAXENERGY; }
 	int GetDashCooldown() const { return dash_cooldown; } // 残りクールタイム(0で使用可能)
 

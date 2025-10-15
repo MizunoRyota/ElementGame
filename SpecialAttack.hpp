@@ -18,7 +18,7 @@ public:
 
 private:
 
-	static constexpr float SPECIALATTACK_CHARGE_TIME = 5000.0f; // チャージ時間(秒)
+	static constexpr float SPECIALATTACK_CHARGE_TIME = 1000.0f; // チャージ時間(秒)
 	static constexpr float SPECIALATTACK_CHARGE_DECREACENUM = 5.0f; // チャージ速度
 
 	float specialattack_charge_time;

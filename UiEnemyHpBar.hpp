@@ -21,11 +21,11 @@ public:
     void SetSize(int w, int h) { hpbar_width = w; hpbar_height = h; } // バーサイズ
 
 private:
-    static constexpr float DELAY_SPEED = 10.0f; // 減衰速度
+    static constexpr float DELAY_SPEED = 1.0f; // 減衰速度
     static constexpr int G_DECREASE_RAITO = 50; // 減衰速度
     static constexpr int B_DECREASE_RAITO = 180; // 減衰速度
 
-    static constexpr float BAR_FRAME = 2.0f; // 減衰速度
+    static constexpr float BAR_FRAME = 0.10f; // 減衰速度
     static constexpr int BAR_R = 200; // 固定赤系ベース（好みに応じてグラデ調整可）
 
     std::weak_ptr<Enemy> enemy_; // HP 参照
@@ -35,6 +35,6 @@ private:
     // レイアウト (右上基準: 画面幅 - offset_x - width)
     int offset_x = 50; // 右端からの距離
     int offset_y = 50; // 上端からの距離
-    int hpbar_width = 750;  // 幅
-    int hpbar_height = 50;  // 高さ
+    int hpbar_width = 1200;  // 幅
+    int hpbar_height = 35;  // 高さ
 };

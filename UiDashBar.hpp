@@ -26,7 +26,7 @@ private:
 
     // 表示レイアウト
     int energy_x = 50;      // 左上 X 位置
-    int energy_y = 150;     // 左上 Y 位置
+    int energy_y = 950;     // 左上 Y 位置
     int bar_width = 400;    // バー全幅
     int bar_height = 20;    // バー高さ
 };

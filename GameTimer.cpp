@@ -9,18 +9,17 @@ GameTimer::GameTimer()
     timer_colon_x = SCREEN_WIDTH;
     timer_third_x = SCREEN_WIDTH;
     timer_fourth_x = SCREEN_WIDTH;
+    timer_firsttime = GetNowCount();
     graph_handle = LoadDivGraph("data/Texture/Numbers.png", 11, 11, 1, 64, 64, graph_array);
 }
 
 void GameTimer::Update()
 {
     if (timer_paused) return;
-    timer_elapsed += DISPLAY_;
-    if (timer_elapsed >= 10)
-    {
-        timer_elapsed = 0;
-        timer_second++;
-    }
+    timer_elapsed = GetNowCount() - timer_firsttime;
+
+        timer_second = timer_elapsed / 1000;
+    
     if (timer_second>=6)
     {
         timer_second = 0;

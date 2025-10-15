@@ -48,27 +48,27 @@ void SceneGraph::Update()
 
 void SceneGraph::Draw() const
 {
-	//DrawGraph(0, 0, graph_handle, true);
+	//DrawGraphF(0, 0, graph_handle, true);
 }
 void SceneGraph::DrawTitle() const
 {
-	DrawGraph(0, 0, title_graph, true);
-	DrawGraph(0, button_pos_y, titlebutton_graph, true);
+	DrawGraphF(0, 0, title_graph, true);
+	DrawGraphF(0, button_pos_y, titlebutton_graph, true);
 }
 
 void SceneGraph::DrawTutorial() const
 {
-	DrawGraph(0, 0, tutorial_graph, true);
-	DrawGraph(0, button_pos_y, tutorialbutton_graph, true);
+	DrawGraphF(0, 0, tutorial_graph, true);
+	DrawGraphF(0, button_pos_y, tutorialbutton_graph, true);
 }
 
 void SceneGraph::DrawGameOver() const
 {
-	DrawGraph(0, 0, gameover_graph, true);
-	DrawGraph(0, button_pos_y, titlebutton_graph, true);
+	DrawGraphF(0, 0, gameover_graph, true);
+	DrawGraphF(0, button_pos_y, titlebutton_graph, true);
 }
 void SceneGraph::DrawGameClear() const
 {
-	DrawGraph(0, 0, gameclear_graph, true);
-	DrawGraph(0, button_pos_y, titlebutton_graph, true);
+	DrawGraphF(0, 0, gameclear_graph, true);
+	DrawGraphF(0, button_pos_y, titlebutton_graph, true);
 }
