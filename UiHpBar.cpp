@@ -58,7 +58,7 @@ void UiHpBar::Draw() const
     if (delayedRatio < 0) delayedRatio = 0; if (delayedRatio > 1) delayedRatio = 1;
 
     // îwåi
-    DrawBox(hpbar_x - BAR_FRAME, hpbar_y - BAR_FRAME, hpbar_x + hpbar_width + BAR_FRAME, hpbar_y + hpbar_height + BAR_FRAME, Pallet::Aqua.GetHandle(), TRUE);
+    DrawBox(hpbar_x - BAR_FRAME, hpbar_y - BAR_FRAME, hpbar_x + hpbar_width + BAR_FRAME, hpbar_y + hpbar_height + BAR_FRAME, Pallet::LemonYellow.GetHandle(), TRUE);
     DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::Gray.GetHandle(), TRUE);
 
     // íxâÑÉoÅ[(ê‘ån)
@@ -72,7 +72,7 @@ void UiHpBar::Draw() const
     DrawBox(hpbar_x, hpbar_y, hpbar_x + realWidth, hpbar_y + hpbar_height, GetColor(color_r, color_g, 64), TRUE);
 
     // òg
-    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::White.GetHandle(), FALSE);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::LemonYellow.GetHandle(), FALSE);
 
     // êîílï\é¶(ïKóvÇ»ÇÁóLå¯âª)
     //SetFontSize(40);

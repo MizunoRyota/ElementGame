@@ -19,6 +19,8 @@
 #include "TakeDamageUi.hpp"
 #include "BulletCreator.hpp"
 #include "SceneGraph.hpp"
+#include "Crystal.hpp"
+
 
 SharedData::SharedData()
 {
@@ -29,6 +31,8 @@ SharedData::SharedData()
     player = std::make_shared<Player>();
     skydome = std::make_shared<Skydome>();
     enemy = std::make_shared<Enemy>();
+    crystal = std::make_shared<Crystal>();
+
     ui = std::make_shared<UiManager>();
     camera->SetPlayer(player);
     camera->SetEnemy(enemy);
@@ -49,22 +53,6 @@ SharedData::SharedData()
     ui->AddElement(std::make_shared<Text>());
     ui->AddElement(std::make_shared<SceneGraph>());
 
-
-    AddGameClearList(camera);
-    AddTitleList(stage);
-    AddTitleList(skydome);
-    AddTitleList(enemy);
-
-    AddGameClearList(camera);
-    AddGameOverList(stage);
-    AddGameOverList(skydome);
-    AddGameOverList(enemy);
-
-    AddGameClearList(camera);
-    AddGameClearList(stage);
-    AddGameClearList(skydome);
-    AddGameClearList(enemy);
-
     //ゲームオブジェクト登録
     AddGameList(skydome);
     AddGameList(stage);
@@ -73,6 +61,8 @@ SharedData::SharedData()
     AddGameList(player);
     AddGameList(enemy);
     AddGameList(camera);
+    AddGameList(crystal);
+
 
     //影を写すオブジェクト登録
     AddShadowReady(player);

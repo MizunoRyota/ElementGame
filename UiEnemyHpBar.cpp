@@ -79,7 +79,7 @@ void UiEnemyHpBar::Draw() const
     DrawBox(hpbar_x, hpbar_y, hpbar_x + realWidth, hpbar_y + hpbar_height, GetColor(BAR_R, color_g, color_b), TRUE);
 
     // ---- 枠線 ----
-    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::White.GetHandle(), FALSE);
+    DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::Aqua.GetHandle(), FALSE);
 
     // ---- テキスト（数値）----
     //DrawFormatString(hpbar_x, hpbar_y + hpbar_height + 8, Pallet::White.GetHandle(), "ENEMY HP: %d / %d", hpbar_real, hpbar_maxhp);

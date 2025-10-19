@@ -16,21 +16,20 @@ GameTimer::GameTimer()
 void GameTimer::Update()
 {
     if (timer_paused) return;
-    timer_elapsed = GetNowCount() - timer_firsttime;
 
-        timer_second = timer_elapsed / 1000;
-    
-    if (timer_second>=6)
-    {
-        timer_second = 0;
-        timer_third++;
-    }
-    if (timer_third >= 10)
-    {
-        timer_third = 0;
-        timer_fourth++;
-    }
-    timer_firest = static_cast<int>(timer_elapsed) % 60;
+    const int now = GetNowCount();
+    timer_elapsed = now - timer_firsttime;
+
+    // 経過時間を正しく「分・秒・各桁」に分解
+    const int totalSeconds = static_cast<int>(timer_elapsed / 1000);
+    const int seconds = totalSeconds % 60;
+    const int minutes = (totalSeconds / 60) % 100; // 99分まで表示
+
+    // 右から: [sec_units][sec_tens] : [min_units][min_tens]
+    timer_firest  = seconds % 10;             // 秒(1の位)
+    timer_second  = (seconds / 10) % 10;      // 秒(10の位)
+    timer_third   = minutes % 10;             // 分(1の位)
+    timer_fourth  = (minutes / 10) % 10;      // 分(10の位)
 }
 
 void GameTimer::UpdateGameClear()
@@ -70,10 +69,9 @@ void GameTimer::Draw() const
 {
     if (!uielement_visible) return;
 
-    DrawGraph(SCREEN_WIDTH / HARF + OFFSET_X_SIXTY, TIMER_GAMETITLE_Y, graph_array[timer_firest], true);
+    DrawGraph(SCREEN_WIDTH / HARF + OFFSET_X_SIXTY,  TIMER_GAMETITLE_Y, graph_array[timer_firest],  true);
     DrawGraph(SCREEN_WIDTH / HARF + OFFSET_X_THIRTY, TIMER_GAMETITLE_Y, graph_array[timer_second], true);
-    DrawGraph(SCREEN_WIDTH / HARF, TIMER_GAMETITLE_Y, graph_array[COLON], true);
-    DrawGraph(SCREEN_WIDTH / HARF - OFFSET_X_THIRTY, TIMER_GAMETITLE_Y, graph_array[timer_third], true);
-    DrawGraph(SCREEN_WIDTH / HARF - OFFSET_X_SIXTY, TIMER_GAMETITLE_Y, graph_array[timer_fourth], true);
-
+    DrawGraph(SCREEN_WIDTH / HARF,                   TIMER_GAMETITLE_Y, graph_array[COLON],        true);
+    DrawGraph(SCREEN_WIDTH / HARF - OFFSET_X_THIRTY, TIMER_GAMETITLE_Y, graph_array[timer_third],  true);
+    DrawGraph(SCREEN_WIDTH / HARF - OFFSET_X_SIXTY,  TIMER_GAMETITLE_Y, graph_array[timer_fourth], true);
 }

@@ -19,6 +19,5 @@ void Text::Update()
 
 void Text::Draw() const
 {
-	//DrawGraphF(0, 0, graph_handle, true);
-
+	DrawGraphF(0, 0, graph_handle, true);
 }

@@ -127,8 +127,8 @@ private:
 	std::shared_ptr<AnimaterBase> enemy_animater;      // アニメーション制御
 	std::shared_ptr<Dodge>       enemy_dodge;         // 回避挙動制御
 	std::shared_ptr<Chase>       enemy_chase;         // 追跡判定/ロジック
-	std::shared_ptr<Player>      player_refrence;     // プレイヤー参照 (位置/方向取得用)
 	std::shared_ptr<BulletFire>  enemy_bullet;        // 弾生成/発射制御
 	std::shared_ptr<SpecialAttack> enemy_specialattack; // 特殊攻撃状態管理(チャージなど)
 	std::shared_ptr<EnemyMove>   enemy_move;          // 位置移動ロジック(原点復帰/追跡/浮上 等)
+	std::shared_ptr<Player>      player_refrence;     // プレイヤー参照 (位置/方向取得用)
 };

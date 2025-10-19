@@ -10,7 +10,7 @@ class Skydome;
 class Player;
 class Enemy;
 class UiManager;
-
+class Crystal;
 class SharedData
 {
 public:
@@ -70,5 +70,7 @@ public:
 	std::shared_ptr<Stage> stage = nullptr;
 	std::shared_ptr<Skydome> skydome = nullptr;
 	std::shared_ptr<UiManager> ui = nullptr; // HPバー描画用
+	std::shared_ptr<Crystal> crystal = nullptr; // チャージ中クリスタル
+	
 };
 

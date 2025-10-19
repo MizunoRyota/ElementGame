@@ -2,7 +2,6 @@
 #include "Crystal.hpp"
 #include "GameObject.hpp"
 
-
 Crystal::Crystal()
 {
 }

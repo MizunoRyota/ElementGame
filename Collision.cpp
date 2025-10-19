@@ -10,25 +10,25 @@ Collision::~Collision()
 {
 }
 
-bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphereCenter, float sphere_radius, const VECTOR& capsuleBase, float capsule_radius, float capsuleHeight)
+bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphere_center, float sphere_radius, const VECTOR& capsule_base, float capsule_radius, float capsule_height)
 {
 
     // カプセル軸上の最近点を求める
 
-    VECTOR capsule_hight = VAdd(capsuleBase, VGet(0, capsuleHeight,0));
+    VECTOR capsule_hight = VAdd(capsule_base, VGet(0, capsule_height,0));
 
-    VECTOR d = VSub(capsule_hight, capsuleBase);
-    VECTOR m = VSub(sphereCenter, capsuleBase);
+    VECTOR d = VSub(capsule_hight, capsule_base);
+    VECTOR m = VSub(sphere_center, capsule_base);
 
-    float t = VDot(m, d) / VDot(d, d);
-    t = std::clamp(t, 0.0f, 1.0f);
+    float projection = VDot(m, d) / VDot(d, d);
+    projection = std::clamp(projection, 0.0f, 1.0f);
     
-    VECTOR closest = VAdd(capsuleBase, VScale(d, t));
+    VECTOR closest = VAdd(capsule_base, VScale(d, projection));
 
     // 球中心と最近点の距離
-    float dist = VSize(VSub(sphereCenter, closest));
+    float distance = VSize(VSub(sphere_center, closest));
 
     // 距離が合計半径以下なら衝突
-    return dist <= (sphere_radius + capsule_radius);
+    return distance <= (sphere_radius + capsule_radius);
 
 }
