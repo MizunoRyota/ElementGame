@@ -64,7 +64,7 @@ private:
 
 	VECTOR camera_dirction; 	// カメラの向き（ターゲット位置）
 
-	std::shared_ptr<Player> player = nullptr; 	//参照
-	std::shared_ptr<Enemy> enemy = nullptr; 	//参照
+	std::shared_ptr<Player> player; 	//参照
+	std::shared_ptr<Enemy> enemy; 	//参照
 
 };

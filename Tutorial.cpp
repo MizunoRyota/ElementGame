@@ -17,8 +17,8 @@ void TutorialScene::Initialize()
     // マウスカーソル非表示
     SetMouseDispFlag(FALSE);
     GetSharedData().InitializeAll();
-    player_refrence = std::dynamic_pointer_cast<Player>(GetSharedData().FindObject("Player"));
-    enemy_refrence = std::dynamic_pointer_cast<Enemy>(GetSharedData().FindObject("Enemy"));
+    player_reference = std::dynamic_pointer_cast<Player>(GetSharedData().FindObject("Player"));
+    enemy_reference = std::dynamic_pointer_cast<Enemy>(GetSharedData().FindObject("Enemy"));
     shadow = std::dynamic_pointer_cast<Shadow>(GetSharedData().FindObject("Shadow"));
 
     // エフェクト初期化

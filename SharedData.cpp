@@ -24,6 +24,7 @@
 
 SharedData::SharedData()
 {
+
     stage = std::make_shared<Stage>();
     shadow = std::make_shared<Shadow>();
     input = std::make_shared<Input>();
@@ -32,12 +33,13 @@ SharedData::SharedData()
     skydome = std::make_shared<Skydome>();
     enemy = std::make_shared<Enemy>();
     crystal = std::make_shared<Crystal>();
-
     ui = std::make_shared<UiManager>();
+
+    //QÆ“n‚µ
     camera->SetPlayer(player);
     camera->SetEnemy(enemy);
-
     enemy->SetPlayer(player);
+    crystal->SetEnemy(enemy);
     player->SetEnemy(enemy);
     player->SetCamera(camera);
     player->SetInput(input);

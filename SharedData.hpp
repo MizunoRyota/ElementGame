@@ -11,6 +11,7 @@ class Player;
 class Enemy;
 class UiManager;
 class Crystal;
+
 class SharedData
 {
 public:
@@ -58,19 +59,17 @@ public:
 	std::vector<std::shared_ptr<GameObject>> objects_gameover;
 	std::vector<std::shared_ptr<GameObject>> objects_gameclear;
 
-
 	std::vector<std::shared_ptr<GameObject>> objects_shadow_ready;
 
-
-	std::shared_ptr<Shadow> shadow = nullptr;
-	std::shared_ptr<Input> input = nullptr;
-	std::shared_ptr<Camera> camera = nullptr;
-	std::shared_ptr<Player> player = nullptr;
-	std::shared_ptr<Enemy> enemy = nullptr;
-	std::shared_ptr<Stage> stage = nullptr;
-	std::shared_ptr<Skydome> skydome = nullptr;
-	std::shared_ptr<UiManager> ui = nullptr; // HPバー描画用
-	std::shared_ptr<Crystal> crystal = nullptr; // チャージ中クリスタル
-	
+	//インスタンス作成
+	std::shared_ptr<Shadow> shadow;
+	std::shared_ptr<Input> input;
+	std::shared_ptr<Camera> camera;
+	std::shared_ptr<Player> player;
+	std::shared_ptr<Enemy> enemy;
+	std::shared_ptr<Stage> stage;
+	std::shared_ptr<Skydome> skydome;
+	std::shared_ptr<UiManager> ui; // HPバー描画用
+	std::shared_ptr<Crystal> crystal; // チャージ中クリスタル
 };
 

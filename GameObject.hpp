@@ -28,7 +28,7 @@ public:
 	virtual VECTOR GetTarget() const { return VAdd(obj_position, VGet(0, TARGETHIGHT, 0)); }
 	std::string GetNameTag() const { return obj_name; }
 
-	virtual const std::shared_ptr<GameObject> SetGameObject(const std::shared_ptr<GameObject>& setplayer) { return setplayer; }
+	virtual const std::shared_ptr<GameObject> SetGameObject(const std::shared_ptr<GameObject>& set_object) { return set_object; }
 
 	virtual void Setposition(const VECTOR set) { obj_position = set; }
 

@@ -66,7 +66,7 @@ public:
 
 	void SetPos(const VECTOR set) { obj_position = set; }
 
-	void SetPlayer(const std::shared_ptr<Player>& setplayer) { player_refrence = setplayer; }
+	void SetPlayer(const std::shared_ptr<Player>& setplayer) { player_reference = setplayer; }
 
 	float GetCapsuleRadius() const { return COLLISION_CAPSULE_RADIUS; }
 	float GetCapsuleHeight() const { return COLLISION_CAPSULE_HEIGHT; }
@@ -130,5 +130,6 @@ private:
 	std::shared_ptr<BulletFire>  enemy_bullet;        // 弾生成/発射制御
 	std::shared_ptr<SpecialAttack> enemy_specialattack; // 特殊攻撃状態管理(チャージなど)
 	std::shared_ptr<EnemyMove>   enemy_move;          // 位置移動ロジック(原点復帰/追跡/浮上 等)
-	std::shared_ptr<Player>      player_refrence;     // プレイヤー参照 (位置/方向取得用)
+
+	std::shared_ptr<Player>      player_reference;     // プレイヤー参照 (位置/方向取得用)
 };

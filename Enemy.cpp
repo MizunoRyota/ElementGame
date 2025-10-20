@@ -215,8 +215,8 @@ void Enemy::UpdateStateAction()
 		break;
 
 	case STATE_CHASE:
-		obj_position = enemy_move->MoveToTarget(obj_position, player_refrence->GetPosition()); // 追従
-		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_refrence->GetPosition()))
+		obj_position = enemy_move->MoveToTarget(obj_position, player_reference->GetPosition()); // 追従
+		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition()))
 		{
 			enemy_state = static_cast<EnemyState>(enemy_attacktype); // 攻撃へ
 		}
@@ -246,7 +246,7 @@ void Enemy::UpdateStateAction()
 		if (enemy_animater->GetAmimFrame() >= WINDATTACK_TIMING)
 		{
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
-			enemy_bullet->FireHoming(handPos, obj_direction, WINDBULLET_SPEED, player_refrence);
+			enemy_bullet->FireHoming(handPos, obj_direction, WINDBULLET_SPEED, player_reference);
 		}
 		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
 		break;
@@ -355,7 +355,7 @@ void Enemy::UpdateHandEffect()
 void Enemy::UpdateAngle()
 {
 	// プレイヤー方向ベクトル
-	obj_direction = VSub(player_refrence->GetPosition(), obj_position);
+	obj_direction = VSub(player_reference->GetPosition(), obj_position);
 	// 角度算出(Yaw)
 	float angle = atan2(obj_direction.x, obj_direction.z);
 	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f)); // モデル向き反映

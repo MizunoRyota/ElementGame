@@ -25,9 +25,13 @@ public:
 private:
     static constexpr int NUMBERS = 11;
     static constexpr int HARF = 2;
-    static constexpr int OFFSET_X_THIRTY = 30;
-    static constexpr int OFFSET_X_SIXTY = 60;
-    static constexpr int TIMER_GAMETITLE_Y = 40;
+    static constexpr int OFFSET_X_FIRST = 870;
+    static constexpr int OFFSET_X_SECOND = 830;
+    static constexpr int OFFSET_X_COLON = 790;
+    static constexpr int OFFSET_X_THIRD = 750;
+    static constexpr int OFFSET_X_FOURTH = 710;
+
+    static constexpr int TIMER_GAMETITLE_Y = 30;
     static constexpr int TIMER_GAMECLEAR_Y = 300;
 
     static constexpr int COLON = 10;
