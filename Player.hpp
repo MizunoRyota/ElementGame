@@ -41,14 +41,11 @@ public:
 	 void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy_reference = setenemy; } // 敵参照設定
 	 void SetBulletManager(std::shared_ptr<BulletFire> bullet) { player_bullet = bullet; } // 弾生成管理設定
 
-	 float GetCapsuleRadius() const { return COLLISION_CAPSULE_RADIUS; } // 衝突半径
-	 float GetCapsuleHeight() const { return COLLISION_CAPSULE_HEIGHT; } // 衝突高さ
 	 std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; } // 移動制御取得
 
 private:
 	// ===== 定数パラメータ =====
-	static constexpr float COLLISION_CAPSULE_RADIUS = 0.06f; // カプセル判定半径
-	static constexpr float COLLISION_CAPSULE_HEIGHT = 2.5f;  // カプセル判定高さ
+
 	static constexpr float BULLETFIRE_DISTANCE = 2.0f;       // 発射位置: 手→カメラ前方オフセット
 	static constexpr float SCALE = 0.01f;                   // モデルスケール
 	static constexpr float BULLET_SPEED = 0.6f;             // 自弾速度

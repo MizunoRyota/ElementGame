@@ -28,10 +28,12 @@ public:
 
 	bool IsInvincible() const { return damage_invincible_timer_ > 0; } // 現在無敵か
 	bool IsDead() const { return obj_hp <= 0; } // HP が 0 以下か
-
+	float GetCapsuleRadius() const { return COLLISION_CAPSULE_RADIUS; } // 衝突半径
+	float GetCapsuleHeight() const { return COLLISION_CAPSULE_HEIGHT; } // 衝突高さ
 protected:
 	static constexpr float ReturnRange = 20.0f; // 自動復帰させる境界半径
-
+	float COLLISION_CAPSULE_RADIUS = 0;
+	float COLLISION_CAPSULE_HEIGHT = 0;
 	int   character_handname = 0;              // モデル内「手」ボーンのフレームID
 	VECTOR character_handposition = VGet(0, 0, 0); // 発射等に用いる手先位置キャッシュ
 

@@ -1,10 +1,11 @@
 #pragma once
-#include "GameObject.hpp" 
+#include "CharacterBase.hpp" 
 
+class CharacterBase;
 class GameObject;
 class Enemy;
 
-class Crystal : public GameObject
+class Crystal : public CharacterBase
 {
 public:
 
@@ -12,6 +13,8 @@ public:
 	~Crystal();
 	 void Initialize() override {};
 	 void Update() override ;
+
+	 void UpdateStateAction() override {};
 
 	 void DrawTitle() override {};
 	 void Draw() override ;
@@ -26,8 +29,10 @@ public:
 	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { reference_enemy = setenemy; }
 
 private:
-	static constexpr float CRYSTAL_SCALE = 0.010f;
+	static constexpr float CRYSTAL_SCALE = 0.010f;			 //モデルの大きさ
 
-	std::shared_ptr<Enemy> reference_enemy;
+	static constexpr int CRYSTAL_MAXHP = 20;				 // クリスタルの最大HP
+
+	std::shared_ptr<Enemy> reference_enemy;		//敵の参照用
 
 };

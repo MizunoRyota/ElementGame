@@ -1,12 +1,15 @@
 #pragma once
 
+class GameObject;
 class SharedData;
+class Bullet;
 
 class CollisionSystem
 {
 public:
 	// すべての移動更新が終わった後に呼び出す
 	static void Resolve(SharedData& shared);
+
 private:
 	float bullet_collision_radius = 3.0f;
 

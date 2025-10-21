@@ -4,6 +4,9 @@
 #include "Enemy.hpp"
 Crystal::Crystal()
 {
+	obj_hp = CRYSTAL_MAXHP;
+	COLLISION_CAPSULE_HEIGHT = 2.5f;  // カプセル判定高さ
+	COLLISION_CAPSULE_RADIUS = 2.5f;  // カプセル判定高さ
 	obj_modelhandle = MV1LoadModel("data/3dmodel/Crystal/Crystal.mv1");
 	obj_name = "Crystal";
 	MV1SetScale(obj_modelhandle, VGet(CRYSTAL_SCALE, CRYSTAL_SCALE, CRYSTAL_SCALE)); // スケール適用

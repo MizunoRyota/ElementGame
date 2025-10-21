@@ -6,6 +6,7 @@
 #include "Collision.hpp"
 #include "Enemy.hpp"
 #include "Player.hpp"
+#include "Crystal.hpp"
 #include "EffectCreator.hpp" // 追加
 
 namespace
@@ -29,8 +30,9 @@ void CollisionSystem::Resolve(SharedData& shared)
 	// 必要な参照を取得
 	auto enemy = std::dynamic_pointer_cast<Enemy>(shared.FindObject("Enemy"));
 	auto player = std::dynamic_pointer_cast<Player>(shared.FindObject("Player"));
+	auto crystal = std::dynamic_pointer_cast<Crystal>(shared.FindObject("Crystal"));
 
-	auto& bc = BulletCreator::GetBulletCreator();
+	auto& bullet_creator = BulletCreator::GetBulletCreator();
 
 	// 敵のカプセル(下端) = ワールド座標の足元位置と仮定
 	VECTOR enemyBase{};
@@ -48,24 +50,49 @@ void CollisionSystem::Resolve(SharedData& shared)
 		(void)MakeCapsuleTop(playerBase, player->GetCapsuleHeight());
 	}
 
-	const int count = bc.GetBulletCount();
+	// プレイヤーのカプセル(下端)
+	VECTOR crystalBase{};
+	if (crystal)
+	{
+		crystalBase = crystal->GetPosition();
+		(void)MakeCapsuleTop(crystalBase, crystal->GetCapsuleHeight());
+	}
+
+	const int count = bullet_creator.GetBulletCount();
 	for (int i = 0; i < count; ++i)
 	{
-		const auto bullet = bc.GetBullet(i);
+		const auto bullet = bullet_creator.GetBullet(i);
 		if (!bullet || !bullet->IsActive()) continue;
 
 		const VECTOR sphereCenter = bullet->GetPosition();
 		const float  sphere_radius = bullet->GetBulletRadius();
 
 		// 敵へのヒットチェック
-		if (enemy)
+		if (enemy->GetEnemyState()!=STATE_SPECIAL_CHARGE)
 		{
 			const bool hitEnemy = Collision::CheckSphereCapsuleCollision(
 				sphereCenter, sphere_radius, enemyBase, enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
 
-			if (hitEnemy && enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
+			if (hitEnemy)
 			{
 				enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
+
+				// 弾ヒットエフェクト
+				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
+				bullet->ChangeActiveFalse();
+				bullet->ResetPosition();
+
+				continue; // 既に消えているため次の弾へ
+			}
+		}
+		else if (enemy->GetEnemyState() == STATE_SPECIAL_CHARGE)
+		{
+			const bool hitcrystal = Collision::CheckSphereCapsuleCollision(
+				sphereCenter, sphere_radius, crystalBase, crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
+
+			if (hitcrystal)
+			{
+				crystal->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
 
 				// 弾ヒットエフェクト
 				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);

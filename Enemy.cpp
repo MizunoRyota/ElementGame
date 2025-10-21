@@ -12,6 +12,8 @@
 
 Enemy::Enemy()
 {
+	COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル半径(モデル合わせ & 衝突判定用)
+	COLLISION_CAPSULE_HEIGHT = 2.75f;   // カプセル高さ(プレイヤー等との整合)
 	enemy_isdie = false;
 	enemy_attacktype = 0; // 次攻撃ステート種別初期
 	enemy_dodgechose = 0;

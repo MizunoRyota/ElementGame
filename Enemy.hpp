@@ -68,8 +68,6 @@ public:
 
 	void SetPlayer(const std::shared_ptr<Player>& setplayer) { player_reference = setplayer; }
 
-	float GetCapsuleRadius() const { return COLLISION_CAPSULE_RADIUS; }
-	float GetCapsuleHeight() const { return COLLISION_CAPSULE_HEIGHT; }
 	int GetEnemyState() const { return enemy_state; }
 
 private:
@@ -77,10 +75,6 @@ private:
 	void StartHandEffectForAttack();
 	void StopHandEffect();
 	EffectCreator::EffectType MapEffectTypeForAttack(int attackState) const; // 宣言位置修正
-
-	// ===== 衝突判定/カプセルパラメータ =====
-	static constexpr float COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル半径(モデル合わせ & 衝突判定用)
-	static constexpr float COLLISION_CAPSULE_HEIGHT = 2.75f;   // カプセル高さ(プレイヤー等との整合)
 
 	// ===== 弾関連パラメータ =====
 	static constexpr float FIREBULLET_SPEED = 0.40f;           // 火弾 速度

@@ -17,7 +17,8 @@ Player::Player()
 	character_handname  = MV1SearchFrame(obj_modelhandle, "f_middle.03.R"); // 右手末端フレームID
 	// モデルスケール適用
 	MV1SetScale(obj_modelhandle, VGet(SCALE, SCALE, SCALE));
-
+	 COLLISION_CAPSULE_RADIUS = 0.06f; // カプセル判定半径
+	 COLLISION_CAPSULE_HEIGHT = 2.5f;  // カプセル判定高さ
 	obj_position = VGet(0, 0, 0); // 初期位置
 	obj_direction = VGet(0, 0, 0); // 向き(未使用初期化)
 
