@@ -24,6 +24,8 @@ int BulletFire::ToEffectIndex(EffectFlavor effect_flavor)
 	case EffectFlavor::Special:return (int)ET::BulletSpecial;
 	case EffectFlavor::Hit:return (int)ET::BulletHit;
 	case EffectFlavor::FireGround:return (int)ET::FireGround;
+	case EffectFlavor::PlayerAttack:return (int)ET::BulletPlayer;
+
 	}
 	return (int)ET::BulletHoming; // デフォルト:風
 }
@@ -31,8 +33,14 @@ int BulletFire::ToEffectIndex(EffectFlavor effect_flavor)
 void BulletFire::FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
 	if (bullet_firecooltimer > 0) return; // クール中
-	bullet_firecooltimer = BULLET_COOLTIME; // リセット
 	BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::Fire));
+}
+
+void BulletFire::FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& speed)
+{
+	if (bullet_firecooltimer > 0) return; // クール中
+	bullet_firecooltimer = BULLET_COOLTIME; // リセット
+	BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::PlayerAttack));
 }
 
 void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed)

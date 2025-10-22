@@ -9,17 +9,19 @@
 /// コンストラクタ
 /// </summary>
 Camera::Camera()
-    :OriginalOffset(VGet(0, 0, 0))
-    , camera_position(VGet(0, 0, 0))
-    , camera_targetpos(VGet(0, 0, 0))
-    , camera_angle(VGet(0, 0, 0))
-    , camera_dirction(VGet(0, 0, 0))
-    , isShake(false)
-    , isDamage(true)
-    , shakeTime(0)
-    , angleHorizontal(0)
-    , angleVertical(0)
+
 {
+    OriginalOffset=VGet(0,0,0);
+    camera_position=VGet(0,0,0);
+    camera_targetpos=VGet(0,0,0);
+    camera_angle=VGet(0,0,0);
+    camera_dirction=VGet(0,0,0);
+    isShake=false;
+    isDamage = true;
+    shakeTime=0;
+    angleHorizontal=0;
+    angleVertical=0;
+
     obj_name = "Camera";
 
     //垂直角度は0度
@@ -71,7 +73,6 @@ void Camera::UpdateTitle()
 /// </summary>
 void Camera::Update()
 {
-
 
     // カメラの目線の位置
     camera_position = VAdd(player->GetPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));

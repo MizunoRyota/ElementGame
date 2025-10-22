@@ -2,10 +2,9 @@
 #include "AnimaterBase.hpp"
 
 AnimaterBase::AnimaterBase(int anim_modelhandle)
-	:anim_blendrate(1.0f)
-	, anim_modelhandle(0)
-	, anim_isend(false)
 {
+	anim_blendrate = 1.0f;
+	anim_isend = false;
 	////アニメーションのステート初期化
 	this->anim_prevstate.anim_animnum = -1;
 	this->anim_prevstate.anim_nowtime = 0;

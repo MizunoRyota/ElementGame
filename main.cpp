@@ -54,6 +54,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
+
 		// ‚Ú‚½‚ñ‚¨‚µ‚½‚ç
 		if (CheckHitKey(KEY_INPUT_P))
 		{

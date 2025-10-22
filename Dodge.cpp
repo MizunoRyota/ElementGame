@@ -3,8 +3,8 @@
 #include "Enemy.hpp"
 
 Dodge::Dodge()
-    :dodge_time(0)
 {
+    dodge_time = 0;
 }
 
 Dodge::~Dodge()

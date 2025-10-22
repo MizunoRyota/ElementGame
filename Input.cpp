@@ -7,9 +7,9 @@
 /// コンストラクタ
 /// </summary>
 Input::Input()
-    : input_nowframe(0)
-    , input_newframe(0)
 {
+    input_nowframe = 0;
+    input_newframe = 0;
     obj_name = "Input";
 
 }

@@ -24,6 +24,8 @@ void EffectCreator::Initialize()
 	effect_handles[(int)EffectType::HandEffect] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/hand_effect.efkefc", 0.04f);
 	effect_handles[(int)EffectType::HandCharge] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/hand_charge.efkefc", 0.04f);
 	effect_handles[(int)EffectType::Barrior] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Barrior.efkefc", 1.2f);
+	effect_handles[(int)EffectType::BulletPlayer] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/player_attack.efkefc", 0.3f);
+
 }
 
 void EffectCreator::Update()

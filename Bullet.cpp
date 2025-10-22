@@ -72,8 +72,8 @@ void Bullet::InitializeBulletRadius(int effectTypeIndex)
 		bullet_radius = BULLET_DIFFUSION_RADIUS; break;
 	case (static_cast<int>(EffectCreator::EffectType::BulletHoming)):
 		bullet_radius = BULLET_HOMING_RADIUS; break;
-	case (static_cast<int>(EffectCreator::EffectType::BulletSpecial)):
-		bullet_radius = BULLET_SPECIAL_RADIUS; break;
+	case (static_cast<int>(EffectCreator::EffectType::BulletPlayer)):
+		bullet_radius = BULLET_FIRE_RADIUS; break;
 	default: break;
 	}
 }

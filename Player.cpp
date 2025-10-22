@@ -107,7 +107,7 @@ void Player::UpdateStateAction()
 	{
 		player_state = STATE_ATTACK; // 攻撃ステート
 
-		player_bullet->FireStraight(VAdd(character_handposition, VScale(camera_reference->GetCameraDir(), BULLETFIRE_DISTANCE)), camera_reference->GetCameraDir(), BULLET_SPEED); // 発射
+		player_bullet->FirePlayer(VAdd(character_handposition, VScale(camera_reference->GetCameraDir(), BULLETFIRE_DISTANCE)), camera_reference->GetCameraDir(), BULLET_SPEED); // 発射
 
 	}
 	else

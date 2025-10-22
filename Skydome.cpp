@@ -4,8 +4,6 @@
 #include "GameObject.hpp"
 
 Skydome::Skydome()
-	:skydome_position(VGet(0.0f,0,0.0f))
-	, skydome_modelhandle(0)
 {
 	obj_name = "Skydome";
 	skydome_position = VGet(0.0f, 0, 0.0f);

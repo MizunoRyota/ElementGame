@@ -12,6 +12,8 @@ public:
 	BulletFire();
 	~BulletFire();
 
+	void FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& speed);
+
 	void FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed); //直線に発射
 
 	void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed); //拡散弾を発射
@@ -43,6 +45,7 @@ public:
 		Special = 3,
 		Hit = 4,
 		FireGround = 5,
+		PlayerAttack = 14,
 	};
 
 	// エフェクトインデックス変換ヘルパー

@@ -27,9 +27,9 @@ void UiEnemyHpBar::Update()
         // ダメージ時: hpbar_display を DELAY_SPEED 速度で追従減少
         if (hpbar_display > hpbar_real)
         {
-            int decayAmount = static_cast<int>(DELAY_SPEED * DISPLAY_);
-            if (decayAmount < 1) decayAmount = 1; // 最低 1 減少
-            hpbar_display -= decayAmount;
+            int decay_amount = static_cast<int>(DELAY_SPEED * DISPLAY_);
+            if (decay_amount < 1) decay_amount = 1; // 最低 1 減少
+            hpbar_display -= decay_amount;
             if (hpbar_display < hpbar_real) hpbar_display = hpbar_real; // 行き過ぎ補正
         }
         // 回復時: 即時反映（必要なら遅延表現を追加可能）

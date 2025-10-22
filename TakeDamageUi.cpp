@@ -41,21 +41,21 @@ void TakeDamageUi::Update()
 
 	if (tookDamageThisFrame)
 	{
-		alpha_ = ALPHA_MAX;
+		alpha = ALPHA_MAX;
 	}
 	else
 	{
-		alpha_ -= fade_out_speed_;
-		if (alpha_ < 0.0f) alpha_ = 0.0f;
+		alpha -= fade_out_speed;
+		if (alpha < 0.0f) alpha = 0.0f;
 	}
 }
 
 void TakeDamageUi::Draw() const
 {
-	if (alpha_ <= 0.0f) return; // 完全に透明なら描画不要
-	int a = static_cast<int>(alpha_);
-	if (a > ALPHA_MAX) a = ALPHA_MAX; if (a < 0) a = 0;
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, a);
+	if (alpha <= 0.0f) return; // 完全に透明なら描画不要
+	int blend_paramater = static_cast<int>(alpha);
+	if (blend_paramater > ALPHA_MAX) blend_paramater = ALPHA_MAX; if (blend_paramater < 0) blend_paramater = 0;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, blend_paramater);
 	DrawGraphF(0, 0, graph_handle, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }
