@@ -242,6 +242,9 @@
     <ClCompile Include="UiHpBar.cpp" />
     <ClCompile Include="UiManager.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="camera.json" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -435,4 +435,9 @@
       <Filter>GameCode\Crystal</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="camera.json">
+      <Filter>GameCode\Camera</Filter>
+    </None>
+  </ItemGroup>
 </Project>

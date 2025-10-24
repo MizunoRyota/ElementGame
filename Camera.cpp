@@ -5,6 +5,8 @@
 #include "Enemy.hpp"
 #include "Input.hpp"
 
+using json = nlohmann::json;
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -12,7 +14,7 @@ Camera::Camera()
 
 {
     OriginalOffset=VGet(0,0,0);
-    camera_position=VGet(0,0,0);
+    obj_position=VGet(0,0,0);
     camera_targetpos=VGet(0,0,0);
     camera_angle=VGet(0,0,0);
     camera_dirction=VGet(0,0,0);
@@ -31,7 +33,7 @@ Camera::Camera()
     //奥行0.25～400までをカメラの描画範囲とする
     SetCameraNearFar(CAMERA_NEAR, CAMERA_FAR);
     // カメラに位置を反映.
-    SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
+    SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 
 }
 
@@ -59,13 +61,13 @@ void Camera::UpdateTitle()
     const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -7.50f));
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
-    camera_position = Lerp(camera_position, targetCamPos, 0.01f);
+    obj_position = Lerp(obj_position, targetCamPos, 0.01f);
     camera_targetpos = Lerp(camera_targetpos, targetFocus, 0.01f);
 
     // 向きベクトル更新 (必要なら)
-    camera_dirction = VSub(camera_targetpos, camera_position);
+    camera_dirction = VSub(camera_targetpos, obj_position);
 
-    SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
+    SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
 
 /// <summary>
@@ -75,7 +77,7 @@ void Camera::Update()
 {
 
     // カメラの目線の位置
-    camera_position = VAdd(player->GetPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
+    obj_position = VAdd(player->GetPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
     
     // マウスによる回転
     int mouseX, mouseY;
@@ -88,8 +90,8 @@ void Camera::Update()
     float maxPitch = DX_PI_F / 2 - 0.1f;
     if (angleVertical > maxPitch) angleVertical = maxPitch;
     if (angleVertical < -maxPitch) angleVertical = -maxPitch;
-    //printfDx("cameraxpos%f\n", camera_position.x);
-    //printfDx("camerazpos%f\n", camera_position.z);
+    //printfDx("cameraxpos%f\n", obj_position.x);
+    //printfDx("camerazpos%f\n", obj_position.z);
 
     // 「←」ボタンが押されていたら水平角度をマイナスする
     if (rightInput->IsInputAnalogKey(Input::AnalogLeft))
@@ -142,8 +144,8 @@ void Camera::Update()
     camera_dirction.y = sinf(angleVertical);
     camera_dirction.z = cosf(angleVertical) * cosf(angleHorizontal);
 
-    camera_targetpos = VAdd(camera_position, camera_dirction);
-    SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
+    camera_targetpos = VAdd(obj_position, camera_dirction);
+    SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 
 }
 
@@ -167,13 +169,13 @@ void Camera::UpdateGameClear()
     const VECTOR targetCamPos = VAdd(targetFocus, VGet(0.0f, 1.0f, -10.0f));
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
-    camera_position = Lerp(camera_position, targetCamPos, 0.01f);
+    obj_position = Lerp(obj_position, targetCamPos, 0.01f);
     camera_targetpos = Lerp(camera_targetpos, targetFocus,   0.01f);
 
     // 向きベクトル更新 (必要なら)
-    camera_dirction = VSub(camera_targetpos, camera_position);
+    camera_dirction = VSub(camera_targetpos, obj_position);
 
-    SetCameraPositionAndTarget_UpVecY(camera_position, camera_targetpos);
+    SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
 
 /// <summary>

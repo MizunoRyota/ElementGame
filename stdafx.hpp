@@ -1,6 +1,7 @@
 #pragma once
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
+#include "json.hpp"
 #include "Pallet.hpp"
 #include "Screen.hpp"
 #include <any>
@@ -9,6 +10,7 @@
 #include <cmath>
 #include <cstdint>
 #include <functional>
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <math.h>

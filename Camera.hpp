@@ -33,7 +33,7 @@ public:
 
 	void FixCameraPosition(); 			// カメラを元の位置に戻す
 	// ポジションのgetter/setter.
-	const VECTOR& GetPosition() const { return camera_position; }
+	const VECTOR& GetPosition() const { return obj_position; }
 	// GameObject の仮想関数をオーバーライドしない (別名メソッド) に変更しコンパイルエラー回避
 	const VECTOR& GetCameraTarget() const { return camera_targetpos; }
 	const VECTOR& GetCameraDir() const { return camera_dirction; }
@@ -59,7 +59,7 @@ private:
 	Input* rightInput; 			// 右スティック情報
 	VECTOR OriginalOffset; 		// 
 	VECTOR camera_angle; 		// 向きベクトル
-	VECTOR camera_position; 	// ポジション.
+	VECTOR obj_position; 	// ポジション.
 	VECTOR camera_targetpos; 	// カメラが注視するポジション
 
 	VECTOR camera_dirction; 	// カメラの向き（ターゲット位置）
