@@ -60,9 +60,9 @@ void CollisionSystem::Resolve(SharedData& shared)
 	}
 
 	const int count = bullet_creator.GetBulletCount();
-	for (int i = 0; i < count; ++i)
+	for (int bulletNum = 0; bulletNum < count; ++bulletNum)
 	{
-		const auto bullet = bullet_creator.GetBullet(i);
+		const auto bullet = bullet_creator.GetBullet(bulletNum);
 		if (!bullet || !bullet->IsActive()) continue;
 
 		const VECTOR sphereCenter = bullet->GetPosition();
@@ -98,11 +98,13 @@ void CollisionSystem::Resolve(SharedData& shared)
 				if (crystal->GetHp()<=0)
 				{
 					crystal->ChangeBreak();
-					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BreakCrystal, crystal->GetPosition());
+					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BreakCrystal, sphereCenter);
 				}
-
-				// 弾ヒットエフェクト
-				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
+				else
+				{
+					// 弾ヒットエフェクト
+					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
+				}
 
 				bullet->ChangeActiveFalse();
 				bullet->ResetPosition();

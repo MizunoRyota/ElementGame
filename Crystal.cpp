@@ -13,41 +13,42 @@ Crystal::Crystal()
 	MV1SetScale(obj_modelhandle, VGet(CRYSTAL_SCALE, CRYSTAL_SCALE, CRYSTAL_SCALE)); // ƒXƒP[ƒ‹“K—p
 
 	// ‰Šú‰»
-	crystal_break = true;
+	crystal_break = false;
 	crystal_isinit = false;
 	crystal_angle = 0.0f;
+
 }
 
 Crystal::~Crystal()
 {
 }
 
+void Crystal::Initialize()
+{
+	// ‰Šú‰»
+	crystal_break = false;
+	crystal_isinit = false;
+	crystal_angle = 0.0f;
+}
+
 void Crystal::ChangeActive()
 {
-	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE) 
+	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
 	{
-		obj_position = VGet(0, 0, 0);
-		return; 
+		obj_position = VGet(0.0f, 0.0f, 0.0f);
+		return;
 	}
-
 	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_isinit)
 	{
 		obj_position = VAdd(reference_enemy->GetPosition(), VGet(0.0f, 10.0f, 0.0f));
 		crystal_isinit = true;
 	}
-
 }
 
 void Crystal::ChangeBreak()
 {
-	if (crystal_break)
-	{
-		crystal_break = false;
-	}
-	else
-	{
-		crystal_break = true;
-	}
+	crystal_break = true;
+	obj_position = VGet(0.0f, -10.0f, 0.0f);
 }
 
 void Crystal::Update()
@@ -56,7 +57,7 @@ void Crystal::Update()
 	ChangeActive();
 
 	// “G‚ð’†S‚É‰~‚ð•`‚­‚æ‚¤‚ÉˆÚ“®
-	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && crystal_isinit)
+	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_isinit)
 	{
 		MoveHorizontal();
 	}
@@ -83,7 +84,7 @@ void Crystal::MoveHorizontal()
 
 void Crystal::Draw()
 {
-	if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE)
+	if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_break)
 	{
 		MV1DrawModel(obj_modelhandle);
 	}

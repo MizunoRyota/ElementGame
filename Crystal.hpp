@@ -11,7 +11,7 @@ public:
 
 	Crystal();
 	~Crystal();
-	 void Initialize() override {};
+	 void Initialize() override;
 	 void Update() override ;
 
 	 void UpdateStateAction() override {};
