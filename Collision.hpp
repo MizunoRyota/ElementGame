@@ -7,7 +7,7 @@ public:
 	~Collision();
 
 	// ‹…‚ÆƒJƒvƒZƒ‹‚Ì“–‚½‚è”»’è
-	static bool CheckSphereCapsuleCollision(const VECTOR& sphereCenter,float sphere_radius,const VECTOR& capsuleBase,float capsule_radius,float capsuleHeight);
+	static bool CheckSphereCapsuleCollision(const VECTOR& sphereCenter,float sphereRadius,const VECTOR& capsuleBase,float capsule_radius,float capsuleHeight);
 
 private:
 

@@ -6,7 +6,7 @@ SpecialAttack::SpecialAttack()
 	,specialattack_isactive(false)   // 発動中フラグ
 	,specialattack_isend(false)      // 終了フラグ
 {
-
+	specialattack_charge_time = 0;
 
 }
 

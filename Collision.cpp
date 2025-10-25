@@ -10,7 +10,7 @@ Collision::~Collision()
 {
 }
 
-bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphere_center, float sphere_radius, const VECTOR& capsule_base, float capsule_radius, float capsule_height)
+bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphere_center, float sphereRadius, const VECTOR& capsule_base, float capsule_radius, float capsule_height)
 {
 
     // カプセル軸上の最近点を求める
@@ -29,6 +29,6 @@ bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphere_center, float s
     float distance = VSize(VSub(sphere_center, closest));
 
     // 距離が合計半径以下なら衝突
-    return distance <= (sphere_radius + capsule_radius);
+    return distance <= (sphereRadius + capsule_radius);
 
 }

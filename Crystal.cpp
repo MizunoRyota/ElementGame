@@ -2,6 +2,7 @@
 #include "Crystal.hpp"
 #include "GameObject.hpp"
 #include "Enemy.hpp"
+
 Crystal::Crystal()
 {
 	obj_hp = CRYSTAL_MAXHP;
@@ -10,20 +11,73 @@ Crystal::Crystal()
 	obj_modelhandle = MV1LoadModel("data/3dmodel/Crystal/Crystal.mv1");
 	obj_name = "Crystal";
 	MV1SetScale(obj_modelhandle, VGet(CRYSTAL_SCALE, CRYSTAL_SCALE, CRYSTAL_SCALE)); // ƒXƒP[ƒ‹“K—p
+
+	// ‰Šú‰»
+	crystal_break = true;
+	crystal_isinit = false;
+	crystal_angle = 0.0f;
 }
 
 Crystal::~Crystal()
 {
 }
 
+void Crystal::ChangeActive()
+{
+	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE) 
+	{
+		obj_position = VGet(0, 0, 0);
+		return; 
+	}
+
+	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_isinit)
+	{
+		obj_position = VAdd(reference_enemy->GetPosition(), VGet(0.0f, 10.0f, 0.0f));
+		crystal_isinit = true;
+	}
+
+}
+
+void Crystal::ChangeBreak()
+{
+	if (crystal_break)
+	{
+		crystal_break = false;
+	}
+	else
+	{
+		crystal_break = true;
+	}
+}
+
 void Crystal::Update()
 {
-	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE) { return; }
-	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE)
+
+	ChangeActive();
+
+	// “G‚ð’†S‚É‰~‚ð•`‚­‚æ‚¤‚ÉˆÚ“®
+	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && crystal_isinit)
 	{
-		obj_position = VAdd(reference_enemy->GetPosition(),VGet(0.0f,10.0f,0.0f));
+		MoveHorizontal();
 	}
+
 	MV1SetPosition(obj_modelhandle, obj_position); // ˆÊ’u“K—p
+}
+
+void Crystal::MoveHorizontal()
+{
+	// Šp“x‚©‚çX,ZˆÊ’u‚ðŒvŽZ‚µ‚ÄA“G‚ð’†S‚É‰~‰^“®‚³‚¹‚é
+	if (!reference_enemy) return;
+
+	crystal_angle += ROTATION_SPEED;
+	if (crystal_angle > DX_TWO_PI) crystal_angle -= DX_TWO_PI;
+
+	float cos = cosf(crystal_angle);
+	float sin = sinf(crystal_angle);
+
+	VECTOR center_position = reference_enemy->GetPosition();
+
+	obj_position = VAdd(center_position, VGet(ROTATION_RADIUS * cos, offset_y, ROTATION_RADIUS * sin));
 
 }
 

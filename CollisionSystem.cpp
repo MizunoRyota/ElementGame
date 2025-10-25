@@ -12,6 +12,7 @@
 namespace
 {
 	constexpr int BULLET_DAMAGE_TO_ENEMY   = 1;
+	constexpr int BULLET_DAMAGE_TO_CRYSTAL = 1;
 	constexpr int BULLET_DAMAGE_TO_PLAYER = 10;
 }
 
@@ -65,13 +66,13 @@ void CollisionSystem::Resolve(SharedData& shared)
 		if (!bullet || !bullet->IsActive()) continue;
 
 		const VECTOR sphereCenter = bullet->GetPosition();
-		const float  sphere_radius = bullet->GetBulletRadius();
+		const float  sphereRadius = bullet->GetBulletRadius();
 
 		// 敵へのヒットチェック
-		if (enemy->GetEnemyState()!=STATE_SPECIAL_CHARGE)
+		if (enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
 		{
 			const bool hitEnemy = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphere_radius, enemyBase, enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
+				sphereCenter, sphereRadius, enemyBase, enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
 
 			if (hitEnemy)
 			{
@@ -88,14 +89,21 @@ void CollisionSystem::Resolve(SharedData& shared)
 		else if (enemy->GetEnemyState() == STATE_SPECIAL_CHARGE)
 		{
 			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphere_radius, crystalBase, crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
+				sphereCenter, sphereRadius, crystalBase, crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
 
 			if (hitCrystal)
 			{
-				crystal->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
+				crystal->TakeDamage(BULLET_DAMAGE_TO_CRYSTAL);
+
+				if (crystal->GetHp()<=0)
+				{
+					crystal->ChangeBreak();
+					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BreakCrystal, crystal->GetPosition());
+				}
 
 				// 弾ヒットエフェクト
 				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
+
 				bullet->ChangeActiveFalse();
 				bullet->ResetPosition();
 
@@ -107,15 +115,15 @@ void CollisionSystem::Resolve(SharedData& shared)
 		if (player)
 		{
 			const bool hitPlayer = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphere_radius, playerBase, player->GetCapsuleRadius(), player->GetCapsuleHeight());
+				sphereCenter, sphereRadius, playerBase, player->GetCapsuleRadius(), player->GetCapsuleHeight());
 
 			if (hitPlayer)
 			{
-				if (player->TakeDamage(BULLET_DAMAGE_TO_PLAYER))
-				{
-					// エフェクト: 被弾
-					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, player->GetPosition());
-				}
+				player->TakeDamage(BULLET_DAMAGE_TO_PLAYER);
+
+				// エフェクト: 被弾
+				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, player->GetPosition());
+
 				bullet->ChangeActiveFalse();
 				bullet->ResetPosition();
 			}
