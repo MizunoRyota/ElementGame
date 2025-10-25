@@ -44,13 +44,15 @@ public:
 private:
 	static constexpr float   CAMERA_NEAR = 0.1f; 		// カメラのNEAR
 	static constexpr float   CAMERA_FAR = 300.0f; 		// カメラのFAR
-	static constexpr float   CAMERA_TARGET_PLAYERHIGHT = 0.650f; 		// プレイヤーからカメラの注視点への高さ
+	static constexpr float   CAMERA_TARGET_PLAYERHIGHT = 0.650f; 	// プレイヤーからカメラの注視点への高さ
 	static constexpr float   TOPLAYER_LENGTH = 1.30f; 				// プレイヤーとの距離
 	static constexpr float	 ANGLE_SPEED = 0.02f; 					// 向きが変わるスピード
 	static constexpr float	 CAMERA_PLAYERTARGET_HIGHT = 1.8f; 		// プレイヤー座標からどれだけ高い位置を注視点とするか
+	static constexpr float	 CAMERA_FOV = 70.0f; 					// プレイヤー座標からどれだけ高い位置を注視点とするか
 
-	float            angleVertical; 				// カメラの垂直角度
-	float            angleHorizontal; 				// カメラの水平角度
+
+	float            camera_angle_virtual; 				// カメラの垂直角度
+	float            camera_angle_horizontal; 				// カメラの水平角度
 	float            shakeOffset; 					// カメラを揺らしたときのずらした値の保存
 
 	float shakeTime; 			// 揺れ時間

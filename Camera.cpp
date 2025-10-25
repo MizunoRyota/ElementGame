@@ -11,7 +11,6 @@ using json = nlohmann::json;
 /// コンストラクタ
 /// </summary>
 Camera::Camera()
-
 {
     OriginalOffset=VGet(0,0,0);
     obj_position=VGet(0,0,0);
@@ -21,15 +20,15 @@ Camera::Camera()
     isShake=false;
     isDamage = true;
     shakeTime=0;
-    angleHorizontal=0;
-    angleVertical=0;
+    camera_angle_horizontal=0;
+    camera_angle_virtual=0;
 
     obj_name = "Camera";
 
     //垂直角度は0度
-    angleVertical = 0.0f;
+    camera_angle_virtual = 0.0f;
     //パースの設定
-    SetupCamera_Perspective(70.0f * DX_PI_F / 180.0f);
+    SetupCamera_Perspective(CAMERA_FOV * DX_PI_F / 180.0f);
     //奥行0.25～400までをカメラの描画範囲とする
     SetCameraNearFar(CAMERA_NEAR, CAMERA_FAR);
     // カメラに位置を反映.
@@ -82,67 +81,67 @@ void Camera::Update()
     // マウスによる回転
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
-    angleHorizontal += (mouseX - (SCREEN_WIDTH /2)) * 0.001f;
-    angleVertical += (mouseY - (SCREEN_HEIGHT /2)) * -0.001f;
+    camera_angle_horizontal += (mouseX - (SCREEN_WIDTH /2)) * 0.001f;
+    camera_angle_virtual += (mouseY - (SCREEN_HEIGHT /2)) * -0.001f;
     SetMousePoint((SCREEN_WIDTH /2), (SCREEN_HEIGHT /2));
 
     // 垂直角度制限
     float maxPitch = DX_PI_F / 2 - 0.1f;
-    if (angleVertical > maxPitch) angleVertical = maxPitch;
-    if (angleVertical < -maxPitch) angleVertical = -maxPitch;
+    if (camera_angle_virtual > maxPitch) camera_angle_virtual = maxPitch;
+    if (camera_angle_virtual < -maxPitch) camera_angle_virtual = -maxPitch;
     //printfDx("cameraxpos%f\n", obj_position.x);
     //printfDx("camerazpos%f\n", obj_position.z);
 
     // 「←」ボタンが押されていたら水平角度をマイナスする
     if (rightInput->IsInputAnalogKey(Input::AnalogLeft))
     {
-        angleHorizontal += ANGLE_SPEED;
+        camera_angle_horizontal += ANGLE_SPEED;
 
         // －１８０度以下になったら角度値が大きくなりすぎないように３６０度を足す
-        if (angleHorizontal > DX_PI_F)
+        if (camera_angle_horizontal > DX_PI_F)
         {
-            angleHorizontal -= DX_TWO_PI_F;
+            camera_angle_horizontal -= DX_TWO_PI_F;
         }
     }
 
     // 「→」ボタンが押されていたら水平角度をプラスする
     if (rightInput->IsInputAnalogKey(Input::AnalogRight))
     {
-        angleHorizontal -= ANGLE_SPEED;
+        camera_angle_horizontal -= ANGLE_SPEED;
 
         // １８０度以上になったら角度値が大きくなりすぎないように３６０度を引く
-        if (angleHorizontal < -DX_PI_F)
+        if (camera_angle_horizontal < -DX_PI_F)
         {
-            angleHorizontal += DX_TWO_PI_F;
+            camera_angle_horizontal += DX_TWO_PI_F;
         }
     }
 
     // 「↑」ボタンが押されていたら垂直角度をマイナスする
     if (rightInput->IsInputAnalogKey(Input::AnalogUp))
     {
-        angleVertical += ANGLE_SPEED;
+        camera_angle_virtual += ANGLE_SPEED;
 
         //// ある一定角度以下にはならないようにする
-        if (angleVertical > DX_PI_F * 0.5f - 0.6f)
+        if (camera_angle_virtual > DX_PI_F * 0.5f - 0.6f)
         {
-            angleVertical = DX_PI_F * 0.5f - 0.6f;
+            camera_angle_virtual = DX_PI_F * 0.5f - 0.6f;
         }
     }
 
     // 「↓」ボタンが押されていたら垂直角度をプラスする
     if (rightInput->IsInputAnalogKey(Input::AnalogDown))
     {
-        angleVertical -= ANGLE_SPEED;
+        camera_angle_virtual -= ANGLE_SPEED;
 
         //// ある一定角度以上にはならないようにする
-        if (angleVertical < -DX_PI_F * 0.5f + 0.6f)
+        if (camera_angle_virtual < -DX_PI_F * 0.5f + 0.6f)
         {
-            angleVertical = -DX_PI_F * 0.5f + 0.6f;
+            camera_angle_virtual = -DX_PI_F * 0.5f + 0.6f;
         }
     }
-    camera_dirction.x = cosf(angleVertical) * sinf(angleHorizontal);
-    camera_dirction.y = sinf(angleVertical);
-    camera_dirction.z = cosf(angleVertical) * cosf(angleHorizontal);
+    camera_dirction.x = cosf(camera_angle_virtual) * sinf(camera_angle_horizontal);
+    camera_dirction.y = sinf(camera_angle_virtual);
+    camera_dirction.z = cosf(camera_angle_virtual) * cosf(camera_angle_horizontal);
 
     camera_targetpos = VAdd(obj_position, camera_dirction);
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);

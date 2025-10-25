@@ -53,9 +53,9 @@ void TakeDamageUi::Update()
 void TakeDamageUi::Draw() const
 {
 	if (alpha <= 0.0f) return; // Š®‘S‚É“§–¾‚È‚ç•`‰æ•s—v
-	int blend_paramater = static_cast<int>(alpha);
-	if (blend_paramater > ALPHA_MAX) blend_paramater = ALPHA_MAX; if (blend_paramater < 0) blend_paramater = 0;
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, blend_paramater);
+	int blendParamater = static_cast<int>(alpha);
+	if (blendParamater > ALPHA_MAX) blendParamater = ALPHA_MAX; if (blendParamater < 0) blendParamater = 0;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, blendParamater);
 	DrawGraphF(0, 0, graph_handle, TRUE);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 }

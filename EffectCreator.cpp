@@ -94,10 +94,10 @@ void EffectCreator::PlayLoop(EffectType type, const VECTOR& position)
 	// 既に再生中でなければここで開始( Update でも開始されるがラグを無くす )
 	if (loop_playing_handles[index] < 0)
 	{
-		int play_handle = effect_handles[index];
-		if (play_handle >= 0)
+		int playHandle = effect_handles[index];
+		if (playHandle >= 0)
 		{
-			loop_playing_handles[index] = PlayEffekseer3DEffect(play_handle);
+			loop_playing_handles[index] = PlayEffekseer3DEffect(playHandle);
 			if (loop_playing_handles[index] >= 0)
 			SetPosPlayingEffekseer3DEffect(loop_playing_handles[index], position.x, position.y, position.z);
 		}

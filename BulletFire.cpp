@@ -45,24 +45,24 @@ void BulletFire::FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& s
 
 void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
-	VECTOR forward = VNorm(dir); // 基準方向
-	float bullet_rotate = DX_TWO_PI_F / DIFFUSION_RADIUS; // 分割角
-	forward = BulletRotateHorizontal(forward, -bullet_rotate * DIFFUSION_OFFSET); // 初期オフセット
+	VECTOR bulletForword = VNorm(dir); // 基準方向
+	float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS; // 分割角
+	bulletForword = BulletRotateHorizontal(bulletForword, -bulletRotate * DIFFUSION_OFFSET); // 初期オフセット
 	for (int num = 0; num < DIFFUSION_NUM; num++)
 	{
-		BulletCreator::GetBulletCreator().CreateBullet(pos, forward, speed, ToEffectIndex(EffectFlavor::Water));
-		forward = BulletRotateHorizontal(forward, bullet_rotate);
+		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::Water));
+		bulletForword = BulletRotateHorizontal(bulletForword, bulletRotate);
 	}
 }
 
 void BulletFire::FireVirtical(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
-	VECTOR forward = VNorm(dir);
-	float bullet_rotate = DX_TWO_PI_F / DIFFUSION_RADIUS;
+	VECTOR bulletForword = VNorm(dir);
+	float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS;
 	for (int num = 0; num < DIFFUSION_NUM; num++)
 	{
-		BulletCreator::GetBulletCreator().CreateBullet(pos, forward, speed, ToEffectIndex(EffectFlavor::Fire));
-		forward = BulletRotateVertical(forward, bullet_rotate);
+		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::Fire));
+		bulletForword = BulletRotateVertical(bulletForword, bulletRotate);
 	}
 }
 
@@ -92,18 +92,18 @@ void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const f
 	if (bullet_firecooltimer > 0) return;
 	bullet_firecooltimer = BULLET_COOLTIME;
 
-	int RING_BULLET_NUM = 16;                 // 外周初期弾数
+	int specialRingNum = 16;                 // 外周初期弾数
 
 	const VECTOR downDir = VGet(0.0f, -1.0f, 0.0f); // 落下方向
 
 	for (int ring = 0; ring < INNER_RINGS; ++ring)
 	{
 		float radius = RING_RADIUS - ring * RADIUS_STEP;
-		RING_BULLET_NUM -= 1; // 内側ほど減らす
+		specialRingNum -= 1; // 内側ほど減らす
 		if (radius <= 0.0f) continue;
-		for (int i = 0; i < RING_BULLET_NUM; ++i)
+		for (int i = 0; i < specialRingNum; ++i)
 		{
-			float t = (float)i / RING_BULLET_NUM;
+			float t = (float)i / specialRingNum;
 			float ang = DX_TWO_PI_F * t;
 			VECTOR offset = VGet(cosf(ang) * radius, DROP_HEIGHT, sinf(ang) * radius);
 			VECTOR spawnPos = VAdd(pos, offset);

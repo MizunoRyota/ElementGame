@@ -1,3 +1,4 @@
 {
-  "obj_position": [0.0, 1.8, -5.0]
-}}
+  "title_target_position": [ -3.0, 1.0, -7.50 ],
+  "gameend_target_posiiton":  []
+}

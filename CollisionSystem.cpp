@@ -87,10 +87,10 @@ void CollisionSystem::Resolve(SharedData& shared)
 		}
 		else if (enemy->GetEnemyState() == STATE_SPECIAL_CHARGE)
 		{
-			const bool hitcrystal = Collision::CheckSphereCapsuleCollision(
+			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
 				sphereCenter, sphere_radius, crystalBase, crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
 
-			if (hitcrystal)
+			if (hitCrystal)
 			{
 				crystal->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
 

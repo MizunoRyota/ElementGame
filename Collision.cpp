@@ -15,9 +15,9 @@ bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphere_center, float s
 
     // カプセル軸上の最近点を求める
 
-    VECTOR capsule_hight = VAdd(capsule_base, VGet(0, capsule_height,0));
+    VECTOR capsuleHeight = VAdd(capsule_base, VGet(0, capsule_height,0));
 
-    VECTOR d = VSub(capsule_hight, capsule_base);
+    VECTOR d = VSub(capsuleHeight, capsule_base);
     VECTOR m = VSub(sphere_center, capsule_base);
 
     float projection = VDot(m, d) / VDot(d, d);
