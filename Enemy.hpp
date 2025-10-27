@@ -12,6 +12,7 @@ class Player;
 class BulletFire;
 class SpecialAttack;
 class EnemyMove;
+class Palsy;
 
 class Enemy :public CharacterBase
 {
@@ -21,8 +22,8 @@ public:
 
 	enum class AnimKind : int
 	{
-		OnDamage = 0,
-		Walkback = 1,
+		Plalsy = 0,
+		WalkBack = 1,
 		Die = 2,
 		SpecialCharge = 3,
 		Float = 4,
@@ -36,6 +37,7 @@ public:
 		JumpAttack = 12,
 		Idle = 13,
 		Chase = 14,
+		OnDamage = 15,
 	};
 	
 	void Initialize()override; // 初期化
@@ -57,6 +59,8 @@ public:
 	void SetPosition(); // ポジションをセット
 
 	void ChoseAttackType();
+
+	void ChangeStatePalsy();
 
 	void Draw()override;
 
@@ -108,9 +112,13 @@ private:
 	bool enemy_ischase;                // 追跡レンジ内かどうか
 	bool enemy_isaction;               // 現在のアニメーションが終了したかどうか (trueで次遷移可)
 	bool enemy_isdie;               // 死んだかどうか (trueで次遷移可)
+	bool enemy_ispalsy;               // 死んだかどうか (trueで次遷移可)
+
 
 	EnemyState enemy_state;            // 現在の行動ステート
+
 	std::vector<int> attack_kind;      // ランダム選択用 攻撃ステート一覧 (STATE_FIRE/WATER/WINDATTACK)
+
 	bool enemy_groundattack_charge_played = false; // SpecialChargeチャージエフェクト再生済みフラグ
 
 	// ハンドエフェクト用再生ハンドル
@@ -124,6 +132,6 @@ private:
 	std::shared_ptr<BulletFire>  enemy_bullet;        // 弾生成/発射制御
 	std::shared_ptr<SpecialAttack> enemy_specialattack; // 特殊攻撃状態管理(チャージなど)
 	std::shared_ptr<EnemyMove>   enemy_move;          // 位置移動ロジック(原点復帰/追跡/浮上 等)
-
+	std::shared_ptr<Palsy>		 enemy_palsy;
 	std::shared_ptr<Player>      player_reference;     // プレイヤー参照 (位置/方向取得用)
 };

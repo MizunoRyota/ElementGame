@@ -26,6 +26,7 @@ EnemyAnimater::~EnemyAnimater()
 
 void EnemyAnimater::InitializeAnimationData()
 {
+	animation_data[static_cast<int>(AnimKind::Plalsy)] = AnimationState(static_cast<int>(AnimKind::Plalsy), (static_cast<int>(AnimKind::Plalsy)), 0, 0, 0.5f, true);
 	animation_data[static_cast<int>(AnimKind::WalkBack)] = AnimationState(static_cast<int>(AnimKind::WalkBack),(static_cast<int>(AnimKind::WalkBack)), 0, 0, 0.5f,true);
 	animation_data[static_cast<int>(AnimKind::Die)] = AnimationState(static_cast<int>(AnimKind::Die), (static_cast<int>(AnimKind::Die)), 0, 0, 0.5f,false);
 	animation_data[static_cast<int>(AnimKind::SpecialCharge)] = AnimationState(static_cast<int>(AnimKind::SpecialCharge), (static_cast<int>(AnimKind::SpecialCharge)), 0, 0, 0.25f,true);
@@ -54,6 +55,9 @@ void EnemyAnimater::SwitchAnimation()
 
 	switch (enemy_state)
 	{
+	case STATE_PALSY:
+		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::Plalsy)));
+		break;
 	case STATE_ONDAMAGE:
 		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::OnDamage)));
 		break;

@@ -49,7 +49,6 @@ void Crystal::ChangeBreak()
 {
 	crystal_break = true;
 	crystal_isinit = false;
-	obj_position = VGet(0.0f, -10.0f, 0.0f);
 }
 
 void Crystal::Update()

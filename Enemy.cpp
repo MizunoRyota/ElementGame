@@ -9,7 +9,7 @@
 #include "SpecialAttack.hpp"
 #include "EnemyMove.hpp"
 #include "EffectCreator.hpp"
-
+#include "Palsy.hpp"
 Enemy::Enemy()
 {
 	COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル半径(モデル合わせ & 衝突判定用)
@@ -20,12 +20,10 @@ Enemy::Enemy()
 	enemy_handname = 0;
 	enemy_isaction = false;
 	enemy_ischase = false;
-
-
+	enemy_ispalsy = false;
 	obj_name = "Enemy"; // 識別名
-	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/Monster.mv1"); // モデル読み込み
+	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/monster2.mv1"); // モデル読み込み
 	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 手ボーンID
-
 
 	enemy_state = STATE_CHARGE; // 初期ステート
 	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE)); // スケール適用
@@ -35,7 +33,7 @@ Enemy::Enemy()
 	enemy_dodge = std::make_shared<Dodge>();
 	enemy_specialattack = std::make_shared<SpecialAttack>();
 	enemy_move = std::make_shared<EnemyMove>();
-
+	enemy_palsy = std::make_shared <Palsy>();
 	// ダメージクールタイム設定（TAKEDAMAGE_COOLDOWN は float なので int 化）
 	ConfigureDamageCooldown(static_cast<int>(TAKEDAMAGE_COOLDOWN));
 }
@@ -94,9 +92,9 @@ void Enemy::Update()
 		obj_hp = 0;
 	}
 
-	enemy_animater->Update(); // アニメ更新
 	UpdateAngle(); // 向き更新
 	UpdateStateAction(); // ステート毎挙動
+	enemy_animater->Update(); // アニメ更新
 	UpdateHandEffect(); // ハンドエフェクト管理
 	enemy_bullet->FireUpdate(); // 弾クール
 	CheckMoveRange(); // 範囲補正
@@ -178,10 +176,34 @@ void Enemy::StopHandEffect()
 	}
 }
 
+void Enemy::ChangeStatePalsy()
+{
+	enemy_state = STATE_PALSY;
+}
+
 void Enemy::UpdateStateAction()
 {
 	switch (enemy_state)
 	{
+	case STATE_PALSY:
+		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior); // ループ(バリア)
+		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge); // ループ(オーラ)
+
+		enemy_palsy->Update();
+
+		if (!enemy_ispalsy)
+		{
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyTire, obj_position); // ループ(バリア)
+			enemy_ispalsy = true;
+		}
+		else if (!enemy_palsy->GetIsPalsy())
+		{
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyTire); // ループ(オーラ)
+
+			enemy_state = STATE_PALSY;
+		}
+		break;
+
 	case STATE_IDLE:
 		obj_position = enemy_move->MoveToOrigin(obj_position); // 原点へ戻る
 		break;
@@ -267,8 +289,8 @@ void Enemy::UpdateStateAction()
 		if (!enemy_groundattack_charge_played)
 		{
 			enemy_specialattack->Initialize();
-			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Barrior, obj_position); // ループ(花火)
-			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyCharge, obj_position);
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Barrior, obj_position); // ループ(バリア)
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyCharge, obj_position);// ループ(オーラ)
 			
 			enemy_groundattack_charge_played = true;
 		}
@@ -280,9 +302,8 @@ void Enemy::UpdateStateAction()
 		if (enemy_isaction = !enemy_specialattack->GetIsCharge())
 		{
 			enemy_state = STATE_SPECIALATTACK; // 終了→特殊
-			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior); // ループ(花火)
-			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge); // ループ(花火)
-
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior); // ループ(バリア)
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge); // ループ(オーラ)
 		}
 
 		break;

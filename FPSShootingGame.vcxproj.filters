@@ -130,6 +130,9 @@
     <Filter Include="GameCode\Crystal">
       <UniqueIdentifier>{4d375047-6e4a-4de8-a977-e9db483827e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\Palsy">
+      <UniqueIdentifier>{1c8d0292-7738-443d-aa5b-46141703db65}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBase.hpp">
@@ -291,6 +294,9 @@
     <ClInclude Include="Crystal.hpp">
       <Filter>GameCode\Crystal</Filter>
     </ClInclude>
+    <ClInclude Include="Palsy.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\Palsy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -433,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="Crystal.cpp">
       <Filter>GameCode\Crystal</Filter>
+    </ClCompile>
+    <ClCompile Include="Palsy.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\Palsy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

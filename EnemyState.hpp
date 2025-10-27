@@ -2,6 +2,7 @@
 //アニメーションを変更するときはanimation_dataの中身を変更することをわすれないで！！！
 enum EnemyState : int
 {
+	STATE_PALSY,
 	STATE_WALKBACK,
 	STATE_DIE,
 	STATE_SPECIAL_CHARGE,

@@ -11,21 +11,22 @@ public:
 	// エネミー用アニメーション種別
 	enum class AnimKind : int
 	{
-		WalkBack = 0,
-		Die = 1,
-		SpecialCharge = 2,
-		Float = 3,
-		SpecialAttack = 4,
-		RunLeft = 5,
-		Charge = 6,
-		RunRight = 7,
-		FireAttack = 8,
-		WaterAttack = 9,
-		WindAttack = 10,
-		JumpAttack = 11,
-		Idle = 12,
-		Chase = 13,
-		OnDamage = 14,
+		Plalsy = 0,
+		WalkBack = 1,
+		Die = 2,
+		SpecialCharge = 3,
+		Float = 4,
+		SpecialAttack = 5,
+		RunLeft = 6,
+		Charge = 7,
+		RunRight = 8,
+		FireAttack = 9,
+		WaterAttack = 10,
+		WindAttack = 11,
+		JumpAttack = 12,
+		Idle = 13,
+		Chase = 14,
+		OnDamage = 15,
 	};
 	void InitializeAnimationData()override; // モーションデータ登録
 
