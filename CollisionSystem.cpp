@@ -72,7 +72,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 		if (enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
 		{
 			const bool hitEnemy = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, enemyBase, enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
+				sphereCenter, sphereRadius, enemy->GetPosition(), enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
 
 			if (hitEnemy)
 			{
@@ -89,7 +89,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 		else if (enemy->GetEnemyState() == STATE_SPECIAL_CHARGE)
 		{
 			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, crystalBase, crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
+				sphereCenter, sphereRadius, crystal->GetPosition(), crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
 
 			if (hitCrystal)
 			{
@@ -117,7 +117,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 		if (player)
 		{
 			const bool hitPlayer = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, playerBase, player->GetCapsuleRadius(), player->GetCapsuleHeight());
+				sphereCenter, sphereRadius, player->GetPosition(), player->GetCapsuleRadius(), player->GetCapsuleHeight());
 
 			if (hitPlayer)
 			{

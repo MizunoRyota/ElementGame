@@ -33,9 +33,9 @@ void Crystal::Initialize()
 
 void Crystal::ChangeActive()
 {
-	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
+	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE || crystal_break)
 	{
-		obj_position = VGet(0.0f, 0.0f, 0.0f);
+		obj_position = VGet(0.0f, -10.0f, 0.0f);
 		return;
 	}
 	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_isinit)
@@ -48,6 +48,7 @@ void Crystal::ChangeActive()
 void Crystal::ChangeBreak()
 {
 	crystal_break = true;
+	crystal_isinit = false;
 	obj_position = VGet(0.0f, -10.0f, 0.0f);
 }
 
@@ -57,7 +58,7 @@ void Crystal::Update()
 	ChangeActive();
 
 	// “G‚ð’†S‚É‰~‚ð•`‚­‚æ‚¤‚ÉˆÚ“®
-	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_isinit)
+	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && crystal_isinit)
 	{
 		MoveHorizontal();
 	}
