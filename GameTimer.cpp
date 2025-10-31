@@ -58,11 +58,11 @@ void GameTimer::UpdateGameClear()
 
 void GameTimer::DrawGameClear() const
 {
-    DrawGraph(timer_firest_x, TIMER_GAMECLEAR_Y, graph_array[timer_firest], true);
-    DrawGraph(timer_second_x, TIMER_GAMECLEAR_Y, graph_array[timer_second], true);
-    DrawGraph(timer_colon_x, TIMER_GAMECLEAR_Y, graph_array[COLON], true);
-    DrawGraph(timer_third_x, TIMER_GAMECLEAR_Y, graph_array[timer_third], true);
-    DrawGraph(timer_fourth_x, TIMER_GAMECLEAR_Y, graph_array[timer_fourth], true);
+    //DrawGraph(timer_firest_x, TIMER_GAMECLEAR_Y, graph_array[timer_firest], true);
+    //DrawGraph(timer_second_x, TIMER_GAMECLEAR_Y, graph_array[timer_second], true);
+    //DrawGraph(timer_colon_x, TIMER_GAMECLEAR_Y, graph_array[COLON], true);
+    //DrawGraph(timer_third_x, TIMER_GAMECLEAR_Y, graph_array[timer_third], true);
+    //DrawGraph(timer_fourth_x, TIMER_GAMECLEAR_Y, graph_array[timer_fourth], true);
 }
 
 void GameTimer::Draw() const

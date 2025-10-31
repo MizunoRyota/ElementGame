@@ -56,7 +56,7 @@ void Camera::UpdateTitle()
     if (!enemy) return;
 
     // 目標: 敵の少し後方( -Z ) かつ少し上
-    const VECTOR targetFocus = enemy->GetPosition();
+    const VECTOR targetFocus = VAdd(enemy->GetPosition(), VGet(0.0f, 1.0f, 0.0f));
     const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -7.50f));
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
@@ -148,12 +148,12 @@ void Camera::Update()
 
 }
 
-VECTOR Camera::Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float t)
+VECTOR Camera::Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float dampling)
 {
     // t を 0-1 にクランプ (念のため)
-    float ct = t;
-    if (ct < 0.0f) ct = 0.0f; else if (ct > 1.0f) ct = 1.0f;
-    return VAdd(camera_pos, VScale(VSub(target_pos, camera_pos), ct));
+    float clamped = dampling;
+    if (clamped < 0.0f) clamped = 0.0f; else if (clamped > 1.0f) clamped = 1.0f;
+    return VAdd(camera_pos, VScale(VSub(target_pos, camera_pos), clamped));
 }
 
 /// <summary>

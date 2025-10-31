@@ -53,6 +53,6 @@ public:
     void DrawGameClear() const; // 全要素描画
     void DrawGameOver() const; // 全要素描画
 private:
-    std::vector<std::shared_ptr<IUiElement>> elements_; // 管理配列
-    mutable bool needSort_ = false; // ソート必要フラグ
+    std::vector<std::shared_ptr<IUiElement>> elements; // 管理配列
+    mutable bool elements_issort = false; // ソート必要フラグ
 };

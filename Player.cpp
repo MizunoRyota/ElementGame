@@ -7,6 +7,7 @@
 #include "PlayerMove.hpp"
 #include "PlayerAnimater.hpp"
 
+// プレイヤー生成と初期セットアップ
 Player::Player()
 {
 	obj_name = "Player"; // 名前識別
@@ -28,15 +29,12 @@ Player::Player()
 
 	player_state = STATE_HANDIDLE; // 初期ステート
 
-
 	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
 
-	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandEffect, character_handposition); // ループ(花火)
-	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandCharge, character_handposition); // ループ(花火)
-	//EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition); // ループ(花火)
-
-
-
+	// 手元ループエフェクト
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandEffect, character_handposition);
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandCharge, character_handposition);
+	//EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
 
 	// 被弾後クール(30f)設定
 	ConfigureDamageCooldown(30);
@@ -44,9 +42,7 @@ Player::Player()
 
 Player::~Player() {}
 
-/// <summary>
-/// 初期化
-/// </summary>
+// 初期化（位置/向き/モデル姿勢などを初期状態に）
 void Player::Initialize()
 {
 	obj_hp = PLAYER_MAXHP; // HP リセット
@@ -58,12 +54,11 @@ void Player::Initialize()
 	MV1SetPosition(obj_modelhandle, obj_position);
 }
 
-/// <summary>
-/// 更新
-/// </summary>
+// 毎フレーム更新
 void Player::Update()
 {
 
+	// デバッグ: Kキーで強制死亡
 	if ((CheckHitKey(KEY_INPUT_K) != 0))
 	{
 		obj_hp = 0;
@@ -77,27 +72,24 @@ void Player::Update()
 
 	UpdateStateAction(); // 攻撃入力/ステート決定
 
-	UpdateHandEffect();
+	UpdateHandEffect(); // 手元エフェクト位置更新
 
 	player_animater->Update(); // アニメーション更新
 
-	// ★ 無敵タイマー減算
-	TickDamageCooldown(); // 無敵タイマー
+	// 無敵タイマー減算
+	TickDamageCooldown();
 }
 
+// 手元ループエフェクトの位置更新
 void Player::UpdateHandEffect()
 {
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandEffect, character_handposition);
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandCharge, character_handposition);
 	//EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Laser, character_handposition);
 	//EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::Laser, camera_reference->GetCameraDir());
-
-
 }
 
-/// <summary>
-/// 
-/// </summary>
+// 攻撃入力に応じてステートを切替え、弾を発射
 void Player::UpdateStateAction()
 {
 
@@ -106,9 +98,8 @@ void Player::UpdateStateAction()
 	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 	{
 		player_state = STATE_ATTACK; // 攻撃ステート
-
-		player_bullet->FirePlayer(VAdd(character_handposition, VScale(camera_reference->GetCameraDir(), BULLETFIRE_DISTANCE)), camera_reference->GetCameraDir(), BULLET_SPEED); // 発射
-
+		// 手先位置 + 視線方向へオフセットして弾を発射
+		player_bullet->FirePlayer(VAdd(character_handposition, VScale(camera_reference->GetCameraDir(), BULLETFIRE_DISTANCE)), camera_reference->GetCameraDir(), BULLET_SPEED);
 	}
 	else
 	{
@@ -117,9 +108,7 @@ void Player::UpdateStateAction()
 
 }
 
-/// <summary>
-/// 
-/// </summary>
+// 入力で得た移動量を反映し、モデル姿勢/位置を適用
 void Player::Move()
 {
 	// 入力で得た移動量反映
@@ -127,17 +116,15 @@ void Player::Move()
 	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
 
 	CheckMoveRange(); // 範囲外補正
-	// 当たり判定をして、新しい座標を保存する
-	//position = stage.CheckCollision(*this, MoveVector);
-	//プレイヤーの回転
+	// 当たり判定での補正などを入れる場合はここ
+
+	// プレイヤーの回転
 	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoceAngle() + DX_PI_F, 0.0f));
-	//プレイヤーのモデルの設置
+	// プレイヤーモデルの配置
 	MV1SetPosition(obj_modelhandle, obj_position);
 }
 
-/// <summary>
-/// 描画
-/// </summary>
+// 描画
 void Player::Draw()
 {
 	MV1DrawModel(obj_modelhandle); // 3D描画

@@ -1,31 +1,32 @@
 #pragma once
 #include "GameObject.hpp"
+
+// スカイドーム（背景）
 class Skydome : public GameObject
 {
 public:
 	Skydome();
 	~Skydome();
 
-	void Initialize()override;	//初期化
+	void Initialize()override; // 初期化
+	void Update()override;     // 更新
+	void Draw()override;       // 描画
 
-	void Update()override;		//更新
-	void Draw()override;		//描画
-
-	// シーン別描画 (特別処理なし)
+	// シーン別描画（背景は常に描く）
 	void DrawTitle() override { Draw(); }
 	void DrawGameOver() override { Draw(); }
 	void DrawGameClear() override { Draw(); }
 
-	// シーン別更新 (空実装)
+	// シーン別更新（特になし）
 	void UpdateGameClear() override {};
 	void UpdateGameOver() override {};
 	void UpdateTitle() override {};
 private:
-	// 静的定数.
-	static constexpr float SCALE = 0.20f;			// 大きさ
-	static constexpr float MOVESPEED = 0.0004f;		// 回転の速さ
+	// 定数
+	static constexpr float SCALE = 0.20f;    // 大きさ
+	static constexpr float MOVESPEED = 0.0004f; // 回転速度
 
-	int skydome_modelhandle;				// モデルハンドル
-	VECTOR skydome_position;				// ポジション
-	VECTOR skydome_dirciton;				// 回転方向.
+	int skydome_modelhandle;   // モデル
+	VECTOR skydome_position;   // 位置
+	VECTOR skydome_dirciton;   // 回転
 };

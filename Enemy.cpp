@@ -10,23 +10,25 @@
 #include "EnemyMove.hpp"
 #include "EffectCreator.hpp"
 #include "Palsy.hpp"
+
+// 敵の生成と初期セットアップ
 Enemy::Enemy()
 {
-	COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル半径(モデル合わせ & 衝突判定用)
-	COLLISION_CAPSULE_HEIGHT = 2.75f;   // カプセル高さ(プレイヤー等との整合)
+	COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル判定半径(モデルに合わせる)
+	COLLISION_CAPSULE_HEIGHT = 2.75f;   // カプセル判定高さ
 	enemy_isdie = false;
-	enemy_attacktype = 0; // 次攻撃ステート種別初期
+	enemy_attacktype = 0;   // 攻撃ステートの初期値
 	enemy_dodgechose = 0;
 	enemy_handname = 0;
 	enemy_isaction = false;
 	enemy_ischase = false;
 	enemy_ispalsy = false;
-	obj_name = "Enemy"; // 識別名
+	obj_name = "Enemy"; // 名札
 	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/monster2.mv1"); // モデル読み込み
-	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 手ボーンID
+	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 右手ボーンID
 
 	enemy_state = STATE_CHARGE; // 初期ステート
-	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE)); // スケール適用
+	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE)); // スケール
 
 	enemy_animater = std::make_shared<EnemyAnimater>(obj_modelhandle, enemy_state);
 	enemy_bullet = std::make_shared<BulletFire>();
@@ -34,128 +36,119 @@ Enemy::Enemy()
 	enemy_specialattack = std::make_shared<SpecialAttack>();
 	enemy_move = std::make_shared<EnemyMove>();
 	enemy_palsy = std::make_shared <Palsy>();
-	// ダメージクールタイム設定（TAKEDAMAGE_COOLDOWN は float なので int 化）
+	// ダメージクールタイム設定
 	ConfigureDamageCooldown(static_cast<int>(TAKEDAMAGE_COOLDOWN));
 }
 
 Enemy::~Enemy() {}
 
+// 初期化（位置/HP/状態などを初期状態に戻す）
 void Enemy::Initialize()
 {
-	attack_kind = { STATE_FIREATTACK,STATE_WATERATTACK,STATE_WINDATTACK }; // ランダム候補
+	attack_kind = { STATE_FIREATTACK,STATE_WATERATTACK,STATE_WINDATTACK }; // 攻撃候補
 
-	std::random_device rd; // 以下ランダム初期化
+	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dist(0, attack_kind.size() - 1);
 
-	enemy_state = STATE_CHARGE; // 初期ステート
-
-	enemy_isaction = false; // 動作未完了
-
-	enemy_ischase = false; // 追跡中フラグ初期
-	
+	enemy_state = STATE_CHARGE;
+	enemy_isaction = false;
+	enemy_ischase = false;
 	enemy_isdie = false;
 	
 	obj_position = VGet(0, 0, 20.0f); // 初期位置
-
-	obj_direction = VGet(0, 0, 1.0f); // 初期位置
-
+	obj_direction = VGet(0, 0, 1.0f); // 初期向き
 	obj_hp = ENEMY_MAXHP; // HP リセット
 
-	// エフェクト再生フラグ初期化
+	// エフェクト関連フラグ
 	enemy_groundattack_charge_played = false;
 	
-	// プレイヤー方向ベクトル
+	// プレイヤー方向を向く
 	obj_direction = VSub(VGet(0,0,0), obj_position);
-	// 角度算出(Yaw)
 	float angle = atan2(obj_direction.x, obj_direction.z);
-	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f)); // モデル向き反映
+	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f));
 
-	StopHandEffect(); // 初期化時に手エフェクト停止
-
-	SetPosition();
+	StopHandEffect(); // 開始時は手エフェクトなし
+	SetPosition();    // モデル座標反映
 }
 
+// タイトル更新（アニメのみ）
 void Enemy::UpdateTitle()
 {
-
 	enemy_state = STATE_IDLE;
-
-	enemy_animater->Update(); // アニメ更新
-
+	enemy_animater->Update();
 }
 
+// 毎フレーム更新
 void Enemy::Update()
 {
+	// デバッグ: Jキーで死亡
 	if ((CheckHitKey(KEY_INPUT_J) != 0))
 	{
 		obj_hp = 0;
 	}
 
-	UpdateAngle(); // 向き更新
-	UpdateStateAction(); // ステート毎挙動
-	enemy_animater->Update(); // アニメ更新
-	UpdateHandEffect(); // ハンドエフェクト管理
+	UpdateAngle();        // プレイヤーの方向を向く
+	UpdateStateAction();  // ステート処理
+	enemy_animater->Update();
+	UpdateHandEffect();   // 手エフェクト追従
 	enemy_bullet->FireUpdate(); // 弾クール
-	CheckMoveRange(); // 範囲補正
-	SetPosition(); // モデル座標適用
-	TickDamageCooldown(); // 無敵タイマー
+	CheckMoveRange();     // 行動範囲補正
+	SetPosition();        // モデル位置反映
+	TickDamageCooldown(); // 無敵進行
 }
 
+// ゲームクリア時更新（死亡演出+花火）
 void Enemy::UpdateGameClear()
 {
 	StopHandEffect();
-	// 一度だけ死亡/打ち上げ演出開始
+	// 一度だけ死亡/花火開始
 	if (!enemy_isdie)
 	{
-		EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyDeath, obj_position);      // 単発（死亡演出）
-		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::FireWorks, obj_position); // ループ(花火)
-		//ec.PlayLoop(EffectCreator::EffectType::FireWorks, obj_position); 
+		EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyDeath, obj_position);
+		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::FireWorks, obj_position);
 		enemy_isdie = true;
 	}
 	else
 	{
-		// 位置が変わる可能性があるなら追従（静止なら不要）
+		// 位置更新
 		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::FireWorks, obj_position);
 	}
 
 	enemy_state = STATE_DIE;
-	enemy_animater->Update(); // アニメ更新
+	enemy_animater->Update();
 }
 
+// ゲームオーバー時更新（ポーズ用）
 void Enemy::UpdateGameOver()
 {
 	enemy_state = STATE_SPECIALATTACK;
-	enemy_animater->Update(); // アニメ更新
+	enemy_animater->Update();
 }
 
-// 攻撃種に応じたエフェクト種マッピング
+// 攻撃ステート -> エフェクト種別へマッピング
 EffectCreator::EffectType Enemy::MapEffectTypeForAttack(int attackState) const
 {
 	switch (attackState)
 	{
-	case STATE_FIREATTACK: return EffectCreator::EffectType::BulletStraight; // 炎
-
+	case STATE_FIREATTACK: return EffectCreator::EffectType::BulletStraight; // 火
 	case STATE_WATERATTACK: return EffectCreator::EffectType::BulletDiffusion; // 水
-
 	case STATE_WINDATTACK: return EffectCreator::EffectType::BulletHoming; // 風
-
-	default: return EffectCreator::EffectType::BulletSpecial; // 必殺技
-
+	default: return EffectCreator::EffectType::BulletSpecial; // 特殊
 	}
 }
 
+// 手エフェクトを攻撃に応じて再生
 void Enemy::StartHandEffectForAttack()
 {
-	// 既に同じ攻撃種のエフェクトが出ているなら何もしない
+	// 既に同攻撃のエフェクトが再生中なら何もしない
 	if (enemy_hand_effect_handle >= 0 && enemy_hand_effect_attack_state == enemy_attacktype) return;
 
-	// 既存を止める
+	// いったん停止
 	StopHandEffect();
 
-	// 手位置取得
+	// 手の現在位置
 	VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
-	// 少し上 or 任意オフセットを加味
 	handPos = VAdd(handPos, VGet(0, 0.0f, 0));
 
 	const auto effType = MapEffectTypeForAttack(enemy_attacktype);
@@ -163,74 +156,68 @@ void Enemy::StartHandEffectForAttack()
 	enemy_hand_effect_attack_state = enemy_attacktype;
 }
 
+// 手エフェクト停止
 void Enemy::StopHandEffect()
 {
 	if (enemy_hand_effect_handle >= 0)
 	{
-		// Effekseer 側で個別停止 API が無いため寿命放置でも良い。
-		// 必要なら StopEffekseer3DEffect(enemy_hand_effect_handle); を呼ぶが
-		// ここでは明示停止は行わずハンドル無効化のみ。
 		StopEffekseer3DEffect(enemy_hand_effect_handle);
 		enemy_hand_effect_handle = -1;
 		enemy_hand_effect_attack_state = -1;
 	}
 }
 
+// 麻痺ステートに遷移（ループを停止）
 void Enemy::ChangeStatePalsy()
 {
 	enemy_state = STATE_PALSY;
+	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior);
+	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge);
 }
 
+// ステート毎の処理
 void Enemy::UpdateStateAction()
 {
 	switch (enemy_state)
 	{
 	case STATE_PALSY:
-		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior); // ループ(バリア)
-		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge); // ループ(オーラ)
-
 		enemy_palsy->Update();
-
 		if (!enemy_ispalsy)
 		{
-			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyTire, obj_position); // ループ(バリア)
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyTire, VAdd(obj_position, VGet(0, GetCapsuleHeight(), 0)));
 			enemy_ispalsy = true;
 		}
 		else if (!enemy_palsy->GetIsPalsy())
 		{
-			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyTire); // ループ(オーラ)
-
-			enemy_state = STATE_PALSY;
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyTire);
+			enemy_state = STATE_CHARGE;
 		}
 		break;
 
 	case STATE_IDLE:
-		obj_position = enemy_move->MoveToOrigin(obj_position); // 原点へ戻る
+		obj_position = enemy_move->MoveToOrigin(obj_position);
 		break;
 
 	case STATE_CHARGE:
-		// GROUNDATTACK から離脱した場合リセット
+		// チャージ演出が残っている場合はフラグを戻す
 		if (enemy_groundattack_charge_played && enemy_state != STATE_SPECIAL_CHARGE)
 		{
 			enemy_groundattack_charge_played = false;
 		}
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) // アニメ終了→次行動決定
+		// アニメ終了で攻撃を選択
+		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
 		{
-			enemy_dodgechose = GetRand(1); // 回避方向乱数
-
-			ChoseAttackType(); // 攻撃種選択
-			// 攻撃種決定直後に手エフェクト生成
+			enemy_dodgechose = GetRand(1);
+			ChoseAttackType();
 			StartHandEffectForAttack();
-
-			if (enemy_dodgechose == 0)      enemy_state = STATE_RUNLEFT;
-			
+			if (enemy_dodgechose == 0)      enemy_state = STATE_RUNLEFT; 
 			else if (enemy_dodgechose == 1) enemy_state = STATE_RUNRIGHT;
 		}
 		break;
 
 	case STATE_RUNLEFT:
 		obj_position = enemy_dodge->DodgeEnemy(obj_position, obj_direction, enemy_state);
-		if (enemy_dodge->GetIsDodgeEnd()) enemy_state = STATE_CHASE; // 回避完了→追跡
+		if (enemy_dodge->GetIsDodgeEnd()) enemy_state = STATE_CHASE;
 		break;
 
 	case STATE_RUNRIGHT:
@@ -239,10 +226,10 @@ void Enemy::UpdateStateAction()
 		break;
 
 	case STATE_CHASE:
-		obj_position = enemy_move->MoveToTarget(obj_position, player_reference->GetPosition()); // 追従
+		obj_position = enemy_move->MoveToTarget(obj_position, player_reference->GetPosition());
 		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition()))
 		{
-			enemy_state = static_cast<EnemyState>(enemy_attacktype); // 攻撃へ
+			enemy_state = static_cast<EnemyState>(enemy_attacktype);
 		}
 		break;
 
@@ -276,42 +263,39 @@ void Enemy::UpdateStateAction()
 		break;
 
 	case STATE_WALKBACK:
-		// TODO: 実装予定
+		// TODO: 実装
 		break;
 
 	case STATE_FLOAT:
-		obj_position = enemy_move->MoveToOrigin(obj_position); // float 中は中央へ
+		obj_position = enemy_move->MoveToOrigin(obj_position);
 		if (enemy_move->GetIsOrigin()) enemy_state = STATE_SPECIAL_CHARGE;
 		break;
 
 	case STATE_SPECIAL_CHARGE:
-		// チャージエフェクトを再生
+		// チャージ演出開始
 		if (!enemy_groundattack_charge_played)
 		{
 			enemy_specialattack->Initialize();
-			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Barrior, obj_position); // ループ(バリア)
-			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyCharge, obj_position);// ループ(オーラ)
-			
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Barrior, obj_position);
+			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyCharge, obj_position);
 			enemy_groundattack_charge_played = true;
 		}
 		
 		enemy_specialattack->UpdateChrgeCount();
 
-		if (obj_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE; // HP 低下遷移
+		if (obj_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE;
 
 		if (enemy_isaction = !enemy_specialattack->GetIsCharge())
 		{
-			enemy_state = STATE_SPECIALATTACK; // 終了→特殊
-			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior); // ループ(バリア)
-			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge); // ループ(オーラ)
+			enemy_state = STATE_SPECIALATTACK; // 発動
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior);
+			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EnemyCharge);
 		}
-
 		break;
 
 	case STATE_SPECIALATTACK:
 		if (enemy_animater->GetAmimFrame() == SPECIALEATTACK_TIMING)
 		{
-
 			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::Roar, obj_position);
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
 			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
@@ -334,9 +318,10 @@ void Enemy::UpdateStateAction()
 	}
 }
 
+// 攻撃タイプの決定（HPやチャージ状況で分岐）
 void Enemy::ChoseAttackType()
 {
-	if (attack_kind.empty()) return; // 念のため安全策
+	if (attack_kind.empty()) return; // 念のため
 
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -344,8 +329,7 @@ void Enemy::ChoseAttackType()
 
 	if (obj_hp >= ENEMY_FHASE_ONE)
 	{
-		// 旧: enemy_attacktype = attack_kind[STATE_FIREATTACK]; // OOB の原因
-		enemy_attacktype = STATE_FIREATTACK; // 直接設定
+		enemy_attacktype = STATE_FIREATTACK; // 固定
 	}
 	else if (obj_hp >= ENEMY_FHASE_TWO)
 	{
@@ -365,9 +349,9 @@ void Enemy::ChoseAttackType()
 	}
 }
 
+// 手エフェクトの追従
 void Enemy::UpdateHandEffect()
 {
-	// 手エフェクトを追従させる
 	if (enemy_hand_effect_handle >= 0)
 	{
 		VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
@@ -375,21 +359,25 @@ void Enemy::UpdateHandEffect()
 	}
 }
 
+// プレイヤー方向を向く
 void Enemy::UpdateAngle()
 {
-	// プレイヤー方向ベクトル
-	obj_direction = VSub(player_reference->GetPosition(), obj_position);
-	// 角度算出(Yaw)
-	float angle = atan2(obj_direction.x, obj_direction.z);
-	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f)); // モデル向き反映
+	if (enemy_state != STATE_PALSY)
+	{
+		obj_direction = VSub(player_reference->GetPosition(), obj_position);
+		float angle = atan2(obj_direction.x, obj_direction.z);
+		MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f));
+	}
 }
 
+// モデル座標反映
 void Enemy::SetPosition()
 {
-	MV1SetPosition(obj_modelhandle, obj_position); // 位置適用
+	MV1SetPosition(obj_modelhandle, obj_position);
 }
 
+// 描画
 void Enemy::Draw()
 {
-	MV1DrawModel(obj_modelhandle); // 描画
+	MV1DrawModel(obj_modelhandle);
 }

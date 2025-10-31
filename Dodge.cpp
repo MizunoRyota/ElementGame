@@ -7,10 +7,9 @@ Dodge::Dodge()
     dodge_time = 0;
 }
 
-Dodge::~Dodge()
-{
-}
+Dodge::~Dodge() {}
 
+// 状態に応じて左右へステップ回避
 VECTOR Dodge::DodgeEnemy(VECTOR& position, VECTOR& dir,EnemyState& state)
 {
     if (dodge_time <= 0)
@@ -21,32 +20,30 @@ VECTOR Dodge::DodgeEnemy(VECTOR& position, VECTOR& dir,EnemyState& state)
     {
         dodge_time -= 0.5f;
     }
-    // 正規化（方向ベクトルを長さ1にする）
+    // 方向ベクトルを正規化
     VECTOR forward = VNorm(dir);
 
-    // Y軸を基準にして横方向を計算（クロス積）
+    // Y軸基準の右方向ベクトル
     VECTOR up = VGet(0.0f, 1.0f, 0.0f);
     VECTOR right = VCross(up, forward);
-
     right = VNorm(right);
 
-    // 横移動のスピード
     float dodgeSpeed = DODGE_SPEED;
 
     if (state == STATE_RUNLEFT)
     {
         VECTOR newPos = VAdd(position, VScale(right, -dodgeSpeed));
-
         return newPos;
     }
     else if (state == STATE_RUNRIGHT)
     {
         VECTOR newPos = VAdd(position, VScale(right, dodgeSpeed));
-
         return newPos;
     }
+    return position; // 想定外: 位置を維持
 }
 
+// 回避終了か
 bool Dodge::GetIsDodgeEnd()
 {
     return dodge_time <= 0;

@@ -9,23 +9,23 @@ PlayerMove::PlayerMove()
 {
 }
 
-PlayerMove::~PlayerMove()
-{
-}
+PlayerMove::~PlayerMove() {}
 
-void PlayerMove::Update( std::shared_ptr<Input>& input,  std::shared_ptr<Camera>& camera)
+// 入力とカメラから移動量・角度・ダッシュエネルギーを更新
+void PlayerMove::Update(std::shared_ptr<Input>& input, std::shared_ptr<Camera>& camera)
 {
-	VECTOR	upMoveVec;      
-	VECTOR	leftMoveVec;    
+	VECTOR upMoveVec;      // カメラ前方向(水平)
+	VECTOR leftMoveVec;    // カメラ左方向(水平)
 
 	moveVec = VGet(0, 0, 0);
-	UpdateMoveParameterWithPad(input, camera, upMoveVec, leftMoveVec, moveVec); 
+	UpdateMoveParameterWithPad(input, camera, upMoveVec, leftMoveVec, moveVec);
 	DecreaseDashEnergy();
-	MoveAngle(camera->GetCameraDir()); 
+	MoveAngle(camera->GetCameraDir());
 	Move(moveVec);
 }
 
-void PlayerMove::UpdateMoveParameterWithPad( std::shared_ptr<Input>& input,  std::shared_ptr<Camera>& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec)
+// パッド/キーボード入力から移動ベクトルを算出
+void PlayerMove::UpdateMoveParameterWithPad(std::shared_ptr<Input>& input, std::shared_ptr<Camera>& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec)
 {
 	upMoveVec = VSub(camera->GetCameraTarget(), camera->GetPosition());
 	upMoveVec.y = 0.0f;
@@ -77,12 +77,13 @@ void PlayerMove::UpdateMoveParameterWithPad( std::shared_ptr<Input>& input,  std
 	}
 }
 
+// ダッシュエネルギー/クールタイムの進行
 void PlayerMove::DecreaseDashEnergy()
 {
 	// クールタイム中
 	if (dash_cooldown > 0)
 	{
-		--dash_cooldown; // クールタイム経過
+		dash_cooldown--; // クールタイム経過
 		return; // クール中は回復も消費もしない
 	}
 
@@ -106,6 +107,7 @@ void PlayerMove::DecreaseDashEnergy()
 	}
 }
 
+// 目標角へなめらかに追従
 void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 {
 	float targetAngle = static_cast<float>(atan2(targetPosition.x, targetPosition.z));
@@ -124,6 +126,7 @@ void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 	move_angle = targetAngle - difference;
 }
 
+// 実移動適用（移動したかどうかのフラグのみ）
 void PlayerMove::Move(const VECTOR& MoveVector)
 {
 	move_ismove = (fabs(MoveVector.x) > 0.01f || fabs(MoveVector.z) > 0.01f);

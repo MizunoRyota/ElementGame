@@ -1,5 +1,6 @@
 #pragma once
 
+// シンプルなノード基底（将来拡張用）
 class NodeBase
 {
 public:
@@ -7,13 +8,7 @@ public:
 	~NodeBase();
 
 private:
-
 };
 
-NodeBase::NodeBase()
-{
-}
-
-NodeBase::~NodeBase()
-{
-}
+inline NodeBase::NodeBase() {}
+inline NodeBase::~NodeBase() {}

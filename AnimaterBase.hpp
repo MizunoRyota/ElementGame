@@ -1,30 +1,53 @@
 #pragma once
 
 #include "AnimationData.hpp"
+
+// アニメーション制御の共通基底クラス。
+// モデルに対して「どのアニメをどの速度で、どうブレンドして再生するか」を管理します。
+// 派生クラスでゲーム固有のステートに応じてアニメを切り替えます。
 class AnimaterBase
 {
 public:
-	AnimaterBase(int anim_modelhandle);
-	virtual~AnimaterBase();
+    // モデルハンドルを受け取り初期化
+    // anim_modelhandle: モデルのハンドル（DxLib 等）
+    AnimaterBase(int anim_modelhandle);
+    virtual ~AnimaterBase();
+
 public:
+    // 各派生クラスでアニメーションデータ(テーブル)を登録
+    virtual void InitializeAnimationData() = 0;
 
-	virtual void InitializeAnimationData() = 0; // 各派生のモーションテーブル初期化
-	virtual void Update() = 0;                  // フレーム更新(派生)
-	void ChangeMotion(AnimationState nextstate); // モーション遷移要求
-	void UpdateAnimation();                     // 時間経過と再生
-	virtual void SwitchAnimation() = 0;         // ステートから次モーションを決定
+    // 毎フレーム更新（派生で必要な処理を行う）
+    virtual void Update() = 0;
 
-	const float& GetAmimFrame() const { return anim_currentstate.anim_nowtime; } // 現在フレーム時間
-	const bool& GetAmimIsEnd() const { return anim_isend; }                      // 再生完了か
+    // 次のアニメーションへ切り替え
+    // nextstate: 切り替え先のアニメーション状態
+    void ChangeMotion(AnimationState nextstate);
+
+    // アニメーションの時間進行・ブレンド・再生終了判定
+    void UpdateAnimation();
+
+    // ゲーム内ステートに応じて再生中のアニメを切り替える（派生実装）
+    virtual void SwitchAnimation() = 0;
+
+    // 現在の再生フレームを取得
+    const float& GetAmimFrame() const { return anim_currentstate.anim_nowtime; }
+
+    // 現在のアニメが終了したか
+    const bool& GetAmimIsEnd() const { return anim_isend; }
 
 protected:
-	static constexpr float ANIM_BLEND_SPEED = 0.1f; // ブレンド補間速度
+    // ブレンドスピード。値が大きいほど即座、小さいほどゆっくり切替
+    static constexpr float ANIM_BLEND_SPEED = 0.1f;
 
-	float anim_blendrate;        // 前後モーション間現在ブレンド率
-	float anim_nowframe;         // 現在再生フレーム(整数カウント用)
-	bool  anim_isend;            // 現モーション終了フラグ
-	int   anim_modelhandle;      // モデルハンドル
-	AnimationState anim_prevstate;    // 直前ステート
-	AnimationState anim_currentstate; // 現在ステート
-	std::unordered_map<int, AnimationState> animation_data; // 登録アニメーション辞書
+    float anim_blendrate;        // 現在のブレンド率（0: 前アニメ, 1: 現アニメ）
+    float anim_nowframe;         // 現在の再生フレーム（カウンタ用途）
+    bool  anim_isend;            // 再生終了フラグ
+    int   anim_modelhandle;      // モデルのハンドル
+
+    AnimationState anim_prevstate;    // 直前のアニメ状態
+    AnimationState anim_currentstate; // 現在のアニメ状態
+
+    // 利用可能なアニメーションの辞書（アニメID -> 状態）
+    std::unordered_map<int, AnimationState> animation_data;
 };

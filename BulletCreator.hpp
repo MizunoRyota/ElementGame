@@ -2,7 +2,7 @@
 
 class Bullet;
 
-// 弾インスタンスをプール管理し生成/更新するシングルトン
+// 弾プール管理。生成/更新/描画とクールダウンの制御を担当
 class BulletCreator
 {
 private:
@@ -11,9 +11,8 @@ private:
 	~BulletCreator();
 
 public:
-	void CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed, int effectTypeIndex); // 通常弾生成
-	// 追加: ホーミング弾生成
-	void CreateHomingBullet(const VECTOR& pos,
+	void CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed, int effectTypeIndex); // 基本弾生成
+	void CreateHomingBullet(const VECTOR& pos,  // 追尾弾生成
 		const VECTOR& dir,
 		float speed,
 		std::function<VECTOR()> targetGetter,
@@ -35,8 +34,8 @@ public:
 	}
 
 private:
-	static const int BULLET_NUM = 400;            // プール最大数
-	static constexpr float BULLET_COOLDOWN_TIME = 20; // 生成クール（未使用 or 予約）
-	float bullet_cooldowntimer = 0;               // クール残
-	std::vector<std::shared_ptr<Bullet>> bullets; // 弾配列
+	static const int BULLET_NUM = 400;                 // プール最大数
+	static constexpr float BULLET_COOLDOWN_TIME = 20;  // 発射クール時間
+	float bullet_cooldowntimer = 0;                    // クールタイマ
+	std::vector<std::shared_ptr<Bullet>> bullets;      // 弾配列
 };

@@ -7,6 +7,7 @@
 #include "GameOverScene.hpp"
 #include "GameClearScene.hpp"
 #include "SceneManager.hpp"
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// 画面モードのセット

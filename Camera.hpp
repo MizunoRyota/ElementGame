@@ -1,72 +1,73 @@
 #pragma once
-#include "GameObject.hpp" 
+#include "GameObject.hpp"
 
 class Input;
 class GameObject;
 class Player;
 class Enemy;
 
-/// <summary>
-/// カメラ
-/// </summary>
+// カメラ（TPS想定）。プレイヤー位置や入力に応じて注視点と位置を更新する。
 class Camera : public GameObject
 {
 public:
-	Camera();			// コンストラクタ.
-	~Camera();			// デストラクタ.
-	void Initialize()override; 		// 初期化
+    Camera();            // コンストラクタ
+    ~Camera();           // デストラクタ
 
-	// シーン別更新
-	void UpdateTitle() override;		// 追加: 引数無しタイトル更新
-	void Update()override; 				// 更新
-	void UpdateGameClear() override ;	// ゲームクリア時の更新(位置指定)
-	void UpdateGameOver() override { UpdateGameClear(); }// タイトル時の更新(位置指定)
+    void Initialize() override;        // 初期化
 
-	// シーン別描画 (カメラ自体は描画不要)
-	void DrawTitle() override {};
-	void Draw()override {}; 			// 描画
-	void DrawGameOver() override {};
-	void DrawGameClear() override {};
+    // シーン別更新
+    void UpdateTitle() override;       // タイトル時のカメラ更新
+    void Update() override;            // 通常更新（プレイ中）
+    void UpdateGameClear() override;   // ゲームクリア時の演出更新（注視移動）
+    void UpdateGameOver() override { UpdateGameClear(); } // ゲームオーバー時はクリアと同じ
 
-	// ------------- 追加: 汎用 Lerp 関数 -------------
-	VECTOR Lerp(const VECTOR& a, const VECTOR& b, float t);
+    // シーン別描画（カメラは通常描画不要）
+    void DrawTitle() override {}
+    void Draw() override {}
+    void DrawGameOver() override {}
+    void DrawGameClear() override {}
 
-	void FixCameraPosition(); 			// カメラを元の位置に戻す
-	// ポジションのgetter/setter.
-	const VECTOR& GetPosition() const { return obj_position; }
-	// GameObject の仮想関数をオーバーライドしない (別名メソッド) に変更しコンパイルエラー回避
-	const VECTOR& GetCameraTarget() const { return camera_targetpos; }
-	const VECTOR& GetCameraDir() const { return camera_dirction; }
+    // 位置補間
+    // camera_pos: 現在位置, target_pos: 目標位置, t: 0?1 の補間係数
+    VECTOR Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float t);
 
-	void SetPlayer(const std::shared_ptr<Player>& setplayer) { player = setplayer; }
-	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy = setenemy; }
+    void FixCameraPosition();          // カメラを固定位置へ戻す（必要に応じて使用）
+
+    // 位置・向き取得
+    const VECTOR& GetPosition() const { return obj_position; }
+    const VECTOR& GetCameraTarget() const { return camera_targetpos; }
+    const VECTOR& GetCameraDir() const { return camera_dirction; }
+
+    // 参照対象設定
+    void SetPlayer(const std::shared_ptr<Player>& setplayer) { player = setplayer; }
+    void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy = setenemy; }
 
 private:
-	static constexpr float   CAMERA_NEAR = 0.1f; 		// カメラのNEAR
-	static constexpr float   CAMERA_FAR = 300.0f; 		// カメラのFAR
-	static constexpr float   CAMERA_TARGET_PLAYERHIGHT = 0.650f; 	// プレイヤーからカメラの注視点への高さ
-	static constexpr float   TOPLAYER_LENGTH = 1.30f; 				// プレイヤーとの距離
-	static constexpr float	 ANGLE_SPEED = 0.02f; 					// 向きが変わるスピード
-	static constexpr float	 CAMERA_PLAYERTARGET_HIGHT = 1.8f; 		// プレイヤー座標からどれだけ高い位置を注視点とするか
-	static constexpr float	 CAMERA_FOV = 70.0f; 					// プレイヤー座標からどれだけ高い位置を注視点とするか
+    // カメラ定数
+    static constexpr float CAMERA_NEAR = 0.1f;                // ニア
+    static constexpr float CAMERA_FAR = 300.0f;               // ファー
+    static constexpr float CAMERA_TARGET_PLAYERHIGHT = 0.650f;// プレイヤーヘッドへのオフセット
+    static constexpr float TOPLAYER_LENGTH = 1.30f;           // プレイヤーとの距離
+    static constexpr float ANGLE_SPEED = 0.02f;               // 角速度
+    static constexpr float CAMERA_PLAYERTARGET_HIGHT = 1.8f;  // プレイヤー注視点の高さ
+    static constexpr float CAMERA_FOV = 70.0f;                // 視野角
 
+    // 制御用変数
+    float  camera_angle_virtual;       // ピッチ角（上下）
+    float  camera_angle_horizontal;    // ヨー角（左右）
+    float  shakeOffset;                // シェイクのオフセット量
 
-	float            camera_angle_virtual; 				// カメラの垂直角度
-	float            camera_angle_horizontal; 				// カメラの水平角度
-	float            shakeOffset; 					// カメラを揺らしたときのずらした値の保存
+    float  shakeTime;                  // シェイク時間
+    bool   isDamage;                   // 被ダメージ中フラグ
+    bool   isShake;                    // シェイク中フラグ
+    Input* rightInput;                 // 入力（右スティック等）
 
-	float shakeTime; 			// 揺れ時間
-	bool isDamage; 				// ダメージを受けているか
-	bool isShake; 				// 揺れているか
-	Input* rightInput; 			// 右スティック情報
-	VECTOR OriginalOffset; 		// 
-	VECTOR camera_angle; 		// 向きベクトル
-	VECTOR obj_position; 	// ポジション.
-	VECTOR camera_targetpos; 	// カメラが注視するポジション
+    VECTOR OriginalOffset;             // 位置オフセットの初期値
+    VECTOR camera_angle;               // 角度ベクトル
+    VECTOR obj_position;               // カメラ位置
+    VECTOR camera_targetpos;           // 注視点
+    VECTOR camera_dirction;            // 方向ベクトル（注視点-位置）
 
-	VECTOR camera_dirction; 	// カメラの向き（ターゲット位置）
-
-	std::shared_ptr<Player> player; 	//参照
-	std::shared_ptr<Enemy> enemy; 	//参照
-
+    std::shared_ptr<Player> player;    // 参照：プレイヤー
+    std::shared_ptr<Enemy>  enemy;     // 参照：敵
 };

@@ -76,6 +76,7 @@ void Crystal::MoveHorizontal()
 	float cos = cosf(crystal_angle);
 	float sin = sinf(crystal_angle);
 
+
 	VECTOR center_position = reference_enemy->GetPosition();
 
 	obj_position = VAdd(center_position, VGet(ROTATION_RADIUS * cos, offset_y, ROTATION_RADIUS * sin));

@@ -26,8 +26,7 @@ void EffectCreator::Initialize()
 	effect_handles[(int)EffectType::Barrior] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Barrior.efkefc", 1.2f);
 	effect_handles[(int)EffectType::BulletPlayer] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/player_attack.efkefc", 0.3f);
 	effect_handles[(int)EffectType::BreakCrystal] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/breakCrystal.efkefc", 2.0f);
-	effect_handles[(int)EffectType::EnemyTire] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/EnemyTire.efkefc", 2.0f);
-	SetRotationPlayingEffekseer3DEffect(effect_handles[(int)EffectType::EnemyTire], 0, 90 * DX_PI_F, 0);
+	effect_handles[(int)EffectType::EnemyTire] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/EnemyTire.efkefc", 3.0f);
 }
 
 void EffectCreator::Update()

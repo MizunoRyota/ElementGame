@@ -7,27 +7,27 @@ UiManager::~UiManager() = default;
 void UiManager::AddElement(const std::shared_ptr<IUiElement>& element)
 {
     if (!element) return;
-    elements_.push_back(element);
-    needSort_ = true;
+    elements.push_back(element);
+    elements_issort = true;
 }
 
 void UiManager::RemoveElement(const std::shared_ptr<IUiElement>& element)
 {
-    elements_.erase(std::remove(elements_.begin(), elements_.end(), element), elements_.end());
+    elements.erase(std::remove(elements.begin(), elements.end(), element), elements.end());
 }
 
 void UiManager::UpdateTitle()
 {
     // Z順再ソート要求チェック
-    if (needSort_)
+    if (elements_issort)
     {
-        std::stable_sort(elements_.begin(), elements_.end(), [](const auto& lhs, const auto& rhs) {
+        std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        needSort_ = false;
+        elements_issort = false;
     }
 
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->UpdateTitle();
@@ -37,15 +37,15 @@ void UiManager::UpdateTitle()
 void UiManager::UpdateTutorial()
 {
     // Z順再ソート要求チェック
-    if (needSort_)
+    if (elements_issort)
     {
-        std::stable_sort(elements_.begin(), elements_.end(), [](const auto& lhs, const auto& rhs) {
+        std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        needSort_ = false;
+        elements_issort = false;
     }
 
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->Update();
@@ -55,15 +55,15 @@ void UiManager::UpdateTutorial()
 void UiManager::Update()
 {
     // Z順再ソート要求チェック
-    if (needSort_)
+    if (elements_issort)
     {
-        std::stable_sort(elements_.begin(), elements_.end(), [](const auto& lhs, const auto& rhs) {
+        std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
         });
-        needSort_ = false;
+        elements_issort = false;
     }
 
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->Update();
@@ -73,15 +73,15 @@ void UiManager::Update()
 void UiManager::UpdateGameClear()
 {
     // Z順再ソート要求チェック
-    if (needSort_)
+    if (elements_issort)
     {
-        std::stable_sort(elements_.begin(), elements_.end(), [](const auto& lhs, const auto& rhs) {
+        std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        needSort_ = false;
+        elements_issort = false;
     }
 
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->UpdateGameClear();
@@ -91,15 +91,15 @@ void UiManager::UpdateGameClear()
 void UiManager::UpdateGameOver()
 {
     // Z順再ソート要求チェック
-    if (needSort_)
+    if (elements_issort)
     {
-        std::stable_sort(elements_.begin(), elements_.end(), [](const auto& lhs, const auto& rhs) {
+        std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        needSort_ = false;
+        elements_issort = false;
     }
 
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->UpdateGameOver();
@@ -109,7 +109,7 @@ void UiManager::UpdateGameOver()
 void UiManager::DrawTitle() const
 {
     // Update時にソートされている前提
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->DrawTitle();
@@ -119,7 +119,7 @@ void UiManager::DrawTitle() const
 void UiManager::DrawTutorial() const
 {
     // Update時にソートされている前提
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->DrawTutorial();
@@ -129,7 +129,7 @@ void UiManager::DrawTutorial() const
 void UiManager::Draw() const
 {
     // Update時にソートされている前提
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->Draw();
@@ -139,7 +139,7 @@ void UiManager::Draw() const
 void UiManager::DrawGameClear() const
 {
     // Update時にソートされている前提
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->DrawGameClear();
@@ -149,7 +149,7 @@ void UiManager::DrawGameClear() const
 void UiManager::DrawGameOver() const
 {
     // Update時にソートされている前提
-    for (auto& element : elements_)
+    for (auto& element : elements)
     {
         if (!element || !element->IsVisible()) continue;
         element->DrawGameOver();

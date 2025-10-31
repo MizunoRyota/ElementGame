@@ -4,39 +4,48 @@
 
 class BulletCreator;
 class GameObject;
-class Player;        // 追加
+class Player;
 
+// 弾の生成・更新ユーティリティ
 class BulletFire
 {
 public:
 	BulletFire();
 	~BulletFire();
 
+	// プレイヤー通常弾
 	void FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& speed);
 
+	// 直進弾
 	void FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed); //直線に発射
 
+	// 拡散弾
 	void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed); //拡散弾を発射
 
+	// 垂直散弾
 	void FireVirtical(const VECTOR& pos, const VECTOR& dir, const float& speed);
 
-	//void FireRotate();
+	// void FireRotate(); // 必要なら回転弾
 
-	// 追加: ホーミング(ターゲット付き)
+	// ホーミング弾（ターゲット追尾）
 	void FireHoming(const VECTOR& pos,
 		const VECTOR& dir,
 		const float& speed,
 		const std::shared_ptr<GameObject>& target);
 
+	// 全方位等の必殺系
 	void FireSpecialAttack (const VECTOR& pos, const VECTOR& dir, const float& speed); //全方位に発射
 
+	// 弾の生存・当たり等の更新
 	void FireUpdate(); //発射の更新
 
-	VECTOR BulletRotateHorizontal(const VECTOR& dir ,float angle); //水平向き変更
+	// 水平角回転
+	VECTOR BulletRotateHorizontal(const VECTOR& dir ,float angle); 
 
-	VECTOR BulletRotateVertical(const VECTOR& dir, float angle); //垂直向き変更
+	// 垂直角回転
+	VECTOR BulletRotateVertical(const VECTOR& dir, float angle);   //垂直向き変更
 
-	// 追加: エフェクトフレーバー
+	// エフェクト味付け
 	enum class EffectFlavor
 	{
 		Fire = 0,
@@ -48,37 +57,37 @@ public:
 		PlayerAttack = 14,
 	};
 
-	// エフェクトインデックス変換ヘルパー
+	// エフェクトの実装側インデックスに変換
 	static int ToEffectIndex(EffectFlavor f);
 
 private:
+	// 拡散・全方位・ホーミング・マーカー系のパラメータ
+	static constexpr int   DIFFUSION_NUM = 5;        // 拡散弾の数
+	static constexpr int   DIFFUSION_OFFSET = 2;     // 拡散の最初の左右のずらし
+	static constexpr int   DIFFUSION_RADIUS = 30;    // 拡散の角度(度)
 
-	static constexpr int DIFFUSION_NUM = 5; //拡散弾の数
-	static constexpr int DIFFUSION_OFFSET = 2; //拡散弾の最初の弾のずれ
-	static constexpr int DIFFUSION_RADIUS = 30; //拡散弾の角度
+	static constexpr int   ALLRANGE_NUM = 30;        // 全方位の弾数
+	static constexpr float BULLET_COOLTIME = 10;     // 発射クールタイム
+	static constexpr int   VERTICAL_NUM = 30;        // 垂直散弾の段数
+	static constexpr int   HORIZONTAL_NUM = 20;      // 水平散弾の列数
 
-	static constexpr int ALLRANGE_NUM = 30; //全方位弾の数
-	static constexpr float BULLET_COOLTIME = 10; //
-	static constexpr int VERTICAL_NUM = 30;
-	static constexpr int HORIZONTAL_NUM = 20;
 	// 追加: ホーミングパラメータ
-	static constexpr float HOMING_DURATION = 20.0f;             // 追尾するフレーム数
-	static constexpr float HOMING_TURN_SPEED = DX_PI_F / 30.0f; // 1f最大回頭角(=6°)
+	static constexpr float HOMING_DURATION = 20.0f;             // 追尾継続フレーム
+	static constexpr float HOMING_TURN_SPEED = DX_PI_F / 30.0f; // 1fあたり最大旋回 (=6度)
 
-	// マーカー関連パラメータ
-	static constexpr float MARKER_HEIGHT = 3.0f; // 円錐の高さ
-	static constexpr float MARKER_RADIUS = 1.2f; // 底面半径
+	// 地面マーカーの描画用
+	static constexpr float MARKER_HEIGHT = 3.0f; // マーカーの高さ
+	static constexpr float MARKER_RADIUS = 1.2f; // 可視半径
 	static constexpr int   MARKER_SLICES = 16;   // 分割数
 
-	//必殺技の弾
-	static constexpr float RING_RADIUS = 20;  // 最大半径
-	static constexpr float DROP_HEIGHT = 30;  // 上空高さ
-	static constexpr int   INNER_RINGS = 2;  // 同心円数
-	static constexpr float RADIUS_STEP = 8.0f;// 半径減少ステップ
-	static constexpr float MARKER_LIFE = 60.0f; // マーカー寿命
+	// 落下演出のリング
+	static constexpr float RING_RADIUS = 20;   // 最大半径
+	static constexpr float DROP_HEIGHT = 30;   // 落下距離
+	static constexpr int   INNER_RINGS = 2;    // 内側リング数
+	static constexpr float RADIUS_STEP = 8.0f; // 半径の増分
+	static constexpr float MARKER_LIFE = 60.0f;// マーカー寿命
 
-	float bullet_firecooltimer = 0; //弾の発射クールタイム
-
+	float bullet_firecooltimer = 0; // 発射クールタイマ
 };
 
 

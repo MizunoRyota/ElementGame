@@ -9,6 +9,7 @@ EnemyMove::~EnemyMove()
 {
 }
 
+// ’†S(0,0,0)‚Ö–ß‚é
 VECTOR EnemyMove::MoveToOrigin(const VECTOR& pos)
 {
 	if (!(pos.x > -ORIGIN_OFFSET && pos.x < ORIGIN_OFFSET) || !(pos.z > -ORIGIN_OFFSET && pos.z < ORIGIN_OFFSET))
@@ -26,6 +27,7 @@ VECTOR EnemyMove::MoveToOrigin(const VECTOR& pos)
 	return pos;
 }
 
+// ã‹ó‚Ö‘Þ”ð
 VECTOR EnemyMove::MoveToSky(const VECTOR& enemypos)
 {
 	if (!(enemypos.y > TARGETSKY_HIGHT - ORIGIN_OFFSET && enemypos.y < TARGETSKY_HIGHT + ORIGIN_OFFSET))
@@ -38,6 +40,7 @@ VECTOR EnemyMove::MoveToSky(const VECTOR& enemypos)
 	return enemypos;
 }
 
+// targetpos ‚ÉŒü‚¯‚Äˆê’è‘¬“x‚ÅÚ‹ß
 VECTOR EnemyMove::MoveToTarget(const VECTOR& enemypos, const VECTOR& targetpos)
 {
 

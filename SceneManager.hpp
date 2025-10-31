@@ -3,55 +3,38 @@
 #include "Scene.hpp"
 #include "SharedData.hpp"
 
-/// @brief シーンマネージャー
-/// @remark このクラスで管理するシーンは Scene を継承する必要があります。
+// シーンマネージャ
+// 追加・切替・更新・描画の制御を行う
 class SceneManager
 {
 public:
 
-    /// @brief メンバ変数を初期化します。
-    SceneManager();
+	SceneManager();  // 共有データなどの初期化
+	~SceneManager();
 
-    /// @brief メンバ変数の後始末をします。
-    ~SceneManager();
+	// アクティブシーンの更新
+	void Update() const;
 
-    /// @brief アクティブなシーンを更新します。
-    /// @remark アクティブなシーンが無ければ何もしません。
-    void Update() const;
+	// アクティブシーンの描画
+	void Draw() const;
 
-    /// @brief アクティブなシーンを描画します。
-    /// @remark アクティブなシーンが無ければ何もしません。
-    void Draw() const;
+	// シーンの追加
+	template <class SceneType>
+	void Add(const std::string_view name)
+	{
+		m_scenes[name] = new SceneType{ *this, *m_sharedData };
+		if (m_nowScene == nullptr)
+		{
+			m_nowScene = m_scenes[name];
+			m_nowScene->Initialize();
+		}
+	}
 
-    /// @brief 管理するシーンを追加します。
-    /// @tparam SceneType 管理するシーンの型
-    /// @param name シーン名
-    /// @note テンプレート関数はインライン定義する必要があります。
-    /// @warning SceneType はどんな型でも許容してしまうので、コンセプトや SFINAE で制約を付ける必要があります。
-    template <class SceneType>
-    void Add(const std::string_view name)
-    {
-        m_scenes[name] = new SceneType{ *this, *m_sharedData };
-
-        // 最初に追加されたシーンがデフォルトのシーンです。
-        if (m_nowScene == nullptr)
-        {
-            m_nowScene = m_scenes[name];
-            m_nowScene->Initialize();
-        }
-    }
-
-    /// @brief アクティブなシーンを切り替えます。
-    /// @param name 切り替え先のシーン名
-    void ChangeScene(std::string_view name);
+	// アクティブシーンを切り替え
+	void ChangeScene(std::string_view name);
 
 private:
-
-    /// @brief シーンコンテナ
-    std::unordered_map<std::string_view, Scene*> m_scenes;
-
-    /// @brief アクティブなシーン
-    Scene* m_nowScene;
-
-    SharedData* m_sharedData;
+	std::unordered_map<std::string_view, Scene*> m_scenes; // 登録シーン
+	Scene* m_nowScene;                                     // 現在シーン
+	SharedData* m_sharedData;                              // 共有データ
 };

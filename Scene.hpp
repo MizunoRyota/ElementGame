@@ -3,55 +3,46 @@
 class SceneManager;
 class SharedData;
 
-/// @brief シーンの基底クラス
-/// @remark SceneManager で管理するシーンはこのクラスを継承する必要があります。
+/// @brief シーン基底クラス
+/// SceneManager で管理される各シーンはこのクラスを継承して実装する。
 class Scene
 {
 public:
 
-    /// @brief SceneManager への参照を受け取ります。
-    /// @param manager SceneManager への参照
-    Scene(SceneManager& manager, SharedData& sharedData);
+	/// @brief SceneManager への参照を受け取ります。
+	/// @param manager SceneManager への参照
+	Scene(SceneManager& manager, SharedData& sharedData);
 
-    /// @brief シーンを初期化します。
-    /// @remark デフォルトでは何もしません。
-    virtual void Initialize();
+	/// @brief シーンを初期化します。
+	/// @remark デフォルトでは何もしません。
+	virtual void Initialize();
 
-    virtual void WhiteOut();
+	virtual void WhiteOut();
 
-    /// @brief シーンを更新します。
-    /// @remark デフォルトでは何もしません。
-    virtual void Update();
+	/// @brief シーンを更新します。
+	/// @remark デフォルトでは何もしません。
+	virtual void Update();
 
-    /// @brief シーンを描画します。
-    /// @remark デフォルトでは何もしません。
-    virtual void Draw() ;
+	/// @brief シーンを描画します。
+	/// @remark デフォルトでは何もしません。
+	virtual void Draw();
 
 protected:
+	/// @brief アクティブなシーンを切り替えます。
+	/// @param name 切り替え先のシーン名
+	void ChangeScene(std::string_view name);
 
-    /// @brief アクティブなシーンを切り替えます。
-    /// @param name 切り替え先のシーン名
-    void ChangeScene(std::string_view name);
-
-    SharedData& GetSharedData()
-    {
-        return m_sharedData;
-    }
+	SharedData& GetSharedData()
+	{
+		return m_sharedData;
+	}
 
 private:
+	static constexpr int  WHITEOUT_TIME = 1000;          /// @brief ホワイトアウトの時間
+	static constexpr int  WHITEOUT_TIMESPEED = 50;      /// @brief ホワイトアウトの時間速度調整
 
-    static constexpr int  WHITEOUT_TIME = 1000;
-    static constexpr int  WHITEOUT_TIMESPEED = 50;
+	SceneManager& m_manager;  /// @brief SceneManager への参照
+	SharedData& m_sharedData; /// @brief 共有データへの参照
 
-
-    /// @brief SceneManager への参照
-    /// @note ポインタを使うより安全です。
-    SceneManager& m_manager;
-
-    SharedData& m_sharedData;
-
-
-
-    bool whiteout_isend;
-
+	bool whiteout_isend; /// @brief ホワイトアウト完了フラグ
 };

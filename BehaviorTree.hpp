@@ -1,4 +1,6 @@
 #pragma once
+
+// 行動木（将来のAI用ベース）
 class BehaviorTree
 {
 public:
@@ -13,9 +15,6 @@ public:
 		Running,
 	};
 
-
-
 private:
-
 };
 

@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 #include "CharacterBase.hpp"
 
+// ダメージ適用。無敵/既に死亡/0以下なら適用しない
 bool CharacterBase::TakeDamage(int amount)
 {
 	if (amount <= 0) return false;
@@ -9,39 +10,34 @@ bool CharacterBase::TakeDamage(int amount)
 
 	obj_hp -= amount;
 	if (obj_hp < 0) obj_hp = 0;
-	//damage_invincible_timer_ = damage_invincible_duration;
+	damage_invincible_timer = damage_invincible_duration; // 無敵開始
 	return true;
 }
 
+// 無敵タイマーの進行（毎フレーム呼ぶ)
 void CharacterBase::TickDamageCooldown()
 {
-	if (damage_invincible_timer_ > 0)
+	if (damage_invincible_timer > 0)
 	{
-		--damage_invincible_timer_;
+		damage_invincible_timer--;
 	}
 }
 
+// 行動範囲外に出ないよう、中心(0,0,0)基準で押し戻す
 void CharacterBase::CheckMoveRange()
 {
-	////中心からプレイヤーの距離を測る
-	float r = VSize(VSub(obj_position, VGet(0.0f, 0.0f, 0.0f)));
+	// 中心から距離
+	float range = VSize(VSub(obj_position, VGet(0.0f, 0.0f, 0.0f)));
 
-	////一定の距離に達したらそれ以上いけないようにする
-
-	if (r > ReturnRange || r < -ReturnRange)
+	// 一定の距離に達したら押し戻す
+	if (range > MAX_RANGE || range < -MAX_RANGE)
 	{
-
-		//中心座標からプレイヤー座標の距離
-
+		// 中心->現在位置ベクトル（戻す向き)
 		VECTOR distance = VSub(VGet(0.0f, 0.0f, 0.0f), obj_position);
-
-		//正規化
-
 		distance = VNorm(distance);
 
-		//戻す量を計算、加算する
-
-		VECTOR returnPosition = VScale(distance, (r - ReturnRange));
+		// 戻す量を計算
+		VECTOR returnPosition = VScale(distance, (range - MAX_RANGE));
 
 		obj_position = VAdd(obj_position, returnPosition);
 	}
