@@ -6,9 +6,10 @@ bool CharacterBase::TakeDamage(int amount)
 {
 	if (amount <= 0) return false;
 	if (IsDead()) return false;
-	if (IsInvincible()) return false;
+	if (IsInvincible()) return true;
 
 	obj_hp -= amount;
+
 	if (obj_hp < 0) obj_hp = 0;
 	damage_invincible_timer = damage_invincible_duration; // –³“GŠJŽn
 	return true;
@@ -41,4 +42,5 @@ void CharacterBase::CheckMoveRange()
 
 		obj_position = VAdd(obj_position, returnPosition);
 	}
+
 }

@@ -14,7 +14,7 @@ Crystal::Crystal()
 
 	// ‰Šú‰»
 	crystal_break = false;
-	crystal_isinit = false;
+	crystal_init = false;
 	crystal_angle = 0.0f;
 
 }
@@ -27,7 +27,7 @@ void Crystal::Initialize()
 {
 	// ‰Šú‰»
 	crystal_break = false;
-	crystal_isinit = false;
+	crystal_init = false;
 	crystal_angle = 0.0f;
 }
 
@@ -38,17 +38,17 @@ void Crystal::ChangeActive()
 		obj_position = VGet(0.0f, -10.0f, 0.0f);
 		return;
 	}
-	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_isinit)
+	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_init)
 	{
 		obj_position = VAdd(reference_enemy->GetPosition(), VGet(0.0f, 10.0f, 0.0f));
-		crystal_isinit = true;
+		crystal_init = true;
 	}
 }
 
 void Crystal::ChangeBreak()
 {
 	crystal_break = true;
-	crystal_isinit = false;
+	crystal_init = false;
 }
 
 void Crystal::Update()
@@ -57,7 +57,7 @@ void Crystal::Update()
 	ChangeActive();
 
 	// “G‚ð’†S‚É‰~‚ð•`‚­‚æ‚¤‚ÉˆÚ“®
-	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && crystal_isinit)
+	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && crystal_init)
 	{
 		MoveHorizontal();
 	}
@@ -76,10 +76,9 @@ void Crystal::MoveHorizontal()
 	float cos = cosf(crystal_angle);
 	float sin = sinf(crystal_angle);
 
-
 	VECTOR center_position = reference_enemy->GetPosition();
 
-	obj_position = VAdd(center_position, VGet(ROTATION_RADIUS * cos, offset_y, ROTATION_RADIUS * sin));
+	obj_position = VAdd(center_position, VGet(ROTATION_RADIUS * cos,  offset_y, ROTATION_RADIUS * sin));
 
 }
 

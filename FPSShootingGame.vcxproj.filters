@@ -133,6 +133,9 @@
     <Filter Include="GameCode\GameObject\Character\Enemy\Palsy">
       <UniqueIdentifier>{1c8d0292-7738-443d-aa5b-46141703db65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\GameObject\Character\Player\LaserBeam">
+      <UniqueIdentifier>{3907de9f-7abc-4aea-b4a4-018ba8ae8f8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBase.hpp">
@@ -297,6 +300,9 @@
     <ClInclude Include="Palsy.hpp">
       <Filter>GameCode\GameObject\Character\Enemy\Palsy</Filter>
     </ClInclude>
+    <ClInclude Include="Laser.hpp">
+      <Filter>GameCode\GameObject\Character\Player\LaserBeam</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -442,6 +448,9 @@
     </ClCompile>
     <ClCompile Include="Palsy.cpp">
       <Filter>GameCode\GameObject\Character\Enemy\Palsy</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>GameCode\GameObject\Character\Player\LaserBeam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,9 +17,8 @@ Camera::Camera()
     camera_targetpos=VGet(0,0,0);
     camera_angle=VGet(0,0,0);
     camera_dirction=VGet(0,0,0);
-    isShake=false;
-    isDamage = true;
-    shakeTime=0;
+    camera_shake=false;
+    camera_shaketime=0;
     camera_angle_horizontal=0;
     camera_angle_virtual=0;
 
@@ -48,7 +47,8 @@ Camera::~Camera()
 /// </summary>
 void Camera::Initialize()
 {
-
+    camera_shake = false;
+    camera_shaketime = 0.0f;
 }
 
 void Camera::UpdateTitle()
@@ -78,6 +78,8 @@ void Camera::Update()
     // カメラの目線の位置
     obj_position = VAdd(player->GetPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
     
+    ShakeCamera();
+
     // マウスによる回転
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
@@ -177,9 +179,46 @@ void Camera::UpdateGameClear()
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
 
-/// <summary>
-/// 
-/// </summary>
-void Camera::FixCameraPosition()
+
+void Camera::StartShakeCamera()
 {
+    if (camera_shake)return;
+    camera_shake = true;
+    camera_shaketime = CAMERA_MAX_SHAKETIME;
+}
+
+/// <summary>
+/// カメラをランダムに小刻みに揺らす（時間経過で減衰）
+/// </summary>
+void Camera::ShakeCamera()
+{
+    if (!camera_shake) return;
+
+    // シェイク時間を減らす
+    camera_shaketime -= CAMERA_SHAKESPEED;
+
+    // 終了判定
+    if (camera_shaketime <= 0.0f)
+    {
+        camera_shaketime = 0.0f;
+        camera_shake = false;
+        return;
+    }
+
+    // 残り時間に応じて振幅を減衰させる
+    const float t = camera_shaketime / CAMERA_MAX_SHAKETIME; // 1.0 -> 0.0
+    const float maxAmplitude = 0.30f; // 最大揺れ量（必要に応じて調整）
+    const float amplitude = maxAmplitude * t;
+
+    // -1.0f ～ 1.0f の乱数を生成
+    auto randSign01 = []() -> float {
+        return (static_cast<float>(GetRand(1000)) / 1000.0f) - 1.0f;
+    };
+
+    // 位置をランダムにオフセット（Z は控えめ）
+    const float offX = randSign01() * amplitude;
+    const float offY = randSign01() * amplitude;
+    const float offZ = randSign01() * (amplitude * 0.5f);
+
+    obj_position = VAdd(obj_position, VGet(offX, offY, offZ));
 }

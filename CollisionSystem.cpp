@@ -7,6 +7,7 @@
 #include "Enemy.hpp"
 #include "Player.hpp"
 #include "Crystal.hpp"
+#include "Camera.hpp"
 #include "EffectCreator.hpp" // 追加
 
 namespace
@@ -32,12 +33,13 @@ void CollisionSystem::Resolve(SharedData& shared)
 	auto enemy = std::dynamic_pointer_cast<Enemy>(shared.FindObject("Enemy"));
 	auto player = std::dynamic_pointer_cast<Player>(shared.FindObject("Player"));
 	auto crystal = std::dynamic_pointer_cast<Crystal>(shared.FindObject("Crystal"));
+	auto camera = std::dynamic_pointer_cast<Camera>(shared.FindObject("Camera"));
 
 	auto& bullet_creator = BulletCreator::GetBulletCreator();
 
 	const int count = bullet_creator.GetBulletCount();
 
-	for (int bulletNum = 0; bulletNum < count; ++bulletNum)
+	for (int bulletNum = 0; bulletNum < count; bulletNum++)
 	{
 		const auto bullet = bullet_creator.GetBullet(bulletNum);
 		if (!bullet || !bullet->IsActive()) continue;
@@ -72,12 +74,17 @@ void CollisionSystem::Resolve(SharedData& shared)
 				continue; // 既に消えているため次の弾へ
 			}
 		}
+
 		// 敵へのヒットチェック
 		else if (enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
 		{
-			const bool hitEnemy = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, enemy->GetPosition(), enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
-
+			bool hitEnemy = false;
+			if (true)
+			{
+				hitEnemy = Collision::CheckSphereCapsuleCollision(
+					sphereCenter, sphereRadius, enemy->GetPosition(), enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
+			}
+			//hitEnemy = Collision::CheckSegmentSegmentColliison();
 			if (hitEnemy)
 			{
 				enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
@@ -89,8 +96,8 @@ void CollisionSystem::Resolve(SharedData& shared)
 
 				continue; // 既に消えているため次の弾へ
 			}
-		}
 
+		}
 
 		// プレイヤーへのヒットチェック
 		if (player)
@@ -101,7 +108,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 			if (hitPlayer)
 			{
 				player->TakeDamage(BULLET_DAMAGE_TO_PLAYER);
-
+				camera->StartShakeCamera();
 				// エフェクト: 被弾
 				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, player->GetPosition());
 

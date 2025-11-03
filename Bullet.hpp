@@ -35,10 +35,12 @@ public:
 	float GetBulletRadius() const { return bullet_radius; }
 private:
 	// ===== 当たり半径テーブル =====
-	static constexpr float BULLET_FIRE_RADIUS = 0.45f;      // 直進弾
+	static constexpr float BULLET_FIRE_RADIUS = 0.75f;      // 直進弾
 	static constexpr float BULLET_DIFFUSION_RADIUS = 0.5f;  // 拡散弾
 	static constexpr float BULLET_HOMING_RADIUS = 0.2f;     // 追尾弾
-	static constexpr float BULLET_SPECIAL_RADIUS = 3.0f;    // 必殺・大弾
+	static constexpr float BULLET_SPECIAL_RADIUS = 5.0f;    // 必殺・大弾
+	static constexpr float BULLET_PLAYER_RADIUS = 0.45f;    // 必殺・大弾
+
 
 	// ===== 寿命関連 =====
 	static constexpr float BULLET_LIFE = 60.0f;  // 生存時間(フレーム)

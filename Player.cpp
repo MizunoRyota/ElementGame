@@ -34,10 +34,10 @@ Player::Player()
 	// 手元ループエフェクト
 	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandEffect, character_handposition);
 	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandCharge, character_handposition);
-	//EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
 
 	// 被弾後クール(30f)設定
-	ConfigureDamageCooldown(30);
+	ConfigureDamageCooldown(1);
 }
 
 Player::~Player() {}
@@ -49,7 +49,7 @@ void Player::Initialize()
 	obj_position = VGet(0, 0, 0);
 	obj_direction = VGet(0, 0, 0);
 	// モデル回転初期
-	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoceAngle() + DX_PI_F, 0.0f));
+	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoveAngle() + DX_PI_F, 0.0f));
 	// モデル座標適用
 	MV1SetPosition(obj_modelhandle, obj_position);
 }
@@ -85,8 +85,8 @@ void Player::UpdateHandEffect()
 {
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandEffect, character_handposition);
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandCharge, character_handposition);
-	//EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Laser, character_handposition);
-	//EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::Laser, camera_reference->GetCameraDir());
+	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Laser, character_handposition);
+	EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::Laser, camera_reference->GetCameraDir());
 }
 
 // 攻撃入力に応じてステートを切替え、弾を発射
@@ -105,7 +105,6 @@ void Player::UpdateStateAction()
 	{
 		player_state = STATE_HANDIDLE; // 待機
 	}
-
 }
 
 // 入力で得た移動量を反映し、モデル姿勢/位置を適用
@@ -119,7 +118,7 @@ void Player::Move()
 	// 当たり判定での補正などを入れる場合はここ
 
 	// プレイヤーの回転
-	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoceAngle() + DX_PI_F, 0.0f));
+	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoveAngle() + DX_PI_F, 0.0f));
 	// プレイヤーモデルの配置
 	MV1SetPosition(obj_modelhandle, obj_position);
 }

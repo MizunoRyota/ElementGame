@@ -6,14 +6,14 @@ void EffectCreator::Initialize()
 
 	if (effect_initialized) return; // 多重初期化防止
 	effect_initialized = true;
-
+	effect_move_angle = 0;
 	Effekseer_Sync3DSetting(); // カメラ同期
 
 	// 各エフェクト読み込み（失敗すると -1 が残る）
-	effect_handles[(int)EffectType::BulletStraight] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/fire.efkefc", 0.3f);
+	effect_handles[(int)EffectType::BulletStraight] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/fire.efkefc", 0.5f);
 	effect_handles[(int)EffectType::BulletDiffusion] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/water.efkefc", 0.3f);
 	effect_handles[(int)EffectType::BulletHoming] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/wind.efkefc", 0.2f);
-	effect_handles[(int)EffectType::BulletSpecial] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/SpecialAttack.efkefc", 0.40f);
+	effect_handles[(int)EffectType::BulletSpecial] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/SpecialAttack.efkefc", 1.0f);
 	effect_handles[(int)EffectType::BulletHit] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Hit.efkefc", 0.15f);
 	effect_handles[(int)EffectType::FireGround] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/FireGround.efkefc", 4.5f);
 	effect_handles[(int)EffectType::EnemyDeath] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/BossDeath.efkefc", 1.0f);
@@ -63,7 +63,7 @@ void EffectCreator::Update()
 	}
 
 	UpdateEffekseer3D();       // 再生中全更新
-
+	
 }
 
 void EffectCreator::Draw()
@@ -83,6 +83,7 @@ int EffectCreator::PlayReturn(EffectType EffectType, const VECTOR& position)
 	if (effect_playinghandle < 0) return -1; // 未ロード
 	const int playing = PlayEffekseer3DEffect(effect_playinghandle);
 	SetPosPlayingEffekseer3DEffect(playing, position.x, position.y, position.z);
+
 	return playing;
 }
 
@@ -137,10 +138,26 @@ void EffectCreator::SetRotateEffect(EffectType type, const VECTOR& dir)
 	int index = (int)type;
 	if (index < 0 || index >= EFFECT_NUM) return;
 
-	float dirction = VSquareSize(dir);
+	// Effekseer の 3D 設定を同期してから回転を適用
+	Effekseer_Sync3DSetting();
+
+	float targetAngle = static_cast<float>(atan2(dir.x, dir.z));
+	float difference = targetAngle - effect_move_angle;
+	if (difference < -DX_PI_F) difference += DX_TWO_PI_F; else if (difference > DX_PI_F) difference -= DX_TWO_PI_F;
+	if (difference > 0.0f)
+	{
+		difference -= ANGLE_SPEED;
+		if (difference < 0.0f) difference = 0.0f;
+	}
+	else
+	{
+		difference += ANGLE_SPEED;
+		if (difference > 0.0f) difference = 0.0f;
+	}
+	effect_move_angle = targetAngle - difference;
 
 	if (loop_playing_handles[index] >= 0)
 	{
-		SetRotationPlayingEffekseer3DEffect(loop_playing_handles[index], dir.y, -dir.x, dir.z);
+		SetRotationPlayingEffekseer3DEffect(loop_playing_handles[index],0, effect_move_angle + DX_PI_F, 0);
 	}
 }

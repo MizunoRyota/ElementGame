@@ -14,4 +14,5 @@ namespace Pallet
     inline constexpr Color Red{ 237, 26, 61 };
     inline constexpr Color Violet{ 238,130,238 };
     inline constexpr Color White{ 255,255,255 };
+    inline constexpr Color SpringGreen{ 0,255,127 };
 }

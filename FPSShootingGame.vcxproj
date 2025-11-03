@@ -163,6 +163,7 @@
     <ClInclude Include="GameTimer.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="json.hpp" />
+    <ClInclude Include="Laser.hpp" />
     <ClInclude Include="NodeBase.hpp" />
     <ClInclude Include="Pallet.hpp" />
     <ClInclude Include="Palsy.hpp" />
@@ -215,6 +216,7 @@
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NodeBase.cpp" />
     <ClCompile Include="Palsy.cpp" />

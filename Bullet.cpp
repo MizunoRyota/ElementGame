@@ -72,8 +72,10 @@ void Bullet::InitializeBulletRadius(int effectTypeIndex)
 		bullet_radius = BULLET_DIFFUSION_RADIUS; break;
 	case (static_cast<int>(EffectCreator::EffectType::BulletHoming)):
 		bullet_radius = BULLET_HOMING_RADIUS; break;
+	case (static_cast<int>(EffectCreator::EffectType::BulletSpecial)):
+		bullet_radius = BULLET_SPECIAL_RADIUS; break;
 	case (static_cast<int>(EffectCreator::EffectType::BulletPlayer)):
-		bullet_radius = BULLET_FIRE_RADIUS; break;
+		bullet_radius = BULLET_PLAYER_RADIUS; break;
 	default: break;
 	}
 }
@@ -165,7 +167,7 @@ void Bullet::ResetPosition()
 void Bullet::Draw()
 {
 	// 可視デバッグが必要なら描画を有効化
-	//DrawSphere3D(bullet_position, bullet_radius, 10, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
+	DrawSphere3D(bullet_position, bullet_radius, 10, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
 	  // 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 	if (bullet_radius == BULLET_SPECIAL_RADIUS)

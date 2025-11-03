@@ -40,7 +40,7 @@ private:
 	static constexpr int   CRYSTAL_MAXHP = 20;       // 最大HP
 	static constexpr float offset_y = 10.0f;         // Y方向オフセット
 
-	bool crystal_isinit;     // 初期化済みか
+	bool crystal_init;     // 初期化済みか
 	bool crystal_break;      // 破壊状態か
 	float crystal_angle;     // 現在の角度
 

@@ -27,6 +27,9 @@ public:
     void DrawGameOver() override {}
     void DrawGameClear() override {}
 
+    void StartShakeCamera();//camera_shakeをtrueにする
+    void ShakeCamera();  //カメラ揺らし
+
     // 位置補間
     // camera_pos: 現在位置, target_pos: 目標位置, t: 0?1 の補間係数
     VECTOR Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float t);
@@ -50,6 +53,9 @@ private:
     static constexpr float TOPLAYER_LENGTH = 1.30f;           // プレイヤーとの距離
     static constexpr float ANGLE_SPEED = 0.02f;               // 角速度
     static constexpr float CAMERA_PLAYERTARGET_HIGHT = 1.8f;  // プレイヤー注視点の高さ
+    static constexpr float CAMERA_MAX_SHAKETIME = 5.0f;      // カメラを揺らす時間
+    static constexpr float CAMERA_SHAKESPEED = 0.1f;      // カメラを揺らす時間
+
     static constexpr float CAMERA_FOV = 70.0f;                // 視野角
 
     // 制御用変数
@@ -57,9 +63,8 @@ private:
     float  camera_angle_horizontal;    // ヨー角（左右）
     float  shakeOffset;                // シェイクのオフセット量
 
-    float  shakeTime;                  // シェイク時間
-    bool   isDamage;                   // 被ダメージ中フラグ
-    bool   isShake;                    // シェイク中フラグ
+    float  camera_shaketime;           // シェイク時間
+    bool   camera_shake;                    // シェイク中フラグ
     Input* rightInput;                 // 入力（右スティック等）
 
     VECTOR OriginalOffset;             // 位置オフセットの初期値

@@ -58,13 +58,14 @@ private:
 	static constexpr float EFFECT_SCALE = 4.5f;      // 表示スケール
 	static constexpr float EFFCT_PLAYSPEED = 0.20f;  // 再生速度
 	static constexpr float EFFECT_ENDTIME = 120.0f;  // 終了許容閾値
+	static constexpr float ANGLE_SPEED = 0.5f;      // 基準高さオフセット
 
 	int   effect_handle;         // 一時ハンドル
 	int   effect_playinghandle;  // 再生中ハンドル
 	float effect_playtime;       // 再生時間
 	bool  effect_isplay;         // 再生中
 	bool  effect_isend;          // 終了済
-
+	float effect_move_angle;	 //	effectの向き
 	bool  effect_initialized = false; // 初期化済みか
 	int   effect_handles[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1,-1 }; // 読み込み済配列
 

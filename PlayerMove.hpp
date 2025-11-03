@@ -20,7 +20,7 @@ public:
 
 	// getter/setter.
 	const VECTOR& GetMoveScale() const { return moveVec; }
-	const float& GetMoceAngle() const { return move_angle; }
+	const float& GetMoveAngle() const { return move_angle; }
 	const bool& GetIsmove() const { return move_ismove; }
 	const bool& GetIsDash() const { return move_isdash; }
 	float GetDashEnergy() const { return dash_energy; }
