@@ -28,8 +28,10 @@ public:
 	float GetCapsuleHeight() const { return COLLISION_CAPSULE_HEIGHT; } // 衝突高さ
 protected:
 	static constexpr float MAX_RANGE = 20.0f; // 自動復帰させる境界半径
+	static constexpr float TAKEDAMAGE_COOLDOWN = 10.0f;        // 被弾無敵(フレーム)
 	float COLLISION_CAPSULE_RADIUS = 0;       // 当たり判定(半径)
 	float COLLISION_CAPSULE_HEIGHT = 0;       // 当たり判定(高さ)
+
 	int   character_handname = 0;             // モデル内「手」ボーンのフレームID
 	VECTOR character_handposition = VGet(0, 0, 0); // 発射等に用いる手先位置キャッシュ
 

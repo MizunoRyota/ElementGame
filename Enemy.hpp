@@ -94,7 +94,6 @@ private:
 	static constexpr float BULLET_HIGHT = -0.5f;               // 発射位置オフセット(Yが負で手前になる環境向け)
 	
 	// ===== ダメージ・HP・スケール =====
-	static constexpr float TAKEDAMAGE_COOLDOWN = 10.0f;        // 被弾無敵(フレーム)
 	static constexpr int DAMAGE_STRENGTH = 10;                 // 与ダメージ基本値
 	static constexpr float ENEMY_HITEFFECT_HEIGHT = 2.25f;     // 被弾エフェクトの高さ
 	static constexpr float ENEMY_SCALE = 0.02f;                // モデル拡大率

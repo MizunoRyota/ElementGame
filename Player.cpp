@@ -37,7 +37,7 @@ Player::Player()
 	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
 
 	// îÌíeå„ÉNÅ[Éã(30f)ê›íË
-	ConfigureDamageCooldown(1);
+	ConfigureDamageCooldown(TAKEDAMAGE_COOLDOWN);
 }
 
 Player::~Player() {}
