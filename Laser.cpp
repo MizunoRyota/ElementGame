@@ -3,9 +3,14 @@
 
 Laser::Laser()
 {
+	laser_ready = false;
 }
 
 Laser::~Laser()
 {
 }
 
+void Laser::PrepareLaser()
+{
+	laser_ready = true;
+}

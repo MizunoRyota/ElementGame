@@ -10,6 +10,7 @@ class Input;
 class Camera;
 class BulletFire;
 class Enemy;
+class Laser;
 
 // プレイヤーキャラクター
 class Player : public CharacterBase
@@ -41,8 +42,10 @@ public:
 	void SetCamera(const std::shared_ptr<Camera>& setcamera) { camera_reference = setcamera; } // カメラ参照設定
 	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy_reference = setenemy; }    // 敵参照設定
 	void SetBulletManager(std::shared_ptr<BulletFire> bullet) { player_bullet = bullet; }   // 弾マネージャ設定
-
-	std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; } // 移動コンポーネント取得
+	
+	void PrepareLaser();
+	
+		std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; } // 移動コンポーネント取得
 
 private:
 	// ===== 定数パラメータ =====
@@ -55,7 +58,7 @@ private:
 	std::shared_ptr<AnimaterBase> player_animater; // アニメーター
 	std::shared_ptr<PlayerMove>   player_move;     // 入力・移動ベクトル計算
 	std::shared_ptr<BulletFire>   player_bullet;   // 弾生成ハンドル
-
+	std::shared_ptr<Laser>		  player_laser;	   //　レーザー
 	// ===== 参照 =====
 	std::shared_ptr<Camera> camera_reference = nullptr; // カメラ(向き/位置)
 	std::shared_ptr<Input> input_reference = nullptr;   // 入力

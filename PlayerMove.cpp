@@ -4,9 +4,9 @@
 #include "Input.hpp"
 
 PlayerMove::PlayerMove()
-	:moveVec(VGet(0, 0, 0))
-	, move_angle(0)
 {
+	moveVec = VGet(0, 0, 0);
+	move_angle = 0;
 }
 
 PlayerMove::~PlayerMove() {}
@@ -102,7 +102,7 @@ void PlayerMove::DecreaseDashEnergy()
 		// 通常回復（クールタイムが終わっている時）
 		if (dash_energy < DASH_MAXENERGY)
 		{
-			++dash_energy;
+			dash_energy++;
 		}
 	}
 }

@@ -48,7 +48,7 @@ public:
 
 	void Update()override; // 毎フレーム更新
 
-	void UpdateGameClear() override; // クリア演出更新
+	void UpdateGameClear() override;  // クリア演出更新
 	void UpdateGameOver() override ;  // ゲームオーバー演出更新
 	void UpdateTitle() override ;     // タイトル時更新
 
@@ -58,7 +58,7 @@ public:
 
 	void UpdateAngle();               // 向き更新（ターゲット方向など）
 
-	void SetPosition(); // 位置設定（スポーン・復帰など）
+	void SetPosition();				  // 位置設定（スポーン・復帰など）
 
 	void ChoseAttackType();           // 攻撃種別を選択
 

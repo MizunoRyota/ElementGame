@@ -6,6 +6,7 @@
 #include "Camera.hpp"
 #include "PlayerMove.hpp"
 #include "PlayerAnimater.hpp"
+#include "Laser.hpp"
 
 // プレイヤー生成と初期セットアップ
 Player::Player()
@@ -24,17 +25,15 @@ Player::Player()
 	obj_direction = VGet(0, 0, 0); // 向き(未使用初期化)
 
 	player_animater = std::make_shared<PlayerAnimater>(obj_modelhandle,player_state); // アニメーション制御
-	player_move = std::make_shared<PlayerMove>(); // 移動制御
+	player_move = std::make_shared<PlayerMove>();   // 移動制御
 	player_bullet = std::make_shared<BulletFire>(); // 弾発射
-
+	player_laser = std::make_shared<Laser>();
 	player_state = STATE_HANDIDLE; // 初期ステート
 
 	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
 
 	// 手元ループエフェクト
 	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandEffect, character_handposition);
-	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandCharge, character_handposition);
-	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
 
 	// 被弾後クール(30f)設定
 	ConfigureDamageCooldown(TAKEDAMAGE_COOLDOWN);
@@ -80,9 +79,18 @@ void Player::Update()
 	TickDamageCooldown();
 }
 
+void Player::PrepareLaser()
+{
+	player_laser->PrepareLaser();
+}
+
 // 手元ループエフェクトの位置更新
 void Player::UpdateHandEffect()
 {
+	if (player_laser->GetLaserReady())
+	{
+		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandCharge, character_handposition);
+	}
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandEffect, character_handposition);
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandCharge, character_handposition);
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Laser, character_handposition);
@@ -95,7 +103,13 @@ void Player::UpdateStateAction()
 
 	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
 
-	if ((GetMouseInput() & MOUSE_INPUT_LEFT))
+	if (player_laser->GetLaserReady() && (GetMouseInput() & MOUSE_INPUT_LEFT))
+	{
+		player_state = STATE_ATTACK; // 攻撃ステート
+		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
+
+	}
+	else if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 	{
 		player_state = STATE_ATTACK; // 攻撃ステート
 		// 手先位置 + 視線方向へオフセットして弾を発射

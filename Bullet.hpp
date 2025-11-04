@@ -37,7 +37,7 @@ private:
 	// ===== “–‚½‚è”¼Œaƒe[ƒuƒ‹ =====
 	static constexpr float BULLET_FIRE_RADIUS = 0.75f;      // ’¼i’e
 	static constexpr float BULLET_DIFFUSION_RADIUS = 0.5f;  // ŠgU’e
-	static constexpr float BULLET_HOMING_RADIUS = 0.2f;     // ’Ç”ö’e
+	static constexpr float BULLET_HOMING_RADIUS = 0.5f;     // ’Ç”ö’e
 	static constexpr float BULLET_SPECIAL_RADIUS = 5.0f;    // •KEE‘å’e
 	static constexpr float BULLET_PLAYER_RADIUS = 0.45f;    // •KEE‘å’e
 

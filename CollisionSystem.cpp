@@ -46,7 +46,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 
 		const VECTOR sphereCenter = bullet->GetPosition();
 		const float  sphereRadius = bullet->GetBulletRadius();
-
+		//クリスタルへのヒットチェック
 		if (enemy->GetEnemyState() == STATE_SPECIAL_CHARGE)
 		{
 			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
@@ -56,10 +56,11 @@ void CollisionSystem::Resolve(SharedData& shared)
 			{
 				crystal->TakeDamage(BULLET_DAMAGE_TO_CRYSTAL);
 
-				if (crystal->GetHp() <= 0)
+				if (crystal->IsDead())
 				{
 					crystal->ChangeBreak();
 					enemy->ChangeStatePalsy();
+					player->PrepareLaser();
 					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BreakCrystal, sphereCenter);
 				}
 				else
@@ -74,7 +75,6 @@ void CollisionSystem::Resolve(SharedData& shared)
 				continue; // 既に消えているため次の弾へ
 			}
 		}
-
 		// 敵へのヒットチェック
 		else if (enemy->GetEnemyState() != STATE_SPECIAL_CHARGE)
 		{

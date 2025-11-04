@@ -16,24 +16,22 @@ void Scene::Initialize()
 
 void Scene::WhiteOut()
 {
-    int startTime = GetNowCount();
-    int endTime = startTime + WHITEOUT_TIME;
     if (whiteout_isend == true)
     {
         alpha = 0;
         whiteout_isend = false;
     }
-    while (alpha < 3000)
+    while (alpha < WHITEOUT_TIME)
     {
 
         alpha += WHITEOUT_TIMESPEED;
 
         // âÊñ ÇîíêFÇ≈ìhÇËÇ¬Ç‘Ç∑
         SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(alpha * WHITEOUT_TIMESPEED));
-        DrawCircle(0, 0, alpha, Pallet::DeepSkyBlue.GetHandle(), true);
-        DrawCircle(SCREEN_WIDTH, SCREEN_HEIGHT, alpha, Pallet::Red.GetHandle(), true);
         DrawCircle(0, SCREEN_HEIGHT, alpha, Pallet::SpringGreen.GetHandle(), true);
         DrawCircle(SCREEN_WIDTH, 0, alpha, Pallet::Violet.GetHandle(), true);
+        DrawCircle(SCREEN_WIDTH, SCREEN_HEIGHT, alpha, Pallet::DeepSkyBlue.GetHandle(), true);
+        DrawCircle(0, 0, alpha, Pallet::Red.GetHandle(), true);
 
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 
@@ -51,7 +49,6 @@ void Scene::Update()
 
 void Scene::Draw() 
 {
-
     // ñ≥èàóù
 }
 

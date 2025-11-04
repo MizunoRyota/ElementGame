@@ -12,7 +12,7 @@ void EffectCreator::Initialize()
 	// 各エフェクト読み込み（失敗すると -1 が残る）
 	effect_handles[(int)EffectType::BulletStraight] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/fire.efkefc", 0.5f);
 	effect_handles[(int)EffectType::BulletDiffusion] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/water.efkefc", 0.3f);
-	effect_handles[(int)EffectType::BulletHoming] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/wind.efkefc", 0.2f);
+	effect_handles[(int)EffectType::BulletHoming] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/wind.efkefc", 0.5f);
 	effect_handles[(int)EffectType::BulletSpecial] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/SpecialAttack.efkefc", 1.0f);
 	effect_handles[(int)EffectType::BulletHit] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Hit.efkefc", 0.15f);
 	effect_handles[(int)EffectType::FireGround] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/FireGround.efkefc", 4.5f);
