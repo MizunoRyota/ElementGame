@@ -48,7 +48,7 @@ public:
 private:
     // カメラ定数
     static constexpr float CAMERA_NEAR = 0.1f;                // ニア
-    static constexpr float CAMERA_FAR = 300.0f;               // ファー
+    static constexpr float CAMERA_FAR = 600.0f;               // ファー
     static constexpr float CAMERA_TARGET_PLAYERHIGHT = 0.650f;// プレイヤーヘッドへのオフセット
     static constexpr float TOPLAYER_LENGTH = 1.30f;           // プレイヤーとの距離
     static constexpr float ANGLE_SPEED = 0.02f;               // 角速度

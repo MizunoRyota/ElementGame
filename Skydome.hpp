@@ -23,7 +23,7 @@ public:
 	void UpdateTitle() override {};
 private:
 	// ’è”
-	static constexpr float SCALE = 0.20f;    // ‘å‚«‚³
+	static constexpr float SCALE = 0.40f;    // ‘å‚«‚³
 	static constexpr float MOVESPEED = 0.0004f; // ‰ñ“]‘¬“x
 
 	int skydome_modelhandle;   // ƒ‚ƒfƒ‹

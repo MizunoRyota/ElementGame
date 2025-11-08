@@ -61,7 +61,7 @@ void Enemy::Initialize()
 	obj_hp = ENEMY_MAXHP; // HP リセット
 
 	// エフェクト関連フラグ
-	enemy_groundattack_charge_played = false;
+	enemy_special_charge_playerd = false;
 	
 	// プレイヤー方向を向く
 	obj_direction = VSub(VGet(0,0,0), obj_position);
@@ -200,9 +200,9 @@ void Enemy::UpdateStateAction()
 
 	case STATE_CHARGE:
 		// チャージ演出が残っている場合はフラグを戻す
-		if (enemy_groundattack_charge_played && enemy_state != STATE_SPECIAL_CHARGE)
+		if (enemy_special_charge_playerd && enemy_state != STATE_SPECIAL_CHARGE)
 		{
-			enemy_groundattack_charge_played = false;
+			enemy_special_charge_playerd = false;
 		}
 		// アニメ終了で攻撃を選択
 		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
@@ -210,7 +210,7 @@ void Enemy::UpdateStateAction()
 			enemy_dodgechose = GetRand(1);
 			ChoseAttackType();
 			StartHandEffectForAttack();
-			if (enemy_dodgechose == 0)      enemy_state = STATE_RUNLEFT; 
+			if (enemy_dodgechose == 0)      enemy_state = STATE_RUNLEFT;
 			else if (enemy_dodgechose == 1) enemy_state = STATE_RUNRIGHT;
 		}
 		break;
@@ -229,11 +229,14 @@ void Enemy::UpdateStateAction()
 		obj_position = enemy_move->MoveToTarget(obj_position, player_reference->GetPosition());
 		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition()))
 		{
+			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
+			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::ReadyAttack, handPos);
 			enemy_state = static_cast<EnemyState>(enemy_attacktype);
 		}
 		break;
 
 	case STATE_FIREATTACK:
+
 		if (enemy_animater->GetAmimFrame() == FIREATTACK_TIMING)
 		{
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
@@ -244,6 +247,7 @@ void Enemy::UpdateStateAction()
 		break;
 
 	case STATE_WATERATTACK:
+
 		if (enemy_animater->GetAmimFrame() == WATERATTACK_TIMING)
 		{
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
@@ -256,6 +260,7 @@ void Enemy::UpdateStateAction()
 	case STATE_WINDATTACK:
 		if (enemy_animater->GetAmimFrame() >= WINDATTACK_TIMING)
 		{
+
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
 			enemy_bullet->FireHoming(handPos, obj_direction, WINDBULLET_SPEED, player_reference);
 		}
@@ -273,14 +278,14 @@ void Enemy::UpdateStateAction()
 
 	case STATE_SPECIAL_CHARGE:
 		// チャージ演出開始
-		if (!enemy_groundattack_charge_played)
+		if (!enemy_special_charge_playerd)
 		{
 			enemy_specialattack->Initialize();
 			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Barrior, obj_position);
 			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyCharge, obj_position);
-			enemy_groundattack_charge_played = true;
+			enemy_special_charge_playerd = true;
 		}
-		
+
 		enemy_specialattack->UpdateChrgeCount();
 
 		if (obj_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE;

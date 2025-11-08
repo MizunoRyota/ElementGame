@@ -38,8 +38,8 @@ protected:
 	}
 
 private:
-	static constexpr int  WHITEOUT_TIME = 3000;          //ホワイトアウトの時間
-	static constexpr int  WHITEOUT_TIMESPEED = 20;     //ホワイトアウトの時間速度調整
+	static constexpr int  WHITEOUT_TIME = 2300;          //ホワイトアウトの時間
+	static constexpr int  WHITEOUT_TIMESPEED = 35;     //ホワイトアウトの時間速度調整
 
 	float alpha;
 

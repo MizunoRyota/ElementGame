@@ -32,9 +32,6 @@ Player::Player()
 
 	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
 
-	// 手元ループエフェクト
-	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandEffect, character_handposition);
-
 	// 被弾後クール(30f)設定
 	ConfigureDamageCooldown(TAKEDAMAGE_COOLDOWN);
 }
@@ -51,6 +48,8 @@ void Player::Initialize()
 	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoveAngle() + DX_PI_F, 0.0f));
 	// モデル座標適用
 	MV1SetPosition(obj_modelhandle, obj_position);
+	// 手元ループエフェクト
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::HandEffect, character_handposition);
 }
 
 // 毎フレーム更新
@@ -103,10 +102,13 @@ void Player::UpdateStateAction()
 
 	character_handposition = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
 
-	if (player_laser->GetLaserReady() && (GetMouseInput() & MOUSE_INPUT_LEFT))
+	if (player_laser->GetLaserReady() && (GetMouseInput() & MOUSE_INPUT_RIGHT))
 	{
 		player_state = STATE_ATTACK; // 攻撃ステート
+		player_laser->FireLaser();
+		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::HandCharge);
 		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
+
 
 	}
 	else if ((GetMouseInput() & MOUSE_INPUT_LEFT))

@@ -97,7 +97,7 @@ private:
 	static constexpr int DAMAGE_STRENGTH = 10;                 // 与ダメージ基本値
 	static constexpr float ENEMY_HITEFFECT_HEIGHT = 2.25f;     // 被弾エフェクトの高さ
 	static constexpr float ENEMY_SCALE = 0.02f;                // モデル拡大率
-	static constexpr int ENEMY_MAXHP = 80;                     // 最大HP
+	static constexpr int ENEMY_MAXHP = 60;                     // 最大HP
 
 	// ===== フェーズ用HPしきい値 =====
 	static constexpr int ENEMY_FHASE_ONE = 150;   // Phase1 開始HP
@@ -119,7 +119,7 @@ private:
 
 	std::vector<int> attack_kind;      // ランダム選択用 攻撃ステート一覧
 
-	bool enemy_groundattack_charge_played = false; // 特殊溜めエフェクト再生済みフラグ
+	bool enemy_special_charge_playerd = false; // 特殊溜めエフェクト再生済みフラグ
 
 	// 手エフェクト用ハンドル
 	int enemy_hand_effect_handle = -1; 

@@ -24,6 +24,8 @@ public:
 		BulletPlayer,
 		BreakCrystal,
 		EnemyTire,
+		ReadyAttack,
+		Crystal,
 	};
 
 	static EffectCreator& GetEffectCreator()
@@ -53,7 +55,7 @@ private:
 	EffectCreator(const EffectCreator&) = delete;
 	EffectCreator& operator=(const EffectCreator&) = delete;
 
-	static constexpr int   EFFECT_NUM = 17;          // 事前読み込み数
+	static constexpr int   EFFECT_NUM = 19;          // 事前読み込み数
 	static constexpr float EFFECT_HIGHT = 0.3f;      // 基準高さオフセット
 	static constexpr float EFFECT_SCALE = 4.5f;      // 表示スケール
 	static constexpr float EFFCT_PLAYSPEED = 0.20f;  // 再生速度
@@ -67,10 +69,10 @@ private:
 	bool  effect_isend;          // 終了済
 	float effect_move_angle;	 //	effectの向き
 	bool  effect_initialized = false; // 初期化済みか
-	int   effect_handles[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1, -1,-1 }; // 読み込み済配列
+	int   effect_handles[EFFECT_NUM]{}; // 読み込み済配列
 
 	// ループ再生管理
-	bool   loop_enabled[EFFECT_NUM]{ false };
-	int    loop_playing_handles[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1 };
-	VECTOR loop_positions[EFFECT_NUM]{ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,-1 }; // 最終位置
+	bool   loop_enabled[EFFECT_NUM]{};
+	int    loop_playing_handles[EFFECT_NUM]{};
+	VECTOR loop_positions[EFFECT_NUM]{}; // 最終位置
 };

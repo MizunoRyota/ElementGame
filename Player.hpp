@@ -42,10 +42,10 @@ public:
 	void SetCamera(const std::shared_ptr<Camera>& setcamera) { camera_reference = setcamera; } // カメラ参照設定
 	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy_reference = setenemy; }    // 敵参照設定
 	void SetBulletManager(std::shared_ptr<BulletFire> bullet) { player_bullet = bullet; }   // 弾マネージャ設定
-	
+
 	void PrepareLaser();
-	
-		std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; } // 移動コンポーネント取得
+
+	std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; } // 移動コンポーネント取得
 
 private:
 	// ===== 定数パラメータ =====

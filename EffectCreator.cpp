@@ -9,6 +9,14 @@ void EffectCreator::Initialize()
 	effect_move_angle = 0;
 	Effekseer_Sync3DSetting(); // カメラ同期
 
+	for (int effect_num = 0; effect_num < EFFECT_NUM; effect_num++)
+	{
+		loop_enabled[effect_num] = false;
+		effect_handles[effect_num] = -1;
+		loop_playing_handles[effect_num] = -1;
+		loop_positions[effect_num] =VGet(0,0,0);
+	}
+
 	// 各エフェクト読み込み（失敗すると -1 が残る）
 	effect_handles[(int)EffectType::BulletStraight] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/fire.efkefc", 0.5f);
 	effect_handles[(int)EffectType::BulletDiffusion] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/water.efkefc", 0.3f);
@@ -27,6 +35,9 @@ void EffectCreator::Initialize()
 	effect_handles[(int)EffectType::BulletPlayer] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/player_attack.efkefc", 0.3f);
 	effect_handles[(int)EffectType::BreakCrystal] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/breakCrystal.efkefc", 2.0f);
 	effect_handles[(int)EffectType::EnemyTire] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/EnemyTire.efkefc", 3.0f);
+	effect_handles[(int)EffectType::ReadyAttack] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/ReadyAttack.efkefc", 5.0f);
+	effect_handles[(int)EffectType::Crystal] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Crystal.efkefc", 3.0f);
+
 }
 
 void EffectCreator::Update()
@@ -100,8 +111,8 @@ void EffectCreator::PlayLoop(EffectType type, const VECTOR& position)
 		if (playHandle >= 0)
 		{
 			loop_playing_handles[index] = PlayEffekseer3DEffect(playHandle);
-			if (loop_playing_handles[index] >= 0)
-			SetPosPlayingEffekseer3DEffect(loop_playing_handles[index], position.x, position.y, position.z);
+			//if (loop_playing_handles[index] >= 0)
+			//SetPosPlayingEffekseer3DEffect(loop_playing_handles[index], position.x, position.y, position.z);
 		}
 	}
 	else

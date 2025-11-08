@@ -2,6 +2,7 @@
 #include "Crystal.hpp"
 #include "GameObject.hpp"
 #include "Enemy.hpp"
+#include "EffectCreator.hpp"
 
 Crystal::Crystal()
 {
@@ -36,11 +37,14 @@ void Crystal::ChangeActive()
 	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE || crystal_break)
 	{
 		obj_position = VGet(0.0f, -10.0f, 0.0f);
+		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Crystal);
 		return;
+
 	}
 	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_init)
 	{
 		obj_position = VAdd(reference_enemy->GetPosition(), VGet(0.0f, 10.0f, 0.0f));
+		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Crystal, obj_position);
 		crystal_init = true;
 	}
 }
@@ -63,6 +67,8 @@ void Crystal::Update()
 	}
 
 	MV1SetPosition(obj_modelhandle, obj_position); // ˆÊ’u“K—p
+	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Crystal, obj_position);
+
 }
 
 void Crystal::MoveHorizontal()

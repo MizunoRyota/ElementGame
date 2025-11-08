@@ -14,3 +14,8 @@ void Laser::PrepareLaser()
 {
 	laser_ready = true;
 }
+
+void Laser::FireLaser()
+{
+	laser_ready = false;
+}
