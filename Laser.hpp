@@ -5,6 +5,7 @@ class Laser
 public:
 	Laser();
 	~Laser();
+	void Initialize();
 
 	void PrepareLaser();//レーザーを発射可能状態にする
 

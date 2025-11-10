@@ -10,6 +10,11 @@ Laser::~Laser()
 {
 }
 
+void Laser::Initialize()
+{
+	laser_ready = false;
+}
+
 void Laser::PrepareLaser()
 {
 	laser_ready = true;

@@ -15,7 +15,7 @@ GameOverScene::GameOverScene(SceneManager& manager, SharedData& sharedData)
 void GameOverScene::Initialize()
 {
     // マウスカーソル非表示
-    SetMouseDispFlag(FALSE);
+    SetMouseDispFlag(TRUE);
     GetSharedData().InitializeAll();
     player_reference = std::dynamic_pointer_cast<Player>(GetSharedData().FindObject("Player"));
     enemy_reference = std::dynamic_pointer_cast<Enemy>(GetSharedData().FindObject("Enemy"));

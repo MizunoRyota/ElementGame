@@ -21,6 +21,8 @@ void GameClearScene::Initialize()
     shadow = std::dynamic_pointer_cast<Shadow>(GetSharedData().FindObject("Shadow"));
 
     BulletCreator::GetBulletCreator().Initialize();
+    BulletCreator::GetBulletCreator().Initialize();
+
 }
 
 void GameClearScene::Update()

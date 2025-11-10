@@ -208,7 +208,7 @@ void SharedData::DrawGameClear()
 
 void SharedData::DrawGameOver()
 {
-    for (auto object : objects_gameover)
+    for (auto object : objects_game)
     {
         object->DrawGameOver();
     }

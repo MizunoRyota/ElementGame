@@ -42,6 +42,7 @@ Player::~Player() {}
 void Player::Initialize()
 {
 	character_hp = PLAYER_MAXHP; // HP リセット
+	player_laser->Initialize();
 	obj_position = VGet(0, 0, 0);
 	obj_direction = VGet(0, 0, 0);
 	// モデル回転初期

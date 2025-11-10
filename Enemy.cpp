@@ -122,7 +122,14 @@ void Enemy::UpdateGameClear()
 // ゲームオーバー時更新（ポーズ用）
 void Enemy::UpdateGameOver()
 {
-	enemy_state = STATE_SPECIALATTACK;
+	if (enemy_state != STATE_IDLE)
+	{
+		enemy_state = STATE_SPECIALATTACK;
+	}
+	if (enemy_animater->GetAmimIsEnd())
+	{
+		enemy_state = STATE_IDLE;
+	}
 	enemy_animater->Update();
 }
 

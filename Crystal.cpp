@@ -27,6 +27,7 @@ Crystal::~Crystal()
 void Crystal::Initialize()
 {
 	// ‰Šú‰»
+	character_hp = CRYSTAL_MAXHP;
 	crystal_break = false;
 	crystal_init = false;
 	crystal_angle = 0.0f;
@@ -36,6 +37,7 @@ void Crystal::ChangeActive()
 {
 	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE || crystal_break)
 	{
+		character_hp = CRYSTAL_MAXHP;
 		obj_position = VGet(0.0f, -10.0f, 0.0f);
 		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Crystal);
 		return;
