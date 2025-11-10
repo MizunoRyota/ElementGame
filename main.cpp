@@ -10,6 +10,18 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
+#ifdef _DEBUG	// コンソールDebug用変数
+	FILE* _out;
+	FILE* _in;
+	// _DEBUG
+
+	// コンソールDebug用
+	AllocConsole();							// コンソール
+	_out = 0;
+	freopen_s(&_out, "CON", "w", stdout);	// stdout
+	_in = 0;
+	freopen_s(&_in, "CON", "r", stdin);		// stdin
+#endif	// _DEBUG
 	// 画面モードのセット
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
 	ChangeWindowMode(FALSE);
@@ -89,6 +101,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 後始末
 	// ＤＸライブラリの後始末
 	DxLib_End();
+
+#ifdef _DEBUG	// コンソールDebug用
+	fclose(_out); fclose(_in); FreeConsole();//コンソール解放
+#endif	// _debug
 
 	// ソフトの終了
 	return 0;
