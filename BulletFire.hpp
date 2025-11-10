@@ -87,7 +87,7 @@ private:
 	static constexpr float RADIUS_STEP = 8.0f; // 半径の増分
 	static constexpr float MARKER_LIFE = 60.0f;// マーカー寿命
 
-	float bullet_firecooltimer = 0; // 発射クールタイマ
+	float bullet_firecooltimer = 0;	//発射クールタイマー
 };
 
 

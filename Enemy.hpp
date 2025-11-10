@@ -110,10 +110,10 @@ private:
 	int enemy_handname;                // モデル内「手」フレームのID
 	int enemy_attacktype;              // 実行予定の攻撃ステート
 	int enemy_dodgechose;              // 回避方向選択 (0:左 / 1:右)
-	bool enemy_ischase;                // 追跡中か
-	bool enemy_isaction;               // アクション中か(入力受付停止用)
-	bool enemy_isdie;                  // 死亡しているか
-	bool enemy_ispalsy;                // 麻痺しているか
+	bool enemy_is_chase;                // 追跡中か
+	bool enemy_is_action;               // アクション中か(入力受付停止用)
+	bool enemy_is_die;                  // 死亡しているか
+	bool enemy_is_palsy;                // 麻痺しているか
 
 	EnemyState enemy_state;            // 現在の行動ステート
 

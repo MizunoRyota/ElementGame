@@ -65,8 +65,8 @@ private:
 	int   effect_handle;         // 一時ハンドル
 	int   effect_playinghandle;  // 再生中ハンドル
 	float effect_playtime;       // 再生時間
-	bool  effect_isplay;         // 再生中
-	bool  effect_isend;          // 終了済
+	bool  effect_is_play;         // 再生中
+	bool  effect_is_end;          // 終了済
 	float effect_move_angle;	 //	effectの向き
 	bool  effect_initialized = false; // 初期化済みか
 	int   effect_handles[EFFECT_NUM]{}; // 読み込み済配列

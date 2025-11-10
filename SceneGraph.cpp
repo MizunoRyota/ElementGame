@@ -5,7 +5,7 @@
 SceneGraph::SceneGraph()
 {
 	button_pos_y = 0;
-	button_isdown = true;
+	button_is_down = true;
 
 	title_graph = LoadGraph("data/Texture/Title.png");
 	titlebutton_graph = LoadGraph("data/Texture/TitleButton.png");
@@ -29,18 +29,18 @@ void SceneGraph::Update()
 {
 	if (button_pos_y <= 0)
 	{
-		button_isdown = true;
+		button_is_down = true;
 	}
 	else if (button_pos_y >= 25)
 	{
-		button_isdown = false;
+		button_is_down = false;
 
 	}
-	if (!button_isdown)
+	if (!button_is_down)
 	{
 		button_pos_y -= UP_SPEED;
 	}
-	else if (button_isdown)
+	else if (button_is_down)
 	{
 		button_pos_y += DOWN_SPEED;
 	}

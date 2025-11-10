@@ -4,7 +4,7 @@
 AnimaterBase::AnimaterBase(int anim_modelhandle)
 {
 	anim_blendrate = 1.0f;
-	anim_isend = false;
+	anim_is_end = false;
 	////アニメーションのステート初期化
 	this->anim_prevstate.anim_animnum = -1;
 	this->anim_prevstate.anim_nowtime = 0;
@@ -38,7 +38,7 @@ void AnimaterBase::ChangeMotion(AnimationState nextstate)
 		return;
 	}
 
-	anim_isend = false;
+	anim_is_end = false;
 
 	// 入れ替えを行うので、１つ前のモーションがが有効だったらデタッチする
 	if (anim_prevstate.anim_attachindex != -1)
@@ -86,9 +86,9 @@ void AnimaterBase::UpdateAnimation()
 		// 再生時間がアニメーションの総再生時間に達したら再生時間を０に戻す
 		if (anim_currentstate.anim_nowtime > anim_currentstate.anim_totaltime)
 		{
-			anim_isend = true;
+			anim_is_end = true;
 			anim_nowframe = 0;
-			if (anim_currentstate.anim_isloop)
+			if (anim_currentstate.anim_is_loop)
 			{
 				//anim_currentstate.anim_nowtime = static_cast<float>(fmod(anim_currentstate.anim_nowtime, animationTotalTime));
 				anim_currentstate.anim_nowtime = 0;

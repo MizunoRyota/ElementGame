@@ -40,11 +40,11 @@ void PlayerMove::UpdateMoveParameterWithPad(std::shared_ptr<Input>& input, std::
 	bool dashKey = (CheckHitKey(KEY_INPUT_LSHIFT) != 0);
 	if (dash_cooldown > 0 || dash_energy <= 0)
 	{
-		move_isdash = false;
+		move_is_dash = false;
 	}
 	else
 	{
-		move_isdash = dashKey;
+		move_is_dash = dashKey;
 	}
 
 	if ((input->GetNowFrameInput() & PAD_INPUT_LEFT) || (CheckHitKey(KEY_INPUT_A) != 0))
@@ -72,7 +72,7 @@ void PlayerMove::UpdateMoveParameterWithPad(std::shared_ptr<Input>& input, std::
 	if (isPressMoveButton)
 	{
 		move_targetdirection = VNorm(moveVec);
-		float speed = MOVE_SPEED * (move_isdash && dash_energy > 0 && dash_cooldown == 0 ? DASH_MULTIPLIER : 1.0f);
+		float speed = MOVE_SPEED * (move_is_dash && dash_energy > 0 && dash_cooldown == 0 ? DASH_MULTIPLIER : 1.0f);
 		moveVec = VScale(move_targetdirection, speed);
 	}
 }
@@ -87,14 +87,14 @@ void PlayerMove::DecreaseDashEnergy()
 		return; // クール中は回復も消費もしない
 	}
 
-	if (move_isdash && dash_energy > 0)
+	if (move_is_dash && dash_energy > 0)
 	{
 		dash_energy -= DASH_DECREACE_NUM;
 		if (dash_energy <= 0)
 		{
 			dash_energy = 0;
 			dash_cooldown = DASH_COOLDOWN_FRAMES; // 枯渇でクールタイム開始
-			move_isdash = false;
+			move_is_dash = false;
 		}
 	}
 	else
@@ -129,5 +129,5 @@ void PlayerMove::MoveAngle(const VECTOR& targetPosition)
 // 実移動適用（移動したかどうかのフラグのみ）
 void PlayerMove::Move(const VECTOR& MoveVector)
 {
-	move_ismove = (fabs(MoveVector.x) > 0.01f || fabs(MoveVector.z) > 0.01f);
+	move_is_move = (fabs(MoveVector.x) > 0.01f || fabs(MoveVector.z) > 0.01f);
 }

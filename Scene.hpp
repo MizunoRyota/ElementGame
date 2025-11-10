@@ -46,5 +46,5 @@ private:
 	SceneManager& m_manager;  /// @brief SceneManager への参照
 	SharedData& m_sharedData; /// @brief 共有データへの参照
 
-	bool whiteout_isend; /// @brief ホワイトアウト完了フラグ
+	bool whiteout_is_end; /// @brief ホワイトアウト完了フラグ
 };

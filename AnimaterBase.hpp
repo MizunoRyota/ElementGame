@@ -34,7 +34,7 @@ public:
     const float& GetAmimFrame() const { return anim_currentstate.anim_nowtime; }
 
     // 現在のアニメが終了したか
-    const bool& GetAmimIsEnd() const { return anim_isend; }
+    const bool& GetAmimIsEnd() const { return anim_is_end; }
 
 protected:
     // ブレンドスピード。値が大きいほど即座、小さいほどゆっくり切替
@@ -42,7 +42,7 @@ protected:
 
     float anim_blendrate;        // 現在のブレンド率（0: 前アニメ, 1: 現アニメ）
     float anim_nowframe;         // 現在の再生フレーム（カウンタ用途）
-    bool  anim_isend;            // 再生終了フラグ
+    bool  anim_is_end;            // 再生終了フラグ
     int   anim_modelhandle;      // モデルのハンドル
 
     AnimationState anim_prevstate;    // 直前のアニメ状態

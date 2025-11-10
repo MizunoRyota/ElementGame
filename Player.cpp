@@ -15,16 +15,16 @@ Player::Player()
 
 	// 3Dモデル読み込み
 	obj_modelhandle = MV1LoadModel(_T("data/3dmodel/Player/Player.mv1"));
-	
-	character_handname  = MV1SearchFrame(obj_modelhandle, "f_middle.03.R"); // 右手末端フレームID
+
+	character_handname = MV1SearchFrame(obj_modelhandle, "f_middle.03.R"); // 右手末端フレームID
 	// モデルスケール適用
 	MV1SetScale(obj_modelhandle, VGet(SCALE, SCALE, SCALE));
-	 COLLISION_CAPSULE_RADIUS = 0.06f; // カプセル判定半径
-	 COLLISION_CAPSULE_HEIGHT = 2.5f;  // カプセル判定高さ
+	COLLISION_CAPSULE_RADIUS = 0.06f; // カプセル判定半径
+	COLLISION_CAPSULE_HEIGHT = 2.5f;  // カプセル判定高さ
 	obj_position = VGet(0, 0, 0); // 初期位置
 	obj_direction = VGet(0, 0, 0); // 向き(未使用初期化)
 
-	player_animater = std::make_shared<PlayerAnimater>(obj_modelhandle,player_state); // アニメーション制御
+	player_animater = std::make_shared<PlayerAnimater>(obj_modelhandle, player_state); // アニメーション制御
 	player_move = std::make_shared<PlayerMove>();   // 移動制御
 	player_bullet = std::make_shared<BulletFire>(); // 弾発射
 	player_laser = std::make_shared<Laser>();
@@ -41,7 +41,7 @@ Player::~Player() {}
 // 初期化（位置/向き/モデル姿勢などを初期状態に）
 void Player::Initialize()
 {
-	obj_hp = PLAYER_MAXHP; // HP リセット
+	character_hp = PLAYER_MAXHP; // HP リセット
 	obj_position = VGet(0, 0, 0);
 	obj_direction = VGet(0, 0, 0);
 	// モデル回転初期
@@ -59,7 +59,7 @@ void Player::Update()
 	// デバッグ: Kキーで強制死亡
 	if ((CheckHitKey(KEY_INPUT_K) != 0))
 	{
-		obj_hp = 0;
+		character_hp = 0;
 	}
 
 	player_bullet->FireUpdate(); // 弾クール更新

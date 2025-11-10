@@ -4139,7 +4139,7 @@ decltype(std::declval<Compare>()(std::declval<B>(), std::declval<A>()))
 >> : std::true_type {};
 
 template<typename T>
-using detect_is_transparent = typename T::is_transparent;
+using detect_is__transparent = typename T::is_transparent;
 
 // type trait to check if KeyType can be used as an object key (without a BasicJsonType)
 // see is_usable_as_basic_json_key_type below
@@ -4150,7 +4150,7 @@ using is_usable_as_key_type = typename std::conditional <
                               && !(ExcludeObjectKeyType && std::is_same<KeyType,
                                    ObjectKeyType>::value)
                               && (!RequireTransparentComparator
-                                  || is_detected <detect_is_transparent, Comparator>::value)
+                                  || is_detected <detect_is__transparent, Comparator>::value)
                               && !is_json_pointer<KeyType>::value,
                               std::true_type,
                               std::false_type >::type;
@@ -4349,7 +4349,7 @@ namespace impl
 template<typename T>
 constexpr bool is_transparent()
 {
-    return is_detected<detect_is_transparent, T>::value;
+    return is_detected<detect_is__transparent, T>::value;
 }
 
 }  // namespace impl
@@ -17947,9 +17947,9 @@ boundaries compute_boundaries(FloatType value)
     //      -----------------+------+------+-------------+-------------+---  (B)
     //                       v-     m-     v             m+            v+
 
-    const bool lower_boundary_is_closer = F == 0 && E > 1;
+    const bool lower_boundary_is__closer = F == 0 && E > 1;
     const diyfp m_plus = diyfp((2 * v.f) + 1, v.e - 1);
-    const diyfp m_minus = lower_boundary_is_closer
+    const diyfp m_minus = lower_boundary_is__closer
                           ? diyfp((4 * v.f) - 1, v.e - 2)  // (B)
                           : diyfp((2 * v.f) - 1, v.e - 1); // (A)
 
@@ -19673,14 +19673,14 @@ class serializer
         o->write_characters(number_buffer.data(), static_cast<std::size_t>(len));
 
         // determine if we need to append ".0"
-        const bool value_is_int_like =
+        const bool value_is__int_like =
             std::none_of(number_buffer.begin(), number_buffer.begin() + len + 1,
                          [](char c)
         {
             return c == '.' || c == 'e';
         });
 
-        if (value_is_int_like)
+        if (value_is__int_like)
         {
             o->write_characters(".0", 2);
         }

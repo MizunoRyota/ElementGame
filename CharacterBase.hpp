@@ -23,9 +23,11 @@ public:
 	void CheckMoveRange();                          // 行動範囲外チェック＆補正
 
 	bool IsInvincible() const { return damage_invincible_timer > 0; } // 現在無敵か
-	bool IsDead() const { return obj_hp <= 0; }                        // HP が 0 以下か
+	bool IsDead() const { return character_hp <= 0; }                        // HP が 0 以下か
 	float GetCapsuleRadius() const { return COLLISION_CAPSULE_RADIUS; } // 衝突半径
 	float GetCapsuleHeight() const { return COLLISION_CAPSULE_HEIGHT; } // 衝突高さ
+	virtual const int& GetHp() const { return character_hp; }                    // 現在HP
+
 protected:
 	static constexpr float MAX_RANGE = 20.0f; // 自動復帰させる境界半径
 	static constexpr float TAKEDAMAGE_COOLDOWN = 10.0f;        // 被弾無敵(フレーム)
@@ -33,6 +35,8 @@ protected:
 	float COLLISION_CAPSULE_HEIGHT = 0;       // 当たり判定(高さ)
 
 	int   character_handname = 0;             // モデル内「手」ボーンのフレームID
+	int character_hp = 0;                // HP
+
 	VECTOR character_handposition = VGet(0, 0, 0); // 発射等に用いる手先位置キャッシュ
 
 	// === Damage System State ===

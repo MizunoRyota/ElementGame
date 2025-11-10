@@ -12,12 +12,12 @@ EnemyAnimater::EnemyAnimater(int anim_modelhandle ,  EnemyState& enemystate)
 	this->anim_prevstate.anim_nowtime = 0;
 	this->anim_prevstate.anim_playspeed = 0;
 	this->anim_prevstate.anim_totaltime = 0;
-	this->anim_prevstate.anim_isloop = false;
+	this->anim_prevstate.anim_is_loop = false;
 	this->anim_currentstate.anim_animnum = -1;
 	this->anim_currentstate.anim_nowtime = 0;
 	this->anim_currentstate.anim_playspeed = 0;
 	this->anim_currentstate.anim_totaltime = 0;
-	this->anim_currentstate.anim_isloop = false;
+	this->anim_currentstate.anim_is_loop = false;
 	this->anim_modelhandle = anim_modelhandle;
 	InitializeAnimationData();
 }

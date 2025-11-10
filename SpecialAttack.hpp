@@ -12,9 +12,9 @@ public:
 
 	void ChangeIsChargeFlag();
 
-	const bool& GetIsCharge() const { return specialattack_ischarge; }
-	const bool& GetIsActive() const { return specialattack_isactive; }
-	const bool& GetIsEnd() const { return specialattack_isend; }
+	const bool& GetIsCharge() const { return specialattack_is_charge; }
+	const bool& GetIsActive() const { return specialattack_is_active; }
+	const bool& GetIsEnd() const { return specialattack_is_end; }
 
 private:
 
@@ -23,8 +23,8 @@ private:
 
 	float specialattack_charge_time;
 
-	bool specialattack_ischarge;
-	bool specialattack_isactive;
-	bool specialattack_isend;
+	bool specialattack_is_charge;
+	bool specialattack_is_active;
+	bool specialattack_is_end;
 
 };

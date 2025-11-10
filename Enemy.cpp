@@ -16,13 +16,13 @@ Enemy::Enemy()
 {
 	COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル判定半径(モデルに合わせる)
 	COLLISION_CAPSULE_HEIGHT = 2.75f;   // カプセル判定高さ
-	enemy_isdie = false;
+	enemy_is_die = false;
 	enemy_attacktype = 0;   // 攻撃ステートの初期値
 	enemy_dodgechose = 0;
 	enemy_handname = 0;
-	enemy_isaction = false;
-	enemy_ischase = false;
-	enemy_ispalsy = false;
+	enemy_is_action = false;
+	enemy_is_chase = false;
+	enemy_is_palsy = false;
 	obj_name = "Enemy"; // 名札
 	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/monster2.mv1"); // モデル読み込み
 	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 右手ボーンID
@@ -52,13 +52,13 @@ void Enemy::Initialize()
 	std::uniform_int_distribution<> dist(0, attack_kind.size() - 1);
 
 	enemy_state = STATE_CHARGE;
-	enemy_isaction = false;
-	enemy_ischase = false;
-	enemy_isdie = false;
+	enemy_is_action = false;
+	enemy_is_chase = false;
+	enemy_is_die = false;
 	
 	obj_position = VGet(0, 0, 20.0f); // 初期位置
 	obj_direction = VGet(0, 0, 1.0f); // 初期向き
-	obj_hp = ENEMY_MAXHP; // HP リセット
+	character_hp = ENEMY_MAXHP; // HP リセット
 
 	// エフェクト関連フラグ
 	enemy_special_charge_playerd = false;
@@ -85,7 +85,7 @@ void Enemy::Update()
 	// デバッグ: Jキーで死亡
 	if ((CheckHitKey(KEY_INPUT_J) != 0))
 	{
-		obj_hp = 0;
+		character_hp = 0;
 	}
 
 	UpdateAngle();        // プレイヤーの方向を向く
@@ -103,11 +103,11 @@ void Enemy::UpdateGameClear()
 {
 	StopHandEffect();
 	// 一度だけ死亡/花火開始
-	if (!enemy_isdie)
+	if (!enemy_is_die)
 	{
 		EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyDeath, obj_position);
 		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::FireWorks, obj_position);
-		enemy_isdie = true;
+		enemy_is_die = true;
 	}
 	else
 	{
@@ -182,10 +182,10 @@ void Enemy::UpdateStateAction()
 	{
 	case STATE_PALSY:
 		enemy_palsy->Update();
-		if (!enemy_ispalsy)
+		if (!enemy_is_palsy)
 		{
 			EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyTire, VAdd(obj_position, VGet(0, GetCapsuleHeight(), 0)));
-			enemy_ispalsy = true;
+			enemy_is_palsy = true;
 		}
 		else if (!enemy_palsy->GetIsPalsy())
 		{
@@ -205,7 +205,7 @@ void Enemy::UpdateStateAction()
 			enemy_special_charge_playerd = false;
 		}
 		// アニメ終了で攻撃を選択
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
+		if (enemy_is_action = enemy_animater->GetAmimIsEnd())
 		{
 			enemy_dodgechose = GetRand(1);
 			ChoseAttackType();
@@ -227,7 +227,7 @@ void Enemy::UpdateStateAction()
 
 	case STATE_CHASE:
 		obj_position = enemy_move->MoveToTarget(obj_position, player_reference->GetPosition());
-		if (enemy_ischase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition()))
+		if (enemy_is_chase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition()))
 		{
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
 			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::ReadyAttack, handPos);
@@ -243,7 +243,7 @@ void Enemy::UpdateStateAction()
 			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
 			enemy_bullet->FireStraight(handPos, obj_direction, FIREBULLET_SPEED);
 		}
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
+		if (enemy_is_action = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
 		break;
 
 	case STATE_WATERATTACK:
@@ -254,7 +254,7 @@ void Enemy::UpdateStateAction()
 			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
 			enemy_bullet->FireDiffusion(handPos, obj_direction, WATERBULLET_SPEED);
 		}
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
+		if (enemy_is_action = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
 		break;
 
 	case STATE_WINDATTACK:
@@ -264,7 +264,7 @@ void Enemy::UpdateStateAction()
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
 			enemy_bullet->FireHoming(handPos, obj_direction, WINDBULLET_SPEED, player_reference);
 		}
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
+		if (enemy_is_action = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
 		break;
 
 	case STATE_WALKBACK:
@@ -288,9 +288,9 @@ void Enemy::UpdateStateAction()
 
 		enemy_specialattack->UpdateChrgeCount();
 
-		if (obj_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE;
+		if (character_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE;
 
-		if (enemy_isaction = !enemy_specialattack->GetIsCharge())
+		if (enemy_is_action = !enemy_specialattack->GetIsCharge())
 		{
 			enemy_state = STATE_SPECIALATTACK; // 発動
 			EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior);
@@ -306,7 +306,7 @@ void Enemy::UpdateStateAction()
 			handPos = VAdd(handPos, VGet(0, BULLET_HIGHT, 0));
 			enemy_bullet->FireSpecialAttack(handPos, obj_direction, SPECIALBULLET_SPEED);
 		}
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd())
+		if (enemy_is_action = enemy_animater->GetAmimIsEnd())
 		{
 			enemy_state = STATE_CHARGE;
 			enemy_attacktype = 0;
@@ -315,7 +315,7 @@ void Enemy::UpdateStateAction()
 		break;
 
 	case STATE_ONDAMAGE:
-		if (enemy_isaction = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
+		if (enemy_is_action = enemy_animater->GetAmimIsEnd()) { enemy_state = STATE_CHARGE; StopHandEffect(); }
 		break;
 
 	default:
@@ -332,19 +332,19 @@ void Enemy::ChoseAttackType()
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dist(0, static_cast<int>(attack_kind.size()) - 1);
 
-	if (obj_hp >= ENEMY_FHASE_ONE)
+	if (character_hp >= ENEMY_FHASE_ONE)
 	{
 		enemy_attacktype = STATE_FIREATTACK; // 固定
 	}
-	else if (obj_hp >= ENEMY_FHASE_TWO)
+	else if (character_hp >= ENEMY_FHASE_TWO)
 	{
 		enemy_attacktype = attack_kind[dist(gen)];
 	}
-	else if (obj_hp >= ENEMY_FHASE_THREE)
+	else if (character_hp >= ENEMY_FHASE_THREE)
 	{
 		enemy_attacktype = attack_kind[dist(gen)];
 	}
-	else if (obj_hp >= ENEMY_FHASE_FOUR && !enemy_specialattack->GetIsCharge())
+	else if (character_hp >= ENEMY_FHASE_FOUR && !enemy_specialattack->GetIsCharge())
 	{
 		enemy_attacktype = STATE_FLOAT;
 	}

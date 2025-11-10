@@ -8,7 +8,7 @@ DarkFilm::DarkFilm(const std::shared_ptr<Enemy>& enemy)
 {
     order_z = 0; // HUD‘w
     film_alpha = 0;
-    film_isblackout = false;
+    film_is_blackout = false;
 }
 
 void DarkFilm::Update()
@@ -17,16 +17,16 @@ void DarkFilm::Update()
     {
         if (enemy_locked->GetEnemyState() == STATE_SPECIALATTACK || enemy_locked->GetEnemyState() == STATE_FLOAT || enemy_locked->GetEnemyState() == STATE_SPECIAL_CHARGE)
         {
-            if (film_isblackout == true)
+            if (film_is_blackout == true)
             {
-                film_isblackout = false;
+                film_is_blackout = false;
                 film_alpha = 0;
             }
              if (film_alpha >= 100.0f)
             {
                  //ˆ—‚µ‚È‚¢
             }
-            else if (!film_isblackout)
+            else if (!film_is_blackout)
             {
                 film_alpha += ALPHA_CHANGESPEED;
             }
@@ -43,7 +43,7 @@ void DarkFilm::Update()
 
 void DarkFilm::Draw() const 
 {
-    //if (!film_isblackout)
+    //if (!film_is_blackout)
     //{
     //        // ‰æ–Ê‚ğ•F‚Å“h‚è‚Â‚Ô‚·
     //        SetDrawBlendMode(DX_BLENDMODE_ALPHA, film_alpha);

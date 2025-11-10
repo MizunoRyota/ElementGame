@@ -8,7 +8,7 @@ void UiManager::AddElement(const std::shared_ptr<IUiElement>& element)
 {
     if (!element) return;
     elements.push_back(element);
-    elements_issort = true;
+    elements_is_sort = true;
 }
 
 void UiManager::RemoveElement(const std::shared_ptr<IUiElement>& element)
@@ -19,12 +19,12 @@ void UiManager::RemoveElement(const std::shared_ptr<IUiElement>& element)
 void UiManager::UpdateTitle()
 {
     // Z順再ソート要求チェック
-    if (elements_issort)
+    if (elements_is_sort)
     {
         std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        elements_issort = false;
+        elements_is_sort = false;
     }
 
     for (auto& element : elements)
@@ -37,12 +37,12 @@ void UiManager::UpdateTitle()
 void UiManager::UpdateTutorial()
 {
     // Z順再ソート要求チェック
-    if (elements_issort)
+    if (elements_is_sort)
     {
         std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        elements_issort = false;
+        elements_is_sort = false;
     }
 
     for (auto& element : elements)
@@ -55,12 +55,12 @@ void UiManager::UpdateTutorial()
 void UiManager::Update()
 {
     // Z順再ソート要求チェック
-    if (elements_issort)
+    if (elements_is_sort)
     {
         std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
         });
-        elements_issort = false;
+        elements_is_sort = false;
     }
 
     for (auto& element : elements)
@@ -73,12 +73,12 @@ void UiManager::Update()
 void UiManager::UpdateGameClear()
 {
     // Z順再ソート要求チェック
-    if (elements_issort)
+    if (elements_is_sort)
     {
         std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        elements_issort = false;
+        elements_is_sort = false;
     }
 
     for (auto& element : elements)
@@ -91,12 +91,12 @@ void UiManager::UpdateGameClear()
 void UiManager::UpdateGameOver()
 {
     // Z順再ソート要求チェック
-    if (elements_issort)
+    if (elements_is_sort)
     {
         std::stable_sort(elements.begin(), elements.end(), [](const auto& lhs, const auto& rhs) {
             return lhs->GetZ() < rhs->GetZ();
             });
-        elements_issort = false;
+        elements_is_sort = false;
     }
 
     for (auto& element : elements)

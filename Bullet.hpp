@@ -30,7 +30,7 @@ public:
 
 	void InitializeBulletRadius(int effectTypeIndex); // 種類に応じた半径設定
 
-	bool IsActive() const { return bullet_isactive; }
+	bool IsActive() const { return bullet_is_active; }
 	const VECTOR& GetPosition() const { return bullet_position; }
 	float GetBulletRadius() const { return bullet_radius; }
 private:
@@ -46,10 +46,10 @@ private:
 	static constexpr float BULLET_LIFE = 60.0f;  // 生存時間(フレーム)
 	static constexpr float BULLET_COUNT = 0.5f;  // 1f あたり進行量
 
-	static constexpr int SHADOW_DIV = 16;        // 影の分割
-	static constexpr float SHADOW_TOP_HEIGHT = -0.01f; // 影の高さ
+	static constexpr int   SHADOW_DIV = 16;				// 影の分割
+	static constexpr float SHADOW_TOP_HEIGHT = -0.01f;  // 影の高さ
 
-	bool  bullet_isactive;    // 有効フラグ
+	bool  bullet_is_active;   // 有効フラグ
 	float bullet_speed;       // 速度スカラー
 	float bullet_life;        // 残り寿命
 	float bullet_radius;      // 当たり半径
@@ -60,9 +60,9 @@ private:
 	VECTOR bullet_rawdirection;   // 正規化された進行方向
 
 	// --- 追尾関連 ---
-	bool bullet_isHoming = false;               // 追尾中か
-	float bullet_homingTime = 0.0f;             // 残り追尾フレーム
-	float bullet_turnSpeed = 0.0f;              // フレーム毎の最大旋回量(rad)
+	bool bullet_is_Homing = false;                // 追尾中か
+	float bullet_homingTime = 0.0f;               // 残り追尾フレーム
+	float bullet_turnSpeed = 0.0f;				  // フレーム毎の最大旋回量(rad)
 	std::function<VECTOR()> bullet_target_getter; // ターゲット座標取得コールバック
 
 	// エフェクト関連

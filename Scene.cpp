@@ -6,7 +6,7 @@
 Scene::Scene(SceneManager& manager, SharedData& sharedData)
     : m_manager{ manager }
     , m_sharedData{ sharedData }
-    ,whiteout_isend(false)
+    ,whiteout_is_end(false)
     {}
 
 void Scene::Initialize()
@@ -16,10 +16,10 @@ void Scene::Initialize()
 
 void Scene::WhiteOut()
 {
-    if (whiteout_isend == true)
+    if (whiteout_is_end == true)
     {
         alpha = 0;
-        whiteout_isend = false;
+        whiteout_is_end = false;
     }
     while (alpha < WHITEOUT_TIME)
     {
@@ -39,7 +39,7 @@ void Scene::WhiteOut()
         ScreenFlip();
     }
 
-    whiteout_isend = true;
+    whiteout_is_end = true;
 }
 
 void Scene::Update()
@@ -56,7 +56,7 @@ void Scene::ChangeScene(const std::string_view name)
 {
     WhiteOut();
 
-    if (whiteout_isend)
+    if (whiteout_is_end)
     {
         m_manager.ChangeScene(name);
     }

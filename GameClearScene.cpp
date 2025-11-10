@@ -26,14 +26,14 @@ void GameClearScene::Initialize()
 void GameClearScene::Update()
 {
 
-    bool check_isclick = ((GetMouseInput() & MOUSE_INPUT_LEFT));
+    bool check_is_click = ((GetMouseInput() & MOUSE_INPUT_LEFT));
 
     GetSharedData().UpdateGameClear();
 
     // 置き換え: 直接UpdateEffekseer3D()ではなく、マネージャ更新
     EffectCreator::GetEffectCreator().Update();
 
-    if (check_isclick)
+    if (check_is_click)
     {
         ChangeScene("TitleScene");
     }

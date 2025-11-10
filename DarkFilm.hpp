@@ -23,6 +23,6 @@ private:
 	static constexpr float ALPHA_CHANGESPEED = 1.50f; // 透明度変化量
 
 	std::weak_ptr<Enemy> enemy_; // 参照（破棄前提で弱参照）
-	bool film_isblackout;        // 暗転中か
+	bool film_is_blackout;        // 暗転中か
 	float film_alpha;            // 現在アルファ
 };

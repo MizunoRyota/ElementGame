@@ -2,9 +2,9 @@
 #include "SpecialAttack.hpp"
 
 SpecialAttack::SpecialAttack()
-	:specialattack_ischarge(false)   // チャージ中フラグ
-	,specialattack_isactive(false)   // 発動中フラグ
-	,specialattack_isend(false)      // 終了フラグ
+	:specialattack_is_charge(false)   // チャージ中フラグ
+	,specialattack_is_active(false)   // 発動中フラグ
+	,specialattack_is_end(false)      // 終了フラグ
 {
 	specialattack_charge_time = 0;
 
@@ -14,7 +14,7 @@ SpecialAttack::~SpecialAttack() {}
 
 void SpecialAttack::Initialize()
 {
-	specialattack_ischarge = true;   // チャージ中フラグ
+	specialattack_is_charge = true;   // チャージ中フラグ
 
 	specialattack_charge_time = SPECIALATTACK_CHARGE_TIME;
 }
@@ -29,6 +29,6 @@ void SpecialAttack::ChangeIsChargeFlag()
 {
 	if (specialattack_charge_time <= 0)
 	{
-		specialattack_ischarge = false;   // チャージ中フラグ
+		specialattack_is_charge = false;   // チャージ中フラグ
 	}
 }

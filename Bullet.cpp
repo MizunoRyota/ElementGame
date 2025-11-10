@@ -5,7 +5,7 @@
 
 Bullet::Bullet()
 {
-	bullet_isactive = false; // 非アクティブ開始
+	bullet_is_active = false; // 非アクティブ開始
 }
 
 Bullet::~Bullet() {}
@@ -25,7 +25,7 @@ void Bullet::Initialize(const VECTOR& pos, const VECTOR& dir, const float& speed
 	bullet_speed = speed;
 	bullet_life = BULLET_LIFE; // 寿命リセット
 
-	bullet_isHoming = false;
+	bullet_is_Homing = false;
 	bullet_homingTime = 0.0f;
 	bullet_target_getter = nullptr;
 	bullet_effect_type_index = effectTypeIndex; // エフェクト種
@@ -55,7 +55,7 @@ void Bullet::InitializeHoming(const VECTOR& pos,
 	int effectTypeIndex)
 {
 	Initialize(pos, dir, speed, effectTypeIndex); // 共通初期化
-	bullet_isHoming = true;
+	bullet_is_Homing = true;
 	bullet_homingTime = homingTime;
 	bullet_turnSpeed = turnSpeedRad;
 	bullet_target_getter = std::move(targetGetter);
@@ -130,7 +130,7 @@ void Bullet::Move()
 {
 	bullet_life -= BULLET_COUNT; // 寿命減算
 	// ホーミング処理
-	if (bullet_isHoming && bullet_homingTime > 0.0f && bullet_target_getter)
+	if (bullet_is_Homing && bullet_homingTime > 0.0f && bullet_target_getter)
 	{
 		VECTOR targetPos = bullet_target_getter();
 		VECTOR desired = VSub(targetPos, bullet_position);
@@ -140,7 +140,7 @@ void Bullet::Move()
 			bullet_rawdirection = SlerpDirection(bullet_rawdirection, desired, bullet_turnSpeed);
 		}
 		bullet_homingTime -= 1.0f;
-		if (bullet_homingTime <= 0.0f) bullet_isHoming = false; // 追尾終了
+		if (bullet_homingTime <= 0.0f) bullet_is_Homing = false; // 追尾終了
 	}
 	// 位置反映
 	bullet_direction = VScale(bullet_rawdirection, bullet_speed);
@@ -149,7 +149,7 @@ void Bullet::Move()
 
 void Bullet::ChangeActiveFalse()
 {
-	bullet_isactive = false;
+	bullet_is_active = false;
 	if (bullet_trail_handle >= 0) // 追従エフェクト停止
 	{
 		StopEffekseer3DEffect(bullet_trail_handle);
@@ -157,7 +157,7 @@ void Bullet::ChangeActiveFalse()
 	}
 }
 
-void Bullet::ChangeActiveTrue() { bullet_isactive = true; }
+void Bullet::ChangeActiveTrue() { bullet_is_active = true; }
 
 void Bullet::ResetPosition()
 {
@@ -167,7 +167,7 @@ void Bullet::ResetPosition()
 void Bullet::Draw()
 {
 	// 可視デバッグが必要なら描画を有効化
-	DrawSphere3D(bullet_position, bullet_radius, 10, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
+	//DrawSphere3D(bullet_position, bullet_radius, 10, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
 	  // 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
 	if (bullet_radius == BULLET_SPECIAL_RADIUS)

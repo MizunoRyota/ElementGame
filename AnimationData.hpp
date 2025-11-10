@@ -8,6 +8,6 @@ struct  AnimationState
 	float	anim_totaltime = 0;			// 再生しているアニメーションの再生時間
 	float   anim_nowtime = 0;			// 現在のアニメーション再時間
 	float	anim_playspeed = 0;			// アニメーションを進める速さ
-	bool	anim_isloop = false;		// ループさせるアニメーションかどうか
+	bool	anim_is_loop = false;		// ループさせるアニメーションかどうか
 	int		anim_attachindex = -1;		// アニメーションのインデックス
 };

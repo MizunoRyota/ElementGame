@@ -14,7 +14,7 @@ VECTOR EnemyMove::MoveToOrigin(const VECTOR& pos)
 {
 	if (!(pos.x > -ORIGIN_OFFSET && pos.x < ORIGIN_OFFSET) || !(pos.z > -ORIGIN_OFFSET && pos.z < ORIGIN_OFFSET))
 	{
-		move_isorigin = false;
+		move_is_origin = false;
 
 		VECTOR move_position = MoveToTarget(pos, VGet(0, 0, 0));
 
@@ -22,7 +22,7 @@ VECTOR EnemyMove::MoveToOrigin(const VECTOR& pos)
 
 	}
 
-	move_isorigin = true;
+	move_is_origin = true;
 
 	return pos;
 }
@@ -32,11 +32,11 @@ VECTOR EnemyMove::MoveToSky(const VECTOR& enemypos)
 {
 	if (!(enemypos.y > TARGETSKY_HIGHT - ORIGIN_OFFSET && enemypos.y < TARGETSKY_HIGHT + ORIGIN_OFFSET))
 	{
-		move_isorigin = false;
+		move_is_origin = false;
 		VECTOR move_position = MoveToTarget(enemypos, VGet(enemypos.x, TARGETSKY_HIGHT, enemypos.z));
 		return move_position;
 	}
-	move_isorigin = true;
+	move_is_origin = true;
 	return enemypos;
 }
 

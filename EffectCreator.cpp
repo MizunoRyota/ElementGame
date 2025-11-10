@@ -35,7 +35,7 @@ void EffectCreator::Initialize()
 	effect_handles[(int)EffectType::BulletPlayer] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/player_attack.efkefc", 0.3f);
 	effect_handles[(int)EffectType::BreakCrystal] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/breakCrystal.efkefc", 2.0f);
 	effect_handles[(int)EffectType::EnemyTire] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/EnemyTire.efkefc", 3.0f);
-	effect_handles[(int)EffectType::ReadyAttack] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/ReadyAttack.efkefc", 5.0f);
+	effect_handles[(int)EffectType::ReadyAttack] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/ReadyAttack.efkefc", 2.0f);
 	effect_handles[(int)EffectType::Crystal] = LoadEffekseerEffect("data/effekseer/effekseer/Effect/Crystal.efkefc", 3.0f);
 
 }

@@ -20,8 +20,8 @@ public:
 	// getter/setter.
 	const VECTOR& GetMoveScale() const { return moveVec; }
 	const float& GetMoveAngle() const { return move_angle; }
-	const bool& GetIsmove() const { return move_ismove; }
-	const bool& GetIsDash() const { return move_isdash; }
+	const bool& GetIsmove() const { return move_is_move; }
+	const bool& GetIsDash() const { return move_is_dash; }
 	float GetDashEnergy() const { return dash_energy; }
 	int GetDashEnergyMax() const { return DASH_MAXENERGY; }
 	int GetDashCooldown() const { return dash_cooldown; } // 復帰クールタイム(0で使用可)
@@ -38,8 +38,8 @@ private:
 	VECTOR move_targetdirection; // ターゲット方向のベクトル
 	VECTOR moveVec;              // 今フレームの移動ベクトル
 	
-	bool move_ismove;            // 今フレーム移動を行ったか
-	bool move_isdash = false;    // ダッシュ中か
+	bool move_is_move;            // 今フレーム移動を行ったか
+	bool move_is_dash = false;    // ダッシュ中か
 	
 	float move_angle;            // プレイヤーの向き角
 	
