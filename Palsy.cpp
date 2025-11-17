@@ -4,7 +4,7 @@
 
 Palsy::Palsy()
 {
-	ispalsy = true;
+	is_palsy = true;
 	palsy_time = PALSY_TIME;
 }
 
@@ -14,7 +14,7 @@ Palsy::~Palsy()
 
 void Palsy::ChangeIsPalsy()
 {
-	ispalsy = false;
+	is_palsy = false;
 }
 
 void Palsy::Update()

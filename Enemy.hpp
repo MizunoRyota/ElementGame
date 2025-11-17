@@ -114,9 +114,9 @@ private:
 	bool enemy_is_action;               // アクション中か(入力受付停止用)
 	bool enemy_is_die;                  // 死亡しているか
 	bool enemy_is_palsy;                // 麻痺しているか
-
+	bool enemy_is_keep_state;				//ステートの状態を保持しているか
 	EnemyState enemy_state;            // 現在の行動ステート
-
+	EnemyState enemy_keep_state;			//保持しているステート
 	std::vector<int> attack_kind;      // ランダム選択用 攻撃ステート一覧
 
 	bool enemy_special_charge_playerd = false; // 特殊溜めエフェクト再生済みフラグ

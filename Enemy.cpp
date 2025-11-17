@@ -23,6 +23,7 @@ Enemy::Enemy()
 	enemy_is_action = false;
 	enemy_is_chase = false;
 	enemy_is_palsy = false;
+	enemy_is_keep_state = false;
 	obj_name = "Enemy"; // 名札
 	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/monster2.mv1"); // モデル読み込み
 	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 右手ボーンID
@@ -36,6 +37,7 @@ Enemy::Enemy()
 	enemy_specialattack = std::make_shared<SpecialAttack>();
 	enemy_move = std::make_shared<EnemyMove>();
 	enemy_palsy = std::make_shared <Palsy>();
+	enemy_chase = std::make_shared <Chase>();
 	// ダメージクールタイム設定
 	ConfigureDamageCooldown(static_cast<int>(TAKEDAMAGE_COOLDOWN));
 }
@@ -51,7 +53,10 @@ void Enemy::Initialize()
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dist(0, attack_kind.size() - 1);
 
+	enemy_chase->Inintalize();
+
 	enemy_state = STATE_CHARGE;
+	enemy_keep_state = STATE_FIREATTACK;
 	enemy_is_action = false;
 	enemy_is_chase = false;
 	enemy_is_die = false;
@@ -185,6 +190,7 @@ void Enemy::ChangeStatePalsy()
 // ステート毎の処理
 void Enemy::UpdateStateAction()
 {
+
 	switch (enemy_state)
 	{
 	case STATE_PALSY:
@@ -224,21 +230,31 @@ void Enemy::UpdateStateAction()
 
 	case STATE_RUNLEFT:
 		obj_position = enemy_dodge->DodgeEnemy(obj_position, obj_direction, enemy_state);
+
 		if (enemy_dodge->GetIsDodgeEnd()) enemy_state = STATE_CHASE;
+		
 		break;
 
 	case STATE_RUNRIGHT:
 		obj_position = enemy_dodge->DodgeEnemy(obj_position, obj_direction, enemy_state);
+		
 		if (enemy_dodge->GetIsDodgeEnd()) enemy_state = STATE_CHASE;
+		
 		break;
 
 	case STATE_CHASE:
 		obj_position = enemy_move->MoveToTarget(obj_position, player_reference->GetPosition());
-		if (enemy_is_chase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition()))
+		
+		if (!enemy_is_keep_state)
+		{
+			enemy_keep_state = static_cast<EnemyState>(enemy_attacktype);
+		}
+
+		if (enemy_is_chase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition(), enemy_keep_state))
 		{
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
 			EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::ReadyAttack, handPos);
-			enemy_state = static_cast<EnemyState>(enemy_attacktype);
+			enemy_state = enemy_keep_state;
 		}
 		break;
 
