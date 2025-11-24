@@ -21,6 +21,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	freopen_s(&_out, "CON", "w", stdout);	// stdout
 	_in = 0;
 	freopen_s(&_in, "CON", "r", stdin);		// stdin
+
 #endif	// _DEBUG
 	// 画面モードのセット
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);

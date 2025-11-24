@@ -18,25 +18,33 @@ public:
 		AnalogDown = 4,     // 下
 	};
 
-	// キーの種類
+	//キーの種類
 	enum KeyKinds
 	{
-		Move = 0,   // 移動キーのどれか
-		Left = 1,   // 左
-		Right = 2,  // 右
-		Up = 3,     // 上
-		Down = 4,   // 下
-		Space = 5,  // スペース
-		LB = 6,     // 左肩のボタン
-		LT = 7,     // 左肩のトリガー
-		RB = 8,     // 右肩のボタン
-		RT = 9,     // 右肩のトリガー
+		Move = 0,  //移動キーのどれか
+		Left = 1,  //右
+		Right = 2,  //左
+		Up = 3,  //上
+		Down = 4,  //下
+		Space = 5,  //スペース
+		LB = 6,  //左上の手前のボタン
+		LT = 7,  //左上の奥側のボタン
+		RB = 8,  //右上の手前のボタン
+		RT = 9,  //右奥側のボタン
 		X = 10,
 		Y = 11,
 		A = 12,
 		B = 13,
-		LeftStick = 14,  // 左スティック押し込み
-		None = 15,       // 使用しないキーまたは未定義
+		LeftStick = 14,  //左スティック押し込み
+		None = 15,  //使用しないキーもしくは押されていない
+	};
+
+	//キーの押されている状態
+	enum KeyPushState
+	{
+		NotPush = 0,  //押されていない
+		JustRelease = 1,  //離された瞬間
+		Push = 2,  //押されている
 	};
 
 	Input();
@@ -58,7 +66,11 @@ public:
 
 	// 右スティックのアナログ方向が有効か
 	bool IsInputAnalogKey(const AnalogKeyState analogKeyState);
-
+	/// <summary>
+	/// Dxライブラリのキーの認識番号と名前がセットになったマップを返す
+	/// </summary>
+	/// <returns> Dxライブラリのキーの認識番号と名前がセットになったマップ</returns>
+	const std::map<KeyKinds, int> GetInputTag()const { return input_tag; }
 	// 現在フレームに押されているボタンのビットフラグ
 	int GetNowFrameInput() const { return input_nowframe; }
 	// 現在フレームで新たに押されたボタンのビットフラグ
@@ -71,4 +83,7 @@ private:
 	int input_newframe;   // 現在フレームで新規に押されたボタン
 	int input_rightkey_x; // 右アナログの水平入力値
 	int input_rightkey_z; // 右アナログの垂直入力値
+
+	std::map<KeyKinds, int> input_tag;
+
 };

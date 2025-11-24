@@ -37,7 +37,7 @@ void PlayerMove::UpdateMoveParameterWithPad(std::shared_ptr<Input>& input, std::
 	bool isPressMoveButton = false;
 
 	// クールタイム中またはエネルギー枯渇時はダッシュ入力を無効化
-	bool dashKey = (CheckHitKey(KEY_INPUT_LSHIFT) != 0);
+	bool dashKey = (CheckHitKey(KEY_INPUT_LSHIFT) != 0 || input->GetNowFrameInput() == 5);
 	if (dash_cooldown > 0 || dash_energy <= 0)
 	{
 		move_is_dash = false;

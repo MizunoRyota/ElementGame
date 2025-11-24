@@ -34,12 +34,12 @@ public:
     // camera_pos: 現在位置, target_pos: 目標位置, t: 0?1 の補間係数
     VECTOR Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float t);
 
-    void FixCameraPosition();          // カメラを固定位置へ戻す（必要に応じて使用）
+    //void FixCameraPosition();          // カメラを固定位置へ戻す（必要に応じて使用）
 
     // 位置・向き取得
-    const VECTOR& GetPosition() const { return obj_position; }
+    const VECTOR& GetPosition()     const { return obj_position; }
     const VECTOR& GetCameraTarget() const { return camera_targetpos; }
-    const VECTOR& GetCameraDir() const { return camera_dirction; }
+    const VECTOR& GetCameraDir()    const { return camera_dirction; }
 
     // 参照対象設定
     void SetPlayer(const std::shared_ptr<Player>& setplayer) { player = setplayer; }
@@ -51,7 +51,7 @@ private:
     static constexpr float CAMERA_FAR = 600.0f;               // ファー
     static constexpr float CAMERA_TARGET_PLAYERHIGHT = 0.650f;// プレイヤーヘッドへのオフセット
     static constexpr float TOPLAYER_LENGTH = 1.30f;           // プレイヤーとの距離
-    static constexpr float ANGLE_SPEED = 0.02f;               // 角速度
+    static constexpr float ANGLE_SPEED = 0.04f;               // 角速度
     static constexpr float CAMERA_PLAYERTARGET_HIGHT = 1.8f;  // プレイヤー注視点の高さ
     static constexpr float CAMERA_MAX_SHAKETIME = 5.0f;      // カメラを揺らす時間
     static constexpr float CAMERA_SHAKESPEED = 0.1f;      // カメラを揺らす時間

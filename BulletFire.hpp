@@ -23,7 +23,7 @@ public:
 	void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed); //拡散弾を発射
 
 	// 垂直散弾
-	void FireVirtical(const VECTOR& pos, const VECTOR& dir, const float& speed);
+	void FireVertical(const VECTOR& pos, const VECTOR& dir, const float& speed);
 
 	// void FireRotate(); // 必要なら回転弾
 
@@ -64,7 +64,7 @@ private:
 	// 拡散・全方位・ホーミング・マーカー系のパラメータ
 	static constexpr int   DIFFUSION_NUM = 5;        // 拡散弾の数
 	static constexpr int   DIFFUSION_OFFSET = 2;     // 拡散の最初の左右のずらし
-	static constexpr int   DIFFUSION_RADIUS = 30;    // 拡散の角度(度)
+	static constexpr int   DIFFUSION_RADIUS = 15;    // 拡散の角度(度)
 
 	static constexpr int   ALLRANGE_NUM = 30;        // 全方位の弾数
 	static constexpr float BULLET_COOLTIME = 10;     // 発射クールタイム

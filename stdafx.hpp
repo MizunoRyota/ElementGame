@@ -1,4 +1,5 @@
 #pragma once
+
 #include "DxLib.h"
 #include "EffekseerForDXLib.h"
 #include "json.hpp"
@@ -12,6 +13,7 @@
 #include <functional>
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <memory>
 #include <math.h>
 #include <optional>
@@ -20,4 +22,7 @@
 #include <string_view>
 #include <type_traits>
 #include <unordered_map>
+#include <utility>
 #include <vector>
+
+using json = nlohmann::json;

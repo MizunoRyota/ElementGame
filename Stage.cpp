@@ -36,10 +36,10 @@ void Stage::Initialize()
 /// </summary>
 void Stage::Update()
 {
+	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::FireGround, obj_position); // ループ(花火)
 
-	//EffectCreator::GetEffectCreator().UpdateEffect(EffectCreator::EffectType::FireGround, VAdd(obj_position,VGet(0,-0.5f,0)));
 	// 位置が変わる可能性があるなら追従（静止なら不要）
-	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::FireGround, VAdd(obj_position, VGet(0, -0.1f, 0)));
+	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::FireGround, VAdd(obj_position, VGet(0, 0.1f, 0)));
 }
 
 /// <summary>

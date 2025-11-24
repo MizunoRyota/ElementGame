@@ -136,6 +136,9 @@
     <Filter Include="GameCode\GameObject\Character\Player\LaserBeam">
       <UniqueIdentifier>{3907de9f-7abc-4aea-b4a4-018ba8ae8f8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\ChoseAttack">
+      <UniqueIdentifier>{6f42fe95-401e-447a-92e3-f5e5d761bad3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterBase.hpp">
@@ -303,6 +306,9 @@
     <ClInclude Include="Laser.hpp">
       <Filter>GameCode\GameObject\Character\Player\LaserBeam</Filter>
     </ClInclude>
+    <ClInclude Include="ChoseAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\ChoseAttack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -452,10 +458,16 @@
     <ClCompile Include="Laser.cpp">
       <Filter>GameCode\GameObject\Character\Player\LaserBeam</Filter>
     </ClCompile>
+    <ClCompile Include="ChoseAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\ChoseAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="camera.json">
       <Filter>GameCode\Camera</Filter>
+    </None>
+    <None Include="Crystal.json">
+      <Filter>GameCode\Crystal</Filter>
     </None>
   </ItemGroup>
 </Project>

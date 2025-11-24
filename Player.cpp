@@ -94,7 +94,8 @@ void Player::UpdateHandEffect()
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandEffect, character_handposition);
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::HandCharge, character_handposition);
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Laser, character_handposition);
-	EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::Laser, camera_reference->GetCameraDir());
+	// レーザー開始直後にカメラ向きを反映（初期フレームの向き補正）
+	EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::Laser, VGet(0,0,0));
 }
 
 // 攻撃入力に応じてステートを切替え、弾を発射
@@ -109,8 +110,6 @@ void Player::UpdateStateAction()
 		player_laser->FireLaser();
 		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::HandCharge);
 		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Laser, character_handposition);
-
-
 	}
 	else if ((GetMouseInput() & MOUSE_INPUT_LEFT))
 	{

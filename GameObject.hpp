@@ -26,12 +26,12 @@ public:
 	virtual void UpdateTitle() abstract;
 
 	// 各種情報取得
-	virtual const int& GetDamageStrength() const { return obj_damagestrength; }  // 与ダメージ量
-	virtual const int& GetHandle() const { return obj_modelhandle; }             // 3Dモデルハンドル
-	virtual const VECTOR& GetPosition() const { return obj_position; }           // ワールド座標
-	virtual const VECTOR& GetDirection() const { return obj_direction; }         // 進行方向などに使用
-	virtual VECTOR GetTarget() const { return VAdd(obj_position, VGet(0, TARGET_HEIGHT, 0)); } // 注視点（頭上）
-	std::string GetNameTag() const { return obj_name; }                          // デバッグ用名札
+	virtual const int& GetDamageStrength()  const { return obj_damagestrength; }		  // 与ダメージ量
+	virtual const int& GetHandle()			const { return obj_modelhandle; }             // 3Dモデルハンドル
+	virtual const VECTOR& GetPosition()		const { return obj_position; }				  // ワールド座標
+	virtual const VECTOR& GetDirection()	const { return obj_direction; }				// 進行方向などに使用
+	virtual VECTOR GetTarget()				const { return VAdd(obj_position, VGet(0, TARGET_HEIGHT, 0)); } // 注視点（頭上）
+	std::string GetNameTag()				const { return obj_name; }                    // デバッグ用名札
 
 	// オブジェクト参照を設定（必要なら派生で拡張）
 	virtual const std::shared_ptr<GameObject> SetGameObject(const std::shared_ptr<GameObject>& set_object) { return set_object; }

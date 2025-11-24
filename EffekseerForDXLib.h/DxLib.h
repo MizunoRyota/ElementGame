@@ -883,7 +883,7 @@
 #define PAD_INPUT_3									(0x00000040)
 #define PAD_INPUT_4									(0x00000080)
 #define PAD_INPUT_5									(0x00000100)
-#define PAD_INPUT_6									(0x00000200)
+#define PAD_INPUT_6									(0x00000200) //RBƒ{ƒ^ƒ“
 #define PAD_INPUT_7									(0x00000400)
 #define PAD_INPUT_8									(0x00000800)
 #define PAD_INPUT_9									(0x00001000)

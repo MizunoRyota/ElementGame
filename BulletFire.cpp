@@ -50,7 +50,7 @@ void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float
 	VECTOR bulletForword = VNorm(dir); // Šî€•ûŒü
 	float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS; // ‰ñ“]Šp
 	bulletForword = BulletRotateHorizontal(bulletForword, -bulletRotate * DIFFUSION_OFFSET); // ‰Šú‚¸‚ç‚µ
-	for (int num = 0; num < DIFFUSION_NUM; num++)
+	for (int bullet_num = 0; bullet_num < DIFFUSION_NUM; bullet_num++)
 	{
 		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::Water));
 		bulletForword = BulletRotateHorizontal(bulletForword, bulletRotate);
@@ -58,11 +58,11 @@ void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float
 }
 
 // ‚’¼U’e
-void BulletFire::FireVirtical(const VECTOR& pos, const VECTOR& dir, const float& speed)
+void BulletFire::FireVertical(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
 	VECTOR bulletForword = VNorm(dir);
 	float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS;
-	for (int num = 0; num < DIFFUSION_NUM; num++)
+	for (int bullet_num = 0; bullet_num < DIFFUSION_NUM; bullet_num++)
 	{
 		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::Fire));
 		bulletForword = BulletRotateVertical(bulletForword, bulletRotate);
@@ -103,11 +103,11 @@ void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const f
 	for (int ring = 0; ring < INNER_RINGS; ++ring)
 	{
 		float radius = RING_RADIUS - ring * RADIUS_STEP;
-		specialRingNum -= 1; // “à‘¤‚Ù‚Ç–§‚É
+		specialRingNum--; // “à‘¤‚Ù‚Ç–§‚É
 		if (radius <= 0.0f) continue;
-		for (int i = 0; i < specialRingNum; ++i)
+		for (int bullet_i = 0; bullet_i < specialRingNum; bullet_i++)
 		{
-			float t = (float)i / specialRingNum;
+			float t = (float)bullet_i / specialRingNum;
 			float ang = DX_TWO_PI_F * t;
 			VECTOR offset = VGet(cosf(ang) * radius, DROP_HEIGHT, sinf(ang) * radius);
 			VECTOR spawnPos = VAdd(pos, offset);

@@ -91,8 +91,6 @@ void Camera::Update()
     float maxPitch = DX_PI_F / 2 - 0.1f;
     if (camera_angle_virtual > maxPitch) camera_angle_virtual = maxPitch;
     if (camera_angle_virtual < -maxPitch) camera_angle_virtual = -maxPitch;
-    //printfDx("cameraxpos%f\n", obj_position.x);
-    //printfDx("camerazpos%f\n", obj_position.z);
 
     // 「←」ボタンが押されていたら水平角度をマイナスする
     if (rightInput->IsInputAnalogKey(Input::AnalogLeft))

@@ -26,6 +26,7 @@ public:
 		EnemyTire,
 		ReadyAttack,
 		Crystal,
+		ChargeEnergy,
 	};
 
 	static EffectCreator& GetEffectCreator()
@@ -47,7 +48,8 @@ public:
 	// ループ再生中エフェクトの位置更新
 	void SetLoopPosition(EffectType type, const VECTOR& position);
 
-	void SetRotateEffect(EffectType type, const VECTOR& dir); // 回転設定
+	void SetRotateEffect(EffectType type, const VECTOR& dir); // 位置をターゲットとして回転設定（従来）
+	void SetRotateEffectDirection(EffectType type, const VECTOR& direction); // 方向ベクトルから即時回転設定
 
 private:
 	EffectCreator() = default;
@@ -55,7 +57,7 @@ private:
 	EffectCreator(const EffectCreator&) = delete;
 	EffectCreator& operator=(const EffectCreator&) = delete;
 
-	static constexpr int   EFFECT_NUM = 19;          // 事前読み込み数
+	static constexpr int   EFFECT_NUM = 20;          // 事前読み込み数
 	static constexpr float EFFECT_HIGHT = 0.3f;      // 基準高さオフセット
 	static constexpr float EFFECT_SCALE = 4.5f;      // 表示スケール
 	static constexpr float EFFCT_PLAYSPEED = 0.20f;  // 再生速度
@@ -67,7 +69,7 @@ private:
 	float effect_playtime;       // 再生時間
 	bool  effect_is_play;         // 再生中
 	bool  effect_is_end;          // 終了済
-	float effect_move_angle;	 //	effectの向き
+	float effect_move_angle; // effectの向き(ヨー)
 	bool  effect_initialized = false; // 初期化済みか
 	int   effect_handles[EFFECT_NUM]{}; // 読み込み済配列
 

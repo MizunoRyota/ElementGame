@@ -48,6 +48,8 @@ private:
 
 	static constexpr int   SHADOW_DIV = 16;				// 影の分割
 	static constexpr float SHADOW_TOP_HEIGHT = -0.01f;  // 影の高さ
+	static constexpr float SHADOW_BOTTOM_HEIGHT = 0.05f;  // 影の高さ
+
 
 	bool  bullet_is_active;   // 有効フラグ
 	float bullet_speed;       // 速度スカラー

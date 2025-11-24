@@ -6,10 +6,16 @@
 
 Crystal::Crystal()
 {
+	std::ifstream file{ "Crystal.json" };
+
+	json data = json::parse(file);
+
+	std::string path = data["crystal_graph"];
+
 	character_hp = CRYSTAL_MAXHP;
 	COLLISION_CAPSULE_HEIGHT = 2.5f;  // カプセル判定高さ
 	COLLISION_CAPSULE_RADIUS = 2.5f;  // カプセル判定高さ
-	obj_modelhandle = MV1LoadModel("data/3dmodel/Crystal/Crystal.mv1");
+	obj_modelhandle = MV1LoadModel(path.c_str());
 	obj_name = "Crystal";
 	MV1SetScale(obj_modelhandle, VGet(CRYSTAL_SCALE, CRYSTAL_SCALE, CRYSTAL_SCALE)); // スケール適用
 
@@ -26,6 +32,15 @@ Crystal::~Crystal()
 
 void Crystal::Initialize()
 {
+
+	std::ifstream file{ "Crystal.json" };
+
+	json data = json::parse(file);
+
+	auto arr = data["init_pos"];
+
+	obj_position = VGet(arr[0], arr[1], arr[2]);
+
 	// 初期化
 	character_hp = CRYSTAL_MAXHP;
 	crystal_break = false;
@@ -35,19 +50,26 @@ void Crystal::Initialize()
 
 void Crystal::ChangeActive()
 {
-	if (reference_enemy->GetEnemyState() != STATE_SPECIAL_CHARGE || crystal_break)
+	if (enemy_reference->GetEnemyState() != STATE_SPECIAL_CHARGE || crystal_break)
 	{
 		character_hp = CRYSTAL_MAXHP;
+		crystal_break = false;
+		crystal_init = false;
+		crystal_angle = 0.0f;
 		obj_position = VGet(0.0f, -10.0f, 0.0f);
 		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Crystal);
-		return;
+		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::ChargeEnergy);
 
+		return;
 	}
-	else if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_init)
+	else if (enemy_reference->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_init)
 	{
-		obj_position = VAdd(reference_enemy->GetPosition(), VGet(0.0f, 10.0f, 0.0f));
+		obj_position = VAdd(enemy_reference->GetPosition(), VGet(0.0f, 10.0f, 0.0f));
 		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Crystal, obj_position);
+		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::ChargeEnergy, obj_position);
+
 		crystal_init = true;
+		return;
 	}
 }
 
@@ -62,21 +84,26 @@ void Crystal::Update()
 
 	ChangeActive();
 
+
+
 	// 敵を中心に円を描くように移動
-	if (reference_enemy && reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && crystal_init)
+	if (enemy_reference && enemy_reference->GetEnemyState() == STATE_SPECIAL_CHARGE && crystal_init)
 	{
 		MoveHorizontal();
 	}
 
-	MV1SetPosition(obj_modelhandle, obj_position); // 位置適用
 	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Crystal, obj_position);
+	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::ChargeEnergy, obj_position);
+	EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::ChargeEnergy, enemy_reference->GetPosition());
+
+	MV1SetPosition(obj_modelhandle, obj_position); // 位置適用
 
 }
 
 void Crystal::MoveHorizontal()
 {
 	// 角度からX,Z位置を計算して、敵を中心に円運動させる
-	if (!reference_enemy) return;
+	if (!enemy_reference) return;
 
 	crystal_angle += ROTATION_SPEED;
 	if (crystal_angle > DX_TWO_PI) crystal_angle -= DX_TWO_PI;
@@ -84,7 +111,7 @@ void Crystal::MoveHorizontal()
 	float cos = cosf(crystal_angle);
 	float sin = sinf(crystal_angle);
 
-	VECTOR center_position = reference_enemy->GetPosition();
+	VECTOR center_position = enemy_reference->GetPosition();
 
 	obj_position = VAdd(center_position, VGet(ROTATION_RADIUS * cos,  offset_y, ROTATION_RADIUS * sin));
 
@@ -92,7 +119,7 @@ void Crystal::MoveHorizontal()
 
 void Crystal::Draw()
 {
-	if (reference_enemy->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_break)
+	if (enemy_reference->GetEnemyState() == STATE_SPECIAL_CHARGE && !crystal_break)
 	{
 		MV1DrawModel(obj_modelhandle);
 	}

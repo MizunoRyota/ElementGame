@@ -12,12 +12,12 @@ Chase::~Chase() {}
 // ターゲットまでの距離が範囲内か
 bool Chase::RangeWithin(const VECTOR& enemyPos, const VECTOR& targetPos,const EnemyState& enemyState)
 {
-	// 非静的メンバー関数は this ポインタ経由で呼び出す必要があります
+
 	CheckEnemyState(enemyState);
 
 	VECTOR keep_distance = VSub(targetPos, enemyPos);
 	float check_distance = VSquareSize(keep_distance); // 距離の二乗
-	float range_squared = this->chase_range * this->chase_range;
+	float range_squared = (chase_range * chase_range);
 	return check_distance <= range_squared;
 }
 

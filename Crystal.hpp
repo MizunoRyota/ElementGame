@@ -31,12 +31,12 @@ public:
 	void ChangeBreak();    // 破壊切替
 	void MoveHorizontal(); // 水平移動（周回）
 
-	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { reference_enemy = setenemy; }
+	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy_reference = setenemy; }
 
 private:
 	static constexpr float CRYSTAL_SCALE = 0.010f;   // モデルの大きさ
-	static constexpr float ROTATION_RADIUS = 6.0f;   // 周回半径
-	static constexpr float ROTATION_SPEED = 0.025f;  // 角速度(rad/frame 相当)
+	static constexpr float ROTATION_RADIUS = 10.0f;   // 周回半径
+	static constexpr float ROTATION_SPEED = 0.015f;  // 角速度(rad/frame 相当)
 	static constexpr int   CRYSTAL_MAXHP = 20;       // 最大HP
 	static constexpr float offset_y = 10.0f;         // Y方向オフセット
 
@@ -44,5 +44,6 @@ private:
 	bool crystal_break;      // 破壊状態か
 	float crystal_angle;     // 現在の角度
 
-	std::shared_ptr<Enemy> reference_enemy; // 敵参照（軌道中心など）
+	std::shared_ptr<Enemy> enemy_reference; // 敵参照（軌道中心など）
+
 };

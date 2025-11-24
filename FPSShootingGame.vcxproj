@@ -146,6 +146,7 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CharacterBase.hpp" />
     <ClInclude Include="Chase.hpp" />
+    <ClInclude Include="ChoseAttack.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="CollisionSystem.hpp" />
     <ClInclude Include="Color.hpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CharacterBase.cpp" />
     <ClCompile Include="Chase.cpp" />
+    <ClCompile Include="ChoseAttack.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="CollisionSystem.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -248,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="camera.json" />
+    <None Include="Crystal.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

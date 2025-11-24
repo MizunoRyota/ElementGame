@@ -26,5 +26,5 @@ public:
 private:
 	// ’è”
 	static constexpr float SCALE = 0.0125f;  // ‘å‚«‚³
-	static constexpr float STAGE_HIGHT = 0.750f; // ‚‚³
+	static constexpr float STAGE_HIGHT = 0.90f; // ‚‚³
 };

@@ -10,6 +10,7 @@
 #include "EnemyMove.hpp"
 #include "EffectCreator.hpp"
 #include "Palsy.hpp"
+#include "ChoseAttack.hpp"
 
 // 敵の生成と初期セットアップ
 Enemy::Enemy()
@@ -17,13 +18,14 @@ Enemy::Enemy()
 	COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル判定半径(モデルに合わせる)
 	COLLISION_CAPSULE_HEIGHT = 2.75f;   // カプセル判定高さ
 	enemy_is_die = false;
-	enemy_attacktype = 0;   // 攻撃ステートの初期値
+	enemy_attacktype = 0;				// 攻撃ステートの初期値
 	enemy_dodgechose = 0;
 	enemy_handname = 0;
 	enemy_is_action = false;
 	enemy_is_chase = false;
 	enemy_is_palsy = false;
 	enemy_is_keep_state = false;
+
 	obj_name = "Enemy"; // 名札
 	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/monster2.mv1"); // モデル読み込み
 	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 右手ボーンID
@@ -31,6 +33,7 @@ Enemy::Enemy()
 	enemy_state = STATE_CHARGE; // 初期ステート
 	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE)); // スケール
 
+	//インスタンス生成
 	enemy_animater = std::make_shared<EnemyAnimater>(obj_modelhandle, enemy_state);
 	enemy_bullet = std::make_shared<BulletFire>();
 	enemy_dodge = std::make_shared<Dodge>();
@@ -38,6 +41,8 @@ Enemy::Enemy()
 	enemy_move = std::make_shared<EnemyMove>();
 	enemy_palsy = std::make_shared <Palsy>();
 	enemy_chase = std::make_shared <Chase>();
+	enemy_choseattack = std::make_shared <ChoseAttack>();
+
 	// ダメージクールタイム設定
 	ConfigureDamageCooldown(static_cast<int>(TAKEDAMAGE_COOLDOWN));
 }
@@ -48,10 +53,6 @@ Enemy::~Enemy() {}
 void Enemy::Initialize()
 {
 	attack_kind = { STATE_FIREATTACK,STATE_WATERATTACK,STATE_WINDATTACK }; // 攻撃候補
-
-	std::random_device rd;
-	std::mt19937 gen(rd());
-	std::uniform_int_distribution<> dist(0, attack_kind.size() - 1);
 
 	enemy_chase->Inintalize();
 
@@ -92,6 +93,8 @@ void Enemy::Update()
 	{
 		character_hp = 0;
 	}
+
+	printfDx("%d", enemy_state);
 
 	UpdateAngle();        // プレイヤーの方向を向く
 	UpdateStateAction();  // ステート処理
@@ -143,10 +146,12 @@ EffectCreator::EffectType Enemy::MapEffectTypeForAttack(int attackState) const
 {
 	switch (attackState)
 	{
-	case STATE_FIREATTACK: return EffectCreator::EffectType::BulletStraight; // 火
-	case STATE_WATERATTACK: return EffectCreator::EffectType::BulletDiffusion; // 水
-	case STATE_WINDATTACK: return EffectCreator::EffectType::BulletHoming; // 風
-	default: return EffectCreator::EffectType::BulletSpecial; // 特殊
+	case STATE_FIREATTACK: return EffectCreator::EffectType::BulletStraight;	// 火
+	case STATE_WATERATTACK: return EffectCreator::EffectType::BulletDiffusion;	// 水
+	case STATE_WINDATTACK: return EffectCreator::EffectType::BulletHoming;		// 風
+	case STATE_SPECIALATTACK: return EffectCreator::EffectType::BulletSpecial;		// 特殊
+
+	default: return EffectCreator::EffectType::BulletSpecial;					// 特殊
 	}
 }
 
@@ -154,7 +159,7 @@ EffectCreator::EffectType Enemy::MapEffectTypeForAttack(int attackState) const
 void Enemy::StartHandEffectForAttack()
 {
 	// 既に同攻撃のエフェクトが再生中なら何もしない
-	if (enemy_hand_effect_handle >= 0 && enemy_hand_effect_attack_state == enemy_attacktype) return;
+	if (enemy_hand_effect_handle >= 0 && enemy_hand_effect_attack_state == static_cast<int>(enemy_keep_state)) return;
 
 	// いったん停止
 	StopHandEffect();
@@ -163,7 +168,7 @@ void Enemy::StartHandEffectForAttack()
 	VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
 	handPos = VAdd(handPos, VGet(0, 0.0f, 0));
 
-	const auto effType = MapEffectTypeForAttack(enemy_attacktype);
+	const auto effType = MapEffectTypeForAttack(static_cast<int>(enemy_keep_state));
 	enemy_hand_effect_handle = EffectCreator::GetEffectCreator().PlayReturn(effType, handPos);
 	enemy_hand_effect_attack_state = enemy_attacktype;
 }
@@ -221,7 +226,15 @@ void Enemy::UpdateStateAction()
 		if (enemy_is_action = enemy_animater->GetAmimIsEnd())
 		{
 			enemy_dodgechose = GetRand(1);
-			ChoseAttackType();
+			if (!enemy_is_keep_state)
+			{
+				enemy_keep_state = enemy_choseattack->Chose(enemy_state);
+				if (character_hp <= ENEMY_FHASE_FOUR && !enemy_specialattack->GetIsCharge())
+				{
+					enemy_keep_state = STATE_FLOAT;
+				}
+			}
+
 			StartHandEffectForAttack();
 			if (enemy_dodgechose == 0)      enemy_state = STATE_RUNLEFT;
 			else if (enemy_dodgechose == 1) enemy_state = STATE_RUNRIGHT;
@@ -245,11 +258,6 @@ void Enemy::UpdateStateAction()
 	case STATE_CHASE:
 		obj_position = enemy_move->MoveToTarget(obj_position, player_reference->GetPosition());
 		
-		if (!enemy_is_keep_state)
-		{
-			enemy_keep_state = static_cast<EnemyState>(enemy_attacktype);
-		}
-
 		if (enemy_is_chase = enemy_chase->RangeWithin(obj_position, player_reference->GetPosition(), enemy_keep_state))
 		{
 			VECTOR handPos = MV1GetFramePosition(obj_modelhandle, character_handname);
@@ -310,9 +318,9 @@ void Enemy::UpdateStateAction()
 		}
 
 		enemy_specialattack->UpdateChrgeCount();
-
-		if (character_hp <= ENEMY_FHASE_FIVE) enemy_state = STATE_ONDAMAGE;
-
+		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Barrior, obj_position);
+		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::EnemyCharge, obj_position);
+		
 		if (enemy_is_action = !enemy_specialattack->GetIsCharge())
 		{
 			enemy_state = STATE_SPECIALATTACK; // 発動
