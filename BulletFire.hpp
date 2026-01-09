@@ -48,13 +48,28 @@ public:
 	// エフェクト味付け
 	enum class EffectFlavor
 	{
-		Fire = 0,
-		Water = 1,
-		Wind = 2,
-		Special = 3,
-		Hit = 4,
-		FireGround = 5,
-		PlayerAttack = 14,
+		BulletFire,
+		BulletWater,
+		BulletWind, // 追尾弾
+		BulletSpecial,
+		BulletHit,
+		FireGround,
+		EnemyDeath,
+		EnemyCharge,
+		Laser,
+		Roar,
+		FireWorks,
+		HandEffect,
+		ChargeLaser,
+		Barrior,
+		BulletPlayer,
+		BreakCrystal,
+		EnemyStun,
+		ReadyAttack,
+		Crystal,
+		ChargeBeam,
+		EternalLaser,
+		Flame,
 	};
 
 	// エフェクトの実装側インデックスに変換
@@ -87,7 +102,7 @@ private:
 	static constexpr float RADIUS_STEP = 8.0f; // 半径の増分
 	static constexpr float MARKER_LIFE = 60.0f;// マーカー寿命
 
-	float bullet_firecooltimer = 0;	//発射クールタイマー
+	float bullet_fire_cooltimer = 0;	//発射クールタイマー
 };
 
 

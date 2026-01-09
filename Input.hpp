@@ -26,17 +26,6 @@ public:
 		Right = 2,  //左
 		Up = 3,  //上
 		Down = 4,  //下
-		Space = 5,  //スペース
-		LB = 6,  //左上の手前のボタン
-		LT = 7,  //左上の奥側のボタン
-		RB = 8,  //右上の手前のボタン
-		RT = 9,  //右奥側のボタン
-		X = 10,
-		Y = 11,
-		A = 12,
-		B = 13,
-		LeftStick = 14,  //左スティック押し込み
-		None = 15,  //使用しないキーもしくは押されていない
 	};
 
 	//キーの押されている状態
@@ -60,30 +49,31 @@ public:
 	void DrawGameClear() override {};
 
 	// シーン別更新（入力は共通で Update を呼ぶ想定のため通常何もしない）
-	void UpdateGameClear() override {};
-	void UpdateGameOver() override {};
-	void UpdateTitle() override {};
+	void UpdateGameClear() override { Update(); }
+	void UpdateGameOver() override { Update(); }
+	void UpdateTitle() override { Update(); }
 
 	// 右スティックのアナログ方向が有効か
 	bool IsInputAnalogKey(const AnalogKeyState analogKeyState);
-	/// <summary>
-	/// Dxライブラリのキーの認識番号と名前がセットになったマップを返す
-	/// </summary>
-	/// <returns> Dxライブラリのキーの認識番号と名前がセットになったマップ</returns>
-	const std::map<KeyKinds, int> GetInputTag()const { return input_tag; }
+	
 	// 現在フレームに押されているボタンのビットフラグ
 	int GetNowFrameInput() const { return input_nowframe; }
 	// 現在フレームで新たに押されたボタンのビットフラグ
 	int GetNowFrameNewInput() const { return input_newframe; }
 
+	int GetInputType() const { return input_type; }
+
+	XINPUT_STATE GetNowXInputState() { return input; }
+
 private:
 	static constexpr int ANALOGKEY_DEADZONE = 50; // スティック微動以下は無視する閾値
 
-	int input_nowframe;   // 現在フレームで押下中のボタン
-	int input_newframe;   // 現在フレームで新規に押されたボタン
-	int input_rightkey_x; // 右アナログの水平入力値
-	int input_rightkey_z; // 右アナログの垂直入力値
+	XINPUT_STATE input;
 
-	std::map<KeyKinds, int> input_tag;
+	int input_nowframe;		// 現在フレームで押下中のボタン
+	int input_newframe;		// 現在フレームで新規に押されたボタン
+	int input_type;			// コントローラーが接続されているか判別
+	int input_rightkey_x;	// 右アナログの水平入力値
+	int input_rightkey_z;	// 右アナログの垂直入力値
 
 };

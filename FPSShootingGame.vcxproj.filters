@@ -31,18 +31,6 @@
     <Filter Include="GameCode\GameObject\Character\Enemy">
       <UniqueIdentifier>{41489dde-1c7d-4197-9590-ca1e67e52970}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyAnimater">
-      <UniqueIdentifier>{60025210-6a98-4fd0-97e4-383d864db5de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameCode\GameObject\Character\Enemy\Chase">
-      <UniqueIdentifier>{a4ba7c3a-81ba-4fc7-80b7-c9724b0a640b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameCode\GameObject\Character\Enemy\Dodge">
-      <UniqueIdentifier>{d26da190-2458-417c-80a4-5cc6137c120f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameCode\GameObject\Character\Enemy\SpecialAttack">
-      <UniqueIdentifier>{4702b65b-bf49-46a9-aebf-e594d3d45681}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameCode\GameObject\Character\Enemy\Move">
       <UniqueIdentifier>{fca42b90-0ee5-4188-b4d2-34cbf2748018}</UniqueIdentifier>
     </Filter>
@@ -94,9 +82,6 @@
     <Filter Include="GameCode\UI\HpBar">
       <UniqueIdentifier>{f9e80f33-fa24-4791-a5dd-d439cb7043d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode\UI\DarkFilm">
-      <UniqueIdentifier>{11f0bb55-53d5-4f7d-9758-63c63529b5cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameCode\UI\DashBar">
       <UniqueIdentifier>{ee9a0b3a-dc3f-4652-b604-8068cc185efc}</UniqueIdentifier>
     </Filter>
@@ -121,29 +106,65 @@
     <Filter Include="GameCode\Scene\Tutorial">
       <UniqueIdentifier>{261a3540-8a27-476d-8654-fe0cb5ab80b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode\BehaviorTree">
-      <UniqueIdentifier>{d09d72d1-1809-449e-853d-33b593715a39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameCode\BlackBoard">
-      <UniqueIdentifier>{2203c25d-6762-4fb9-af0d-c5271456173b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameCode\Crystal">
       <UniqueIdentifier>{4d375047-6e4a-4de8-a977-e9db483827e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode\GameObject\Character\Enemy\Palsy">
-      <UniqueIdentifier>{1c8d0292-7738-443d-aa5b-46141703db65}</UniqueIdentifier>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState">
+      <UniqueIdentifier>{2e8f4245-fb66-4571-8f76-8f7f06e017f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode\GameObject\Character\Player\LaserBeam">
+    <Filter Include="GameCode\GameObject\Character\CharacterBase">
+      <UniqueIdentifier>{caf188e4-9c79-4410-80c8-526c2b23ec95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Player\PlayerState">
+      <UniqueIdentifier>{448071cf-36c1-4e4c-99cc-fb26bea020b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Player\PlayerState\LaserBeam">
       <UniqueIdentifier>{3907de9f-7abc-4aea-b4a4-018ba8ae8f8e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode\GameObject\Character\Enemy\ChoseAttack">
-      <UniqueIdentifier>{6f42fe95-401e-447a-92e3-f5e5d761bad3}</UniqueIdentifier>
+    <Filter Include="GameCode\GameObject\Character\Player\PlayerState\PlayerAttack">
+      <UniqueIdentifier>{49f1fced-3f3b-42cc-b3dd-0ffdc00de1cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Player\PlayerState\PlayerStateBase">
+      <UniqueIdentifier>{36e32055-ec00-46b8-8fc7-3348e2293c62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Player\PlayerState\PlayerStateIdle">
+      <UniqueIdentifier>{aead15ad-a82c-473b-9874-1d3bdcb6c073}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyAnimater">
+      <UniqueIdentifier>{60025210-6a98-4fd0-97e4-383d864db5de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateBase">
+      <UniqueIdentifier>{2eb93fbf-7e69-4361-9947-0903a8632651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateCharge">
+      <UniqueIdentifier>{5b85262e-50bf-4eeb-b956-7270ea5e2bb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateDodge">
+      <UniqueIdentifier>{29aa1319-c831-4528-b347-bc9909289c22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateIdle">
+      <UniqueIdentifier>{1a35fb27-804e-4633-b666-857ffb74c856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChase">
+      <UniqueIdentifier>{a16fd2fe-d7fb-40fb-bdbd-e6ec0a151933}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack">
+      <UniqueIdentifier>{b5e2afb7-80e7-420a-a0e6-9a64baffc63c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateFlaot">
+      <UniqueIdentifier>{a46d5533-35dc-434a-ad43-35d168dcf8d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack\EnemyStateSpecial">
+      <UniqueIdentifier>{e84dc864-ee3c-47eb-8e2b-98e9d20bb4d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateStun">
+      <UniqueIdentifier>{f3992852-df9f-46bc-8447-b8b45bdab094}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\BGM">
+      <UniqueIdentifier>{55800494-bb2c-4e05-bb26-b00721b0a5ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CharacterBase.hpp">
-      <Filter>GameCode\GameObject\Character</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.hpp">
       <Filter>GameCode\GameObject</Filter>
     </ClInclude>
@@ -186,9 +207,6 @@
     <ClInclude Include="GameScene.hpp">
       <Filter>GameCode\Scene\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerState.hpp">
-      <Filter>GameCode\GameObject\Character\Player\Animater</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerAnimater.hpp">
       <Filter>GameCode\GameObject\Character\Player\Animater</Filter>
     </ClInclude>
@@ -204,26 +222,14 @@
     <ClInclude Include="EnemyAnimater.hpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyAnimater</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyState.hpp">
-      <Filter>GameCode\GameObject\Character\Enemy\EnemyAnimater</Filter>
-    </ClInclude>
-    <ClInclude Include="Chase.hpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Chase</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.hpp">
       <Filter>GameCode\Tool</Filter>
     </ClInclude>
     <ClInclude Include="BulletFire.hpp">
       <Filter>GameCode\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Dodge.hpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Dodge</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerMove.hpp">
       <Filter>GameCode\GameObject\Character\Player\Move</Filter>
-    </ClInclude>
-    <ClInclude Include="SpecialAttack.hpp">
-      <Filter>GameCode\GameObject\Character\Enemy\SpecialAttack</Filter>
     </ClInclude>
     <ClInclude Include="EnemyMove.hpp">
       <Filter>GameCode\GameObject\Character\Enemy\Move</Filter>
@@ -251,9 +257,6 @@
     </ClInclude>
     <ClInclude Include="EffectCreator.hpp">
       <Filter>GameCode\Effects</Filter>
-    </ClInclude>
-    <ClInclude Include="DarkFilm.hpp">
-      <Filter>GameCode\UI\DarkFilm</Filter>
     </ClInclude>
     <ClInclude Include="Scene.hpp">
       <Filter>GameCode\Scene\SceneManager</Filter>
@@ -288,26 +291,77 @@
     <ClInclude Include="Tutorial.hpp">
       <Filter>GameCode\Scene\Tutorial</Filter>
     </ClInclude>
-    <ClInclude Include="Blackboard.hpp">
-      <Filter>GameCode\BlackBoard</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviorTree.hpp">
-      <Filter>GameCode\BehaviorTree</Filter>
-    </ClInclude>
-    <ClInclude Include="NodeBase.hpp">
-      <Filter>GameCode\BehaviorTree</Filter>
-    </ClInclude>
     <ClInclude Include="Crystal.hpp">
       <Filter>GameCode\Crystal</Filter>
     </ClInclude>
-    <ClInclude Include="Palsy.hpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Palsy</Filter>
+    <ClInclude Include="IState.hpp">
+      <Filter>GameCode\GameObject\Character</Filter>
     </ClInclude>
-    <ClInclude Include="Laser.hpp">
-      <Filter>GameCode\GameObject\Character\Player\LaserBeam</Filter>
+    <ClInclude Include="CharacterBase.hpp">
+      <Filter>GameCode\GameObject\Character\CharacterBase</Filter>
     </ClInclude>
-    <ClInclude Include="ChoseAttack.hpp">
-      <Filter>GameCode\GameObject\Character\Enemy\ChoseAttack</Filter>
+    <ClInclude Include="ObjectAccessor.hpp">
+      <Filter>GameCode</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlayerState\PlayerLaserState.hpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\LaserBeam</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateBase.hpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerStateBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlayerState\PlayerStateIdle.hpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerStateIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateKind.hpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerStateBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateIdle.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateIdle</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStateBase.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateBase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateCharge.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateCharge</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateDodge.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateDodge</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateChase.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChase</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyAttackBase.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\StateFireAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\StateWaterAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\StateWindAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStateKind.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateSpecialAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack\EnemyStateSpecial</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateSpecialCharge.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack\EnemyStateSpecial</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateFloat.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateFlaot</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateStun.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateStun</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sounds\SoundManager.hpp">
+      <Filter>GameCode\BGM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -359,23 +413,14 @@
     <ClCompile Include="EnemyAnimater.cpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyAnimater</Filter>
     </ClCompile>
-    <ClCompile Include="Chase.cpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Chase</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>GameCode\Tool</Filter>
     </ClCompile>
     <ClCompile Include="BulletFire.cpp">
       <Filter>GameCode\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Dodge.cpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Dodge</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerMove.cpp">
       <Filter>GameCode\GameObject\Character\Player\Move</Filter>
-    </ClCompile>
-    <ClCompile Include="SpecialAttack.cpp">
-      <Filter>GameCode\GameObject\Character\Enemy\SpecialAttack</Filter>
     </ClCompile>
     <ClCompile Include="EnemyMove.cpp">
       <Filter>GameCode\GameObject\Character\Enemy\Move</Filter>
@@ -385,9 +430,6 @@
     </ClCompile>
     <ClCompile Include="CollisionSystem.cpp">
       <Filter>GameCode\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterBase.cpp">
-      <Filter>GameCode\GameObject\Character</Filter>
     </ClCompile>
     <ClCompile Include="UiManager.cpp">
       <Filter>GameCode\UI</Filter>
@@ -400,9 +442,6 @@
     </ClCompile>
     <ClCompile Include="GameTimer.cpp">
       <Filter>GameCode\UI\Timer</Filter>
-    </ClCompile>
-    <ClCompile Include="DarkFilm.cpp">
-      <Filter>GameCode\UI\DarkFilm</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>GameCode\Scene\SceneManager</Filter>
@@ -440,26 +479,68 @@
     <ClCompile Include="Tutorial.cpp">
       <Filter>GameCode\Scene\Tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="Blackboard.cpp">
-      <Filter>GameCode\BlackBoard</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviorTree.cpp">
-      <Filter>GameCode\BehaviorTree</Filter>
-    </ClCompile>
-    <ClCompile Include="NodeBase.cpp">
-      <Filter>GameCode\BehaviorTree</Filter>
-    </ClCompile>
     <ClCompile Include="Crystal.cpp">
       <Filter>GameCode\Crystal</Filter>
     </ClCompile>
-    <ClCompile Include="Palsy.cpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Palsy</Filter>
+    <ClCompile Include="CharacterBase.cpp">
+      <Filter>GameCode\GameObject\Character\CharacterBase</Filter>
     </ClCompile>
-    <ClCompile Include="Laser.cpp">
-      <Filter>GameCode\GameObject\Character\Player\LaserBeam</Filter>
+    <ClCompile Include="PlayerAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerAttack</Filter>
     </ClCompile>
-    <ClCompile Include="ChoseAttack.cpp">
-      <Filter>GameCode\GameObject\Character\Enemy\ChoseAttack</Filter>
+    <ClCompile Include="src\PlayerState\PlayerLaserState.cpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\LaserBeam</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerStateBase.cpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerStateBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerState\PlayerStateIdle.cpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerStateIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateIdle.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateIdle</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStateBase.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateCharge.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateCharge</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateDodge.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateDodge</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateChase.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyAttackBase.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\StateFireAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\StateWaterAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\StateWindAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateSpecialAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack\EnemyStateSpecial</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateSpecialCharge.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack\EnemyStateSpecial</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateFloat.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateFlaot</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateStun.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateStun</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sounds\SoundManager.cpp">
+      <Filter>GameCode\BGM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObjects\GameObject.cpp">
+      <Filter>GameCode\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -468,6 +549,9 @@
     </None>
     <None Include="Crystal.json">
       <Filter>GameCode\Crystal</Filter>
+    </None>
+    <None Include="EffectCreator.json">
+      <Filter>GameCode\Effects</Filter>
     </None>
   </ItemGroup>
 </Project>

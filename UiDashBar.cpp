@@ -13,6 +13,7 @@ UiDashBar::UiDashBar(const std::shared_ptr<Player>& player)
 void UiDashBar::Update()
 {
     // ここでは特に減衰アニメ無し。必要ならエネルギーの遅延表示を実装可
+    DeleteGraph(graph_handle);
 }
 
 void UiDashBar::Draw() const
@@ -86,9 +87,6 @@ void UiDashBar::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    // 数値/状態表示(必要ならコメント解除)
-    //SetFontSize(22);
-    //DrawFormatString(energy_x, energy_y + bar_height + 6, Pallet::White.GetHandle(), "EN:%d CD:%d", energy, cooldown);
     if ((CheckHitKey(KEY_INPUT_LSHIFT) != 0))
     {
         DrawGraphF(0, 0, graph_handle, true);

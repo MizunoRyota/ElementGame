@@ -7,6 +7,8 @@
 #include "SharedData.hpp"
 #include "CollisionSystem.hpp"
 #include "EffectCreator.hpp"
+#include "src/Sounds/SoundManager.hpp"
+#include "ObjectAccessor.hpp"
 
 GameScene::GameScene(SceneManager& manager, SharedData& sharedData)
     : Scene{ manager ,sharedData} {}
@@ -22,6 +24,7 @@ void GameScene::Initialize()
 
     // エフェクト初期化
     EffectCreator::GetEffectCreator().Initialize();
+	SoundManager::GetSoundManager().PlayGameBgm();
 }
 
 void GameScene::Update()
@@ -39,10 +42,12 @@ void GameScene::Update()
 
     if (player_reference->GetHp() <= 0 )
     {
+        SoundManager::GetSoundManager().StopAllSound();
         ChangeScene("GameOverScene");
     }
     else if (enemy_reference->GetHp() <= 0)
     {
+        SoundManager::GetSoundManager().StopAllSound();
         ChangeScene("GameClearScene");
     }
 }

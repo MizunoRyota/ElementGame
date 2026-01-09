@@ -2,7 +2,7 @@
 #include "Scene.hpp"
 #include "SceneManager.hpp"
 #include "SharedData.hpp"
-
+#include "src/Sounds/SoundManager.hpp"
 Scene::Scene(SceneManager& manager, SharedData& sharedData)
     : m_manager{ manager }
     , m_sharedData{ sharedData }
@@ -42,6 +42,27 @@ void Scene::WhiteOut()
     whiteout_is_end = true;
 }
 
+void Scene::ReturnScene()
+{
+    while (alpha > 0)
+    {
+
+        alpha -= WHITEOUT_TIMESPEED;
+
+        // âÊñ ÇîíêFÇ≈ìhÇËÇ¬Ç‘Ç∑
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, static_cast<int>(alpha * WHITEOUT_TIMESPEED));
+        DrawCircle(0, SCREEN_HEIGHT, alpha, Pallet::SpringGreen.GetHandle(), true);
+        DrawCircle(SCREEN_WIDTH, 0, alpha, Pallet::Violet.GetHandle(), true);
+        DrawCircle(SCREEN_WIDTH, SCREEN_HEIGHT, alpha, Pallet::DeepSkyBlue.GetHandle(), true);
+        DrawCircle(0, 0, alpha, Pallet::Red.GetHandle(), true);
+
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
+        // âÊñ ÇçXêV
+        ScreenFlip();
+    }
+}
+
 void Scene::Update()
 {
     // ñ≥èàóù
@@ -55,7 +76,7 @@ void Scene::Draw()
 void Scene::ChangeScene(const std::string_view name)
 {
     WhiteOut();
-
+    ReturnScene();
     if (whiteout_is_end)
     {
         m_manager.ChangeScene(name);

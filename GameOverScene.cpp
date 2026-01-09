@@ -5,8 +5,9 @@
 #include "Shadow.hpp"
 #include "BulletCreator.hpp"
 #include "SharedData.hpp"
-#include "CollisionSystem.hpp"
 #include "EffectCreator.hpp"
+#include "src/Sounds/SoundManager.hpp"
+#include "ObjectAccessor.hpp"
 
 GameOverScene::GameOverScene(SceneManager& manager, SharedData& sharedData)
     : Scene{ manager ,sharedData } {
@@ -24,7 +25,7 @@ void GameOverScene::Initialize()
     // エフェクト初期化
     EffectCreator::GetEffectCreator().Initialize();
     BulletCreator::GetBulletCreator().Initialize();
-
+	SoundManager::GetSoundManager().PlayGameOverBgm();
 }
 
 void GameOverScene::Update()
@@ -35,8 +36,10 @@ void GameOverScene::Update()
     // 置き換え: 直接UpdateEffekseer3D()ではなく、マネージャ更新
     EffectCreator::GetEffectCreator().Update();
 
-    if (check_is_click)
+    if (check_is_click || ObjectAccessor::GetObjectAccessor().GetIsInputBottunA())
     {
+        SoundManager::GetSoundManager().PlayButtonSe();
+        SoundManager::GetSoundManager().StopAllSound();
         ChangeScene("TitleScene");
     }
 }

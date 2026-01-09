@@ -68,13 +68,10 @@ void UiHpBar::Draw() const
     // 現在 HP (グラデーション寄り演出)
     int realWidth = static_cast<int>(hpbar_width * realRatio);
     int colorR = static_cast<int>(255 * (1.0f - realRatio));
-    int colorG = static_cast<int>(220 * realRatio);
+    int colorG = static_cast<int>(255 * realRatio);
     DrawBox(hpbar_x, hpbar_y, hpbar_x + realWidth, hpbar_y + hpbar_height, GetColor(colorR, colorG, 64), TRUE);
 
     // 枠
     DrawBox(hpbar_x, hpbar_y, hpbar_x + hpbar_width, hpbar_y + hpbar_height, Pallet::LemonYellow.GetHandle(), FALSE);
 
-    // 数値表示(必要なら有効化)
-    //SetFontSize(40);
-    //DrawFormatString(hpbar_x, hpbar_y + hpbar_height + 8, Pallet::White.GetHandle(), "HP: %d / %d", hpbarReal, hpbar_maxhp);
 }

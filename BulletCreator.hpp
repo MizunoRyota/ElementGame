@@ -25,7 +25,8 @@ public:
 	void Draw();       // デバッグ描画
 
 	std::shared_ptr<Bullet> GetBullet(int index) const { return bullets[index]; }
-	int GetBulletCount() const { return static_cast<int>(bullets.size()); }
+
+	int GetBulletCount()	const { return static_cast<int>(bullets.size()); }
 
 	static BulletCreator& GetBulletCreator()
 	{

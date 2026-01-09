@@ -41,7 +41,7 @@ void Bullet::Initialize(const VECTOR& pos, const VECTOR& dir, const float& speed
 	else
 	{
 		// fallback to generic trail
-		bullet_trail_handle = EffectCreator::GetEffectCreator().PlayReturn(EffectCreator::EffectType::BulletHoming, bullet_position);
+		bullet_trail_handle = EffectCreator::GetEffectCreator().PlayReturn(EffectCreator::EffectType::BulletWind, bullet_position);
 	}
 }
 
@@ -66,11 +66,11 @@ void Bullet::InitializeBulletRadius(int effectTypeIndex)
 {
 	switch (effectTypeIndex)
 	{
-	case (static_cast<int>(EffectCreator::EffectType::BulletStraight)):
+	case (static_cast<int>(EffectCreator::EffectType::BulletFire)):
 		bullet_radius = BULLET_FIRE_RADIUS; break;
-	case (static_cast<int>(EffectCreator::EffectType::BulletDiffusion)):
+	case (static_cast<int>(EffectCreator::EffectType::BulletWater)):
 		bullet_radius = BULLET_DIFFUSION_RADIUS; break;
-	case (static_cast<int>(EffectCreator::EffectType::BulletHoming)):
+	case (static_cast<int>(EffectCreator::EffectType::BulletWind)):
 		bullet_radius = BULLET_HOMING_RADIUS; break;
 	case (static_cast<int>(EffectCreator::EffectType::BulletSpecial)):
 		bullet_radius = BULLET_SPECIAL_RADIUS; break;
@@ -83,6 +83,7 @@ void Bullet::InitializeBulletRadius(int effectTypeIndex)
 void Bullet::Update()
 {
 	if (!IsActive()) return; // 非アクティブ
+
 	Move(); // 移動
 	// 追従エフェクト位置更新
 	if (bullet_trail_handle >= 0)
@@ -166,7 +167,7 @@ void Bullet::ResetPosition()
 
 void Bullet::Draw()
 {
-	// 可視デバッグが必要なら描画を有効化
+	//// 可視デバッグが必要なら描画を有効化
 	//DrawSphere3D(bullet_position, bullet_radius, 10, Pallet::Violet.GetHandle(), Pallet::Violet.GetHandle(), false);
 	  // 描画ブレンドモードをノーブレンドにする
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);

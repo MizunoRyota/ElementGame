@@ -6,6 +6,9 @@
 #include "BulletCreator.hpp"
 #include "SharedData.hpp"
 #include "EffectCreator.hpp"
+#include "src/Sounds/SoundManager.hpp"
+#include "ObjectAccessor.hpp"
+
 TitleScene::TitleScene(SceneManager& manager, SharedData& sharedData)
     : Scene{ manager ,sharedData } {}
 
@@ -18,7 +21,7 @@ void TitleScene::Initialize()
     enemy_reference = std::dynamic_pointer_cast<Enemy>(GetSharedData().FindObject("Enemy"));
     shadow = std::dynamic_pointer_cast<Shadow>(GetSharedData().FindObject("Shadow"));
     GetSharedData().InitializeAll();
-
+	SoundManager::GetSoundManager().PlayTitleBgm();
 }
 
 void TitleScene::Update()
@@ -30,8 +33,10 @@ void TitleScene::Update()
     // 置き換え: 直接UpdateEffekseer3D()ではなく、マネージャ更新
     EffectCreator::GetEffectCreator().Update();
 
-    if (check_is_click)
+    if (check_is_click || ObjectAccessor::GetObjectAccessor().GetIsInputBottunA())
     {
+        SoundManager::GetSoundManager().PlayButtonSe();
+        SoundManager::GetSoundManager().StopAllSound();
         ChangeScene("TutorialScene");
     }
 }

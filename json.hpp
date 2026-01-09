@@ -9726,9 +9726,9 @@ template<typename T, typename Unsigned>
 using number_unsigned_function_t =
     decltype(std::declval<T&>().number_unsigned(std::declval<Unsigned>()));
 
-template<typename T, typename Float, typename String>
+template<typename T, typename STATE_FLOAT, typename String>
 using number_float_function_t = decltype(std::declval<T&>().number_float(
-                                    std::declval<Float>(), std::declval<const String&>()));
+                                    std::declval<STATE_FLOAT>(), std::declval<const String&>()));
 
 template<typename T, typename String>
 using string_function_t =
@@ -10658,7 +10658,7 @@ class binary_reader
             case 0xF6: // null
                 return sax->null();
 
-            case 0xF9: // Half-Precision Float (two-byte IEEE 754)
+            case 0xF9: // Half-Precision STATE_FLOAT (two-byte IEEE 754)
             {
                 const auto byte1_raw = get();
                 if (JSON_HEDLEY_UNLIKELY(!unexpect_eof(input_format_t::cbor, "number")))
@@ -10706,13 +10706,13 @@ class binary_reader
                                          : static_cast<number_float_t>(val), "");
             }
 
-            case 0xFA: // Single-Precision Float (four-byte IEEE 754)
+            case 0xFA: // Single-Precision STATE_FLOAT (four-byte IEEE 754)
             {
                 float number{};
                 return get_number(input_format_t::cbor, number) && sax->number_float(static_cast<number_float_t>(number), "");
             }
 
-            case 0xFB: // Double-Precision Float (eight-byte IEEE 754)
+            case 0xFB: // Double-Precision STATE_FLOAT (eight-byte IEEE 754)
             {
                 double number{};
                 return get_number(input_format_t::cbor, number) && sax->number_float(static_cast<number_float_t>(number), "");
@@ -17116,12 +17116,12 @@ class binary_writer
 
     static constexpr CharType get_cbor_float_prefix(float /*unused*/)
     {
-        return to_char_type(0xFA);  // Single-Precision Float
+        return to_char_type(0xFA);  // Single-Precision STATE_FLOAT
     }
 
     static constexpr CharType get_cbor_float_prefix(double /*unused*/)
     {
-        return to_char_type(0xFB);  // Double-Precision Float
+        return to_char_type(0xFB);  // Double-Precision STATE_FLOAT
     }
 
     /////////////

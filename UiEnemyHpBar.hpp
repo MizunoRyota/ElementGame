@@ -21,7 +21,7 @@ public:
     void SetSize(int w, int h) { hpbar_width = w; hpbar_height = h; } // バーサイズ
 
 private:
-    static constexpr float DELAY_SPEED = 1.0f; // 減衰速度
+    static constexpr float DELAY_SPEED = 0.10f; // 減衰速度
     static constexpr int G_DECREASE_RAITO = 50; // 減衰速度
     static constexpr int B_DECREASE_RAITO = 180; // 減衰速度
 

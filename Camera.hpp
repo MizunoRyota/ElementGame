@@ -3,10 +3,8 @@
 
 class Input;
 class GameObject;
-class Player;
-class Enemy;
 
-// カメラ（TPS想定）。プレイヤー位置や入力に応じて注視点と位置を更新する。
+// カメラ（FPS想定）。プレイヤー位置や入力に応じて注視点と位置を更新する。
 class Camera : public GameObject
 {
 public:
@@ -23,7 +21,7 @@ public:
 
     // シーン別描画（カメラは通常描画不要）
     void DrawTitle() override {}
-    void Draw() override {}
+    void Draw() override;
     void DrawGameOver() override {}
     void DrawGameClear() override {}
 
@@ -39,11 +37,7 @@ public:
     // 位置・向き取得
     const VECTOR& GetPosition()     const { return obj_position; }
     const VECTOR& GetCameraTarget() const { return camera_targetpos; }
-    const VECTOR& GetCameraDir()    const { return camera_dirction; }
-
-    // 参照対象設定
-    void SetPlayer(const std::shared_ptr<Player>& setplayer) { player = setplayer; }
-    void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy = setenemy; }
+    const VECTOR& GetCameraDir()    const { return obj_direction; }
 
 private:
     // カメラ定数
@@ -69,10 +63,6 @@ private:
 
     VECTOR OriginalOffset;             // 位置オフセットの初期値
     VECTOR camera_angle;               // 角度ベクトル
-    VECTOR obj_position;               // カメラ位置
     VECTOR camera_targetpos;           // 注視点
-    VECTOR camera_dirction;            // 方向ベクトル（注視点-位置）
 
-    std::shared_ptr<Player> player;    // 参照：プレイヤー
-    std::shared_ptr<Enemy>  enemy;     // 参照：敵
 };

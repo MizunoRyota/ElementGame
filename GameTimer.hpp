@@ -6,7 +6,7 @@ class GameTimer : public IUiElement
 {
 public:
 	GameTimer();
-
+	~GameTimer();
 	void Reset() { timer_elapsed = 0.0f; } // 経過フレームをリセット
 
 	void SetPaused(bool p) { timer_paused = p; } // 一時停止/解除

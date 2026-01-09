@@ -1,4 +1,6 @@
 #pragma once
+#include "ObjectAccessor.hpp"
+
 class Camera;
 class Input;
 
@@ -9,8 +11,8 @@ public:
 	PlayerMove();
 	~PlayerMove();
 
-	void Update(std::shared_ptr<Input>& input, std::shared_ptr<Camera>& camera); // 入力から移動更新
-	void UpdateMoveParameterWithPad(std::shared_ptr<Input>& input, std::shared_ptr<Camera>& camera, VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec); // パッド入力から各ベクトルを算出
+	void Update(); // 入力から移動更新
+	void UpdateMoveParameterWithPad( VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec); // パッド入力から各ベクトルを算出
 	
 	void MoveAngle(const VECTOR& targetPositon); // 向き(角度)更新
 	void Move(const VECTOR& MoveVector);         // 実移動適用
@@ -18,13 +20,13 @@ public:
 	void DecreaseDashEnergy();                   // ダッシュエネルギー減衰
 
 	// getter/setter.
-	const VECTOR& GetMoveScale() const { return moveVec; }
-	const float& GetMoveAngle() const { return move_angle; }
-	const bool& GetIsmove() const { return move_is_move; }
-	const bool& GetIsDash() const { return move_is_dash; }
-	float GetDashEnergy() const { return dash_energy; }
-	int GetDashEnergyMax() const { return DASH_MAXENERGY; }
-	int GetDashCooldown() const { return dash_cooldown; } // 復帰クールタイム(0で使用可)
+	const VECTOR& GetMoveScale()	const { return moveVec; }
+	const float& GetMoveAngle()		const { return move_angle; }
+	const bool& GetIsmove()			const { return move_is_move; }
+	const bool& GetIsDash()			const { return move_is_dash; }
+	float GetDashEnergy()			const { return dash_energy; }
+	int GetDashEnergyMax()			const { return DASH_MAXENERGY; }
+	int GetDashCooldown()			const { return dash_cooldown; } // 復帰クールタイム(0で使用可)
 
 private:
 	static constexpr float MOVE_SPEED = 0.075f;        // 基本移動速度

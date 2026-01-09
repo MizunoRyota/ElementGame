@@ -19,9 +19,9 @@ public:
 	void DrawGameClear() override { Draw(); }
 
 	// シーン別更新（特になし）
-	void UpdateGameClear() override {};
-	void UpdateGameOver() override {};
-	void UpdateTitle() override {};
+	void UpdateGameClear() override { Update(); }
+	void UpdateGameOver() override { Update(); }
+	void UpdateTitle() override { Update(); }
 
 private:
 	// 定数

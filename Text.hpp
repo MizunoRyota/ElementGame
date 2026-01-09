@@ -16,6 +16,12 @@ public:
 	void DrawTutorial() const override {};
 	void DrawGameClear() const override {};
 	void DrawGameOver() const override {};
+
 private:
-	int text_graph; // 使用する画像ハンドル
+	int ready_laser_mouse;
+	int ready_laser_controller;
+	int not_ready_laser_mouse;
+	int not_ready_laser_controller;
+	int game_controller;
+	int input_type;
 };

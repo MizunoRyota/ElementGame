@@ -54,10 +54,7 @@ public:
 
 	std::shared_ptr<GameObject> FindObject(std::string_view obj);
 
-	std::vector<std::shared_ptr<GameObject>> objects_title;
 	std::vector<std::shared_ptr<GameObject>> objects_game;
-	std::vector<std::shared_ptr<GameObject>> objects_gameover;
-	std::vector<std::shared_ptr<GameObject>> objects_gameclear;
 
 	std::vector<std::shared_ptr<GameObject>> objects_shadow_ready;
 
@@ -69,7 +66,7 @@ public:
 	std::shared_ptr<Enemy> enemy;
 	std::shared_ptr<Stage> stage;
 	std::shared_ptr<Skydome> skydome;
-	std::shared_ptr<UiManager> ui; // HPバー描画用
-	std::shared_ptr<Crystal> crystal; // チャージ中クリスタル
+	std::shared_ptr<UiManager> ui;		// HPバー描画用
+	std::shared_ptr<Crystal> crystal;	// チャージ中クリスタル
 };
 

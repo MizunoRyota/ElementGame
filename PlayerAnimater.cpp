@@ -1,9 +1,9 @@
 #include "stdafx.hpp"
 #include "AnimationData.hpp"
-#include "PlayerState.hpp"
+#include "PlayerStateKind.hpp"
 #include"PlayerAnimater.hpp"
 
-PlayerAnimater::PlayerAnimater(int modelhandle, PlayerState& playerstate)
+PlayerAnimater::PlayerAnimater(int modelhandle, PlayerStateKind& playerstate)
 	:AnimaterBase(modelhandle)
 	, player_state(playerstate)
 {
@@ -29,8 +29,8 @@ PlayerAnimater::~PlayerAnimater()
 
 void PlayerAnimater::InitializeAnimationData()
 {
-	animation_data[static_cast<int>(AnimKind::Idle)] = AnimationState(static_cast<int>(AnimKind::Idle), 9, 0, 0, 0.5f, true);
-	animation_data[static_cast<int>(AnimKind::Attack)] = AnimationState(static_cast<int>(AnimKind::Attack), 7, 0, 0, 0.5f, true);
+	animation_data[static_cast<int>(PlayerStateKind::STATE_ATTACK)] = AnimationState(static_cast<int>(PlayerStateKind::STATE_ATTACK), 7, 0, 0, 0.5f, true);
+	animation_data[static_cast<int>(PlayerStateKind::STATE_IDLE)] = AnimationState(static_cast<int>(PlayerStateKind::STATE_IDLE), 9, 0, 0, 0.5f, true);
 }
 
 void PlayerAnimater::Update()
@@ -43,14 +43,17 @@ void PlayerAnimater::SwitchAnimation()
 {
 	switch (player_state)
 	{
-	case STATE_HANDIDLE:
-		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::Idle)));
+	case PlayerStateKind::STATE_ATTACK:
+		ChangeMotion(animation_data.at(static_cast<int>(PlayerStateKind::STATE_ATTACK)));
 		break;
-	case STATE_ATTACK:
-		ChangeMotion(animation_data.at(static_cast<int>(AnimKind::Attack)));
+	case PlayerStateKind::STATE_IDLE:
+		ChangeMotion(animation_data.at(static_cast<int>(PlayerStateKind::STATE_IDLE)));
 		break;
-	default:
+	case PlayerStateKind::STATE_LASER:
+		ChangeMotion(animation_data.at(static_cast<int>(PlayerStateKind::STATE_ATTACK)));
+		break;
 
+	default:
 		break;
 	}
 }

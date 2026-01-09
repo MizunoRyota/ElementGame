@@ -5,8 +5,9 @@
 #include "Shadow.hpp"
 #include "BulletCreator.hpp"
 #include "SharedData.hpp"
-#include "CollisionSystem.hpp"
 #include "EffectCreator.hpp"
+#include "ObjectAccessor.hpp"
+#include "src/Sounds/SoundManager.hpp"
 
 GameClearScene::GameClearScene(SceneManager& manager, SharedData& sharedData)
     : Scene{ manager ,sharedData } {
@@ -22,7 +23,7 @@ void GameClearScene::Initialize()
 
     BulletCreator::GetBulletCreator().Initialize();
     BulletCreator::GetBulletCreator().Initialize();
-
+	SoundManager::GetSoundManager().PlayGameClearBgm();
 }
 
 void GameClearScene::Update()
@@ -35,8 +36,10 @@ void GameClearScene::Update()
     // 置き換え: 直接UpdateEffekseer3D()ではなく、マネージャ更新
     EffectCreator::GetEffectCreator().Update();
 
-    if (check_is_click)
+    if (check_is_click || ObjectAccessor::GetObjectAccessor().GetIsInputBottunA())
     {
+        SoundManager::GetSoundManager().PlayButtonSe();
+        SoundManager::GetSoundManager().StopAllSound();
         ChangeScene("TitleScene");
     }
 }

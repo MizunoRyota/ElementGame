@@ -19,6 +19,8 @@ public:
 
 	virtual void WhiteOut();
 
+	virtual void ReturnScene();
+
 	/// @brief シーンを更新します。
 	/// @remark デフォルトでは何もしません。
 	virtual void Update();
@@ -39,7 +41,7 @@ protected:
 
 private:
 	static constexpr int  WHITEOUT_TIME = 2300;          //ホワイトアウトの時間
-	static constexpr int  WHITEOUT_TIMESPEED = 35;     //ホワイトアウトの時間速度調整
+	static constexpr int  WHITEOUT_TIMESPEED = 25;     //ホワイトアウトの時間速度調整
 
 	float alpha;
 
@@ -47,4 +49,5 @@ private:
 	SharedData& m_sharedData; /// @brief 共有データへの参照
 
 	bool whiteout_is_end; /// @brief ホワイトアウト完了フラグ
+	bool return_is_end;   /// @brief シーン復帰完了フラグ
 };

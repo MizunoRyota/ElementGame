@@ -3,7 +3,6 @@
 
 class CharacterBase;
 class GameObject;
-class Enemy;
 
 // クリスタル（敵の周囲を回るギミック）
 class Crystal : public CharacterBase
@@ -15,10 +14,14 @@ public:
 	void Initialize() override;   // 初期化（モデル/状態）
 	void Update() override;       // 毎フレーム更新
 
-	void UpdateStateAction() override {};
+	void UpdateStateAction() override {}; // 各派生で行動ステート更新
+
+	void UpdateHandEffect() override {};
+
+	void InitializeStates() override {};
 
 	void DrawTitle() override {};
-	void Draw() override;         // 描画
+	void Draw() override;				// 描画
 	void DrawGameOver() override {};
 	void DrawGameClear() override {};
 
@@ -31,19 +34,20 @@ public:
 	void ChangeBreak();    // 破壊切替
 	void MoveHorizontal(); // 水平移動（周回）
 
-	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy_reference = setenemy; }
+    void ChangeCrystalIsBreak()		  { crystal_is_break = false; }	// 破壊状態リセット
+	bool GetCrystalIsInit()		const { return crystal_is_init; }		// 破壊状態リセット
+
+	bool GetCrystalIsBreak()	const { return crystal_is_break; } // 
 
 private:
 	static constexpr float CRYSTAL_SCALE = 0.010f;   // モデルの大きさ
-	static constexpr float ROTATION_RADIUS = 10.0f;   // 周回半径
+	static constexpr float ROTATION_RADIUS = 10.0f;  // 周回半径
 	static constexpr float ROTATION_SPEED = 0.015f;  // 角速度(rad/frame 相当)
 	static constexpr int   CRYSTAL_MAXHP = 20;       // 最大HP
-	static constexpr float offset_y = 10.0f;         // Y方向オフセット
+	static constexpr float OFFSET_Y = 10.0f;         // Y方向オフセット
 
-	bool crystal_init;     // 初期化済みか
-	bool crystal_break;      // 破壊状態か
-	float crystal_angle;     // 現在の角度
-
-	std::shared_ptr<Enemy> enemy_reference; // 敵参照（軌道中心など）
+	bool crystal_is_init;     // 初期化済みか
+	bool crystal_is_break;    // 破壊状態か
+	float crystal_angle;      // 現在の角度
 
 };

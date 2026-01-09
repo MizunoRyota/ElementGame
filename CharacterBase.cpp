@@ -1,6 +1,6 @@
 #include "stdafx.hpp"
 #include "CharacterBase.hpp"
-
+#include "src/Sounds/SoundManager.hpp"
 // ダメージ適用。無敵/既に死亡/0以下なら適用しない
 bool CharacterBase::TakeDamage(int amount)
 {
@@ -8,9 +8,11 @@ bool CharacterBase::TakeDamage(int amount)
 	if (IsDead()) return false;
 	if (IsInvincible()) return true;
 
-	character_hp -= amount;
+	SoundManager::GetSoundManager().PlayOnEnemySe();
 
-	if (character_hp < 0) character_hp = 0;
+	obj_hp -= amount;
+
+	if (obj_hp < 0) obj_hp = 0;
 	damage_invincible_timer = damage_invincible_duration; // 無敵開始
 	return true;
 }

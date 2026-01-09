@@ -17,6 +17,7 @@ Stage::Stage()
 
 Stage::~Stage()
 {
+	MV1DeleteModel(obj_modelhandle);
 }
 
 /// <summary>
@@ -26,8 +27,6 @@ void Stage::Initialize()
 {
 	obj_direction = VGet(0, 0, 0);
 	obj_position = VGet(0, 0, 0);
-
-	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::FireGround, obj_position); // ÉãÅ[Év(â‘âŒ)
 
 }
 

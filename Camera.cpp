@@ -1,11 +1,8 @@
 #include "stdafx.hpp"
 #include "GameObject.hpp"
 #include "Camera.hpp"
-#include "Player.hpp"
-#include "Enemy.hpp"
 #include "Input.hpp"
-
-using json = nlohmann::json;
+#include "ObjectAccessor.hpp"
 
 /// <summary>
 /// コンストラクタ
@@ -16,7 +13,7 @@ Camera::Camera()
     obj_position=VGet(0,0,0);
     camera_targetpos=VGet(0,0,0);
     camera_angle=VGet(0,0,0);
-    camera_dirction=VGet(0,0,0);
+    obj_direction=VGet(0,0,0);
     camera_shake=false;
     camera_shaketime=0;
     camera_angle_horizontal=0;
@@ -42,6 +39,7 @@ Camera::~Camera()
 {
     // 処理なし.
 }
+
 /// <summary>
 /// 初期化
 /// </summary>
@@ -49,22 +47,29 @@ void Camera::Initialize()
 {
     camera_shake = false;
     camera_shaketime = 0.0f;
+    // カメラの目線の位置
+    obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
+    obj_direction = VGet(0.0f, 0.0f, 1.0f);
+    camera_angle_horizontal = 0;
+    camera_angle_virtual = 0;
+    camera_targetpos = VAdd(obj_position, obj_direction);
+
+    SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
 
 void Camera::UpdateTitle()
 {
-    if (!enemy) return;
 
     // 目標: 敵の少し後方( -Z ) かつ少し上
-    const VECTOR targetFocus = VAdd(enemy->GetPosition(), VGet(0.0f, 1.0f, 0.0f));
-    const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -7.50f));
+    const VECTOR targetFocus = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(-3.0f, 1.0f, 0.0f));
+    const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -3.50f));
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
     obj_position = Lerp(obj_position, targetCamPos, 0.01f);
     camera_targetpos = Lerp(camera_targetpos, targetFocus, 0.01f);
 
     // 向きベクトル更新 (必要なら)
-    camera_dirction = VSub(camera_targetpos, obj_position);
+    obj_direction = VSub(camera_targetpos, obj_position);
 
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
@@ -76,7 +81,7 @@ void Camera::Update()
 {
 
     // カメラの目線の位置
-    obj_position = VAdd(player->GetPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
+    obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
     
     ShakeCamera();
 
@@ -139,11 +144,11 @@ void Camera::Update()
             camera_angle_virtual = -DX_PI_F * 0.5f + 0.6f;
         }
     }
-    camera_dirction.x = cosf(camera_angle_virtual) * sinf(camera_angle_horizontal);
-    camera_dirction.y = sinf(camera_angle_virtual);
-    camera_dirction.z = cosf(camera_angle_virtual) * cosf(camera_angle_horizontal);
+    obj_direction.x = cosf(camera_angle_virtual) * sinf(camera_angle_horizontal);
+    obj_direction.y = sinf(camera_angle_virtual);
+    obj_direction.z = cosf(camera_angle_virtual) * cosf(camera_angle_horizontal);
 
-    camera_targetpos = VAdd(obj_position, camera_dirction);
+    camera_targetpos = VAdd(obj_position, obj_direction);
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 
 }
@@ -161,10 +166,9 @@ VECTOR Camera::Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float da
 /// </summary>
 void Camera::UpdateGameClear()
 {
-    if (!enemy) return;
 
     // 目標: 敵の少し後方( -Z ) かつ少し上
-    const VECTOR targetFocus = VAdd(enemy->GetPosition(), VGet(0, 2.0f, 0));
+    const VECTOR targetFocus = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(0, 2.0f, 0));
     const VECTOR targetCamPos = VAdd(targetFocus, VGet(0.0f, 1.0f, -10.0f));
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
@@ -172,7 +176,7 @@ void Camera::UpdateGameClear()
     camera_targetpos = Lerp(camera_targetpos, targetFocus,   0.01f);
 
     // 向きベクトル更新 (必要なら)
-    camera_dirction = VSub(camera_targetpos, obj_position);
+    obj_direction = VSub(camera_targetpos, obj_position);
 
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
@@ -219,4 +223,19 @@ void Camera::ShakeCamera()
     const float offZ = randSign01() * (amplitude * 0.5f);
 
     obj_position = VAdd(obj_position, VGet(offX, offY, offZ));
+}
+
+void Camera::Draw()
+{
+    if (ChengeDebugFlag())
+    {
+        SetLogDrawArea(0, 100, 600, 1000);
+        setPrintColorDx(Pallet::DeepSkyBlue.GetHandle());
+        printfDx("CameraPosition.x: %f", obj_position.x);
+        printfDx(" y %f", obj_position.y);
+        printfDx(" z %f\n\n", obj_position.z);
+        printfDx("CameraDirection.x: %f", obj_direction.x);
+        printfDx(" y %f", obj_direction.y);
+        printfDx(" z %f\n\n", obj_direction.z);
+    }
 }

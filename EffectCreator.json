@@ -1,0 +1,27 @@
+{
+
+  "EffectList": [
+    { "Path": "data/effekseer/effekseer/Effect/BulletFire.efkefc", "Scale": 0.5 },
+    { "Path": "data/effekseer/effekseer/Effect/BulletWater.efkefc", "Scale": 0.6 },
+    { "Path": "data/effekseer/effekseer/Effect/BulletWind.efkefc", "Scale": 0.6 },
+    { "Path": "data/effekseer/effekseer/Effect/SpecialAttack.efkefc", "Scale": 1.0 },
+    { "Path": "data/effekseer/effekseer/Effect/BulletHit.efkefc", "Scale": 0.15 },
+    { "Path": "data/effekseer/effekseer/Effect/FireGround.efkefc", "Scale": 4.5 },
+    { "Path": "data/effekseer/effekseer/Effect/BossDeath.efkefc", "Scale": 1.0 },
+    { "Path": "data/effekseer/effekseer/Effect/EnemyCharge.efkefc", "Scale": 3.5 },
+    { "Path": "data/effekseer/effekseer/Effect/Laser.efkefc", "Scale": 0.1 },
+    { "Path": "data/effekseer/effekseer/Effect/Roar.efkefc", "Scale": 3.5 },
+    { "Path": "data/effekseer/effekseer/Effect/FireWorks.efkefc", "Scale": 0.5 },
+    { "Path": "data/effekseer/effekseer/Effect/HandEffect.efkefc", "Scale": 0.05 },
+    { "Path": "data/effekseer/effekseer/Effect/ChargeLaser.efkefc", "Scale": 0.05 },
+    { "Path": "data/effekseer/effekseer/Effect/Barrior.efkefc", "Scale": 1.2 },
+    { "Path": "data/effekseer/effekseer/Effect/BulletPlayer.efkefc", "Scale": 0.3 },
+    { "Path": "data/effekseer/effekseer/Effect/BreakCrystal.efkefc", "Scale": 2.0 },
+    { "Path": "data/effekseer/effekseer/Effect/EnemyStun.efkefc", "Scale": 3.0 },
+    { "Path": "data/effekseer/effekseer/Effect/ReadyAttack.efkefc", "Scale": 2.0 },
+    { "Path": "data/effekseer/effekseer/Effect/Crystal.efkefc", "Scale": 2.5 },
+    { "Path": "data/effekseer/effekseer/Effect/ChargeBeam.efkefc", "Scale": 1.5 },
+    { "Path": "data/effekseer/effekseer/Effect/EternalLaser.efkefc", "Scale": 0.1 },
+    { "Path": "data/effekseer/effekseer/Effect/Flame.efkefc", "Scale": 1.0 }
+  ]
+}

@@ -12,6 +12,7 @@ TakeDamageUi::TakeDamageUi(const std::shared_ptr<Player>& player)
 
 TakeDamageUi::~TakeDamageUi()
 {
+	DeleteGraph(graph_handle);
 }
 
 void TakeDamageUi::Update()
@@ -20,10 +21,7 @@ void TakeDamageUi::Update()
 	bool tookDamageThisFrame = false;
 	if (auto p = player_.lock())
 	{
-		// CharacterBase に無敵タイマー取得 API がなければ必要に応じて追加する想定
-		// ここでは被弾直後は IsInvincible() が true になる前提で、前フレームとの差で被弾検出
-		// 簡易: HP 減少を検出(要: 前フレームHP保持) -> 現状その仕組み無いので無敵残り時間を使う案
-		// 仮: IsInvincible() が true かつ 前フレームで false だったら被弾
+		// IsInvincible() が true かつ 前フレームで false だったら被弾
 		bool nowInv = p->IsInvincible();
 		bool prevInv = (recent_invincible_prev_ > 0);
 		if (nowInv && !prevInv)

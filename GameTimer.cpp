@@ -13,6 +13,11 @@ GameTimer::GameTimer()
     graph_handle = LoadDivGraph("data/Texture/Numbers.png", 11, 11, 1, 64, 64, graph_array);
 }
 
+GameTimer::~GameTimer()
+{
+    DeleteGraph(graph_handle);
+}
+
 void GameTimer::Update()
 {
     if (timer_paused) return;

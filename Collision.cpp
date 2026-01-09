@@ -36,10 +36,7 @@ bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphere_center, float s
 
 bool Collision::CheckSegmentSegmentColliison(const VECTOR& charaOriginPosition, const VECTOR& charaEndPosition, const VECTOR& LaserOriginPosition, const VECTOR& LaserEndPosition)
 {
-    float length = Segment_Segment_MinLength(charaOriginPosition, charaEndPosition, LaserOriginPosition, LaserEndPosition);
-
-    DrawLine3D(charaOriginPosition, charaEndPosition,Pallet::AliceBlue.GetHandle());
-    DrawLine3D(LaserOriginPosition, LaserEndPosition, Pallet::AliceBlue.GetHandle());
+   float length = Segment_Segment_MinLength(charaOriginPosition, charaEndPosition, LaserOriginPosition, LaserEndPosition);
 
     // ãóó£Ç™çáåvîºåaà»â∫Ç»ÇÁè’ìÀ
     return length <= SEGMENT_COLLISION_MAX;

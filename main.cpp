@@ -25,6 +25,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #endif	// _DEBUG
 	// 画面モードのセット
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
+	//SetGraphMode(1600, 900, 32);
+
 	ChangeWindowMode(TRUE);
 
 	// DXライブラリを初期化する。
@@ -83,6 +85,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				debugPauseFlag = false;
 			}
 		}
+
 		auto prevTime = GetNowHiPerformanceCount();	// 処理が始まる前の時間
 
 		scene_manager->Update();

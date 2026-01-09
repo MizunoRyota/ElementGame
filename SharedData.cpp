@@ -12,7 +12,6 @@
 #include "UiHpBar.hpp"
 #include "UiEnemyHpBar.hpp"
 #include "GameTimer.hpp"
-#include "DarkFilm.hpp"
 #include "reticle.hpp"
 #include "UiDashBar.hpp"
 #include "Text.hpp"
@@ -20,7 +19,7 @@
 #include "BulletCreator.hpp"
 #include "SceneGraph.hpp"
 #include "Crystal.hpp"
-
+#include "ObjectAccessor.hpp"
 
 SharedData::SharedData()
 {
@@ -34,24 +33,20 @@ SharedData::SharedData()
     enemy = std::make_shared<Enemy>();
     crystal = std::make_shared<Crystal>();
     ui = std::make_shared<UiManager>();
-
-    //参照渡し
-    camera->SetPlayer(player);
-    camera->SetEnemy(enemy);
-    enemy->SetPlayer(player);
-    crystal->SetEnemy(enemy);
-    player->SetEnemy(enemy);
-    player->SetCamera(camera);
-    player->SetInput(input);
+    
+    ObjectAccessor::GetObjectAccessor().SetPlayer(player);
+    ObjectAccessor::GetObjectAccessor().SetEnemy(enemy);
+    ObjectAccessor::GetObjectAccessor().SetInput(input);
+    ObjectAccessor::GetObjectAccessor().SetCamera(camera);
+    ObjectAccessor::GetObjectAccessor().SetCrystal(crystal);
 
     // UI要素登録 (プレイヤーHP / 敵HP)
-    ui->AddElement(std::make_shared<DarkFilm>(enemy));      // 暗転を追加
-    ui->AddElement(std::make_shared<UiHpBar>(player));      // プレイヤーのHPバー
-    ui->AddElement(std::make_shared<UiEnemyHpBar>(enemy));  // エネミーのHPバー
-    ui->AddElement(std::make_shared<GameTimer>());          // ゲームタイマー追加
-    ui->AddElement(std::make_shared<UiDashBar>(player));    // ゲームタイマー追加
-    ui->AddElement(std::make_shared<TakeDamageUi>(player));    // ゲームタイマー追加
-    ui->AddElement(std::make_shared<Reticle>());            // レティクル
+    ui->AddElement(std::make_shared<UiHpBar>(player));       // プレイヤーのHPバー
+    ui->AddElement(std::make_shared<UiEnemyHpBar>(enemy));   // エネミーのHPバー
+    ui->AddElement(std::make_shared<GameTimer>());           // ゲームタイマー追加
+    ui->AddElement(std::make_shared<UiDashBar>(player));     // ゲームタイマー追加
+    ui->AddElement(std::make_shared<TakeDamageUi>(player));  // ゲームタイマー追加
+    ui->AddElement(std::make_shared<Reticle>());             // レティクル
     ui->AddElement(std::make_shared<Text>());
     ui->AddElement(std::make_shared<SceneGraph>());
 
@@ -65,7 +60,6 @@ SharedData::SharedData()
     AddGameList(camera);
     AddGameList(crystal);
 
-
     //影を写すオブジェクト登録
     AddShadowReady(player);
     AddShadowReady(enemy);
@@ -78,7 +72,7 @@ SharedData::~SharedData()
 
 void SharedData::AddTitleList(std::shared_ptr<GameObject> obj)
 {
-    objects_title.push_back(obj);
+    objects_game.push_back(obj);
 }
 
 void SharedData::AddGameList(std::shared_ptr<GameObject> obj)
@@ -88,12 +82,12 @@ void SharedData::AddGameList(std::shared_ptr<GameObject> obj)
 
 void SharedData::AddGameClearList(std::shared_ptr<GameObject> obj)
 {
-    objects_gameclear.push_back(obj);
+    objects_game.push_back(obj);
 }
 
 void SharedData::AddGameOverList(std::shared_ptr<GameObject> obj)
 {
-    objects_gameover.push_back(obj);
+    objects_game.push_back(obj);
 
 }
 void SharedData::AddShadowReady(std::shared_ptr<GameObject> obj)
@@ -173,6 +167,8 @@ void SharedData::DrawTitle()
         object->Draw();
     }
     if (ui) ui->DrawTitle();
+    // 置き換え: 直接DrawEffekseer3D()ではなく、マネージャ描画
+    EffectCreator::GetEffectCreator().Draw();
 }
 
 void SharedData::DrawTutorial()
@@ -182,6 +178,8 @@ void SharedData::DrawTutorial()
         object->Draw();
     }
     if (ui) ui->DrawTutorial();
+    // 置き換え: 直接DrawEffekseer3D()ではなく、マネージャ描画
+    EffectCreator::GetEffectCreator().Draw();
 }
 
 void SharedData::DrawAll()

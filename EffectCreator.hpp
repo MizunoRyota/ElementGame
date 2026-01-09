@@ -7,9 +7,9 @@ class EffectCreator
 public:
 	enum class EffectType : int
 	{
-		BulletStraight,
-		BulletDiffusion,
-		BulletHoming, // 追尾弾
+		BulletFire,
+		BulletWater,
+		BulletWind, // 追尾弾
 		BulletSpecial,
 		BulletHit,
 		FireGround,
@@ -19,14 +19,16 @@ public:
 		Roar,
 		FireWorks,
 		HandEffect,
-		HandCharge,
+		ChargeLaser,
 		Barrior,
 		BulletPlayer,
 		BreakCrystal,
-		EnemyTire,
+		EnemyStun,
 		ReadyAttack,
 		Crystal,
-		ChargeEnergy,
+		ChargeBeam,
+		EternalLaser,
+		Flame,
 	};
 
 	static EffectCreator& GetEffectCreator()
@@ -36,6 +38,9 @@ public:
 	}
 
 	void Initialize();   // 初期化（エフェクト読み込み）
+
+	void LoadJson();    // JSON読み込み
+
 	void Update();       // フレーム更新（Effekseer更新）
 	void Draw();         // 描画
 	void Play(EffectType EffectType, const VECTOR& position); // 再生（即席）
@@ -49,7 +54,6 @@ public:
 	void SetLoopPosition(EffectType type, const VECTOR& position);
 
 	void SetRotateEffect(EffectType type, const VECTOR& dir); // 位置をターゲットとして回転設定（従来）
-	void SetRotateEffectDirection(EffectType type, const VECTOR& direction); // 方向ベクトルから即時回転設定
 
 private:
 	EffectCreator() = default;
@@ -57,24 +61,25 @@ private:
 	EffectCreator(const EffectCreator&) = delete;
 	EffectCreator& operator=(const EffectCreator&) = delete;
 
-	static constexpr int   EFFECT_NUM = 20;          // 事前読み込み数
+	static constexpr int   EFFECT_NUM = 22;          // 事前読み込み数
 	static constexpr float EFFECT_HIGHT = 0.3f;      // 基準高さオフセット
 	static constexpr float EFFECT_SCALE = 4.5f;      // 表示スケール
 	static constexpr float EFFCT_PLAYSPEED = 0.20f;  // 再生速度
 	static constexpr float EFFECT_ENDTIME = 120.0f;  // 終了許容閾値
-	static constexpr float ANGLE_SPEED = 0.5f;      // 基準高さオフセット
+	static constexpr float ANGLE_SPEED = 10.0f;      // 基準高さオフセット
 
 	int   effect_handle;         // 一時ハンドル
 	int   effect_playinghandle;  // 再生中ハンドル
 	float effect_playtime;       // 再生時間
-	bool  effect_is_play;         // 再生中
-	bool  effect_is_end;          // 終了済
-	float effect_move_angle; // effectの向き(ヨー)
-	bool  effect_initialized = false; // 初期化済みか
+	bool  effect_is_play;        // 再生中
+	bool  effect_is_end;         // 終了済
+	float effect_move_angle;	 // effectの向き
+	float effect_angle_horizon;
+	bool  effect_initialized = false;   // 初期化済みか
 	int   effect_handles[EFFECT_NUM]{}; // 読み込み済配列
 
 	// ループ再生管理
 	bool   loop_enabled[EFFECT_NUM]{};
 	int    loop_playing_handles[EFFECT_NUM]{};
-	VECTOR loop_positions[EFFECT_NUM]{}; // 最終位置
+	VECTOR loop_positions[EFFECT_NUM]{};		// 最終位置
 };

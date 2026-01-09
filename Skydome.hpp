@@ -24,9 +24,11 @@ public:
 private:
 	// 定数
 	static constexpr float SCALE = 0.40f;    // 大きさ
-	static constexpr float MOVESPEED = 0.0004f; // 回転速度
+	static constexpr float SUNNY_MOVESPEED = 0.0002f; // 回転速度
+	static constexpr float CLOUD_MOVESPEED = 0.0006f; // 回転速度
 
-	int skydome_modelhandle;   // モデル
-	VECTOR skydome_position;   // 位置
-	VECTOR skydome_dirciton;   // 回転
+	int cloud_modelhandle;   // モデル
+	float sunny_direction;
+	float cloud_direction;
+
 };

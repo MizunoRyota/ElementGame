@@ -1,14 +1,14 @@
 #include "stdafx.hpp"
 #include "SceneGraph.hpp"
 #include "UiManager.hpp"
-
+#include "ObjectAccessor.hpp"
 SceneGraph::SceneGraph()
 {
 	button_pos_y = 0;
 	button_is_down = true;
 
 	title_graph = LoadGraph("data/Texture/Title.png");
-	titlebutton_graph = LoadGraph("data/Texture/TitleButton.png");
+	a_button_graph = LoadGraph("data/Texture/TitleAButton.png");
 
 	tutorial_graph = LoadGraph("data/Texture/Tutorial.png");
 	tutorialbutton_graph = LoadGraph("data/Texture/TutorialButton.png");
@@ -23,6 +23,13 @@ SceneGraph::SceneGraph()
 
 SceneGraph::~SceneGraph()
 {
+	DeleteGraph(title_graph);
+	DeleteGraph(a_button_graph);
+	DeleteGraph(tutorial_graph);
+	DeleteGraph(tutorialbutton_graph);
+	DeleteGraph(graph_handle);
+	DeleteGraph(gameclear_graph);
+	DeleteGraph(gameover_graph);
 }
 
 void SceneGraph::Update()
@@ -53,22 +60,50 @@ void SceneGraph::Draw() const
 void SceneGraph::DrawTitle() const
 {
 	DrawGraphF(0, 0, title_graph, true);
-	DrawGraphF(0, button_pos_y, titlebutton_graph, true);
+	if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
+	{
+		DrawGraphF(0, button_pos_y, a_button_graph, true);
+	}
+	else
+	{
+		DrawGraphF(0, button_pos_y, tutorialbutton_graph, true);
+	}
 }
 
 void SceneGraph::DrawTutorial() const
 {
 	DrawGraphF(0, 0, tutorial_graph, true);
-	DrawGraphF(0, button_pos_y, tutorialbutton_graph, true);
+	if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
+	{
+		DrawGraphF(0, button_pos_y, a_button_graph, true);
+	}
+	else
+	{
+		DrawGraphF(0, button_pos_y, tutorialbutton_graph, true);
+	}
 }
 
 void SceneGraph::DrawGameOver() const
 {
 	DrawGraphF(0, 0, gameover_graph, true);
-	DrawGraphF(0, button_pos_y, titlebutton_graph, true);
+	if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
+	{
+		DrawGraphF(0, button_pos_y, a_button_graph, true);
+	}
+	else
+	{
+		DrawGraphF(0, button_pos_y, tutorialbutton_graph, true);
+	}
 }
 void SceneGraph::DrawGameClear() const
 {
 	DrawGraphF(0, 0, gameclear_graph, true);
-	DrawGraphF(0, button_pos_y, titlebutton_graph, true);
+	if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
+	{
+		DrawGraphF(0, button_pos_y, a_button_graph, true);
+	}
+	else
+	{
+		DrawGraphF(0, button_pos_y, tutorialbutton_graph, true);
+	}
 }

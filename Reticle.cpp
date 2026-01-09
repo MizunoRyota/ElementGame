@@ -9,6 +9,8 @@ Reticle::Reticle()
 
 Reticle::~Reticle()
 {
+	DeleteGraph(graph_handle);
+
 }
 
 void Reticle::Update()

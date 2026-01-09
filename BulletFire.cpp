@@ -4,10 +4,11 @@
 #include "BulletCreator.hpp"
 #include "Player.hpp"
 #include "EffectCreator.hpp"
+#include "src/Sounds/SoundManager.hpp"
 
 BulletFire::BulletFire()
 {
-	bullet_firecooltimer = 0; // 発射クール初期化
+	bullet_fire_cooltimer = 0; // 発射クール初期化
 }
 
 BulletFire::~BulletFire() {}
@@ -18,41 +19,48 @@ int BulletFire::ToEffectIndex(EffectFlavor effect_flavor)
 	using ET = EffectCreator::EffectType;
 	switch (effect_flavor)
 	{
-	case EffectFlavor::Fire:return (int)ET::BulletStraight;
-	case EffectFlavor::Water:return (int)ET::BulletDiffusion;
-	case EffectFlavor::Wind:return (int)ET::BulletHoming;
-	case EffectFlavor::Special:return (int)ET::BulletSpecial;
-	case EffectFlavor::Hit:return (int)ET::BulletHit;
+	case EffectFlavor::BulletFire:return (int)ET::BulletFire;
+	case EffectFlavor::BulletWater:return (int)ET::BulletWater;
+	case EffectFlavor::BulletWind:return (int)ET::BulletWind;
+	case EffectFlavor::BulletSpecial:return (int)ET::BulletSpecial;
+	case EffectFlavor::BulletHit:return (int)ET::BulletHit;
 	case EffectFlavor::FireGround:return (int)ET::FireGround;
-	case EffectFlavor::PlayerAttack:return (int)ET::BulletPlayer;
+	case EffectFlavor::BulletPlayer:return (int)ET::BulletPlayer;
 	}
-	return (int)ET::BulletHoming; // 既定
+	return (int)ET::BulletWind; // 既定
 }
 
 // 直進弾
 void BulletFire::FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
-	if (bullet_firecooltimer > 0) return; // クール中
-	BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::Fire));
+	if (bullet_fire_cooltimer > 0) return; // クール中
+	BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::BulletFire));
 }
 
 // プレイヤー弾
 void BulletFire::FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
-	if (bullet_firecooltimer > 0) return; // クール中
-	bullet_firecooltimer = BULLET_COOLTIME; // クール開始
-	BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::PlayerAttack));
+	if (bullet_fire_cooltimer > 0) return; // クール中
+	
+	SoundManager::GetSoundManager().PlayFireSe();
+
+	bullet_fire_cooltimer = BULLET_COOLTIME; // クール開始
+	BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::BulletPlayer));
 }
 
 // 拡散弾
 void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
+
+	SoundManager::GetSoundManager().PlayFireSe();
+
+
 	VECTOR bulletForword = VNorm(dir); // 基準方向
 	float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS; // 回転角
 	bulletForword = BulletRotateHorizontal(bulletForword, -bulletRotate * DIFFUSION_OFFSET); // 初期ずらし
 	for (int bullet_num = 0; bullet_num < DIFFUSION_NUM; bullet_num++)
 	{
-		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::Water));
+		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::BulletWater));
 		bulletForword = BulletRotateHorizontal(bulletForword, bulletRotate);
 	}
 }
@@ -64,7 +72,7 @@ void BulletFire::FireVertical(const VECTOR& pos, const VECTOR& dir, const float&
 	float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS;
 	for (int bullet_num = 0; bullet_num < DIFFUSION_NUM; bullet_num++)
 	{
-		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::Fire));
+		BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::BulletFire));
 		bulletForword = BulletRotateVertical(bulletForword, bulletRotate);
 	}
 }
@@ -75,8 +83,11 @@ void BulletFire::FireHoming(const VECTOR& pos,
 	const float& speed,
 	const std::shared_ptr<GameObject>& target)
 {
-	if (bullet_firecooltimer > 0) return;
-	bullet_firecooltimer = BULLET_COOLTIME;
+	if (bullet_fire_cooltimer > 0) return;
+
+	SoundManager::GetSoundManager().PlayFireSe();
+
+	bullet_fire_cooltimer = BULLET_COOLTIME;
 	BulletCreator::GetBulletCreator().CreateHomingBullet(
 		pos,
 		dir,
@@ -88,14 +99,18 @@ void BulletFire::FireHoming(const VECTOR& pos,
 		},
 		HOMING_DURATION,
 		HOMING_TURN_SPEED,
-		ToEffectIndex(EffectFlavor::Wind));
+		ToEffectIndex(EffectFlavor::BulletWind));
 }
 
 // 全方位落下など特殊攻撃
 void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
-	if (bullet_firecooltimer > 0) return;
-	bullet_firecooltimer = BULLET_COOLTIME;
+	if (bullet_fire_cooltimer > 0) return;
+
+	SoundManager::GetSoundManager().PlayExplosionSe();
+
+
+	bullet_fire_cooltimer = BULLET_COOLTIME;
 
 	int specialRingNum = 16;                 // 外周弾数
 	const VECTOR downDir = VGet(0.0f, -1.0f, 0.0f);
@@ -111,7 +126,7 @@ void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const f
 			float ang = DX_TWO_PI_F * t;
 			VECTOR offset = VGet(cosf(ang) * radius, DROP_HEIGHT, sinf(ang) * radius);
 			VECTOR spawnPos = VAdd(pos, offset);
-			BulletCreator::GetBulletCreator().CreateBullet(spawnPos, downDir, speed, ToEffectIndex(EffectFlavor::Special));
+			BulletCreator::GetBulletCreator().CreateBullet(spawnPos, downDir, speed, ToEffectIndex(EffectFlavor::BulletSpecial));
 
 			// マーカー表示等を行うならここで groundPos を使用
 			VECTOR groundPos = VAdd(pos, VGet(cosf(ang) * radius, 0.0f, sinf(ang) * radius));
@@ -122,7 +137,7 @@ void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const f
 // クールタイマ更新
 void BulletFire::FireUpdate()
 {
-	if (bullet_firecooltimer > 0) bullet_firecooltimer--;
+	if (bullet_fire_cooltimer > 0) bullet_fire_cooltimer--;
 }
 
 // 水平方向の回転

@@ -24,7 +24,7 @@ private:
 	float button_pos_y;   // YˆÊ’u
 
 	int title_graph;
-	int titlebutton_graph;
+	int a_button_graph;
 	int tutorial_graph;
 	int tutorialbutton_graph;
 	int gameover_graph;
