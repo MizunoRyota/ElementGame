@@ -21,7 +21,7 @@ void StateWindAttack::Update()
 {
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimationFrame() == WINDATTACK_TIMING)
 	{
-		//enemy_bullet->FireHoming(ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition(), ObjectAccessor::GetObjectAccessor().GetEnemyDirection(), WINDBULLET_SPEED);
+		enemy_bullet->FireHoming(ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition(), ObjectAccessor::GetObjectAccessor().GetEnemyDirection(), WINDBULLET_SPEED);
 	}
 	enemy_bullet->FireUpdate(); // ’eƒN[ƒ‹
 

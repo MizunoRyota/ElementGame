@@ -36,24 +36,18 @@ void BulletCreator::CreateBullet(const VECTOR& pos, const VECTOR& dir, const flo
 	}
 }
 
-// 追加: ホーミング弾
-void BulletCreator::CreateHomingBullet(const VECTOR& pos,
-	const VECTOR& dir,
-	float speed,
-	std::function<VECTOR()> targetGetter,
-	float homingTime,
-	float turnSpeedRad,
-	int effectTypeIndex)
+void BulletCreator::CreateHomingBullet(const VECTOR& pos, const VECTOR& dir, const float& speed, std::function<VECTOR()> targetGetter, float homingDuration, float turnSpeedRad, int effectTypeIndex)
 {
 	for (auto& bullet : bullets)
 	{
 		if (!bullet->IsActive())
 		{
-			bullet->InitializeHoming(pos, dir, speed, std::move(targetGetter), homingTime, turnSpeedRad, effectTypeIndex);
+			bullet->InitializeHoming(pos, dir, speed, std::move(targetGetter), homingDuration, turnSpeedRad, effectTypeIndex);
 			break;
 		}
 	}
 }
+
 
 void BulletCreator::Update()
 {

@@ -16,6 +16,7 @@ EnemyStateDodge::~EnemyStateDodge()
 void EnemyStateDodge::Enter()
 {
     dodge_time = DODGE_TIMER;
+    StartHandEffectForAttack();
 }
 
 void EnemyStateDodge::Update()
@@ -39,6 +40,14 @@ void EnemyStateDodge::Update()
     {
         dodge_position = VAdd(dodge_position, VScale(right, DODGE_SPEED));
     }
+
+    UpdateEffectHandle();
+
+}
+
+void EnemyStateDodge::Exit()
+{
+    StopHandEffect();
 }
 
 EnemyStateKind EnemyStateDodge::GetNextState()

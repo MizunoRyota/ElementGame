@@ -2,7 +2,6 @@
 #include "CharacterBase.hpp"
 #include "EnemyStateKind.hpp"
 #include "AnimaterBase.hpp"
-#include "EffectCreator.hpp" // エフェクト生成
 
 class GameObject;
 class CharaterBase;
@@ -35,7 +34,7 @@ public:
 
 	void UpdateStateAction()override; // ステートに応じた行動更新
 
-	void UpdateHandEffect()override;  // 手エフェクトの更新
+	void UpdateHandEffect()override {};  // 手エフェクトの更新
 
 	void UpdateAngle();               // 向き更新（ターゲット方向など）
 
@@ -43,7 +42,6 @@ public:
 
 	void Draw()override;              // 描画
 
-	const VECTOR& GetHitPosition()				const { return VAdd(obj_position,VGet(0, ENEMY_HITEFFECT_HEIGHT,0)); } // 被弾エフェクト座標
 
 	const VECTOR& GetEnemyDirection()			const { return obj_direction; } // 被弾エフェクト座標
 
@@ -51,24 +49,19 @@ public:
 
 	const int& GetDamageStrength()				const { return DAMAGE_STRENGTH; } // 与ダメージ量
 
-	const bool& GetAnimationIsEnd()				const { return enemy_animater->GetAmimIsEnd(); }
+	bool GetAnimationIsEnd()					const { return enemy_animater->GetAmimIsEnd(); }
 
-	const float& GetAnimationFrame()			const { return enemy_animater->GetAnimationFrame(); }
+	float GetAnimationFrame()					const { return enemy_animater->GetAnimationFrame(); }
+
+	VECTOR GetHitPosition()						const { return VAdd(obj_position,VGet(0, ENEMY_HITEFFECT_HEIGHT,0)); } // 被弾エフェクト座標
 
 private:
-
-	void StopHandEffect();
 	
 	// ===== ダメージ・HP・スケール =====
 	static constexpr int DAMAGE_STRENGTH = 10;                 // 与ダメージ基本値
 	static constexpr float ENEMY_HITEFFECT_HEIGHT = 2.5f;      // 被弾エフェクトの高さ
 	static constexpr float ENEMY_SCALE = 0.02f;                // モデル拡大率
 	static constexpr int ENEMY_MAXHP = 100;                    // 最大HP
-
-	// ===== フェーズ用HPしきい値 =====
-	//static constexpr int ENEMY_FHASE_ONE = 150;   // Phase1 開始HP
-	static constexpr int ENEMY_FHASE_TWO = 100;     // Phase2 以降HP
-	static constexpr int ENEMY_FHASE_THREE = 75;    // Phase3 以降HP
 
 	// ===== 状態変数 =====
 	int enemy_handname;						// モデル内「手」フレームのID

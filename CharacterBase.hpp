@@ -20,7 +20,7 @@ public:
 	void DrawGameClear() override { Draw(); }
 
 	// === Damage System API ===
-	void ConfigureDamageCooldown(int frames) { damage_invincible_duration = frames; } // 無敵時間(フレーム)設定
+	void ConfigureDamageCooldown(float frames) { damage_invincible_duration = frames; } // 無敵時間(フレーム)設定
 	bool TakeDamage(int amount);                    // ダメージ適用。HPを減少させた場合 true
 	void TickDamageCooldown();                      // 無敵タイマー進行(Update 等で呼ぶ)
 
@@ -32,6 +32,8 @@ public:
 	float GetCapsuleHeight()	const { return COLLISION_CAPSULE_HEIGHT; }			// 衝突高さ
 	virtual const int& GetHp()	const { return obj_hp; }							// 現在HP
 	VECTOR GetHandPosition()	const { return character_hand_position; }			//キャラクターの手のポジション
+
+	VECTOR GetCapsuleTop()	const { return VAdd(obj_position, VGet(0, COLLISION_CAPSULE_HEIGHT, 0)); } // カプセル上端座標
 
 protected:
 	static constexpr float MAX_RANGE = 20.0f;			// 自動復帰させる境界半径
@@ -45,6 +47,6 @@ protected:
 	VECTOR character_hand_position = VGet(0, 0, 0);		// 発射等に用いる手先位置キャッシュ
 
 	// === Damage System State ===
-	int damage_invincible_timer = 0;					// 残り無敵フレーム（0 で通常）
-	int damage_invincible_duration = 0;					// 被弾後に付与する無敵総フレーム
+	float damage_invincible_timer = 0;					// 残り無敵フレーム（0 で通常）
+	float damage_invincible_duration = 0;					// 被弾後に付与する無敵総フレーム
 };

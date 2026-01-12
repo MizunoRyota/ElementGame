@@ -22,10 +22,11 @@ public:
 	template <class SceneType>
 	void Add(const std::string_view name)
 	{
-		m_scenes[name] = new SceneType{ *this, *m_sharedData };
+		const std::string key{name};
+		m_scenes[key] = new SceneType{ *this, *m_sharedData };
 		if (m_nowScene == nullptr)
 		{
-			m_nowScene = m_scenes[name];
+			m_nowScene = m_scenes[key];
 			m_nowScene->Initialize();
 		}
 	}
@@ -34,7 +35,7 @@ public:
 	void ChangeScene(std::string_view name);
 
 private:
-	std::unordered_map<std::string_view, Scene*> m_scenes; // 登録シーン
+	std::unordered_map<std::string, Scene*> m_scenes; // 登録シーン
 	Scene* m_nowScene;                                     // 現在シーン
 	SharedData* m_sharedData;                              // 共有データ
 };

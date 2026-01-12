@@ -10,22 +10,9 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
-#ifdef _DEBUG	// コンソールDebug用変数
-	FILE* _out;
-	FILE* _in;
-	// _DEBUG
 
-	// コンソールDebug用
-	AllocConsole();							// コンソール
-	_out = 0;
-	freopen_s(&_out, "CON", "w", stdout);	// stdout
-	_in = 0;
-	freopen_s(&_in, "CON", "r", stdin);		// stdin
-
-#endif	// _DEBUG
 	// 画面モードのセット
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
-	//SetGraphMode(1600, 900, 32);
 
 	ChangeWindowMode(TRUE);
 
@@ -59,9 +46,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	std::shared_ptr<SceneManager> scene_manager = std::make_shared<SceneManager>();
 
+
 	scene_manager->Add<TitleScene>("TitleScene");
 	scene_manager->Add<TutorialScene>("TutorialScene");
-
 	scene_manager->Add<GameScene>("GameScene");
 	scene_manager->Add<GameOverScene>("GameOverScene");
 	scene_manager->Add<GameClearScene>("GameClearScene");
@@ -105,10 +92,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 後始末
 	// ＤＸライブラリの後始末
 	DxLib_End();
-
-#ifdef _DEBUG	// コンソールDebug用
-	fclose(_out); fclose(_in); FreeConsole();//コンソール解放
-#endif	// _debug
 
 	// ソフトの終了
 	return 0;

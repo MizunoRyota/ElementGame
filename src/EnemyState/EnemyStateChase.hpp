@@ -22,15 +22,16 @@ public:
 
 	void UpdateEffectHandle();
 
+	void ChoseRange();
+
 	EnemyStateKind GetNextState()override;
 
 private:
-	EffectCreator::EffectType MapEffectTypeForAttack(int attackState) const; // 攻撃ステートに応じたエフェクト種別へ変換
-
+	EffectCreator::EffectType MapEffectTypeForAttack(float attackState) const; // 攻撃ステートに応じたエフェクト種別へ変換
 
 	static constexpr float FIRE_RANGE = 5.0f;
-	static constexpr float WIND_RANGE = 20.0f;
-	static constexpr float WATER_RANGE = 40.0f;
+	static constexpr float WATER_RANGE = 11.0f;
+	static constexpr float WIND_RANGE = 15.0f;
 	static constexpr float SPECIAL_RANGE = 8.0f;
 	static constexpr float MOVE_SPEED = 0.125f;   // 基本移動速度
 	static constexpr float ORIGIN_OFFSET = 0.1f;  // 原点とみなす誤差

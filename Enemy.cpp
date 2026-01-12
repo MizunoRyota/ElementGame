@@ -68,7 +68,6 @@ void Enemy::Initialize()
 	float angle = atan2(obj_direction.x, obj_direction.z);
 	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, angle + DX_PI_F, 0.0f));
 
-	StopHandEffect(); // 開始時は手エフェクトなし
 	SetPosition();    // モデル座標反映
 }
 
@@ -114,7 +113,6 @@ void Enemy::Update()
 	UpdateAngle();				// プレイヤーの方向を向く
 	UpdateStateAction();		// ステート処理
 	enemy_animater->Update();	// 
-	UpdateHandEffect();			// 手エフェクト追従
 	CheckMoveRange();			// 行動範囲補正
 	SetPosition();				// モデル位置反映
 	TickDamageCooldown();		// 無敵進行
@@ -123,7 +121,6 @@ void Enemy::Update()
 // ゲームクリア時更新（死亡演出+花火）
 void Enemy::UpdateGameClear()
 {
-	StopHandEffect();
 	// 一度だけ死亡/花火開始
 	if (!enemy_is_die)
 	{
@@ -155,17 +152,6 @@ void Enemy::UpdateGameOver()
 	enemy_animater->Update();
 }
 
-// 手エフェクト停止
-void Enemy::StopHandEffect()
-{
-	if (enemy_hand_effect_handle >= 0)
-	{
-		StopEffekseer3DEffect(enemy_hand_effect_handle);
-		enemy_hand_effect_handle = -1;
-		enemy_hand_effect_attack_state = -1;
-	}
-}
-
 // ステート毎の処理
 void Enemy::UpdateStateAction()
 {
@@ -183,17 +169,6 @@ void Enemy::UpdateStateAction()
 
 }
 
-// 手エフェクトの追従
-void Enemy::UpdateHandEffect()
-{
-	if (enemy_hand_effect_handle >= 0)
-	{
-		character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname);
-		SetPosPlayingEffekseer3DEffect(enemy_hand_effect_handle, character_hand_position.x, character_hand_position.y, character_hand_position.z);
-	}
-	character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname);
-}
-
 // プレイヤー方向を向く
 void Enemy::UpdateAngle()
 {
@@ -209,14 +184,15 @@ void Enemy::UpdateAngle()
 void Enemy::SetPosition()
 {
 	MV1SetPosition(obj_modelhandle, obj_position);
+	character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname);
 }
 
 // 描画
 void Enemy::Draw()
 {
-	std::cout << "enemystate: " << EnemyStateToString(enemy_state_kind) << std::endl;
 
 	MV1DrawModel(obj_modelhandle);
+
 	if (ChengeDebugFlag())
 	{
 		SetLogDrawArea(0, 100, 600, 1000);

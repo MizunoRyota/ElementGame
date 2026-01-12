@@ -34,22 +34,14 @@ void SceneManager::Draw() const
 
 void SceneManager::ChangeScene(const std::string_view name)
 {
-#ifdef _DEBUG
-    
-    try
-    {
-        m_nowScene = m_scenes.at(name);
-        m_nowScene->Initialize();
-    }
-    catch (...)
+    const std::string key{name};
+    auto it = m_scenes.find(key);
+    if (it == m_scenes.end() || it->second == nullptr)
     {
         assert(!"存在しないキーが指定されました。");
+        return;
     }
 
-#else
-
-    m_nowScene = m_scenes[name];
+    m_nowScene = it->second;
     m_nowScene->Initialize();
-
-#endif
 }

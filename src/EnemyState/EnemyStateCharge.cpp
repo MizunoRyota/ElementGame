@@ -10,6 +10,11 @@ EnemyStateCharge::~EnemyStateCharge()
 {
 }
 
+void EnemyStateCharge::Enter()
+{
+	ChoseAttackState();
+}
+
 EnemyStateKind EnemyStateCharge::GetNextState()
 {
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyHp()<= ENEMY_FLOAT_TIMING 
@@ -29,4 +34,7 @@ EnemyStateKind EnemyStateCharge::GetNextState()
 	{
 		return EnemyStateKind::STATE_CHARGE;
 	}
+
+	return EnemyStateKind::STATE_CHARGE;
+
 }

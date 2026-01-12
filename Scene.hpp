@@ -43,7 +43,7 @@ private:
 	static constexpr int  WHITEOUT_TIME = 2300;          //ホワイトアウトの時間
 	static constexpr int  WHITEOUT_TIMESPEED = 25;     //ホワイトアウトの時間速度調整
 
-	float alpha;
+	int alpha;
 
 	SceneManager& m_manager;  /// @brief SceneManager への参照
 	SharedData& m_sharedData; /// @brief 共有データへの参照

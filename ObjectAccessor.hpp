@@ -43,6 +43,7 @@ public:
 	VECTOR GetPlayerPosition()				const  { return player_status->GetPosition(); }
 	VECTOR GetPlayerHandPosition()			const { return player_status->GetHandPosition(); }
 	VECTOR GetLaserEndPosition()			const { return player_status->GetLaserEndPosition(); }
+	VECTOR GetPlayerCapsuleTop()			const { return player_status->GetCapsuleTop(); }
 	PlayerStateKind GetPlayerStateKind()	const { return player_status->GetPlayerStateKind(); }
 	int	   GetPlayerHp()					const { return player_status->GetHp(); }
 

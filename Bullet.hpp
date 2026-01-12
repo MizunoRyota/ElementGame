@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 // 単発/追尾/拡散など弾本体のロジック
 class Bullet
@@ -9,16 +10,7 @@ public:
 
 	// 基本初期化（直進など）
 	void Initialize(const VECTOR& pos, const VECTOR& dir, const float& speed, int effectTypeIndex);
-
-	// 追尾初期化
-	void InitializeHoming(const VECTOR& pos,
-		const VECTOR& dir,
-		float speed,
-		std::function<VECTOR()> targetGetter,
-		float homingTime,
-		float turnSpeedRad,
-		int effectTypeIndex);
-
+	void InitializeHoming(const VECTOR& pos, const VECTOR& dir, const float& speed, std::function<VECTOR()> targetGetter, float homingDuration, float turnSpeedRad, int effectTypeIndex); // 追尾初期化
 	void Update();   // フレーム更新
 	void Move();     // 位置更新
 	void Draw();     // デバッグ描画
@@ -66,6 +58,13 @@ private:
 	float bullet_homingTime = 0.0f;               // 残り追尾フレーム
 	float bullet_turnSpeed = 0.0f;				  // フレーム毎の最大旋回量(rad)
 	std::function<VECTOR()> bullet_target_getter; // ターゲット座標取得コールバック
+
+	// --- 弧を描きながら向かう（Arc）関連 ---
+	bool bullet_is_Arc = false;
+	float bullet_arcTime = 0.0f;   // 残り弧移動フレーム
+	float bullet_arcTotalTime = 0.0f;
+	float bullet_arcHeight = 0.0f; // 弧の高さ(最大)
+	VECTOR bullet_arcStartPos = VGet(0, 0, 0);
 
 	// エフェクト関連
 	int bullet_trail_handle = -1;       // 再生中のエフェクトハンドル

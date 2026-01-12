@@ -11,7 +11,7 @@ public:
 
 	void Update() override ;
 
-	void Exit() override {};
+	void Exit() override ;
 
 	EnemyStateKind GetNextState()override;
 

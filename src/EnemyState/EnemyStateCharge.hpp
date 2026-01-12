@@ -7,7 +7,7 @@ public:
 	EnemyStateCharge();
 	~EnemyStateCharge();
 
-	void Enter() override {};
+	void Enter() override ;
 
 	void Update() override {};
 

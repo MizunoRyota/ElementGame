@@ -15,4 +15,5 @@ EnemyStateKind EnemyStateIdle::GetNextState()
 	{
 		return EnemyStateKind::STATE_IDLE;
 	}
+	return EnemyStateKind::STATE_IDLE;
 };

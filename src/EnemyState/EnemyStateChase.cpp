@@ -1,4 +1,4 @@
-#include "../stdafx.hpp"
+ï»¿#include "../stdafx.hpp"
 #include "EnemyStateChase.hpp"
 #include "../EnemyStateBase.hpp"
 #include "../ObjectAccessor.hpp"
@@ -16,59 +16,53 @@ EnemyStateChase::~EnemyStateChase()
 
 void EnemyStateChase::Enter()
 {
-	VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), chase_position);
-	float checkDistance = VSquareSize(keepDistance); // ‹——£‚Ì“ñæ
-	if (checkDistance >= 400)
+	ChoseRange();
+	StartHandEffectForAttack();
+}
+
+void EnemyStateChase::ChoseRange()
+{
+	if (enemy_attack_state == EnemyStateKind::STATE_FIREATTACK)
 	{
 		chase_range = FIRE_RANGE;
-		StartHandEffectForAttack();
-
-		return;
 	}
-	//if (checkDistance >=200)
-	//{
-	//	chase_range = WIND_RANGE;
-	//	StartHandEffectForAttack();
-
-	//	return;
-	//}
-	if (checkDistance >=0)
+	else if (enemy_attack_state == EnemyStateKind::STATE_WATERATTACK)
 	{
 		chase_range = WATER_RANGE;
-		StartHandEffectForAttack();
-
-		return;
+	}
+	else if (enemy_attack_state == EnemyStateKind::STATE_WINDATTACK)
+	{
+		chase_range = WIND_RANGE;
 	}
 }
 
-EffectCreator::EffectType EnemyStateChase::MapEffectTypeForAttack(int chase_range) const
+EffectCreator::EffectType EnemyStateChase::MapEffectTypeForAttack(float chase_range) const
 {
-	if (chase_range == 5.0f)
+	if (chase_range == FIRE_RANGE)
 	{
-		return EffectCreator::EffectType::BulletFire;		// ‰Î
+		return EffectCreator::EffectType::BulletFire;		// ç«
 	}
-	else if (chase_range == 20.0f)
+	else if (chase_range == WATER_RANGE)
 	{
-		return EffectCreator::EffectType::BulletWater;		// …
+		return EffectCreator::EffectType::BulletWater;		// æ°´
 	}
-	else if (chase_range == 40.0f)
+	else if (chase_range == WIND_RANGE)
 	{
-		 return EffectCreator::EffectType::BulletWind;		// •—
+		return EffectCreator::EffectType::BulletWind;		// é¢¨
 	}
 	else
 	{
-		return EffectCreator::EffectType::BulletSpecial;					// “Áê
+		return EffectCreator::EffectType::BulletSpecial;					// ç‰¹æ®Š
 	}
-
 }
 
-// èƒGƒtƒFƒNƒg‚ğUŒ‚‚É‰‚¶‚ÄÄ¶
+// æ‰‹ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æ”»æ’ƒã«å¿œã˜ã¦å†ç”Ÿ
 void EnemyStateChase::StartHandEffectForAttack()
 {
-	// Šù‚É“¯UŒ‚‚ÌƒGƒtƒFƒNƒg‚ªÄ¶’†‚È‚ç‰½‚à‚µ‚È‚¢
+	// æ—¢ã«åŒæ”»æ’ƒã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãŒå†ç”Ÿä¸­ãªã‚‰ä½•ã‚‚ã—ãªã„
 	if (enemy_hand_effect_handle >= 0) return;
 
-	// ‚¢‚Á‚½‚ñ’â~
+	// ã„ã£ãŸã‚“åœæ­¢
 	StopHandEffect();
 
 	const auto effType = MapEffectTypeForAttack(chase_range);
@@ -83,7 +77,7 @@ void EnemyStateChase::UpdateEffectHandle()
 	}
 }
 
-// èƒGƒtƒFƒNƒg’â~
+// æ‰‹ã‚¨ãƒ•ã‚§ã‚¯ãƒˆåœæ­¢
 void EnemyStateChase::StopHandEffect()
 {
 	if (enemy_hand_effect_handle >= 0)
@@ -99,13 +93,13 @@ void EnemyStateChase::Update()
 
 	VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), chase_position);
 
-	// ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Äi‚Ş•ûŒü‚ğ’PˆÊƒxƒNƒgƒ‹‚Å‹‚ß‚é
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã£ã¦é€²ã‚€æ–¹å‘ã‚’å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã§æ±‚ã‚ã‚‹
 	VECTOR checkDirection = VNorm(keepDistance);
 
-	// “G‚ªi‚Ş‹——£iˆÚ“®‘¬“x‚ÉŠî‚Ã‚­j
+	// æ•µãŒé€²ã‚€è·é›¢ï¼ˆç§»å‹•é€Ÿåº¦ã«åŸºã¥ãï¼‰
 	VECTOR chaseVector = VScale(checkDirection, MOVE_SPEED);
 
-	// “G‚ÌˆÊ’u‚ğXV
+	// æ•µã®ä½ç½®ã‚’æ›´æ–°
 	chase_position = VAdd(chase_position, chaseVector);
 
 	UpdateEffectHandle();
@@ -115,7 +109,7 @@ void EnemyStateChase::Update()
 bool EnemyStateChase::RangeWithin()
 {
 	VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), chase_position);
-	float checkDistance = VSquareSize(keepDistance); // ‹——£‚Ì“ñæ
+	float checkDistance = VSquareSize(keepDistance); // è·é›¢ã®äºŒä¹—
 	float rangeSquared = (chase_range * chase_range);
 	return checkDistance <= rangeSquared;
 }
@@ -130,18 +124,7 @@ EnemyStateKind EnemyStateChase::GetNextState()
 {
 	if (RangeWithin())
 	{
-		if (chase_range == WIND_RANGE)
-		{
-			return EnemyStateKind::STATE_WINDATTACK;
-		}
-		if (chase_range == FIRE_RANGE)
-		{
-			return EnemyStateKind::STATE_FIREATTACK;
-		}
-		if (chase_range == WATER_RANGE)
-		{
-			return EnemyStateKind::STATE_WATERATTACK;
-		}
+		return GetEnemyAttackState();
 	}
 	else
 	{

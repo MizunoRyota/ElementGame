@@ -2,10 +2,10 @@
 #include "Player.hpp"
 #include "PlayerStateBase.hpp"
 #include "PlayerAttack.hpp"
-#include "BulletFire.hpp"
 #include "PlayerMove.hpp"
 #include "PlayerAnimater.hpp"
-#include "src/PlayerState/PlayerStateIdle.hpp";
+#include "EffectCreator.hpp"
+#include "src/PlayerState/PlayerStateIdle.hpp"
 #include "src/PlayerState/PlayerLaserState.hpp"
 #include "ObjectAccessor.hpp"
 
