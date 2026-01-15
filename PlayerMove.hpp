@@ -30,9 +30,9 @@ public:
 
 private:
 	static constexpr float MOVE_SPEED = 0.075f;        // 基本移動速度
-	static constexpr float DASH_MULTIPLIER = 3.0f;     // ダッシュ倍率
+	static constexpr float DASH_MULTIPLIER = 2.0f;     // ダッシュ倍率
 	static constexpr float DASH_DECREACE_NUM = 0.5f;   // フレーム毎のエネルギー減少
-	static constexpr int   DASH_MAXENERGY = 50;        // 最大エネルギー
+	static constexpr int   DASH_MAXENERGY = 30;        // 最大エネルギー
 	static constexpr int   DASH_COOLDOWN_FRAMES = 60;  // クールタイム(フレーム)
 
 	static constexpr float ANGLE_SPEED = 0.75f;        // 角度変化速度

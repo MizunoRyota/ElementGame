@@ -23,6 +23,7 @@ void GameClearScene::Initialize()
 
     BulletCreator::GetBulletCreator().Initialize();
     BulletCreator::GetBulletCreator().Initialize();
+    EffectCreator::GetEffectCreator().Initialize();
 	SoundManager::GetSoundManager().PlayGameClearBgm();
 }
 

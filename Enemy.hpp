@@ -12,7 +12,6 @@ class Player;
 class BulletFire;
 class EnemyMove;
 class SpecialAttack;
-
 // 敵キャラクター
 class Enemy :public CharacterBase
 {
@@ -55,13 +54,17 @@ public:
 
 	VECTOR GetHitPosition()						const { return VAdd(obj_position,VGet(0, ENEMY_HITEFFECT_HEIGHT,0)); } // 被弾エフェクト座標
 
+	void StopEnemyHandEffect();
+
+	int GetEnemyMaxHp()							const { return ENEMY_MAXHP; } // 被弾エフェクト座標;
+
 private:
 	
 	// ===== ダメージ・HP・スケール =====
 	static constexpr int DAMAGE_STRENGTH = 10;                 // 与ダメージ基本値
 	static constexpr float ENEMY_HITEFFECT_HEIGHT = 2.5f;      // 被弾エフェクトの高さ
 	static constexpr float ENEMY_SCALE = 0.02f;                // モデル拡大率
-	static constexpr int ENEMY_MAXHP = 100;                    // 最大HP
+	static constexpr int ENEMY_MAXHP = 150;                    // 最大HP
 
 	// ===== 状態変数 =====
 	int enemy_handname;						// モデル内「手」フレームのID
@@ -83,4 +86,7 @@ private:
 	std::unordered_map<EnemyStateKind, std::shared_ptr<EnemyStateBase>> states;
 	// ===== 状態 =====  
 	EnemyStateKind enemy_state_kind;
+
+
+
 };

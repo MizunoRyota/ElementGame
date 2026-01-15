@@ -56,36 +56,36 @@ EffectCreator::EffectType EnemyStateChase::MapEffectTypeForAttack(float chase_ra
 	}
 }
 
-// 手エフェクトを攻撃に応じて再生
-void EnemyStateChase::StartHandEffectForAttack()
-{
-	// 既に同攻撃のエフェクトが再生中なら何もしない
-	if (enemy_hand_effect_handle >= 0) return;
-
-	// いったん停止
-	StopHandEffect();
-
-	const auto effType = MapEffectTypeForAttack(chase_range);
-	enemy_hand_effect_handle = EffectCreator::GetEffectCreator().PlayReturn(effType, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition());
-}
-
-void EnemyStateChase::UpdateEffectHandle()
-{
-	if (enemy_hand_effect_handle >= 0)
-	{
-		SetPosPlayingEffekseer3DEffect(enemy_hand_effect_handle, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition().x, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition().y, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition().z);
-	}
-}
-
-// 手エフェクト停止
-void EnemyStateChase::StopHandEffect()
-{
-	if (enemy_hand_effect_handle >= 0)
-	{
-		StopEffekseer3DEffect(enemy_hand_effect_handle);
-		enemy_hand_effect_handle = -1;
-	}
-}
+//// 手エフェクトを攻撃に応じて再生
+//void EnemyStateChase::StartHandEffectForAttack()
+//{
+//	// 既に同攻撃のエフェクトが再生中なら何もしない
+//	if (enemy_hand_effect_handle >= 0) return;
+//
+//	// いったん停止
+//	StopHandEffect();
+//
+//	const auto effType = MapEffectTypeForAttack(chase_range);
+//	enemy_hand_effect_handle = EffectCreator::GetEffectCreator().PlayReturn(effType, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition());
+//}
+//
+//void EnemyStateChase::UpdateEffectHandle()
+//{
+//	if (enemy_hand_effect_handle >= 0)
+//	{
+//		SetPosPlayingEffekseer3DEffect(enemy_hand_effect_handle, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition().x, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition().y, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition().z);
+//	}
+//}
+//
+//// 手エフェクト停止
+//void EnemyStateChase::StopHandEffect()
+//{
+//	if (enemy_hand_effect_handle >= 0)
+//	{
+//		StopEffekseer3DEffect(enemy_hand_effect_handle);
+//		enemy_hand_effect_handle = -1;
+//	}
+//}
 
 
 void EnemyStateChase::Update()

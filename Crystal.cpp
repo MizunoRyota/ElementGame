@@ -54,18 +54,19 @@ void Crystal::Initialize()
 
 void Crystal::ChangeActive()
 {
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE || crystal_is_break)
+
+	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE && crystal_is_init)
 	{
 		obj_hp = CRYSTAL_MAXHP;
-
 		crystal_angle = 0.0f;
 		obj_position = VGet(0.0f, -10.0f, 0.0f);
 		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Crystal);
 		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::ChargeBeam);
+		crystal_is_break = false;
+		crystal_is_init = false;
 
-		return;
 	}
-	else if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && !crystal_is_init)
+	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && !crystal_is_init)
 	{
 		obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(0.0f, OFFSET_Y, 0.0f));
 		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Crystal, obj_position);
@@ -79,7 +80,15 @@ void Crystal::ChangeActive()
 void Crystal::ChangeBreak()
 {
 	SoundManager::GetSoundManager().PlayBreakCrystalSe();
+
+	obj_hp = CRYSTAL_MAXHP;
+	crystal_angle = 0.0f;
+	obj_position = VGet(0.0f, -10.0f, 0.0f);
+	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Crystal);
+	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::ChargeBeam);
 	crystal_is_break = true;
+	crystal_is_init = false;
+
 }
 
 void Crystal::Update()

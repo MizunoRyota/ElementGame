@@ -163,6 +163,9 @@
     <Filter Include="GameCode\BGM">
       <UniqueIdentifier>{55800494-bb2c-4e05-bb26-b00721b0a5ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack">
+      <UniqueIdentifier>{07b6bcde-ba62-41b6-a2ba-d0146b4b67dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.hpp">
@@ -363,6 +366,9 @@
     <ClInclude Include="src\Sounds\SoundManager.hpp">
       <Filter>GameCode\BGM</Filter>
     </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateChoseAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -541,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="src\GameObjects\GameObject.cpp">
       <Filter>GameCode\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateChoseAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

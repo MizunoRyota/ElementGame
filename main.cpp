@@ -43,9 +43,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	SetUseZBufferFlag(TRUE);		// Ｚバッファを使用する
 	SetWriteZBufferFlag(TRUE);		// Ｚバッファへの書き込みを行う
 	SetUseBackCulling(TRUE);		// バックカリングを行う
+	srand((unsigned)time(NULL));	//ランダム抽選おまじない
 
 	std::shared_ptr<SceneManager> scene_manager = std::make_shared<SceneManager>();
-
 
 	scene_manager->Add<TitleScene>("TitleScene");
 	scene_manager->Add<TutorialScene>("TutorialScene");

@@ -76,9 +76,9 @@ private:
 
     // 追加: ホーミングパラメータ
     static constexpr float HOMING_DURATION = 20.0f;             // 追尾継続フレーム
-    static constexpr float HOMING_TURN_SPEED = DX_PI_F / 30.0f; // 1fあたり最大旋回 (=6度)
-    static constexpr int   HOMING_SHOT_COUNT = 5;               // 連続発射数
-    static constexpr int   HOMING_INTERVAL_FRAMES = 8;          // 発射間隔(フレーム)
+    static constexpr float HOMING_TURN_SPEED = DX_PI_F / 3.0f; // 1fあたり最大旋回 (=6度)
+    static constexpr int   HOMING_SHOT_COUNT = 6;              // 連続発射数
+    static constexpr int   HOMING_INTERVAL_FRAMES = 10;          // 発射間隔(フレーム)
 
     // 地面マーカーの描画用
     static constexpr float MARKER_HEIGHT = 3.0f; // マーカーの高さ

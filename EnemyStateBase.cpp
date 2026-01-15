@@ -33,31 +33,6 @@ EffectCreator::EffectType EnemyStateBase::MapEffectTypeForAttack() const
 	}
 }
 
-void EnemyStateBase::ChoseAttackState()
-{
-
-	srand((unsigned)time(NULL));
-
-	VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
-	float checkDistance = VSquareSize(keepDistance); // 距離の二乗
-
-	int attackType = rand() % 100;  // 0?99
-
-	if (checkDistance >= 400.0f)
-	{
-		// 例：遠距離（0-49:風, 50-79:水, 80-99:火）
-		if (attackType < 50)         SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);   // 0..49
-		else if (attackType < 80)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);  // 50..79
-		else                         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);   // 80..99
-	}
-	else if (checkDistance >= 200.0f)
-	{
-		// 例：中距離（0-39:火, 40-69:水, 70-89:風, 90-99:ジャンプ）
-		if (attackType < 70)		 SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);  // 40..69
-		else if (attackType < 100)    SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);   // 70..89
-	}
-}
-
 void EnemyStateBase::UpdateEffectHandle()
 {
 	if (enemy_hand_effect_handle >= 0)

@@ -70,3 +70,14 @@ void BulletCreator::Draw()
 		}
 	}
 }
+
+void BulletCreator::StopBulletEffect()
+{
+	for (auto& bullet : bullets)
+	{
+		if (bullet->IsActive())
+		{
+			bullet->StopEffect();
+		}
+	}
+}

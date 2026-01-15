@@ -29,8 +29,4 @@ private:
 
 	std::shared_ptr<Shadow> shadow = nullptr; // 影オブジェクト
 
-    std::shared_ptr<Player> player_reference = nullptr;
-
-    std::shared_ptr<Enemy> enemy_reference = nullptr;
-
 };

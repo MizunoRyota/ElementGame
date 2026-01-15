@@ -37,6 +37,7 @@ void TitleScene::Update()
     {
         SoundManager::GetSoundManager().PlayButtonSe();
         SoundManager::GetSoundManager().StopAllSound();
+        BulletCreator::GetBulletCreator().StopBulletEffect();
         ChangeScene("TutorialScene");
     }
 }

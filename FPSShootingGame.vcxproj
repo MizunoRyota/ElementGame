@@ -180,6 +180,7 @@
     <ClInclude Include="src\EnemyState\EnemyAttackBase.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateCharge.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateChase.hpp" />
+    <ClInclude Include="src\EnemyState\EnemyStateChoseAttack.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateDodge.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateFloat.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateIdle.hpp" />
@@ -241,6 +242,7 @@
     <ClCompile Include="src\EnemyState\EnemyAttackBase.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateCharge.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateChase.cpp" />
+    <ClCompile Include="src\EnemyState\EnemyStateChoseAttack.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateDodge.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateFloat.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateIdle.cpp" />

@@ -2,7 +2,6 @@
 #include "../EnemyStateBase.hpp"
 #include "EnemyAttackBase.hpp"
 
-
 class StateWindAttack : public EnemyStateBase, public EnemyAttackBase
 {
 public:
@@ -19,7 +18,7 @@ public:
 
 private:
 
-	static constexpr float WINDBULLET_SPEED = 0.25f;          // 風(ホーミング)弾 速度
-	static constexpr float WINDATTACK_TIMING = 40;             // 風攻撃 予備動作開始(仮)フレーム
+	static constexpr float WINDBULLET_SPEED = 0.3f;				 // 風(ホーミング)弾 速度
+	static constexpr float WINDATTACK_TIMING = 40.0;             // 風攻撃 予備動作開始(仮)フレーム
 
 };

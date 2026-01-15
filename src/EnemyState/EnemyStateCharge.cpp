@@ -12,17 +12,16 @@ EnemyStateCharge::~EnemyStateCharge()
 
 void EnemyStateCharge::Enter()
 {
-	ChoseAttackState();
 }
 
 EnemyStateKind EnemyStateCharge::GetNextState()
 {
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyHp()<= ENEMY_FLOAT_TIMING 
-		&& !ObjectAccessor::GetObjectAccessor().GetCrystalIsBreak()
-		&& !ObjectAccessor::GetObjectAccessor().GetCrystalIsInit())
-	{
-		return EnemyStateKind::STATE_FLOAT;
-	}
+	//if (ObjectAccessor::GetObjectAccessor().GetEnemyHp()<= ENEMY_FLOAT_TIMING 
+	//	&& !ObjectAccessor::GetObjectAccessor().GetCrystalIsBreak()
+	//	&& !ObjectAccessor::GetObjectAccessor().GetCrystalIsInit())
+	//{
+	//	return EnemyStateKind::STATE_FLOAT;
+	//}
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimaitonIsEnd())
 	{
 		int enemy_dodgechose = GetRand(1);

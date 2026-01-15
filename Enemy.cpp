@@ -15,6 +15,7 @@
 #include "src/EnemyState/EnemyStateSpecialCharge.hpp"
 #include "src/EnemyState/EnemyStateSpecialAttack.hpp"
 #include "src/EnemyState/EnemyStateStun.hpp"
+#include "src/EnemyState/EnemyStateChoseAttack.hpp"
 #include "ObjectAccessor.hpp"
 
 // 敵の生成と初期セットアップ
@@ -50,15 +51,14 @@ Enemy::~Enemy() {}
 void Enemy::Initialize()
 {
 
-	enemy_state = EnemyStateKind::STATE_CHARGE;
-	enemy_keep_state = EnemyStateKind::STATE_FIREATTACK;
-	enemy_state_kind = EnemyStateKind::STATE_CHARGE;
-	enemy_current_state = std::make_shared<EnemyStateCharge>();
+	enemy_state = EnemyStateKind::STATE_CHOSEATTACK;
+	enemy_state_kind = EnemyStateKind::STATE_CHOSEATTACK;
+	enemy_current_state = std::make_shared<EnemyStateChoseAttack>();
 
 	enemy_is_die = false;
 
 	InitializeStates();
-
+	enemy_current_state->Enter();
 	obj_position = VGet(0, 0, 20.0f); // 初期位置
 	obj_direction = VGet(0, 0, 1.0f); // 初期向き
 	obj_hp = ENEMY_MAXHP; // HP リセット
@@ -85,6 +85,8 @@ void Enemy::InitializeStates()
 	states[EnemyStateKind::STATE_SPECIAL_CHARGE] = std::make_shared<EnemyStateSpecialCharge>();		// EnemyStateKind::STATE_SPECIAL_CHARGE用の具体クラスに差し替え
 	states[EnemyStateKind::STATE_SPECIALATTACK] = std::make_shared<EnemyStateSpecialAttack>();		// STATE_SPECIALATTACK用の具体クラスに差し替え
     states[EnemyStateKind::STATE_STUN] = std::make_shared<EnemyStateStun>();						// STATE_STUN用の具体クラスに差し替え
+	states[EnemyStateKind::STATE_CHOSEATTACK] = std::make_shared<EnemyStateChoseAttack>();					// STATE_IDLE用の具体クラスに差し替え
+
 }
 
 // タイトル更新（アニメのみ）
@@ -185,6 +187,11 @@ void Enemy::SetPosition()
 {
 	MV1SetPosition(obj_modelhandle, obj_position);
 	character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname);
+}
+
+void Enemy::StopEnemyHandEffect()
+{
+	enemy_current_state->StopHandEffect();
 }
 
 // 描画

@@ -2,7 +2,7 @@
 #include "Pallet.hpp"
 #include "Bullet.hpp"
 #include "EffectCreator.hpp" // 追従エフェクト用
-
+#include "ObjectAccessor.hpp"
 Bullet::Bullet()
 {
     bullet_is_active = false; // 非アクティブ開始
@@ -95,7 +95,7 @@ void Bullet::StopEffect()
             ResetPosition();
         }
     }
-    else if (bullet_life <= 0 || bullet_position.y <= 0)
+    else if (bullet_life <= 0 || bullet_position.y <= 0 || ObjectAccessor::GetObjectAccessor().GetEnemyHp()==0 || ObjectAccessor::GetObjectAccessor().GetPlayerHp() == 0)
     {
         ChangeActiveFalse();
         ResetPosition();

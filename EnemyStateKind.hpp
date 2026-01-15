@@ -18,6 +18,7 @@ enum class EnemyStateKind : int
     STATE_IDLE = 13,         // 待機
     STATE_CHASE = 14,        // 追跡
     STATE_ONDAMAGE = 15,     // 被ダメージ
+    STATE_CHOSEATTACK = 16,     // 次の攻撃を決定　モーションはついてない
 };
 
 inline const char* EnemyStateToString(EnemyStateKind state) {
@@ -37,6 +38,8 @@ inline const char* EnemyStateToString(EnemyStateKind state) {
     case EnemyStateKind::STATE_ONDAMAGE: return "ONDAMAGE";
     case EnemyStateKind::STATE_DIE: return "DIE";
     case EnemyStateKind::STATE_STUN: return "Stun";
+    case EnemyStateKind::STATE_CHOSEATTACK: return "STATE_CHOSEATTACK";
+
     default: return "UNKNOWN";
     }
 }

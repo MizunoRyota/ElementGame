@@ -82,7 +82,6 @@ void BulletFire::FireHoming(const VECTOR& pos, const VECTOR& dir, const float& s
 // ‘S•ûˆÊ—Ž‰º‚È‚Ç“ÁŽêUŒ‚
 void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
-    if (bullet_fire_cooltimer > 0) return;
 
     SoundManager::GetSoundManager().PlayExplosionSe();
 

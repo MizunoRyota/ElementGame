@@ -27,11 +27,11 @@ SharedData::SharedData()
     stage = std::make_shared<Stage>();
     shadow = std::make_shared<Shadow>();
     input = std::make_shared<Input>();
+    crystal = std::make_shared<Crystal>();
     camera = std::make_shared<Camera>();
     player = std::make_shared<Player>();
     skydome = std::make_shared<Skydome>();
     enemy = std::make_shared<Enemy>();
-    crystal = std::make_shared<Crystal>();
     ui = std::make_shared<UiManager>();
     
     ObjectAccessor::GetObjectAccessor().SetPlayer(player);

@@ -19,6 +19,8 @@ public:
     void Update();     // 全弾更新
     void Draw();       // デバッグ描画
 
+    void StopBulletEffect();
+
     std::shared_ptr<Bullet> GetBullet(int index) const { return bullets[index]; }
 
     int GetBulletCount()    const { return static_cast<int>(bullets.size()); }

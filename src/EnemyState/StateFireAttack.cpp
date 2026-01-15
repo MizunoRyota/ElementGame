@@ -30,7 +30,7 @@ EnemyStateKind StateFireAttack::GetNextState()
 {
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimaitonIsEnd())
 	{
-		return EnemyStateKind::STATE_CHARGE;
+		return EnemyStateKind::STATE_CHOSEATTACK;
 	}
 	else
 	{

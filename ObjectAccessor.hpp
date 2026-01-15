@@ -35,9 +35,12 @@ public:
 	VECTOR GetEnemyHandPosition()			const { return enemy_status->GetHandPosition(); }
 	VECTOR GetEnemyDirection()				const { return enemy_status->GetEnemyDirection(); }
 	EnemyStateKind GetEnemyStateKind()		const { return enemy_status->GetEnemyStateKind(); }
-	int	   GetEnemyHp()						const { return enemy_status->GetHp(); }
-	float    GetEnemyAnimationFrame()		const { return enemy_status->GetAnimationFrame(); }
-	bool   GetEnemyAnimaitonIsEnd()			const { return enemy_status->GetAnimationIsEnd(); }
+	int		GetEnemyHp()					const { return enemy_status->GetHp(); }
+	int		GetEnemyMaxHp()					const { return enemy_status->GetEnemyMaxHp(); }
+	float	GetEnemyAnimationFrame()		const { return enemy_status->GetAnimationFrame(); }
+	bool	GetEnemyAnimaitonIsEnd()		const { return enemy_status->GetAnimationIsEnd(); }
+	void	StopEnemyHandEffect()			const { enemy_status->StopEnemyHandEffect(); }
+
 
 	//プレイヤーの参照渡し
 	VECTOR GetPlayerPosition()				const  { return player_status->GetPosition(); }
