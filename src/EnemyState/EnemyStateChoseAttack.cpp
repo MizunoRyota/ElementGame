@@ -30,7 +30,7 @@ void EnemyStateChoseAttack::CheckEnemyPhase()
 
 	if (hpRaito <= ENEMY_HP_PHASE3_RAITO)
 	{
-		ChoseNextAttackPhaseOne();
+		ChoseNextAttackPhaseThree();
 	}	
 	else if (hpRaito <= ENEMY_HP_PHASE2_RAITO)
 	{
@@ -38,7 +38,7 @@ void EnemyStateChoseAttack::CheckEnemyPhase()
 	}
 	else if (hpRaito <= ENEMY_HP_PHASE1_RAITO)
 	{
-		ChoseNextAttackPhaseThree();
+		ChoseNextAttackPhaseOne();
 	}
 }
 
