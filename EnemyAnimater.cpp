@@ -26,22 +26,22 @@ EnemyAnimater::~EnemyAnimater()
 
 void EnemyAnimater::InitializeAnimationData()
 {
-	animation_data[static_cast<int>(EnemyStateKind::STATE_STUN)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_STUN), (static_cast<int>(EnemyStateKind::STATE_STUN)), 0, 0, 0.5f, true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_WALKBACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_WALKBACK),(static_cast<int>(EnemyStateKind::STATE_WALKBACK)), 0, 0, 0.5f,true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_DIE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_DIE), (static_cast<int>(EnemyStateKind::STATE_DIE)), 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_SPECIAL_CHARGE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_SPECIAL_CHARGE), (static_cast<int>(EnemyStateKind::STATE_SPECIAL_CHARGE)), 0, 0, 0.2f,true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_FLOAT)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_FLOAT), (static_cast<int>(EnemyStateKind::STATE_FLOAT)), 0, 0, 0.5f, true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_SPECIALATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_SPECIALATTACK), (static_cast<int>(EnemyStateKind::STATE_SPECIALATTACK)), 0, 0, 0.25f, true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_RUNLEFT)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_RUNLEFT), (static_cast<int>(EnemyStateKind::STATE_RUNLEFT)), 0, 0, 0.5f,true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_CHARGE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_CHARGE), (static_cast<int>(EnemyStateKind::STATE_CHARGE)), 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_RUNRIGHT)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_RUNRIGHT), (static_cast<int>(EnemyStateKind::STATE_RUNRIGHT)), 0, 0, 0.5f,true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_FIREATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_FIREATTACK), (static_cast<int>(EnemyStateKind::STATE_FIREATTACK)), 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_WATERATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_WATERATTACK), (static_cast<int>(EnemyStateKind::STATE_WATERATTACK)), 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_WINDATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_WINDATTACK), (static_cast<int>(EnemyStateKind::STATE_WINDATTACK)), 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_JUMPATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_JUMPATTACK), (static_cast<int>(EnemyStateKind::STATE_JUMPATTACK)), 0, 0, 0.5f,false);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_IDLE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_IDLE), (static_cast<int>(EnemyStateKind::STATE_IDLE)), 0, 0, 0.25f,true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_CHASE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_CHASE), (static_cast<int>(EnemyStateKind::STATE_CHASE)), 0, 0, 0.5f,true);
-	animation_data[static_cast<int>(EnemyStateKind::STATE_ONDAMAGE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_ONDAMAGE), (static_cast<int>(EnemyStateKind::STATE_ONDAMAGE)), 0, 0, 0.5f,false);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_STUN)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_STUN), (static_cast<int>(EnemyStateKind::STATE_STUN)), 0, 0, DEFAULT_ANIMATION_SPEED, true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_WALKBACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_WALKBACK),(static_cast<int>(EnemyStateKind::STATE_WALKBACK)), 0, 0, DEFAULT_ANIMATION_SPEED,true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_DIE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_DIE), (static_cast<int>(EnemyStateKind::STATE_DIE)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_SPECIAL_CHARGE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_SPECIAL_CHARGE), (static_cast<int>(EnemyStateKind::STATE_SPECIAL_CHARGE)), 0, 0, DEFAULT_ANIMATION_SPEED,true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_FLOAT)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_FLOAT), (static_cast<int>(EnemyStateKind::STATE_FLOAT)), 0, 0, DEFAULT_ANIMATION_SPEED, true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_SPECIALATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_SPECIALATTACK), (static_cast<int>(EnemyStateKind::STATE_SPECIALATTACK)), 0, 0, SPECIALATTACK_ANIMATION_SPEED, true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_RUNLEFT)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_RUNLEFT), (static_cast<int>(EnemyStateKind::STATE_RUNLEFT)), 0, 0, DEFAULT_ANIMATION_SPEED,true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_CHARGE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_CHARGE), (static_cast<int>(EnemyStateKind::STATE_CHARGE)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_RUNRIGHT)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_RUNRIGHT), (static_cast<int>(EnemyStateKind::STATE_RUNRIGHT)), 0, 0, DEFAULT_ANIMATION_SPEED,true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_FIREATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_FIREATTACK), (static_cast<int>(EnemyStateKind::STATE_FIREATTACK)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_WATERATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_WATERATTACK), (static_cast<int>(EnemyStateKind::STATE_WATERATTACK)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_WINDATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_WINDATTACK), (static_cast<int>(EnemyStateKind::STATE_WINDATTACK)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_JUMPATTACK)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_JUMPATTACK), (static_cast<int>(EnemyStateKind::STATE_JUMPATTACK)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_IDLE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_IDLE), (static_cast<int>(EnemyStateKind::STATE_IDLE)), 0, 0, DEFAULT_ANIMATION_SPEED,true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_CHASE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_CHASE), (static_cast<int>(EnemyStateKind::STATE_CHASE)), 0, 0, DEFAULT_ANIMATION_SPEED,true);
+	animation_data[static_cast<int>(EnemyStateKind::STATE_ONDAMAGE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_ONDAMAGE), (static_cast<int>(EnemyStateKind::STATE_ONDAMAGE)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
 }
 
 void EnemyAnimater::Update()

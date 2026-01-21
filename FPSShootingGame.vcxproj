@@ -184,6 +184,7 @@
     <ClInclude Include="src\EnemyState\EnemyStateDodge.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateFloat.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateIdle.hpp" />
+    <ClInclude Include="src\EnemyState\EnemyStateOnDamage.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateSpecialAttack.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateSpecialCharge.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateStun.hpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="src\EnemyState\EnemyStateDodge.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateFloat.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateIdle.cpp" />
+    <ClCompile Include="src\EnemyState\EnemyStateOnDamage.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateSpecialAttack.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateSpecialCharge.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateStun.cpp" />
@@ -274,6 +276,9 @@
     <None Include="camera.json" />
     <None Include="Crystal.json" />
     <None Include="EffectCreator.json" />
+    <None Include="Enemy.json" />
+    <None Include="Player.json" />
+    <None Include="Stage.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

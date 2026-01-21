@@ -17,4 +17,6 @@ public:
 
 private:
 
+	bool laser_is_ready;
+
 };

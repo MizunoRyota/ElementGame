@@ -18,7 +18,6 @@ bool GameObject::ChengeDebugFlag()
 		{
 			obj_debug = false;
 			return obj_debug;
-
 		}
 	}
 	return obj_debug;

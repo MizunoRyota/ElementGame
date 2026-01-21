@@ -1,6 +1,7 @@
 #pragma once  
 #include "CharacterBase.hpp"  
 #include "PlayerStateKind.hpp"
+
 class GameObject;  
 class IState;
 class CharaterBase;  
@@ -19,6 +20,8 @@ public:
 
 	void Initialize() override;     // 初期化  
 
+	void LoadJson();
+
 	void InitializeStates()override;
 
 	void UpdateHandEffect()override;// 手元エフェクト更新  
@@ -31,6 +34,8 @@ public:
 	void UpdateGameClear() override {};
 	void UpdateGameOver() override {};
 	void UpdateTitle() override {};
+
+	void ApplyKnockback(const VECTOR& knockback);
 
 	std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; } // 移動コンポーネント取得
 	PlayerStateKind GetPlayerStateKind()		const { return player_state_kind; } // 移動コンポーネント取得
@@ -53,4 +58,6 @@ private:
 	// ===== 状態 =====  
 	PlayerStateKind player_state_kind;
 
+
+	json player_json_data;
 };

@@ -1,0 +1,8 @@
+{
+  "init_pos": [ 0.0, 0.0, 0.0 ],
+  "init_angle": [ 0.0, 0.0, 1.0 ],
+  "player_capsule_height": 2.5,
+  "player_capsule_radius": 0.06,
+  "player_model":"data/3dmodel/Player/Player.mv1",
+  "player_hand_name": "f_middle.03.R"
+}

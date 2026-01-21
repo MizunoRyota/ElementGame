@@ -23,11 +23,11 @@ public:
 	}
 
 	//参照元をセット
-	void SetPlayer(const std::shared_ptr<Player>& setplayer) { player_status = setplayer; } // プレイヤー参照設定
-	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy_status = setenemy; }		// エネミー参照設定
-	void SetInput(const std::shared_ptr<Input>& setcamera) { input_status = setcamera; } // プレイヤー参照設定
-	void SetCamera(const std::shared_ptr<Camera>& setcamera) { camera_status = setcamera; } // プレイヤー参照設定
-	void SetCrystal(const std::shared_ptr<Crystal>& setcrystal) { crystal_status = setcrystal; } // プレイヤー参照設定
+	void SetPlayer(const std::shared_ptr<Player>& setplayer) { player_status = setplayer; }		 // プレイヤー参照設定
+	void SetEnemy(const std::shared_ptr<Enemy>& setenemy) { enemy_status = setenemy; }			 // エネミー参照設定
+	void SetInput(const std::shared_ptr<Input>& setcamera) { input_status = setcamera; }		 // インプット参照設定
+	void SetCamera(const std::shared_ptr<Camera>& setcamera) { camera_status = setcamera; }		 // カメラ参照設定
+	void SetCrystal(const std::shared_ptr<Crystal>& setcrystal) { crystal_status = setcrystal; } // クリスタル参照設定
 
 	//エネミーの参照渡し
 	VECTOR GetEnemyPosition()				const { return enemy_status->GetPosition(); }

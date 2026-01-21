@@ -15,6 +15,8 @@ public:
 
 	void UpdateEffectHandle();
 
+	EnemyStateKind ChangeStateOnDamage();
+
 	virtual EnemyStateKind GetNextState()abstract;
 
 protected:
@@ -34,5 +36,12 @@ protected:
 
 	static EnemyStateKind enemy_attack_state;
 
+	static bool enemy_ondamege_phase2;
+	static bool enemy_ondamege_phase3;
+	static bool enemy_first_specialattack;
+
+private:
+	static constexpr float ENEMY_HP_PHASE2_RAITO = 0.7f;
+	static constexpr float ENEMY_HP_PHASE3_RAITO = 0.4f;
 
 };

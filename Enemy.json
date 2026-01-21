@@ -1,0 +1,8 @@
+{
+  "init_pos": [ 0.0, 0.0, 0.0 ],
+  "init_angle": [ 0.0, 0.0, 1.0 ],
+  "enemy_capsule_height": 2.75,
+  "enemy_capsule_radius": 0.45,
+  "enemy_model": "data/3dmodel/Enemy/Enemy.mv1",
+  "enemy_hand_name": "mixamorig:RightHandMiddle1"
+}

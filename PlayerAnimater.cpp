@@ -29,8 +29,8 @@ PlayerAnimater::~PlayerAnimater()
 
 void PlayerAnimater::InitializeAnimationData()
 {
-	animation_data[static_cast<int>(PlayerStateKind::STATE_ATTACK)] = AnimationState(static_cast<int>(PlayerStateKind::STATE_ATTACK), 7, 0, 0, 0.5f, true);
-	animation_data[static_cast<int>(PlayerStateKind::STATE_IDLE)] = AnimationState(static_cast<int>(PlayerStateKind::STATE_IDLE), 9, 0, 0, 0.5f, true);
+	animation_data[static_cast<int>(PlayerStateKind::STATE_ATTACK)] = AnimationState(static_cast<int>(PlayerStateKind::STATE_ATTACK), static_cast<int>(PlayerStateKind::STATE_ATTACK), 0, 0, DEFAULT_ANIMATION_SPEED, true);
+	animation_data[static_cast<int>(PlayerStateKind::STATE_IDLE)] = AnimationState(static_cast<int>(PlayerStateKind::STATE_IDLE), static_cast<int>(PlayerStateKind::STATE_IDLE), 0, 0, DEFAULT_ANIMATION_SPEED, true);
 }
 
 void PlayerAnimater::Update()

@@ -6,14 +6,19 @@
 UiDashBar::UiDashBar(const std::shared_ptr<Player>& player)
     : player_(player)
 {
-    order_z = 1; // HPバーより前面に配置
+    order_z = 0; // HPバーより前面に配置
     graph_handle = LoadGraph("data/Texture/Dash.png");
+}
+
+UiDashBar::~UiDashBar()
+{
+    // ここでは特に減衰アニメ無し。必要ならエネルギーの遅延表示を実装可
+    DeleteGraph(graph_handle);
 }
 
 void UiDashBar::Update()
 {
-    // ここでは特に減衰アニメ無し。必要ならエネルギーの遅延表示を実装可
-    DeleteGraph(graph_handle);
+
 }
 
 void UiDashBar::Draw() const

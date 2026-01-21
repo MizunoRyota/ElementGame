@@ -36,9 +36,6 @@ public:
 	// オブジェクト参照を設定（必要なら派生で拡張）
 	virtual const std::shared_ptr<GameObject> SetGameObject(const std::shared_ptr<GameObject>& set_object) { return set_object; }
 
-	// 位置を設定
-	virtual void Setposition(const VECTOR set) { obj_position = set; }
-
 	virtual bool ChengeDebugFlag();
 
 protected:
@@ -52,7 +49,6 @@ protected:
 	int obj_effecthandle = 0;            // エフェクトハンドル
 	int obj_damagestrength = 0;          // 与ダメージ量の基礎値
 	float obj_modelscale = 0;            // モデル拡大率
-
 	bool obj_debug = false;
-
+	json obj_json_data;
 };

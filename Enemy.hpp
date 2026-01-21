@@ -19,11 +19,13 @@ public:
 	Enemy();
 	~Enemy()override;
 	
+	void LoadJson();
+
 	void Initialize()override; // 初期化
 	
 	void InitializeStates()override;
 
-	void InitializeGame() { enemy_state = EnemyStateKind::STATE_CHARGE; } // 開始状態の設定
+	void InitializeGame() { enemy_state_kind = EnemyStateKind::STATE_CHARGE; } // 開始状態の設定
 
 	void Update()override; // 毎フレーム更新
 
@@ -40,7 +42,6 @@ public:
 	void SetPosition();				  // 位置設定（スポーン・復帰など）
 
 	void Draw()override;              // 描画
-
 
 	const VECTOR& GetEnemyDirection()			const { return obj_direction; } // 被弾エフェクト座標
 
@@ -65,13 +66,9 @@ private:
 	static constexpr float ENEMY_HITEFFECT_HEIGHT = 2.5f;      // 被弾エフェクトの高さ
 	static constexpr float ENEMY_SCALE = 0.02f;                // モデル拡大率
 	static constexpr int ENEMY_MAXHP = 150;                    // 最大HP
-
+	static constexpr float ENEMY_INIT_POSITION = 20.0f;
 	// ===== 状態変数 =====
-	int enemy_handname;						// モデル内「手」フレームのID
 	bool enemy_is_die;						// 死亡しているか
-	bool enemy_is_keep_state;				// ステートの状態を保持しているか
-	EnemyStateKind enemy_state;				// 現在の行動ステート
-	EnemyStateKind enemy_keep_state;		// 保持しているステート
 
 	// 手エフェクト用ハンドル
 	int enemy_hand_effect_handle = -1; 
@@ -87,6 +84,6 @@ private:
 	// ===== 状態 =====  
 	EnemyStateKind enemy_state_kind;
 
-
+	json enemy_json_data;
 
 };

@@ -8,7 +8,10 @@ class Player;
 class UiDashBar : public IUiElement
 {
 public:
+
     explicit UiDashBar(const std::shared_ptr<Player>& player); // プレイヤー参照で初期化
+    ~UiDashBar();
+
     void UpdateTitle() override {};
     void Update() override;      // 値更新
     void UpdateGameClear()override {};

@@ -33,7 +33,6 @@ private:
 	static constexpr float BULLET_SPECIAL_RADIUS = 5.0f;    // 必殺・大弾
 	static constexpr float BULLET_PLAYER_RADIUS = 0.45f;    // 必殺・大弾
 
-
 	// ===== 寿命関連 =====
 	static constexpr float BULLET_LIFE = 60.0f;  // 生存時間(フレーム)
 	static constexpr float BULLET_COUNT = 0.5f;  // 1f あたり進行量
@@ -58,13 +57,6 @@ private:
 	float bullet_homingTime = 0.0f;               // 残り追尾フレーム
 	float bullet_turnSpeed = 0.0f;				  // フレーム毎の最大旋回量(rad)
 	std::function<VECTOR()> bullet_target_getter; // ターゲット座標取得コールバック
-
-	// --- 弧を描きながら向かう（Arc）関連 ---
-	bool bullet_is_Arc = false;
-	float bullet_arcTime = 0.0f;   // 残り弧移動フレーム
-	float bullet_arcTotalTime = 0.0f;
-	float bullet_arcHeight = 0.0f; // 弧の高さ(最大)
-	VECTOR bullet_arcStartPos = VGet(0, 0, 0);
 
 	// エフェクト関連
 	int bullet_trail_handle = -1;       // 再生中のエフェクトハンドル

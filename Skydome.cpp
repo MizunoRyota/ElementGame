@@ -27,8 +27,8 @@ Skydome::~Skydome()
 {
 	MV1DeleteModel(obj_modelhandle);
 	MV1DeleteModel(cloud_modelhandle);
-
 }
+
 /// <summary>
 /// ‰Šú‰»
 /// </summary>

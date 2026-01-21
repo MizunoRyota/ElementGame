@@ -3,10 +3,17 @@
 #include "ObjectAccessor.hpp"
 // ê√ìIÉÅÉìÉoíËã`
 EnemyStateKind EnemyStateBase::enemy_attack_state = EnemyStateKind::STATE_FIREATTACK;
+bool EnemyStateBase::enemy_ondamege_phase2 = false;
+bool EnemyStateBase::enemy_ondamege_phase3 = false;
+bool EnemyStateBase::enemy_first_specialattack = false;
 
 EnemyStateBase::EnemyStateBase()
 	:enemy_hand_effect_handle(-1)
 {
+	EnemyStateBase::enemy_attack_state = EnemyStateKind::STATE_FIREATTACK;
+	EnemyStateBase::enemy_ondamege_phase2 = false;
+	EnemyStateBase::enemy_ondamege_phase3 = false;
+	EnemyStateBase::enemy_first_specialattack = false;
 }
 
 EnemyStateBase::~EnemyStateBase()
@@ -62,4 +69,23 @@ void EnemyStateBase::StartHandEffectForAttack()
 
 	const auto effType = MapEffectTypeForAttack();
 	enemy_hand_effect_handle = EffectCreator::GetEffectCreator().PlayReturn(effType, ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition());
+}
+
+EnemyStateKind EnemyStateBase::ChangeStateOnDamage()
+{
+	float hpRaito = static_cast<float>(ObjectAccessor::GetObjectAccessor().GetEnemyHp()) / static_cast<float>(ObjectAccessor::GetObjectAccessor().GetEnemyMaxHp());
+
+	if (hpRaito <= ENEMY_HP_PHASE3_RAITO && !enemy_ondamege_phase3)
+	{
+		enemy_ondamege_phase3 = true;
+		return EnemyStateKind::STATE_ONDAMAGE;
+	}
+	else if (hpRaito <= ENEMY_HP_PHASE2_RAITO && !enemy_ondamege_phase2)
+	{
+		enemy_ondamege_phase2 = true;
+		return EnemyStateKind::STATE_ONDAMAGE;
+	}
+
+	return ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
+
 }

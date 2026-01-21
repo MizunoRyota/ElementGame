@@ -58,6 +58,9 @@ EnemyStateKind EnemyStateDodge::GetNextState()
     }
     else
     {
-        return ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
+        return ChangeStateOnDamage();
     }
+
+    return ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
+
 }

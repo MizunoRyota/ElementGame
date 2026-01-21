@@ -33,6 +33,30 @@ bool Collision::CheckSphereCapsuleCollision(const VECTOR& sphere_center, float s
 
 }
 
+bool Collision::CheckCapsuleCapsuleCollision(const VECTOR& capsule1Base, float capsule1Radius, float capsule1Height,
+	const VECTOR& capsule2Base, float capsule2Radius, float capsule2Height)
+{
+	const VECTOR capsule1Top = VAdd(capsule1Base, VGet(0, capsule1Height, 0));
+	const VECTOR capsule2Top = VAdd(capsule2Base, VGet(0, capsule2Height, 0));
+
+	float minDistance = Segment_Segment_MinLength(capsule1Base, capsule1Top, capsule2Base, capsule2Top);
+	const float collideRange = capsule1Radius + capsule2Radius;
+
+	return minDistance <= collideRange;
+}
+
+float Collision::GetCapsuleCapsuleMinDistance(const VECTOR& capsule1Base, float capsule1Radius, float capsule1Height,
+    const VECTOR& capsule2Base, float capsule2Radius, float capsule2Height)
+{
+    const VECTOR capsule1Top = VAdd(capsule1Base, VGet(0, capsule1Height, 0));
+    const VECTOR capsule2Top = VAdd(capsule2Base, VGet(0, capsule2Height, 0));
+
+    const float minDistance = Segment_Segment_MinLength(capsule1Base, capsule1Top, capsule2Base, capsule2Top);
+    const float overlap = (capsule1Radius + capsule2Radius) - minDistance;
+
+    return overlap;
+}
+
 
 bool Collision::CheckSegmentSegmentColliison(const VECTOR& charaOriginPosition, const VECTOR& charaEndPosition, const VECTOR& LaserOriginPosition, const VECTOR& LaserEndPosition)
 {

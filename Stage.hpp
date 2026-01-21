@@ -9,6 +9,9 @@ class Stage : public GameObject
 public:
 	Stage();
 	~Stage();
+
+	void LoadJson();
+
 	void Initialize()override;  // ‰Šú‰»
 	void Update()override;      // XV
 	void Draw()override;        // •`‰æ
@@ -27,4 +30,8 @@ private:
 	// ’è”
 	static constexpr float SCALE = 0.0125f;  // ‘å‚«‚³
 	static constexpr float STAGE_HIGHT = 0.90f; // ‚‚³
+	static constexpr float STAGE_ROTATE_SPEED = 0.10f; // ‚‚³
+
+	json stage_json_data;
+
 };

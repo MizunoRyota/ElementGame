@@ -35,6 +35,9 @@ EnemyStateKind StateWindAttack::GetNextState()
 	}
 	else
 	{
-		return EnemyStateKind::STATE_WINDATTACK;
+		return ChangeStateOnDamage();
 	}
+
+	return EnemyStateKind::STATE_WINDATTACK;
+
 }

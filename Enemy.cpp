@@ -16,6 +16,7 @@
 #include "src/EnemyState/EnemyStateSpecialAttack.hpp"
 #include "src/EnemyState/EnemyStateStun.hpp"
 #include "src/EnemyState/EnemyStateChoseAttack.hpp"
+#include "src/EnemyState/EnemyStateOnDamage.hpp"
 #include "ObjectAccessor.hpp"
 
 // 敵の生成と初期セットアップ
@@ -23,17 +24,14 @@ Enemy::Enemy()
 {
 	obj_name = "Enemy"; // 名札
 
-	COLLISION_CAPSULE_RADIUS = 0.45f;   // カプセル判定半径(モデルに合わせる)
-	COLLISION_CAPSULE_HEIGHT = 2.75f;   // カプセル判定高さ
+	std::ifstream file{ "Enemy.json" };
+
+	enemy_json_data = json::parse(file);
+
 	enemy_is_die = false;
-	enemy_is_keep_state = false;
-	enemy_handname = 0;
 
-	obj_modelhandle = MV1LoadModel("data/3dmodel/Enemy/monster2.mv1"); // モデル読み込み
-	character_handname = MV1SearchFrame(obj_modelhandle, "mixamorig:RightHandMiddle1"); // 右手ボーンID
-	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE)); // スケール
+	LoadJson();
 
-	enemy_state = EnemyStateKind::STATE_CHARGE; // 初期ステート
 	enemy_state_kind = EnemyStateKind::STATE_IDLE;
 	// 初期ステートは具体クラスを生成（抽象クラスは生成不可）
 	enemy_current_state = std::make_shared<EnemyStateIdle>();
@@ -47,11 +45,30 @@ Enemy::Enemy()
 
 Enemy::~Enemy() {}
 
+void Enemy::LoadJson()
+{
+	// 3Dモデル読み込み
+	std::string modelPath = enemy_json_data["enemy_model"];
+	std::string handnamePath = enemy_json_data["enemy_hand_name"];
+	float cuapsuleHeight = enemy_json_data["enemy_capsule_height"];
+	float cuapsuleRadius = enemy_json_data["enemy_capsule_radius"];
+
+	COLLISION_CAPSULE_HEIGHT = cuapsuleHeight;  // カプセル判定高さ
+	COLLISION_CAPSULE_RADIUS = cuapsuleRadius;  // カプセル判定半径
+
+	obj_modelhandle = MV1LoadModel(modelPath.c_str());
+	character_handname = MV1SearchFrame(obj_modelhandle, handnamePath.c_str()); // 右手末端フレームID
+	character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
+	// 3Dモデルのスケール決定
+	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE));
+}
+
+
 // 初期化（位置/HP/状態などを初期状態に戻す）
 void Enemy::Initialize()
 {
+	obj_hp = ENEMY_MAXHP; // HP リセット
 
-	enemy_state = EnemyStateKind::STATE_CHOSEATTACK;
 	enemy_state_kind = EnemyStateKind::STATE_CHOSEATTACK;
 	enemy_current_state = std::make_shared<EnemyStateChoseAttack>();
 
@@ -59,9 +76,8 @@ void Enemy::Initialize()
 
 	InitializeStates();
 	enemy_current_state->Enter();
-	obj_position = VGet(0, 0, 20.0f); // 初期位置
-	obj_direction = VGet(0, 0, 1.0f); // 初期向き
-	obj_hp = ENEMY_MAXHP; // HP リセット
+
+	obj_position = VGet(0, 0, ENEMY_INIT_POSITION); // 初期位置
 	
 	// プレイヤー方向を向く
 	obj_direction = VSub(VGet(0,0,0), obj_position);
@@ -82,11 +98,11 @@ void Enemy::InitializeStates()
 	states[EnemyStateKind::STATE_WATERATTACK] = std::make_shared<StateWaterAttack>();				// STATE_WATERATTACK用の具体クラスに差し替え
 	states[EnemyStateKind::STATE_WINDATTACK] = std::make_shared<StateWindAttack>();					// STATE_WINDATTACK用の具体クラスに差し替え
 	states[EnemyStateKind::STATE_FLOAT] = std::make_shared<EnemyStateFloat>(obj_position);			// STATE_FLOAT用の具体クラスに差し替え
-	states[EnemyStateKind::STATE_SPECIAL_CHARGE] = std::make_shared<EnemyStateSpecialCharge>();		// EnemyStateKind::STATE_SPECIAL_CHARGE用の具体クラスに差し替え
+	states[EnemyStateKind::STATE_SPECIAL_CHARGE] = std::make_shared<EnemyStateSpecialCharge>();		// STATE_SPECIAL_CHARGE用の具体クラスに差し替え
 	states[EnemyStateKind::STATE_SPECIALATTACK] = std::make_shared<EnemyStateSpecialAttack>();		// STATE_SPECIALATTACK用の具体クラスに差し替え
     states[EnemyStateKind::STATE_STUN] = std::make_shared<EnemyStateStun>();						// STATE_STUN用の具体クラスに差し替え
-	states[EnemyStateKind::STATE_CHOSEATTACK] = std::make_shared<EnemyStateChoseAttack>();					// STATE_IDLE用の具体クラスに差し替え
-
+	states[EnemyStateKind::STATE_CHOSEATTACK] = std::make_shared<EnemyStateChoseAttack>();			// STATE_IDLE用の具体クラスに差し替え
+	states[EnemyStateKind::STATE_ONDAMAGE] = std::make_shared<EnemyStateOnDamage>();				// STATE_ONDAMAGE用の具体クラスに差し替え
 }
 
 // タイトル更新（アニメのみ）
@@ -143,7 +159,7 @@ void Enemy::UpdateGameClear()
 // ゲームオーバー時更新（ポーズ用）
 void Enemy::UpdateGameOver()
 {
-	if (enemy_state != EnemyStateKind::STATE_IDLE)
+	if (enemy_state_kind != EnemyStateKind::STATE_IDLE)
 	{
 		enemy_state_kind = EnemyStateKind::STATE_SPECIALATTACK;
 	}
@@ -191,7 +207,6 @@ void Enemy::SetPosition()
 
 void Enemy::StopEnemyHandEffect()
 {
-	enemy_current_state->StopHandEffect();
 }
 
 // 描画

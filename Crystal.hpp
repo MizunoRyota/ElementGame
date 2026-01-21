@@ -11,7 +11,11 @@ public:
 
 	Crystal();
 	~Crystal();
+
+	void LoadJson();
+
 	void Initialize() override;   // 初期化（モデル/状態）
+
 	void Update() override;       // 毎フレーム更新
 
 	void UpdateStateAction() override {}; // 各派生で行動ステート更新
@@ -35,7 +39,7 @@ public:
 	void MoveHorizontal(); // 水平移動（周回）
 
     void ChangeCrystalIsBreak()		  { crystal_is_break = false; }	// 破壊状態リセット
-	bool GetCrystalIsInit()		const { return crystal_is_init; }		// 破壊状態リセット
+	bool GetCrystalIsInit()		const { return crystal_is_active; }		// 破壊状態リセット
 
 	bool GetCrystalIsBreak()	const { return crystal_is_break; } // 
 
@@ -46,8 +50,10 @@ private:
 	static constexpr int   CRYSTAL_MAXHP = 20;       // 最大HP
 	static constexpr float OFFSET_Y = 10.0f;         // Y方向オフセット
 
-	bool crystal_is_init;     // 初期化済みか
+	bool crystal_is_active;     // 初期化済みか
 	bool crystal_is_break;    // 破壊状態か
 	float crystal_angle;      // 現在の角度
+
+	json crystal_json_data;
 
 };

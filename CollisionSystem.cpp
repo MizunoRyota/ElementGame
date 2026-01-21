@@ -1,4 +1,4 @@
-#include "stdafx.hpp"
+Ôªø#include "stdafx.hpp"
 #include "CollisionSystem.hpp"
 #include "SharedData.hpp"
 #include "BulletCreator.hpp"
@@ -10,7 +10,7 @@
 #include "Player.hpp"
 #include "Crystal.hpp"
 #include "Camera.hpp"
-#include "EffectCreator.hpp" // í«â¡
+#include "EffectCreator.hpp" // ËøΩÂä†
 #include "ObjectAccessor.hpp"
 
 namespace
@@ -18,11 +18,15 @@ namespace
 	constexpr int BULLET_DAMAGE_TO_ENEMY   = 1;
 	constexpr int BULLET_DAMAGE_TO_CRYSTAL = 1;
 	constexpr int BULLET_DAMAGE_TO_PLAYER = 10;
+	constexpr float KNOCKBACK_DISTANCE = 0.1f;
+	constexpr float PLAYER_KNOCKBACK_RADIUS = 2.0f;
+	constexpr float ENEMY_KNOCKBACK_RADIUS = 2.0f;
+	constexpr float ENEMY_SPECIAL_KNOCKBACK_RADIUS = 5.0f;
+
 }
 
 void CollisionSystem::Resolve(SharedData& shared)
 {
-	// ïKóvÇ»éQè∆ÇéÊìæ
 	auto enemy = std::dynamic_pointer_cast<Enemy>(shared.FindObject("Enemy"));
 	auto player = std::dynamic_pointer_cast<Player>(shared.FindObject("Player"));
 	auto crystal = std::dynamic_pointer_cast<Crystal>(shared.FindObject("Crystal"));
@@ -31,6 +35,50 @@ void CollisionSystem::Resolve(SharedData& shared)
 
 	const int count = bullet_creator.GetBulletCount();
 
+	//„Ç≠„É£„É©„ÇØ„Çø„ÉºÂêåÂ£´„ÅÆÂΩì„Åü„ÇäÂà§ÂÆö
+	if (enemy && player)
+	{
+		bool hitPlayer = false;
+		if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE || ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIALATTACK)
+		{
+			hitPlayer = Collision::CheckCapsuleCapsuleCollision(
+				player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+				enemy->GetPosition(), ENEMY_SPECIAL_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight());
+		}
+		else
+		{
+			hitPlayer = Collision::CheckCapsuleCapsuleCollision(
+				player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+				enemy->GetPosition(), ENEMY_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight());
+		}
+
+		if (hitPlayer)
+		{
+			VECTOR pushDir = VSub(player->GetPosition(), enemy->GetPosition());
+			float knockbackDistance = VSquareSize(pushDir);
+			//if (VSquareSize(pushDir) < 0.0001f)
+			//{
+			//	pushDir = VGet(0.0f, 0.0f, 1.0f);
+			//}
+
+			pushDir = VNorm(pushDir);
+
+			if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE || ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIALATTACK)
+			{
+				player->ApplyKnockback(VScale(pushDir, Collision::GetCapsuleCapsuleMinDistance(
+					player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+					enemy->GetPosition(), ENEMY_SPECIAL_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight())));
+			}
+			else
+			{
+				player->ApplyKnockback(VScale(pushDir, Collision::GetCapsuleCapsuleMinDistance(
+					player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+					enemy->GetPosition(), ENEMY_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight())));
+			}
+		}
+	}
+
+	//„É¨„Éº„Ç∂„Éº„Å®Êïµ„Å®„ÅÆÂΩì„Åü„ÇäÂà§ÂÆö
 	if (ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() == PlayerStateKind::STATE_LASER)
 	{
 		bool hitEnemy = false;
@@ -43,6 +91,8 @@ void CollisionSystem::Resolve(SharedData& shared)
 		}
 		return;
 	}
+
+	//Âºæ„Å®„Åù„Çå„Åû„Çå„ÅÆ„Ç≠„É£„É©„ÇØ„Çø„Éº„ÅÆÂΩì„Åü„ÇäÂà§ÂÆö
 	for (int bulletNum = 0; bulletNum < count; bulletNum++)
 	{
 		const auto bullet = bullet_creator.GetBullet(bulletNum);
@@ -50,7 +100,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 
 		const VECTOR sphereCenter = bullet->GetPosition();
 		const float  sphereRadius = bullet->GetBulletRadius();
-		//ÉNÉäÉXÉ^ÉãÇ÷ÇÃÉqÉbÉgÉ`ÉFÉbÉN
+		//„ÇØ„É™„Çπ„Çø„É´„Å∏„ÅÆ„Éí„ÉÉ„Éà„ÉÅ„Çß„ÉÉ„ÇØ
 		if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE)
 		{
 			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
@@ -67,17 +117,17 @@ void CollisionSystem::Resolve(SharedData& shared)
 				}
 				else
 				{
-					// íeÉqÉbÉgÉGÉtÉFÉNÉg
+					// Âºæ„Éí„ÉÉ„Éà„Ç®„Éï„Çß„ÇØ„Éà
 					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
 				}
 
 				bullet->ChangeActiveFalse();
 				bullet->ResetPosition();
 
-				continue; // ä˘Ç…è¡Ç¶ÇƒÇ¢ÇÈÇΩÇﬂéüÇÃíeÇ÷
+				continue; // Êó¢„Å´Ê∂à„Åà„Å¶„ÅÑ„Çã„Åü„ÇÅÊ¨°„ÅÆÂºæ„Å∏
 			}
 		}
-		// ìGÇ÷ÇÃÉqÉbÉgÉ`ÉFÉbÉN
+		// Êïµ„Å∏„ÅÆ„Éí„ÉÉ„Éà„ÉÅ„Çß„ÉÉ„ÇØ
 		else if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE)
 		{
 			bool hitEnemy = false;
@@ -89,16 +139,16 @@ void CollisionSystem::Resolve(SharedData& shared)
 			{
 				enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
 
-				// íeÉqÉbÉgÉGÉtÉFÉNÉg
+				// Âºæ„Éí„ÉÉ„Éà„Ç®„Éï„Çß„ÇØ„Éà
 				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
 				bullet->ChangeActiveFalse();
 				bullet->ResetPosition();
 
-				continue; // ä˘Ç…è¡Ç¶ÇƒÇ¢ÇÈÇΩÇﬂéüÇÃíeÇ÷
+				continue; // Êó¢„Å´Ê∂à„Åà„Å¶„ÅÑ„Çã„Åü„ÇÅÊ¨°„ÅÆÂºæ„Å∏
 			}
 		}
 
-		// ÉvÉåÉCÉÑÅ[Ç÷ÇÃÉqÉbÉgÉ`ÉFÉbÉN
+		// „Éó„É¨„Ç§„É§„Éº„Å∏„ÅÆ„Éí„ÉÉ„Éà„ÉÅ„Çß„ÉÉ„ÇØ
 		if (player)
 		{
 			const bool hitPlayer = Collision::CheckSphereCapsuleCollision(
@@ -108,7 +158,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 			{
 				player->TakeDamage(BULLET_DAMAGE_TO_PLAYER);
 				ObjectAccessor::GetObjectAccessor().StartShakeCamera();
-				// ÉGÉtÉFÉNÉg: îÌíe
+				// „Ç®„Éï„Çß„ÇØ„Éà: Ë¢´Âºæ
 				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, player->GetPosition());
 
 				bullet->ChangeActiveFalse();
@@ -118,4 +168,3 @@ void CollisionSystem::Resolve(SharedData& shared)
 		}
 	}
 }
-

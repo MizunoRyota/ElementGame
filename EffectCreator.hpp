@@ -82,4 +82,6 @@ private:
 	bool   loop_enabled[EFFECT_NUM]{};
 	int    loop_playing_handles[EFFECT_NUM]{};
 	VECTOR loop_positions[EFFECT_NUM]{};		// ç≈èIà íu
+
+	json effect_json_data;
 };

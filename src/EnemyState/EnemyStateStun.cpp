@@ -13,7 +13,7 @@ EnemyStateStun::~EnemyStateStun()
 void EnemyStateStun::Enter()
 {
 	stun_time = STUN_TIME;
-    EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::EnemyStun, VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(),VGet(0, STUN_HEIGHT,0)));
+    EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::EnemyStun, VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(),VGet(0, STUN_HEIGHT,0)));
 }
 void EnemyStateStun::Update()
 {
@@ -32,6 +32,7 @@ EnemyStateKind EnemyStateStun::GetNextState()
 	}
 	else
 	{
-		return EnemyStateKind::STATE_STUN;
+		return ChangeStateOnDamage();
 	}
+	return EnemyStateKind::STATE_STUN;
 }

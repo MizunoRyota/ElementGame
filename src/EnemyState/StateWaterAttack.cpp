@@ -39,6 +39,8 @@ EnemyStateKind StateWaterAttack::GetNextState()
 	}
 	else
 	{
-		return EnemyStateKind::STATE_WATERATTACK;
+		return ChangeStateOnDamage();
 	}
+
+	return EnemyStateKind::STATE_WATERATTACK;
 }

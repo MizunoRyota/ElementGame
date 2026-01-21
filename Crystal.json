@@ -1,4 +1,5 @@
 {
   "init_pos": [ 0.0, -10.0, 0.0 ],
-  "crystal_graph": "data/3dmodel/Crystal/Crystal.mv1"
+  "capsule_num": 2.5,
+  "crystal_model": "data/3dmodel/Crystal/Crystal.mv1"
 }

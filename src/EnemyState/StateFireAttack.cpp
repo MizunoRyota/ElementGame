@@ -34,6 +34,7 @@ EnemyStateKind StateFireAttack::GetNextState()
 	}
 	else
 	{
-		return EnemyStateKind::STATE_FIREATTACK;
+		return ChangeStateOnDamage();
 	}
+	return EnemyStateKind::STATE_FIREATTACK;
 }

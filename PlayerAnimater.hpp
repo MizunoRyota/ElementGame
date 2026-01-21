@@ -15,4 +15,7 @@ public:
 
 protected:
 	PlayerStateKind& player_state; // 参照: プレイヤーステート
+
+private:
+	static constexpr float DEFAULT_ANIMATION_SPEED = 0.5f;
 };

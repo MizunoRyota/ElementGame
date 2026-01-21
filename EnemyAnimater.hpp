@@ -19,4 +19,9 @@ public:
 
 protected:
     EnemyStateKind& enemy_state; // 参照保持：敵の現在ステート
+
+private:
+    static constexpr float DEFAULT_ANIMATION_SPEED = 0.5f;
+    static constexpr float SPECIALATTACK_ANIMATION_SPEED = 0.25f;
+
 };

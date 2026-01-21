@@ -12,17 +12,14 @@
 // プレイヤー生成と初期セットアップ
 Player::Player()
 {
-	COLLISION_CAPSULE_RADIUS = 0.06f; // カプセル判定半径
-	COLLISION_CAPSULE_HEIGHT = 2.5f;  // カプセル判定高さ
 
 	obj_name = "Player"; // 名前識別
-	// 3Dモデル読み込み
-	obj_modelhandle = MV1LoadModel(_T("data/3dmodel/Player/Player.mv1"));
-	character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
-	character_handname = MV1SearchFrame(obj_modelhandle, "f_middle.03.R"); // 右手末端フレームID
 
-	// モデルスケール適用
-	MV1SetScale(obj_modelhandle, VGet(SCALE, SCALE, SCALE));
+	std::ifstream file{ "Player.json" };
+
+	player_json_data = json::parse(file);
+
+	LoadJson();
 
 	// 状態テーブル初期化（重要）
 	InitializeStates();
@@ -44,6 +41,25 @@ Player::~Player()
 	MV1DeleteModel(obj_modelhandle);
 }
 
+void Player::LoadJson()
+{
+
+	// 3Dモデル読み込み
+	std::string modelPath = player_json_data["player_model"];
+	std::string handnamePath = player_json_data["player_hand_name"];
+	float cuapsuleHeight = player_json_data["player_capsule_height"];
+	float cuapsuleRadius = player_json_data["player_capsule_radius"];
+
+	COLLISION_CAPSULE_HEIGHT = cuapsuleHeight;  // カプセル判定高さ
+	COLLISION_CAPSULE_RADIUS = cuapsuleRadius;  // カプセル判定半径
+
+	obj_modelhandle = MV1LoadModel(modelPath.c_str());
+	character_handname = MV1SearchFrame(obj_modelhandle, handnamePath.c_str()); // 右手末端フレームID
+	character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname); // 手先取得
+	// 3Dモデルのスケール決定
+	MV1SetScale(obj_modelhandle, VGet(SCALE, SCALE, SCALE));
+}
+
 // 初期化（位置/向き/モデル姿勢などを初期状態に）
 void Player::Initialize()
 {
@@ -54,7 +70,6 @@ void Player::Initialize()
 	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoveAngle() + DX_PI_F, 0.0f));
 	// モデル座標適用
 	MV1SetPosition(obj_modelhandle, obj_position);
-
 }
 
 void Player::InitializeStates()
@@ -67,13 +82,6 @@ void Player::InitializeStates()
 // 毎フレーム更新
 void Player::Update()
 {
-
-	// デバッグ: Kキーで強制死亡
-	if ((CheckHitKey(KEY_INPUT_K) != 0))
-	{
-		obj_hp = 0;
-	}
-
 	player_move->Update(); // 入力→移動量計算
 
 	Move(); // 位置反映
@@ -86,6 +94,14 @@ void Player::Update()
 
 	// 無敵タイマー減算
 	TickDamageCooldown();
+}
+
+void Player::ApplyKnockback(const VECTOR& knockback)
+{
+	obj_position = VAdd(obj_position, knockback);
+	MV1SetPosition(obj_modelhandle, obj_position);
+	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoveAngle() + DX_PI_F, 0.0f));
+	character_hand_position = MV1GetFramePosition(obj_modelhandle, character_handname);
 }
 
 // 手元ループエフェクトの位置更新

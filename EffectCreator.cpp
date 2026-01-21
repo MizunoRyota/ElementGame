@@ -4,9 +4,9 @@
 void EffectCreator::LoadJson()
 {
 	std::ifstream file{ "EffectCreator.json" };
-	json effectData = json::parse(file);
+	json effect_json_data = json::parse(file);
 
-	auto effectList = effectData["EffectList"];
+	auto effectList = effect_json_data["EffectList"];
 
 	// 各エフェクト読み込み
 	for (int load_i = 0; load_i < effectList.size(); load_i++) {

@@ -166,6 +166,9 @@
     <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack">
       <UniqueIdentifier>{07b6bcde-ba62-41b6-a2ba-d0146b4b67dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateOnDamage">
+      <UniqueIdentifier>{c06cd908-887e-419e-83f7-c5f79320667e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.hpp">
@@ -369,6 +372,9 @@
     <ClInclude Include="src\EnemyState\EnemyStateChoseAttack.hpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack</Filter>
     </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateOnDamage.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateOnDamage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -551,6 +557,9 @@
     <ClCompile Include="src\EnemyState\EnemyStateChoseAttack.cpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack</Filter>
     </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateOnDamage.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateOnDamage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="camera.json">
@@ -561,6 +570,15 @@
     </None>
     <None Include="EffectCreator.json">
       <Filter>GameCode\Effects</Filter>
+    </None>
+    <None Include="Player.json">
+      <Filter>GameCode\GameObject\Character\Player</Filter>
+    </None>
+    <None Include="Stage.json">
+      <Filter>GameCode\Environment\Stage</Filter>
+    </None>
+    <None Include="Enemy.json">
+      <Filter>GameCode\GameObject\Character\Enemy</Filter>
     </None>
   </ItemGroup>
 </Project>
