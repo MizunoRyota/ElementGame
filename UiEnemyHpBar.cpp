@@ -65,7 +65,7 @@ void UiEnemyHpBar::Draw() const
     int hpbarY = offset_y;
 
     // ---- 背景 / ベース ----
-    DrawBoxAA(hpbarX - BAR_FRAME, hpbarY - BAR_FRAME, hpbarX + hpbar_width + BAR_FRAME, hpbarY + hpbar_height + BAR_FRAME, Pallet::Aqua.GetHandle(), TRUE); // 外枠背景 (縁取り用)
+    //DrawBoxAA(hpbarX - BAR_FRAME, hpbarY - BAR_FRAME, hpbarX + hpbar_width + BAR_FRAME, hpbarY + hpbar_height + BAR_FRAME, Pallet::Aqua.GetHandle(), TRUE); // 外枠背景 (縁取り用)
     DrawBox(hpbarX, hpbarY, hpbarX + hpbar_width, hpbarY + hpbar_height, Pallet::Gray.GetHandle(), TRUE);             // バー背景
 
     // ---- 遅延表示レイヤ（ダメージ演出: 暗赤）----
@@ -79,6 +79,6 @@ void UiEnemyHpBar::Draw() const
     DrawBox(hpbarX, hpbarY, hpbarX + realWidth, hpbarY + hpbar_height, GetColor(BAR_R, colorG, colorB), TRUE);
 
     // ---- 枠線 ----
-    DrawBox(hpbarX, hpbarY, hpbarX + hpbar_width, hpbarY + hpbar_height, Pallet::Aqua.GetHandle(), FALSE);
+    //DrawBox(hpbarX, hpbarY, hpbarX + hpbar_width, hpbarY + hpbar_height, Pallet::Aqua.GetHandle(), FALSE);
 
 }

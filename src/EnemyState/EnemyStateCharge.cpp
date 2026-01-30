@@ -27,4 +27,7 @@ EnemyStateKind EnemyStateCharge::GetNextState()
 	{
 		return ChangeStateOnDamage();
 	}
+
+	return ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
+
 }

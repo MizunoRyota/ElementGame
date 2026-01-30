@@ -38,7 +38,6 @@ void UiDashBar::Draw() const
     int realWidth = static_cast<int>(bar_width * realRatio);
 
     // ”wŒi˜g
-    DrawBox(energy_x - 2, energy_y - 2, energy_x + bar_width + 2, energy_y + bar_height + 2, Pallet::Aqua.GetHandle(), TRUE);
     DrawBox(energy_x, energy_y, energy_x + bar_width, energy_y + bar_height, Pallet::Gray.GetHandle(), TRUE);
 
     // “à˜gƒ‰ƒCƒ“

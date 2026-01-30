@@ -36,7 +36,7 @@ private:
     int hpbar_x = 50;
     int hpbar_y = 900;
     int hpbar_width = 300;  // バー幅
-    int hpbar_height = 30;  // バー高さ
+    int hpbar_height = 40;  // バー高さ
 
     std::weak_ptr<Player> player_; // HP 取得用参照
 };

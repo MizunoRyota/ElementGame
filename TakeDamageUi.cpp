@@ -7,7 +7,7 @@
 TakeDamageUi::TakeDamageUi(const std::shared_ptr<Player>& player)
 	:player_(player)
 {
-	graph_handle = LoadGraph("data/Texture/take_damage.png");
+	graph_handle = LoadGraph("data/Texture/take_damage1.png");
 }
 
 TakeDamageUi::~TakeDamageUi()

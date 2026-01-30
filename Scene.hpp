@@ -3,17 +3,17 @@
 class SceneManager;
 class SharedData;
 
-/// @brief シーン基底クラス
+///  シーン基底クラス
 /// SceneManager で管理される各シーンはこのクラスを継承して実装する。
 class Scene
 {
 public:
 
-	/// @brief SceneManager への参照を受け取ります。
+	///  SceneManager への参照を受け取ります。
 	/// @param manager SceneManager への参照
 	Scene(SceneManager& manager, SharedData& sharedData);
 
-	/// @brief シーンを初期化します。
+	///  シーンを初期化します。
 	/// @remark デフォルトでは何もしません。
 	virtual void Initialize();
 
@@ -21,16 +21,16 @@ public:
 
 	virtual void ReturnScene();
 
-	/// @brief シーンを更新します。
+	///  シーンを更新します。
 	/// @remark デフォルトでは何もしません。
 	virtual void Update();
 
-	/// @brief シーンを描画します。
+	///  シーンを描画します。
 	/// @remark デフォルトでは何もしません。
 	virtual void Draw();
 
 protected:
-	/// @brief アクティブなシーンを切り替えます。
+	///  アクティブなシーンを切り替えます。
 	/// @param name 切り替え先のシーン名
 	void ChangeScene(std::string_view name);
 
@@ -45,9 +45,9 @@ private:
 
 	int alpha;
 
-	SceneManager& m_manager;  /// @brief SceneManager への参照
-	SharedData& m_sharedData; /// @brief 共有データへの参照
+	SceneManager& m_manager;  ///  SceneManager への参照
+	SharedData& m_sharedData; ///  共有データへの参照
 
-	bool whiteout_is_end; /// @brief ホワイトアウト完了フラグ
-	bool return_is_end;   /// @brief シーン復帰完了フラグ
+	bool whiteout_is_end; ///  ホワイトアウト完了フラグ
+	bool return_is_end;   ///  シーン復帰完了フラグ
 };

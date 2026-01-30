@@ -6,13 +6,12 @@
 #include "PlayerAnimater.hpp"
 #include "EffectCreator.hpp"
 #include "src/PlayerState/PlayerStateIdle.hpp"
-#include "src/PlayerState/PlayerLaserState.hpp"
+#include "src/PlayerState/PlayerStateLaser.hpp"
 #include "ObjectAccessor.hpp"
 
 // プレイヤー生成と初期セットアップ
 Player::Player()
 {
-
 	obj_name = "Player"; // 名前識別
 
 	std::ifstream file{ "Player.json" };
@@ -27,7 +26,7 @@ Player::Player()
 	player_state_kind = PlayerStateKind::STATE_IDLE;
 
 	// 初期ステートは具体クラスを生成（抽象クラスは生成不可）
-	player_current_state = std::make_shared<PlayerAttack>();
+	player_current_state = std::make_shared<PlayerStateIdle>();
 
 	player_animater = std::make_shared<PlayerAnimater>(obj_modelhandle, player_state_kind); // アニメーション制御
 	player_move = std::make_shared<PlayerMove>();   // 移動制御
@@ -66,6 +65,11 @@ void Player::Initialize()
 	obj_hp = PLAYER_MAXHP; // HP リセット
 	obj_position = VGet(0, 0, 0);
 	obj_direction = VGet(0, 0, 1);
+
+	player_current_state->Exit();
+	player_state_kind = PlayerStateKind::STATE_IDLE;
+	player_current_state = std::make_shared<PlayerStateIdle>();
+
 	// モデル回転初期
 	MV1SetRotationXYZ(obj_modelhandle, VGet(0.0f, player_move->GetMoveAngle() + DX_PI_F, 0.0f));
 	// モデル座標適用
@@ -76,7 +80,7 @@ void Player::InitializeStates()
 {
     states[PlayerStateKind::STATE_IDLE]   = std::make_shared<PlayerStateIdle>();   // STATE_IDLE用の具体クラスに差し替え
     states[PlayerStateKind::STATE_ATTACK] = std::make_shared<PlayerAttack>();
-	states[PlayerStateKind::STATE_LASER] = std::make_shared<PlayerLaserState>();
+	states[PlayerStateKind::STATE_LASER] = std::make_shared<PlayerStateLaser>();
 }
 
 // 毎フレーム更新

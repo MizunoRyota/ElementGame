@@ -33,6 +33,7 @@ Enemy::Enemy()
 	LoadJson();
 
 	enemy_state_kind = EnemyStateKind::STATE_IDLE;
+
 	// 初期ステートは具体クラスを生成（抽象クラスは生成不可）
 	enemy_current_state = std::make_shared<EnemyStateIdle>();
 
@@ -41,6 +42,7 @@ Enemy::Enemy()
 
 	// ダメージクールタイム設定
 	ConfigureDamageCooldown(static_cast<int>(TAKEDAMAGE_COOLDOWN));
+
 }
 
 Enemy::~Enemy() {}
@@ -63,12 +65,11 @@ void Enemy::LoadJson()
 	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE));
 }
 
-
 // 初期化（位置/HP/状態などを初期状態に戻す）
 void Enemy::Initialize()
 {
 	obj_hp = ENEMY_MAXHP; // HP リセット
-
+	MV1SetMaterialDifColor(obj_modelhandle, 0, Pallet::White_F.GetHandleF());
 	enemy_state_kind = EnemyStateKind::STATE_CHOSEATTACK;
 	enemy_current_state = std::make_shared<EnemyStateChoseAttack>();
 
@@ -110,13 +111,12 @@ void Enemy::UpdateTitle()
 {
 	enemy_state_kind = EnemyStateKind::STATE_SPECIALATTACK;
 
+	enemy_animater->Update();
+
 	if (enemy_animater->GetAnimationFrame() == 0 )
 	{
 		EffectCreator::GetEffectCreator().PlayReturn(EffectCreator::EffectType::Flame, obj_position);
 	}
-
-	enemy_animater->Update();
-
 }
 
 // 毎フレーム更新

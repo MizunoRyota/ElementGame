@@ -129,6 +129,7 @@
       <LanguageStandard>stdcpp23</LanguageStandard>
       <AdditionalIncludeDirectories>Dxlib.h;EffekseerForDXLib.h;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -151,7 +152,6 @@
     <ClInclude Include="EffectCreator.hpp" />
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="EnemyAnimater.hpp" />
-    <ClInclude Include="EnemyMove.hpp" />
     <ClInclude Include="EnemyStateKind.hpp" />
     <ClInclude Include="EnemyStateBase.hpp" />
     <ClInclude Include="GameClearScene.hpp" />
@@ -191,7 +191,7 @@
     <ClInclude Include="src\EnemyState\StateFireAttack.hpp" />
     <ClInclude Include="src\EnemyState\StateWaterAttack.hpp" />
     <ClInclude Include="src\EnemyState\StateWindAttack.hpp" />
-    <ClInclude Include="src\PlayerState\PlayerLaserState.hpp" />
+    <ClInclude Include="src\PlayerState\PlayerStateLaser.hpp" />
     <ClInclude Include="src\PlayerState\PlayerStateIdle.hpp" />
     <ClInclude Include="src\Sounds\SoundManager.hpp" />
     <ClInclude Include="Stage.hpp" />
@@ -220,7 +220,6 @@
     <ClCompile Include="EffectCreator.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAnimater.cpp" />
-    <ClCompile Include="EnemyMove.cpp" />
     <ClCompile Include="EnemyStateBase.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
@@ -255,7 +254,7 @@
     <ClCompile Include="src\EnemyState\StateWaterAttack.cpp" />
     <ClCompile Include="src\EnemyState\StateWindAttack.cpp" />
     <ClCompile Include="src\GameObjects\GameObject.cpp" />
-    <ClCompile Include="src\PlayerState\PlayerLaserState.cpp" />
+    <ClCompile Include="src\PlayerState\PlayerStateLaser.cpp" />
     <ClCompile Include="src\PlayerState\PlayerStateIdle.cpp" />
     <ClCompile Include="src\Sounds\SoundManager.cpp" />
     <ClCompile Include="Stage.cpp" />

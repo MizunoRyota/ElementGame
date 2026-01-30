@@ -2,11 +2,11 @@
 
 #include "../PlayerStateBase.hpp"
 
-class PlayerLaserState : public PlayerStateBase
+class PlayerStateLaser : public PlayerStateBase
 {
 public:
-	PlayerLaserState();
-	~PlayerLaserState();
+	PlayerStateLaser();
+	~PlayerStateLaser();
 
 	void Enter()override;
 

@@ -1,5 +1,4 @@
 {
-
   "EffectList": [
     { "Path": "data/effekseer/effekseer/Effect/BulletFire.efkefc", "Scale": 0.5 },
     { "Path": "data/effekseer/effekseer/Effect/BulletWater.efkefc", "Scale": 0.6 },

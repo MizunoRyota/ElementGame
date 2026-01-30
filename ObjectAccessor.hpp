@@ -12,7 +12,7 @@ class Player;
 class Enemy;
 class Camera;
 
-static class ObjectAccessor
+class ObjectAccessor
 {
 public:
 

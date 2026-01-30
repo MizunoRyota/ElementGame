@@ -7,22 +7,22 @@ class Enemy;
 class Shadow;
 class BulletCreator;
 
-/// @brief ステージシーン
+///  ステージシーン
 class GameScene : public Scene
 {
 public:
 
-    /// @brief SceneManager への参照を受け取ります。
+    ///  SceneManager への参照を受け取ります。
     /// @param manager SceneManager への参照
     GameScene(SceneManager& manager, SharedData& sharedData);
 
-    /// @brief ステージを初期化します。
+    ///  ステージを初期化します。
     void Initialize() override;
 
-    /// @brief ステージを更新します。
+    ///  ステージを更新します。
     void Update() override;
 
-    /// @brief ステージを描画します。
+    ///  ステージを描画します。
     void Draw()  override;
 
 private:

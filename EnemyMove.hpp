@@ -7,8 +7,6 @@ public:
 	EnemyMove();
 	~EnemyMove();
 
-	VECTOR MoveToOrigin(const VECTOR& enemypos);                    // 原点付近に戻る移動
-	VECTOR MoveToSky(const VECTOR& enemypos);                       // 上空へ移動（退避）
 	VECTOR MoveToTarget(const VECTOR& enemypos, const VECTOR& targetpos); // ターゲットへ接近移動
 
 	const bool& GetIsOrigin() const { return move_is_origin; } // 原点にいるか

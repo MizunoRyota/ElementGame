@@ -32,7 +32,7 @@ void TutorialScene::Update()
 
     bool check_is_click = ((GetMouseInput() & MOUSE_INPUT_LEFT));
 
-    //GetSharedData().UpdateTitle();
+    GetSharedData().UpdateTutorial();
 
     // 置き換え: 直接UpdateEffekseer3D()ではなく、マネージャ更新
     EffectCreator::GetEffectCreator().Update();
@@ -47,7 +47,6 @@ void TutorialScene::Update()
 
 void TutorialScene::Draw()
 {
-
     ClearDrawScreen();
 
     //シャドウマップの準備

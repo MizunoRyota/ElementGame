@@ -32,7 +32,7 @@ public:
     }
 
 private:
-    static const int BULLET_NUM = 200;                 // プール最大数
+    static const int BULLET_NUM = 150;                 // プール最大数
     static constexpr float BULLET_COOLDOWN_TIME = 20;  // 発射クール時間
     float bullet_cooldowntimer = 0;                    // クールタイマ
     std::vector<std::shared_ptr<Bullet>> bullets;      // 弾配列

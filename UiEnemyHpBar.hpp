@@ -36,5 +36,5 @@ private:
     int offset_x = 50; // ‰E’[‚©‚ç‚Ì‹——£
     int offset_y = 50; // ã’[‚©‚ç‚Ì‹——£
     int hpbar_width = 1200;  // •
-    int hpbar_height = 35;  // ‚‚³
+    int hpbar_height = 40;  // ‚‚³
 };

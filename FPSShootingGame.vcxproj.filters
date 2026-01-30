@@ -237,9 +237,6 @@
     <ClInclude Include="PlayerMove.hpp">
       <Filter>GameCode\GameObject\Character\Player\Move</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyMove.hpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Move</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.hpp">
       <Filter>GameCode\Collision</Filter>
     </ClInclude>
@@ -312,7 +309,7 @@
     <ClInclude Include="PlayerAttack.hpp">
       <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerAttack</Filter>
     </ClInclude>
-    <ClInclude Include="src\PlayerState\PlayerLaserState.hpp">
+    <ClInclude Include="src\PlayerState\PlayerStateLaser.hpp">
       <Filter>GameCode\GameObject\Character\Player\PlayerState\LaserBeam</Filter>
     </ClInclude>
     <ClInclude Include="PlayerStateBase.hpp">
@@ -434,9 +431,6 @@
     <ClCompile Include="PlayerMove.cpp">
       <Filter>GameCode\GameObject\Character\Player\Move</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyMove.cpp">
-      <Filter>GameCode\GameObject\Character\Enemy\Move</Filter>
-    </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>GameCode\Collision</Filter>
     </ClCompile>
@@ -500,7 +494,7 @@
     <ClCompile Include="PlayerAttack.cpp">
       <Filter>GameCode\GameObject\Character\Player\PlayerState\PlayerAttack</Filter>
     </ClCompile>
-    <ClCompile Include="src\PlayerState\PlayerLaserState.cpp">
+    <ClCompile Include="src\PlayerState\PlayerStateLaser.cpp">
       <Filter>GameCode\GameObject\Character\Player\PlayerState\LaserBeam</Filter>
     </ClCompile>
     <ClCompile Include="PlayerStateBase.cpp">

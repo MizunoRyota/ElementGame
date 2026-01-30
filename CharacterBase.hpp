@@ -23,7 +23,7 @@ public:
 	void ConfigureDamageCooldown(float frames) { damage_invincible_duration = frames; } // 無敵時間(フレーム)設定
 	bool TakeDamage(int amount);                    // ダメージ適用。HPを減少させた場合 true
 	void TickDamageCooldown();                      // 無敵タイマー進行(Update 等で呼ぶ)
-
+	void ChangeColor();
 	void CheckMoveRange();                          // 行動範囲外チェック＆補正
 
 	bool IsInvincible()			const { return damage_invincible_timer > 0; }		// 現在無敵か

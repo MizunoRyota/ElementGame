@@ -110,7 +110,7 @@ void Crystal::MoveHorizontal()
 {
 
 	crystal_angle += ROTATION_SPEED;
-	if (crystal_angle > DX_TWO_PI) crystal_angle -= DX_TWO_PI;
+	if (crystal_angle > DX_TWO_PI_F) crystal_angle -= DX_TWO_PI_F;
 
 	float cos = cosf(crystal_angle);
 	float sin = sinf(crystal_angle);

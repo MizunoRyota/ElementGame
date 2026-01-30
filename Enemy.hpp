@@ -66,6 +66,8 @@ private:
 	static constexpr float ENEMY_HITEFFECT_HEIGHT = 2.5f;      // 被弾エフェクトの高さ
 	static constexpr float ENEMY_SCALE = 0.02f;                // モデル拡大率
 	static constexpr int ENEMY_MAXHP = 150;                    // 最大HP
+	static constexpr float ENEMY_PHASE2_RAITO = 0.7f;
+	static constexpr float ENEMY_PHASE3_RAITO = 0.4f;
 	static constexpr float ENEMY_INIT_POSITION = 20.0f;
 	// ===== 状態変数 =====
 	bool enemy_is_die;						// 死亡しているか
@@ -85,5 +87,7 @@ private:
 	EnemyStateKind enemy_state_kind;
 
 	json enemy_json_data;
+
+
 
 };

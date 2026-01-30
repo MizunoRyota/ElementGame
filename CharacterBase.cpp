@@ -9,12 +9,17 @@ bool CharacterBase::TakeDamage(int amount)
 	if (IsInvincible()) return true;
 
 	SoundManager::GetSoundManager().PlayOnEnemySe();
-
+	ChangeColor();
 	obj_hp -= amount;
 
 	if (obj_hp < 0) obj_hp = 0;
 	damage_invincible_timer = damage_invincible_duration; // 無敵開始
 	return true;
+}
+
+void CharacterBase::ChangeColor()
+{
+	MV1SetMaterialDifColor(obj_modelhandle, 0, Pallet::Red_F.GetHandleF());
 }
 
 // 無敵タイマーの進行（毎フレーム呼ぶ)
@@ -23,6 +28,10 @@ void CharacterBase::TickDamageCooldown()
 	if (damage_invincible_timer > 0)
 	{
 		damage_invincible_timer--;
+	}
+	if (damage_invincible_timer<=0)
+	{
+		MV1SetMaterialDifColor(obj_modelhandle, 0, Pallet::White_F.GetHandleF());
 	}
 }
 

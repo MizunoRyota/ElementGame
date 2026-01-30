@@ -70,7 +70,7 @@ private:
     static constexpr int   DIFFUSION_RADIUS = 15;    // 拡散の角度(度)
 
     static constexpr int   ALLRANGE_NUM = 30;        // 全方位の弾数
-    static constexpr float BULLET_COOLTIME = 10;     // 発射クールタイム
+    static constexpr float BULLET_COOLTIME = 12;     // 発射クールタイム
     static constexpr int   VERTICAL_NUM = 30;        // 垂直散弾の段数
     static constexpr int   HORIZONTAL_NUM = 20;      // 水平散弾の列数
 

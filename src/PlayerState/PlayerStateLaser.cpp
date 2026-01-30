@@ -1,20 +1,20 @@
-#include "PlayerLaserState.hpp"
+#include "PlayerStateLaser.hpp"
 #include "../../EffectCreator.hpp"
 #include "../ObjectAccessor.hpp"
 #include "../PlayerStateKind.hpp"
 #include "../src/Sounds/SoundManager.hpp"
-PlayerLaserState::PlayerLaserState()
+PlayerStateLaser::PlayerStateLaser()
 {
 	laser_is_ready = false;
 	laser_is_fire = false;
 	laser_timer = 0;
 }
 
-PlayerLaserState::~PlayerLaserState()
+PlayerStateLaser::~PlayerStateLaser()
 {
 }
 
-void PlayerLaserState::Enter()
+void PlayerStateLaser::Enter()
 {
 
 	SoundManager::GetSoundManager().PlayFireLaserSe();
@@ -29,7 +29,7 @@ void PlayerLaserState::Enter()
 
 }
 
-void PlayerLaserState::Update()
+void PlayerStateLaser::Update()
 {
 
 	// レーザー開始直後にカメラ向きを反映（初期フレームの向き補正）
@@ -44,7 +44,7 @@ void PlayerLaserState::Update()
 	FireEnd();
 }
 
-bool PlayerLaserState::FireEnd()
+bool PlayerStateLaser::FireEnd()
 {
 	if (laser_timer <= 0)
 	{
@@ -53,12 +53,12 @@ bool PlayerLaserState::FireEnd()
 	return false;
 }
 
-void PlayerLaserState::Exit()
+void PlayerStateLaser::Exit()
 {
 	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EternalLaser);
 }
 
-PlayerStateKind PlayerLaserState::GetNextState()
+PlayerStateKind PlayerStateLaser::GetNextState()
 {
 	if (FireEnd())
 	{
