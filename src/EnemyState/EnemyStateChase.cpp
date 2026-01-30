@@ -34,6 +34,10 @@ void EnemyStateChase::ChoseRange()
 	{
 		chase_range = WIND_RANGE;
 	}
+	else if (enemy_attack_state == EnemyStateKind::STATE_JUMPATTACK)
+	{
+		chase_range = JUMPATTACK_RANGE;
+	}
 }
 
 EffectCreator::EffectType EnemyStateChase::MapEffectTypeForAttack(float chase_range) const
@@ -49,6 +53,10 @@ EffectCreator::EffectType EnemyStateChase::MapEffectTypeForAttack(float chase_ra
 	else if (chase_range == WIND_RANGE)
 	{
 		return EffectCreator::EffectType::BulletWind;		// 風
+	}
+	else if (chase_range == JUMPATTACK_RANGE)
+	{
+		return EffectCreator::EffectType::JumpAttack;		// 風
 	}
 	else
 	{

@@ -166,6 +166,7 @@
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="PlayerAnimater.hpp" />
     <ClInclude Include="PlayerAttack.hpp" />
+    <ClInclude Include="PlayerJump.hpp" />
     <ClInclude Include="PlayerMove.hpp" />
     <ClInclude Include="PlayerStateBase.hpp" />
     <ClInclude Include="PlayerStateKind.hpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="src\EnemyState\EnemyStateDodge.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateFloat.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateIdle.hpp" />
+    <ClInclude Include="src\EnemyState\EnemyStateJumpAttack.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateOnDamage.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateSpecialAttack.hpp" />
     <ClInclude Include="src\EnemyState\EnemyStateSpecialCharge.hpp" />
@@ -229,6 +231,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAnimater.cpp" />
     <ClCompile Include="PlayerAttack.cpp" />
+    <ClCompile Include="PlayerJump.cpp" />
     <ClCompile Include="PlayerMove.cpp" />
     <ClCompile Include="PlayerStateBase.cpp" />
     <ClCompile Include="Reticle.cpp" />
@@ -246,6 +249,7 @@
     <ClCompile Include="src\EnemyState\EnemyStateDodge.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateFloat.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateIdle.cpp" />
+    <ClCompile Include="src\EnemyState\EnemyStateJumpAttack.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateOnDamage.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateSpecialAttack.cpp" />
     <ClCompile Include="src\EnemyState\EnemyStateSpecialCharge.cpp" />

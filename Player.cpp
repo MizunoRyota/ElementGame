@@ -3,6 +3,7 @@
 #include "PlayerStateBase.hpp"
 #include "PlayerAttack.hpp"
 #include "PlayerMove.hpp"
+#include "PlayerJump.hpp"
 #include "PlayerAnimater.hpp"
 #include "EffectCreator.hpp"
 #include "src/PlayerState/PlayerStateIdle.hpp"
@@ -29,7 +30,8 @@ Player::Player()
 	player_current_state = std::make_shared<PlayerStateIdle>();
 
 	player_animater = std::make_shared<PlayerAnimater>(obj_modelhandle, player_state_kind); // アニメーション制御
-	player_move = std::make_shared<PlayerMove>();   // 移動制御
+	player_move = std::make_shared<PlayerMove>();	// 移動制御
+	player_jump = std::make_shared<PlayerJump>(obj_position);	// ジャンプ
 
 	// 被弾後クール(5f)設定
 	ConfigureDamageCooldown(TAKEDAMAGE_COOLDOWN);
@@ -87,6 +89,8 @@ void Player::InitializeStates()
 void Player::Update()
 {
 	player_move->Update(); // 入力→移動量計算
+
+	player_jump->Update(); 
 
 	Move(); // 位置反映
 

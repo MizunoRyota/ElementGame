@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
-  <WindowWidth>1225</WindowWidth>
-  <WindowHeight>605</WindowHeight>
-  <WindowPosX>973</WindowPosX>
-  <WindowPosY>-796</WindowPosY>
+  <WindowWidth>1653</WindowWidth>
+  <WindowHeight>1030</WindowHeight>
+  <WindowPosX>871</WindowPosX>
+  <WindowPosY>344</WindowPosY>
   <WindowIsMaximumMode>0</WindowIsMaximumMode>
   <Docks>
     <Effekseer.GUI.Dock.ViewerController>Open</Effekseer.GUI.Dock.ViewerController>

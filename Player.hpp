@@ -8,6 +8,7 @@ class CharaterBase;
 class AnimaterBase;  
 class PlayerStateBase;
 class PlayerMove;  
+class PlayerJump;
 class Laser;
 class BulletFire;  
 
@@ -51,7 +52,7 @@ private:
 	// ===== コンポーネント =====  
 	std::shared_ptr<AnimaterBase> player_animater;		// アニメーター  
 	std::shared_ptr<PlayerMove>   player_move;			// 入力・移動ベクトル計算  
-
+	std::shared_ptr<PlayerJump>   player_jump;
 	//プレイヤーのステート
 	std::shared_ptr<PlayerStateBase> player_current_state;
 	std::unordered_map<PlayerStateKind, std::shared_ptr<PlayerStateBase>> states;

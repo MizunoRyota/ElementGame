@@ -34,6 +34,10 @@ EffectCreator::EffectType EnemyStateBase::MapEffectTypeForAttack() const
 	{
 		return EffectCreator::EffectType::BulletWind;		// •—
 	}
+	else if (enemy_attack_state == EnemyStateKind::STATE_JUMPATTACK)
+	{
+		return EffectCreator::EffectType::JumpAttack;		// •—
+	}
 	else
 	{
 		return EffectCreator::EffectType::BulletSpecial;	// “ÁŽê

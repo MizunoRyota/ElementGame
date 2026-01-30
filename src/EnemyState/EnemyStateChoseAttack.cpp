@@ -54,7 +54,7 @@ void EnemyStateChoseAttack::ChoseNextAttackPhaseOne()
 	{
 		// —áF‰“‹——£i0-29:‰Î, 30-79:…, 80-99:•—j
 		if (nextAttackType < ATTACK_RAITO3)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);  
-		else if (nextAttackType < ATTACK_RAITO8)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);  
+		else if (nextAttackType < ATTACK_RAITO8)    SetEnemyAttackState(EnemyStateKind::STATE_JUMPATTACK);  
 		else										SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);   
 	}
 	else if (checkDistance >= SHORT_RANGE)

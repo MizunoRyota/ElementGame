@@ -31,9 +31,6 @@
     <Filter Include="GameCode\GameObject\Character\Enemy">
       <UniqueIdentifier>{41489dde-1c7d-4197-9590-ca1e67e52970}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameCode\GameObject\Character\Enemy\Move">
-      <UniqueIdentifier>{fca42b90-0ee5-4188-b4d2-34cbf2748018}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameCode\Environment">
       <UniqueIdentifier>{5ed39de5-b1fb-424c-812e-28e58d93450b}</UniqueIdentifier>
     </Filter>
@@ -168,6 +165,9 @@
     </Filter>
     <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateOnDamage">
       <UniqueIdentifier>{c06cd908-887e-419e-83f7-c5f79320667e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Player\PlayerJump">
+      <UniqueIdentifier>{6a3c40b7-e80b-4321-8484-1c1920a664c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +372,12 @@
     <ClInclude Include="src\EnemyState\EnemyStateOnDamage.hpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateOnDamage</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerJump.hpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerJump</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EnemyState\EnemyStateJumpAttack.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -553,6 +559,12 @@
     </ClCompile>
     <ClCompile Include="src\EnemyState\EnemyStateOnDamage.cpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateOnDamage</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerJump.cpp">
+      <Filter>GameCode\GameObject\Character\Player\PlayerJump</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnemyState\EnemyStateJumpAttack.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

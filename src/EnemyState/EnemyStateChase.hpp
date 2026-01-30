@@ -14,13 +14,6 @@ public:
 
 	void Exit() override ;
 
-	//void StartHandEffectForAttack();
-
-
-	//void StopHandEffect();
-
-	//void UpdateEffectHandle();
-
 	bool RangeWithin(); // 追跡レンジ内か
 	void ChoseRange();
 
@@ -32,6 +25,8 @@ private:
 	static constexpr float FIRE_RANGE = 5.0f;
 	static constexpr float WATER_RANGE = 11.0f;
 	static constexpr float WIND_RANGE = 12.0f;
+	static constexpr float JUMPATTACK_RANGE = 30.0f;
+
 	static constexpr float SPECIAL_RANGE = 8.0f;
 	static constexpr float MOVE_SPEED = 0.175f;   // 基本移動速度
 	static constexpr float ORIGIN_OFFSET = 0.1f;  // 原点とみなす誤差

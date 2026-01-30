@@ -29,6 +29,7 @@ public:
 		ChargeBeam,
 		EternalLaser,
 		Flame,
+		JumpAttack,
 	};
 
 	static EffectCreator& GetEffectCreator()
@@ -61,7 +62,7 @@ private:
 	EffectCreator(const EffectCreator&) = delete;
 	EffectCreator& operator=(const EffectCreator&) = delete;
 
-	static constexpr int   EFFECT_NUM = 22;          // 事前読み込み数
+	static constexpr int   EFFECT_NUM = 23;          // 事前読み込み数
 	static constexpr float EFFECT_HIGHT = 0.3f;      // 基準高さオフセット
 	static constexpr float EFFECT_SCALE = 4.5f;      // 表示スケール
 	static constexpr float EFFCT_PLAYSPEED = 0.20f;  // 再生速度

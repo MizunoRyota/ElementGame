@@ -17,6 +17,7 @@
 #include "src/EnemyState/EnemyStateStun.hpp"
 #include "src/EnemyState/EnemyStateChoseAttack.hpp"
 #include "src/EnemyState/EnemyStateOnDamage.hpp"
+#include "src/EnemyState/EnemyStateJumpAttack.hpp"
 #include "ObjectAccessor.hpp"
 
 // 敵の生成と初期セットアップ
@@ -104,6 +105,7 @@ void Enemy::InitializeStates()
     states[EnemyStateKind::STATE_STUN] = std::make_shared<EnemyStateStun>();						// STATE_STUN用の具体クラスに差し替え
 	states[EnemyStateKind::STATE_CHOSEATTACK] = std::make_shared<EnemyStateChoseAttack>();			// STATE_IDLE用の具体クラスに差し替え
 	states[EnemyStateKind::STATE_ONDAMAGE] = std::make_shared<EnemyStateOnDamage>();				// STATE_ONDAMAGE用の具体クラスに差し替え
+	states[EnemyStateKind::STATE_JUMPATTACK] = std::make_shared<EnemyStateJumpAttack>(obj_position);// STATE_JUMPATTACK用の具体クラスに差し替え
 }
 
 // タイトル更新（アニメのみ）
@@ -173,7 +175,6 @@ void Enemy::UpdateGameOver()
 // ステート毎の処理
 void Enemy::UpdateStateAction()
 {
-
 	enemy_state_kind = enemy_current_state->GetNextState();
 
 	if (enemy_current_state != states.at(enemy_state_kind))
@@ -184,7 +185,6 @@ void Enemy::UpdateStateAction()
 	}
 
 	enemy_current_state->Update();
-
 }
 
 // プレイヤー方向を向く
