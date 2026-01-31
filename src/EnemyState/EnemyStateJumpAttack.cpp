@@ -31,7 +31,7 @@ void EnemyStateJumpAttack::Update()
 
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimationFrame() == JUMP_ATTACK_TIMING)
 	{
-		enemy_bullet->FireDiffusion(
+		enemy_bullet->FireJumpAttack(
 			ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition(),
 			ObjectAccessor::GetObjectAccessor().GetEnemyDirection(),
 			JUMP_BULLET_SPEED);

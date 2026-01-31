@@ -11,7 +11,7 @@ Skydome::Skydome()
 	sunny_direction = 0;
 	cloud_direction = 0;
 	cloud_modelhandle = MV1LoadModel(_T("data/3dmodel/skydome/Cloud/Dome_EE402.pmx"));
-	obj_modelhandle = MV1LoadModel(_T("data/3dmodel/skydome/Sunny/Dome_X502.pmx"));
+	obj_modelhandle = MV1LoadModel(_T("data/3dmodel/skydome/Sunny/Dome_X502.mv1"));
 
 	// プレイヤーのモデルの座標を更新する
 	MV1SetPosition(obj_modelhandle, obj_direction);
@@ -58,5 +58,4 @@ void Skydome::Draw()
 {
 	MV1DrawModel(obj_modelhandle);
 	MV1DrawModel(cloud_modelhandle);
-
 }

@@ -22,6 +22,9 @@ public:
     // 拡散弾
     void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed); //拡散弾を発射
 
+    // ジャンプ攻撃
+    void FireJumpAttack(const VECTOR& pos, const VECTOR& dir, const float& speed); //ジャンプ攻撃を発射
+
     void FireHoming(const VECTOR& pos, const VECTOR& dir, const float& speed); //ホーミング弾を発射
 
     // 全方位等の必殺系
@@ -41,23 +44,8 @@ public:
         BulletWind, // 追尾弾
         BulletSpecial,
         BulletHit,
-        FireGround,
-        EnemyDeath,
-        EnemyCharge,
-        Laser,
-        Roar,
-        FireWorks,
-        HandEffect,
-        ChargeLaser,
-        Barrior,
         BulletPlayer,
-        BreakCrystal,
-        EnemyStun,
-        ReadyAttack,
-        Crystal,
-        ChargeBeam,
-        EternalLaser,
-        Flame,
+        JumpAttack,
     };
 
     // エフェクトの実装側インデックスに変換
@@ -68,11 +56,13 @@ private:
     static constexpr int   DIFFUSION_NUM = 5;        // 拡散弾の数
     static constexpr int   DIFFUSION_OFFSET = 2;     // 拡散の最初の左右のずらし
     static constexpr int   DIFFUSION_RADIUS = 15;    // 拡散の角度(度)
-
-    static constexpr int   ALLRANGE_NUM = 30;        // 全方位の弾数
     static constexpr float BULLET_COOLTIME = 12;     // 発射クールタイム
-    static constexpr int   VERTICAL_NUM = 30;        // 垂直散弾の段数
-    static constexpr int   HORIZONTAL_NUM = 20;      // 水平散弾の列数
+
+    //ジャンプ攻撃のパラメータ
+    static constexpr int   JUMPATTACK_NUM = 35;      // ジャンプ攻撃の数
+    static constexpr int   JUMPATTACK_OFFSET = 2;    // ジャンプ攻撃の最初の左右のずらし
+    static constexpr int   JUMPATTACK_RADIUS = 30;   // ジャンプ攻撃の角度(度)
+    static constexpr float BULLET_SPAWN_FORWARD_OFFSET = 3.0f;
 
     // 追加: ホーミングパラメータ
     static constexpr float HOMING_DURATION = 20.0f;             // 追尾継続フレーム

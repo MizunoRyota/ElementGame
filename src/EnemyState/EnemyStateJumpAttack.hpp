@@ -19,9 +19,10 @@ public:
 	EnemyStateKind GetNextState()override;
 
 private:
-	static constexpr float JUMP_BULLET_SPEED = 0.40f;           // 火弾 速度
-	static constexpr float JUMP_ATTACK_TIMING = 48.0f;             // 火攻撃 発射フレーム
-	static constexpr float JUMP_MOVE_SPEED = 0.085f;           // 火弾 速度
+	static constexpr float JUMP_BULLET_SPEED = 0.30f;        // 火弾 速度
+	static constexpr float JUMP_ATTACK_TIMING = 49.0f;       // 火攻撃 発射フレーム
+	static constexpr float BULLETFIRE_DISTANCE = 1.0f;       // 火攻撃 発射フレーム
+	static constexpr float JUMP_MOVE_SPEED = 0.085f;         // 火弾 速度
 
 	VECTOR& enemy_position;
 };

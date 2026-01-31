@@ -22,6 +22,6 @@
     { "Path": "data/effekseer/effekseer/Effect/ChargeBeam.efkefc", "Scale": 1.5 },
     { "Path": "data/effekseer/effekseer/Effect/EternalLaser.efkefc", "Scale": 0.1 },
     { "Path": "data/effekseer/effekseer/Effect/Flame.efkefc", "Scale": 1.0 },
-    { "Path": "data/effekseer/effekseer/Effect/JumpAttack.efkefc","Scale": 0.4}
+    { "Path": "data/effekseer/effekseer/Effect/JumpAttack.efkefc","Scale": 0.5}
   ]
 }

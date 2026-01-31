@@ -25,8 +25,8 @@ int BulletFire::ToEffectIndex(EffectFlavor effect_flavor)
     case EffectFlavor::BulletWind:return (int)ET::BulletWind;
     case EffectFlavor::BulletSpecial:return (int)ET::BulletSpecial;
     case EffectFlavor::BulletHit:return (int)ET::BulletHit;
-    case EffectFlavor::FireGround:return (int)ET::FireGround;
     case EffectFlavor::BulletPlayer:return (int)ET::BulletPlayer;
+    case EffectFlavor::JumpAttack:return (int)ET::JumpAttack;
     }
     return (int)ET::BulletWind; // ä˘íË
 }
@@ -55,13 +55,29 @@ void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float
 
     SoundManager::GetSoundManager().PlayFireSe();
 
-
     VECTOR bulletForword = VNorm(dir); // äÓèÄï˚å¸
     float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS; // âÒì]äp
     bulletForword = BulletRotateHorizontal(bulletForword, -bulletRotate * DIFFUSION_OFFSET); // èâä˙Ç∏ÇÁÇµ
     for (int bullet_num = 0; bullet_num < DIFFUSION_NUM; bullet_num++)
     {
         BulletCreator::GetBulletCreator().CreateBullet(pos, bulletForword, speed, ToEffectIndex(EffectFlavor::BulletWater));
+        bulletForword = BulletRotateHorizontal(bulletForword, bulletRotate);
+    }
+}
+
+void BulletFire::FireJumpAttack(const VECTOR& pos, const VECTOR& dir, const float& speed)
+{
+
+    SoundManager::GetSoundManager().PlayFireSe();
+
+    VECTOR bulletForword = VNorm(dir); // äÓèÄï˚å¸
+
+    float bulletRotate = DX_TWO_PI_F / JUMPATTACK_RADIUS; // âÒì]äp
+    bulletForword = BulletRotateHorizontal(bulletForword, -bulletRotate * JUMPATTACK_OFFSET); // èâä˙Ç∏ÇÁÇµ
+    for (int bullet_num = 0; bullet_num < JUMPATTACK_NUM; bullet_num++)
+    {
+        const VECTOR spawnPos = VAdd(pos, VScale(bulletForword, BULLET_SPAWN_FORWARD_OFFSET));
+        BulletCreator::GetBulletCreator().CreateBullet(spawnPos, bulletForword, speed, ToEffectIndex(EffectFlavor::JumpAttack));
         bulletForword = BulletRotateHorizontal(bulletForword, bulletRotate);
     }
 }
