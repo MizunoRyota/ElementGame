@@ -66,7 +66,7 @@ public:
 	std::shared_ptr<Enemy> enemy;
 	std::shared_ptr<Stage> stage;
 	std::shared_ptr<Skydome> skydome;
-	std::shared_ptr<UiManager> ui;		// HPバー描画用
-	std::shared_ptr<Crystal> crystal;	// チャージ中クリスタル
+	std::shared_ptr<UiManager> ui;		
+	std::shared_ptr<Crystal> crystal;	
 };
 

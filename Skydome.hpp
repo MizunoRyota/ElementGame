@@ -18,9 +18,10 @@ public:
 	void DrawGameClear() override { Draw(); }
 
 	// シーン別更新（特になし）
-	void UpdateGameClear() override {};
-	void UpdateGameOver() override {};
-	void UpdateTitle() override {};
+	void UpdateGameClear() override { Update(); }
+	void UpdateGameOver() override { Update(); }
+	void UpdateTutorial() override { Update(); }
+	void UpdateTitle() override { Update(); }
 private:
 	// 定数
 	static constexpr float SCALE = 0.40f;    // 大きさ

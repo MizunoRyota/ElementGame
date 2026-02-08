@@ -104,6 +104,13 @@ void Player::Update()
 	TickDamageCooldown();
 }
 
+void Player::UpdateTutorial()
+{
+	player_state_kind = PlayerStateKind::STATE_IDLE;
+	player_animater->Update(); // アニメーション更新
+
+}
+
 void Player::ApplyKnockback(const VECTOR& knockback)
 {
 	obj_position = VAdd(obj_position, knockback);

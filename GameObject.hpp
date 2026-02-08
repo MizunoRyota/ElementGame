@@ -24,6 +24,7 @@ public:
 	virtual void UpdateGameClear() abstract;
 	virtual void UpdateGameOver() abstract;
 	virtual void UpdateTitle() abstract;
+	virtual void UpdateTutorial() abstract;
 
 	// 各種情報取得
 	virtual const int& GetDamageStrength()  const { return obj_damagestrength; }		  // 与ダメージ量

@@ -91,7 +91,7 @@ void UiDashBar::Draw() const
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    if ((CheckHitKey(KEY_INPUT_LSHIFT) != 0))
+    if ((CheckHitKey(KEY_INPUT_LSHIFT) != 0) || ObjectAccessor::GetObjectAccessor().GetIsInputLeftThumb())
     {
         DrawGraphF(0, 0, graph_handle, true);
     }

@@ -25,6 +25,7 @@ public:
 	void UpdateGameClear() override { Update(); }
 	void UpdateGameOver() override { Update(); }
 	void UpdateTitle() override { Update(); }
+	void UpdateTutorial() override { Update(); }
 
 private:
 	// ’è”

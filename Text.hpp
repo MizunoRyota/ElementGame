@@ -18,6 +18,8 @@ public:
 	void DrawGameOver() const override {};
 
 private:
+
+	bool laser_is_ready;
 	int ready_laser_mouse;
 	int ready_laser_controller;
 	int not_ready_laser_mouse;

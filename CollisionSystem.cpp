@@ -22,7 +22,6 @@ namespace
 	constexpr float PLAYER_KNOCKBACK_RADIUS = 2.0f;
 	constexpr float ENEMY_KNOCKBACK_RADIUS = 2.0f;
 	constexpr float ENEMY_SPECIAL_KNOCKBACK_RADIUS = 5.0f;
-
 }
 
 void CollisionSystem::Resolve(SharedData& shared)
@@ -56,10 +55,6 @@ void CollisionSystem::Resolve(SharedData& shared)
 		{
 			VECTOR pushDir = VSub(player->GetPosition(), enemy->GetPosition());
 			float knockbackDistance = VSquareSize(pushDir);
-			//if (VSquareSize(pushDir) < 0.0001f)
-			//{
-			//	pushDir = VGet(0.0f, 0.0f, 1.0f);
-			//}
 
 			pushDir = VNorm(pushDir);
 
@@ -103,8 +98,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 		//クリスタルへのヒットチェック
 		if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE)
 		{
-			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, crystal->GetPosition(), crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
+			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(sphereCenter, sphereRadius, crystal->GetPosition(), crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
 
 			if (hitCrystal)
 			{
@@ -128,7 +122,7 @@ void CollisionSystem::Resolve(SharedData& shared)
 			}
 		}
 		// 敵へのヒットチェック
-		else if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE)
+		else if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE || ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIALATTACK)
 		{
 			bool hitEnemy = false;
 
@@ -156,6 +150,8 @@ void CollisionSystem::Resolve(SharedData& shared)
 
 			if (hitPlayer)
 			{
+				StartJoypadVibration(DX_INPUT_PAD1, JOYPAD_VIBERATON_POWER, JOYPAD_VIBERATON_TIME, -1);
+
 				player->TakeDamage(BULLET_DAMAGE_TO_PLAYER);
 				ObjectAccessor::GetObjectAccessor().StartShakeCamera();
 				// エフェクト: 被弾

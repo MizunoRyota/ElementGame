@@ -39,8 +39,7 @@ public:
 	int		GetEnemyMaxHp()					const { return enemy_status->GetEnemyMaxHp(); }
 	float	GetEnemyAnimationFrame()		const { return enemy_status->GetAnimationFrame(); }
 	bool	GetEnemyAnimaitonIsEnd()		const { return enemy_status->GetAnimationIsEnd(); }
-	void	StopEnemyHandEffect()			const { enemy_status->StopEnemyHandEffect(); }
-
+	void	StopEnemyHandEffect()			const { return enemy_status->StopEnemyHandEffect(); }
 
 	//プレイヤーの参照渡し
 	VECTOR GetPlayerPosition()				const  { return player_status->GetPosition(); }
@@ -53,8 +52,9 @@ public:
 	//クリスタルの参照渡し
 	bool GetCrystalIsBreak()				const { return crystal_status->GetCrystalIsBreak(); }
 	bool GetCrystalIsInit()					const { return crystal_status->GetCrystalIsInit(); }
-
+	int	 GetCrystalHp()						const { return crystal_status->GetHp(); }
     void ChangeCrystalIsBreak()				const { return crystal_status->ChangeCrystalIsBreak(); }
+
 	//カメラの参照渡し
 	VECTOR GetCameraDirection()				const { return camera_status->GetCameraDir(); }
 	VECTOR GetCameraPosition()				const { return camera_status->GetPosition(); }

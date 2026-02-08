@@ -28,7 +28,7 @@ EnemyStateKind EnemyStateStun::GetNextState()
 {
 	if (stun_time <= 0)
 	{
-		return EnemyStateKind::STATE_CHARGE;
+		return EnemyStateKind::STATE_CHOSEATTACK;
 	}
 	else
 	{

@@ -50,7 +50,6 @@ bool Input::IsInputAnalogKey(const AnalogKeyState analogKeyState)
     // 入力されているか
     bool isInput = false;
 
-
     // それぞれの入力をチェック
     GetJoypadAnalogInputRight(&inputX, &inputY, DX_INPUT_PAD1);
 
@@ -90,9 +89,4 @@ bool Input::IsInputAnalogKey(const AnalogKeyState analogKeyState)
 
 void Input::Draw()
 {
-    //for (int i = 0; i < 16; i++)
-    //{
-    //    DrawFormatString(64 + i % 8 * 64, 64 + i / 8 * 16, Pallet::Black.GetHandle(),
-    //        "%2d:%d", i, input.Buttons[i]);
-    //}
 }

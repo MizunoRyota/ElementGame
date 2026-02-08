@@ -18,14 +18,14 @@ public:
     virtual void DrawGameClear() const abstract;  // 描画
 
     int GetZ() const { return order_z; }            // Z ソートキー
-    void SetZ(int z) { order_z = z; dirty_ = true; } // Z 変更
+    void SetZ(int z) { order_z = z; dirty = true; } // Z 変更
     bool IsVisible() const { return uielement_visible; }      // 表示切替
     void SetVisible(bool v) { uielement_visible = v; }
 protected:
-    static constexpr float DISPLAY_ = 1.0f / 60.0f; // 1 フレーム時間(遅延計算用)
+    static constexpr float DISPLAY_FRAME = 1.0f / 60.0f; // 1 フレーム時間(遅延計算用)
     int  order_z = 0;   // 描画優先度(小さい→背面)
     bool uielement_visible = true; // 表示フラグ
-    bool dirty_ = false;  // ソート再要求
+    bool dirty = false;  // ソート再要求
     int graph_handle = 0; //画像ハンドル
 };
 
@@ -38,7 +38,16 @@ public:
 
     void AddElement(const std::shared_ptr<IUiElement>& element);    // 追加
     void RemoveElement(const std::shared_ptr<IUiElement>& element); // 削除
-    
+
+    template<class T>
+    std::shared_ptr<T> FindElement() const
+    {
+        for (const auto& e : elements)
+        {
+            if (auto p = std::dynamic_pointer_cast<T>(e)) return p;
+        }
+        return nullptr;
+    }
 
     void UpdateTitle();
     void UpdateTutorial(); // 全要素更新
@@ -54,5 +63,5 @@ public:
     void DrawGameOver() const; // 全要素描画
 private:
     std::vector<std::shared_ptr<IUiElement>> elements; // 管理配列
-    mutable bool elements_is_sort = false; // ソート必要フラグ
+    mutable bool elements_is_sort = false;             // ソート必要フラグ
 };

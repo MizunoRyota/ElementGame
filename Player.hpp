@@ -35,6 +35,7 @@ public:
 	void UpdateGameClear() override {};
 	void UpdateGameOver() override {};
 	void UpdateTitle() override {};
+	void UpdateTutorial() override;
 
 	void ApplyKnockback(const VECTOR& knockback);
 
@@ -46,7 +47,7 @@ public:
 private:
 	// ===== 定数パラメータ =====  
 	static constexpr float SCALE = 0.01f;               // モデルスケール  
-	static constexpr int   PLAYER_MAXHP = 100;          // 最大HP  
+	static constexpr int   PLAYER_MAXHP = 150;          // 最大HP  
 	static constexpr float LASER_MAX_LENGTH = 30.0f;    // レーザーの距離
 
 	// ===== コンポーネント =====  
@@ -58,7 +59,6 @@ private:
 	std::unordered_map<PlayerStateKind, std::shared_ptr<PlayerStateBase>> states;
 	// ===== 状態 =====  
 	PlayerStateKind player_state_kind;
-
 
 	json player_json_data;
 };

@@ -21,6 +21,7 @@ public:
 	void UpdateGameClear() override {};
 	void UpdateGameOver() override {};
 	void UpdateTitle() override {};
+	void UpdateTutorial() override {};
 
 	int GetShadowMapHandle() const { return obj_modelhandle; }  // 影のハンドル
 	VECTOR GetLightDir()const { return obj_direction; }         // ライト方向

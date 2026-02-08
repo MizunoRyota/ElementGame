@@ -127,7 +127,7 @@ void Enemy::Update()
 	// デバッグ: Jキーで死亡
 	if ((CheckHitKey(KEY_INPUT_J) != 0))
 	{
-		obj_hp = 0;
+		obj_hp = 100;
 	}
 
 	UpdateAngle();				// プレイヤーの方向を向く
@@ -169,6 +169,14 @@ void Enemy::UpdateGameOver()
 	{
 		enemy_state_kind = EnemyStateKind::STATE_IDLE;
 	}
+	enemy_animater->Update();
+}
+
+void Enemy::UpdateTutorial()
+{
+
+	enemy_state_kind = EnemyStateKind::STATE_IDLE;
+	
 	enemy_animater->Update();
 }
 

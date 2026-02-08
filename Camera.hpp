@@ -17,6 +17,7 @@ public:
     void UpdateTitle() override;       // タイトル時のカメラ更新
     void Update() override;            // 通常更新（プレイ中）
     void UpdateGameClear() override;   // ゲームクリア時の演出更新（注視移動）
+    void UpdateTutorial() override {};
     void UpdateGameOver() override { UpdateGameClear(); } // ゲームオーバー時はクリアと同じ
 
     // シーン別描画（カメラは通常描画不要）
@@ -27,6 +28,8 @@ public:
 
     void StartShakeCamera();//camera_shakeをtrueにする
     void ShakeCamera();  //カメラ揺らし
+    void UpdateForController();
+    void UpdateForMouse();
 
     // 位置補間
     // camera_pos: 現在位置, target_pos: 目標位置, t: 0?1 の補間係数
@@ -41,16 +44,16 @@ public:
 
 private:
     // カメラ定数
-    static constexpr float CAMERA_NEAR = 0.1f;                // ニア
-    static constexpr float CAMERA_FAR = 600.0f;               // ファー
-    static constexpr float CAMERA_TARGET_PLAYERHIGHT = 0.650f;// プレイヤーヘッドへのオフセット
-    static constexpr float TOPLAYER_LENGTH = 1.30f;           // プレイヤーとの距離
-    static constexpr float ANGLE_SPEED = 0.04f;               // 角速度
-    static constexpr float CAMERA_PLAYERTARGET_HIGHT = 1.8f;  // プレイヤー注視点の高さ
-    static constexpr float CAMERA_MAX_SHAKETIME = 5.0f;      // カメラを揺らす時間
-    static constexpr float CAMERA_SHAKESPEED = 0.1f;      // カメラを揺らす時間
+    static constexpr float CAMERA_NEAR = 0.1f;                  // ニア
+    static constexpr float CAMERA_FAR = 600.0f;                 // ファー
+    static constexpr float CAMERA_TARGET_PLAYERHIGHT = 0.650f;  // プレイヤーヘッドへのオフセット
+    static constexpr float TOPLAYER_LENGTH = 1.30f;             // プレイヤーとの距離
+    static constexpr float ANGLE_SPEED = 0.04f;                 // 角速度
+    static constexpr float CAMERA_PLAYERTARGET_HIGHT = 1.8f;    // プレイヤー注視点の高さ
+    static constexpr float CAMERA_MAX_SHAKETIME = 5.0f;         // カメラを揺らす時間
+    static constexpr float CAMERA_SHAKESPEED = 0.1f;            // カメラを揺らす時間
 
-    static constexpr float CAMERA_FOV = 70.0f;                // 視野角
+    static constexpr float CAMERA_FOV = 70.0f;                  // 視野角
 
     // 制御用変数
     float  camera_angle_virtual;       // ピッチ角（上下）
@@ -58,7 +61,7 @@ private:
     float  shakeOffset;                // シェイクのオフセット量
 
     float  camera_shaketime;           // シェイク時間
-    bool   camera_shake;                    // シェイク中フラグ
+    bool   camera_shake;               // シェイク中フラグ
     Input* rightInput;                 // 入力（右スティック等）
 
     VECTOR OriginalOffset;             // 位置オフセットの初期値

@@ -32,6 +32,7 @@ public:
 	void UpdateGameClear() override;  // クリア演出更新
 	void UpdateGameOver() override ;  // ゲームオーバー演出更新
 	void UpdateTitle() override ;     // タイトル時更新
+	void UpdateTutorial() override ;
 
 	void UpdateStateAction()override; // ステートに応じた行動更新
 
@@ -62,12 +63,10 @@ public:
 private:
 	
 	// ===== ダメージ・HP・スケール =====
-	static constexpr int DAMAGE_STRENGTH = 10;                 // 与ダメージ基本値
+	static constexpr int   DAMAGE_STRENGTH = 10;                 // 与ダメージ基本値
 	static constexpr float ENEMY_HITEFFECT_HEIGHT = 2.5f;      // 被弾エフェクトの高さ
 	static constexpr float ENEMY_SCALE = 0.02f;                // モデル拡大率
-	static constexpr int ENEMY_MAXHP = 150;                    // 最大HP
-	static constexpr float ENEMY_PHASE2_RAITO = 0.7f;
-	static constexpr float ENEMY_PHASE3_RAITO = 0.4f;
+	static constexpr int   ENEMY_MAXHP = 150;                    // 最大HP
 	static constexpr float ENEMY_INIT_POSITION = 20.0f;
 	// ===== 状態変数 =====
 	bool enemy_is_die;						// 死亡しているか

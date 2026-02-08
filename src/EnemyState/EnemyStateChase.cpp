@@ -75,6 +75,8 @@ void EnemyStateChase::Update()
 	// 敵が進む距離（移動速度に基づく）
 	VECTOR chaseVector = VScale(checkDirection, MOVE_SPEED);
 
+	chaseVector.y = 0;
+
 	// 敵の位置を更新
 	chase_position = VAdd(chase_position, chaseVector);
 

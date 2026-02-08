@@ -5,6 +5,7 @@
 
 Text::Text()
 {
+	laser_is_ready = false;
 	graph_handle = LoadGraph("data/Texture/TextGame.png");
 	game_controller = LoadGraph("data/Texture/TextGameController.png");
 	ready_laser_mouse = LoadGraph("data/Texture/ReadyLaserMouse.png");
@@ -20,14 +21,26 @@ Text::~Text()
 
 void Text::Update()
 {
-	//ˆ—‚È‚µ
+	if (ObjectAccessor::GetObjectAccessor().GetCrystalIsBreak())
+	{
+		laser_is_ready = true;
+	}
+
+	if ((GetMouseInput() & MOUSE_INPUT_RIGHT) && laser_is_ready && ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() != PlayerStateKind::STATE_ATTACK
+		|| ObjectAccessor::GetObjectAccessor().GetIsInputBottunY() && laser_is_ready && ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() != PlayerStateKind::STATE_ATTACK
+		|| ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() == PlayerStateKind::STATE_LASER)
+	{
+		laser_is_ready = false;
+	}
+
+
 }
 
 void Text::Draw() const
 {
 	if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
 	{
-		if (ObjectAccessor::GetObjectAccessor().GetCrystalIsBreak())
+		if (laser_is_ready)
 		{
 			DrawGraphF(0, 0, game_controller, true);
 			DrawGraphF(0, 0, ready_laser_controller, true);
@@ -41,7 +54,7 @@ void Text::Draw() const
 		return;
 	}
 
-	if (ObjectAccessor::GetObjectAccessor().GetCrystalIsBreak())
+	if (laser_is_ready)
 	{
 		DrawGraphF(0, 0, graph_handle, true);
 		DrawGraphF(0, 0, ready_laser_mouse, true);

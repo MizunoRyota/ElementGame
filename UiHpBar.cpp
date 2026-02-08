@@ -33,7 +33,7 @@ void UiHpBar::Update()
 
     if (hpbar_display > hpbarReal)
     {
-        int decayAmount = static_cast<int>(DELAY_SPEED * DISPLAY_); // å∏êäë¨ìx
+        int decayAmount = static_cast<int>(DELAY_SPEED * DISPLAY_FRAME); // å∏êäë¨ìx
         if (decayAmount < 1) decayAmount = 1;
         hpbar_display -= decayAmount;
         if (hpbar_display < hpbarReal) hpbar_display = hpbarReal; // â∫î≤ÇØï‚ê≥

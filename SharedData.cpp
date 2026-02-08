@@ -20,6 +20,8 @@
 #include "SceneGraph.hpp"
 #include "Crystal.hpp"
 #include "ObjectAccessor.hpp"
+#include "FightOverlayUi.hpp"
+#include "CountdownOverlayUi.hpp"
 
 SharedData::SharedData()
 {
@@ -49,16 +51,18 @@ SharedData::SharedData()
     ui->AddElement(std::make_shared<Reticle>());             // レティクル
     ui->AddElement(std::make_shared<Text>());
     ui->AddElement(std::make_shared<SceneGraph>());
+    ui->AddElement(std::make_shared<CountdownOverlayUi>());
+    ui->AddElement(std::make_shared<FightOverlayUi>());
 
     //ゲームオブジェクト登録
     AddGameList(skydome);
     AddGameList(stage);
     AddGameList(shadow);
     AddGameList(input);
+    AddGameList(crystal);
     AddGameList(player);
     AddGameList(enemy);
     AddGameList(camera);
-    AddGameList(crystal);
 
     //影を写すオブジェクト登録
     AddShadowReady(player);
@@ -118,7 +122,7 @@ void SharedData::UpdateTutorial()
 {
     for (auto object : objects_game)
     {
-        object->UpdateTitle();
+        object->UpdateTutorial();
     }
     if (ui) ui->UpdateTutorial();
 }

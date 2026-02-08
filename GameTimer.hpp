@@ -34,22 +34,22 @@ private:
 
 	static constexpr int COLON = 10; // 不明
 
-	static constexpr int TIMER_FIRST_SPEEFD = 20; // 最初の数字のスピード
-	static constexpr int TIMER_SECOND_SPEEFD = 30; // 二番目の数字のスピード
-	static constexpr int TIMER_COLON_SPEEFD = 20; // コロンのスピード
-	static constexpr int TIMER_THIRD_SPEEFD = 30; // 三番目の数字のスピード
+	static constexpr int TIMER_FIRST_SPEEFD = 40; // 最初の数字のスピード
+	static constexpr int TIMER_SECOND_SPEEFD = 35; // 二番目の数字のスピード
+	static constexpr int TIMER_COLON_SPEEFD = 30; // コロンのスピード
+	static constexpr int TIMER_THIRD_SPEEFD = 25; // 三番目の数字のスピード
 	static constexpr int TIMER_FOURTH_SPEEFD = 20; // 四番目の数字のスピード
 
 	int timer_elapsed = 0; // 経過秒
 	int timer_firsttime=0; // 不明
 	bool  timer_paused  = false; // ポーズ中かどうか
 	int graph_array[NUMBERS]; // 不明
-	int timer_firest = 0; // 最初の数字
+	int timer_first = 0; // 最初の数字
 	int timer_second = 0; // 二番目の数字
 	int timer_third = 0; // 三番目の数字
 	int timer_fourth = 0; // 四番目の数字
 
-	int timer_firest_x = 0; // 最初の数字のX位置
+	int timer_first_x = 0; // 最初の数字のX位置
 	int timer_second_x = 0; // 二番目の数字のX位置
 	int timer_colon_x = 0; // コロンのX位置
 	int timer_third_x = 0; // 三番目の数字のX位置

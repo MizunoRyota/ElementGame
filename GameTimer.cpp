@@ -4,7 +4,7 @@
 
 GameTimer::GameTimer()
 {
-    timer_firest_x = SCREEN_WIDTH;
+    timer_first_x = SCREEN_WIDTH;
     timer_second_x = SCREEN_WIDTH;
     timer_colon_x = SCREEN_WIDTH;
     timer_third_x = SCREEN_WIDTH;
@@ -31,7 +31,7 @@ void GameTimer::Update()
     const int minutes = (totalSeconds / 60) % 100; // 99•ª‚Ü‚Å•\Ž¦
 
     // ‰E‚©‚ç: [sec_units][sec_tens] : [min_units][min_tens]
-    timer_firest  = seconds % 10;             // •b(1‚ÌˆÊ)
+    timer_first  = seconds % 10;             // •b(1‚ÌˆÊ)
     timer_second  = (seconds / 10) % 10;      // •b(10‚ÌˆÊ)
     timer_third   = minutes % 10;             // •ª(1‚ÌˆÊ)
     timer_fourth  = (minutes / 10) % 10;      // •ª(10‚ÌˆÊ)
@@ -39,42 +39,19 @@ void GameTimer::Update()
 
 void GameTimer::UpdateGameClear()
 {
-    if (timer_firest_x!= SCREEN_WIDTH / HARF + OFFSET_X_FIRST)
-    {
-        timer_firest_x-= TIMER_FIRST_SPEEFD;
-    }
-    if (timer_second_x != SCREEN_WIDTH / HARF + OFFSET_X_SECOND)
-    {
-        timer_second_x-= TIMER_SECOND_SPEEFD;
-    }
-    if (timer_colon_x != SCREEN_WIDTH / HARF + OFFSET_X_COLON)
-    {
-        timer_colon_x-=TIMER_COLON_SPEEFD;
-    }
-    if (timer_third_x != SCREEN_WIDTH / HARF - OFFSET_X_THIRD)
-    {
-        timer_third_x-=TIMER_THIRD_SPEEFD;
-    }
-    if (timer_fourth_x != SCREEN_WIDTH / HARF - OFFSET_X_FOURTH)
-    {
-        timer_fourth_x-= TIMER_FOURTH_SPEEFD;
-    }
+
 }
 
 void GameTimer::DrawGameClear() const
 {
-    //DrawGraph(timer_firest_x, TIMER_GAMECLEAR_Y, graph_array[timer_firest], true);
-    //DrawGraph(timer_second_x, TIMER_GAMECLEAR_Y, graph_array[timer_second], true);
-    //DrawGraph(timer_colon_x, TIMER_GAMECLEAR_Y, graph_array[COLON], true);
-    //DrawGraph(timer_third_x, TIMER_GAMECLEAR_Y, graph_array[timer_third], true);
-    //DrawGraph(timer_fourth_x, TIMER_GAMECLEAR_Y, graph_array[timer_fourth], true);
+
 }
 
 void GameTimer::Draw() const
 {
     if (!uielement_visible) return;
 
-    DrawGraph((SCREEN_WIDTH / HARF) + OFFSET_X_FIRST,  TIMER_GAMETITLE_Y, graph_array[timer_firest],  true);
+    DrawGraph((SCREEN_WIDTH / HARF) + OFFSET_X_FIRST,  TIMER_GAMETITLE_Y, graph_array[timer_first],  true);
     DrawGraph((SCREEN_WIDTH / HARF) + OFFSET_X_SECOND, TIMER_GAMETITLE_Y, graph_array[timer_second], true);
     DrawGraph((SCREEN_WIDTH / HARF) + OFFSET_X_COLON,  TIMER_GAMETITLE_Y, graph_array[COLON],        true);
     DrawGraph((SCREEN_WIDTH / HARF) + OFFSET_X_THIRD,  TIMER_GAMETITLE_Y, graph_array[timer_third],  true);

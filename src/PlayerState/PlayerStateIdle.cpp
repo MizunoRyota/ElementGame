@@ -24,8 +24,10 @@ void PlayerStateIdle::Update()
 
 void PlayerStateIdle::Exit()
 {
-	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::ChargeLaser);
-	laser_is_ready = false;
+	if (!laser_is_ready)
+	{
+		EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::ChargeLaser);
+	}
 }
 
 PlayerStateKind PlayerStateIdle::GetNextState()
@@ -34,10 +36,11 @@ PlayerStateKind PlayerStateIdle::GetNextState()
 	{
 		return PlayerStateKind::STATE_ATTACK;
 	}
-	if ((GetMouseInput() & MOUSE_INPUT_RIGHT) && laser_is_ready
-		|| ObjectAccessor::GetObjectAccessor().GetIsInputBottunY() && laser_is_ready
+	if ((GetMouseInput() & MOUSE_INPUT_RIGHT) && laser_is_ready && ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() != PlayerStateKind::STATE_ATTACK
+		|| ObjectAccessor::GetObjectAccessor().GetIsInputBottunY() && laser_is_ready && ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() != PlayerStateKind::STATE_ATTACK
 		|| ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() == PlayerStateKind::STATE_LASER)
 	{
+		laser_is_ready = false;
 		return PlayerStateKind::STATE_LASER;
 	}
 	else

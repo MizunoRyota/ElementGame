@@ -74,28 +74,17 @@ void Camera::UpdateTitle()
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
 
-/// <summary>
-/// 更新
-/// </summary>
-void Camera::Update()
+void Camera::UpdateForMouse()
 {
-
-    // カメラの目線の位置
-    obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
-    
-    ShakeCamera();
-
-    // マウスによる回転
-    int mouseX, mouseY;
+    int mouseX = 0, mouseY = 0;
     GetMousePoint(&mouseX, &mouseY);
-    camera_angle_horizontal += (mouseX - (SCREEN_WIDTH /2)) * 0.001f;
-    camera_angle_virtual += (mouseY - (SCREEN_HEIGHT /2)) * -0.001f;
-    SetMousePoint((SCREEN_WIDTH /2), (SCREEN_HEIGHT /2));
+    camera_angle_horizontal += (mouseX - (SCREEN_WIDTH / HARF)) * 0.001f;
+    camera_angle_virtual += (mouseY - (SCREEN_HEIGHT / HARF)) * -0.001f;
+    SetMousePoint((SCREEN_WIDTH / HARF), (SCREEN_HEIGHT / HARF));
+}
 
-    // 垂直角度制限
-    float maxPitch = DX_PI_F / 2 - 0.1f;
-    if (camera_angle_virtual > maxPitch) camera_angle_virtual = maxPitch;
-    if (camera_angle_virtual < -maxPitch) camera_angle_virtual = -maxPitch;
+void Camera::UpdateForController()
+{
 
     // 「←」ボタンが押されていたら水平角度をマイナスする
     if (rightInput->IsInputAnalogKey(Input::AnalogLeft))
@@ -144,6 +133,33 @@ void Camera::Update()
             camera_angle_virtual = -DX_PI_F * 0.5f + 0.6f;
         }
     }
+}
+
+/// <summary>
+/// 更新
+/// </summary>
+void Camera::Update()
+{
+
+    // カメラの目線の位置
+    obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
+
+    ShakeCamera();
+
+    // マウスによる回転
+    if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
+    {
+        UpdateForController();
+    }
+    else
+    {
+        UpdateForMouse();
+    }
+    // 垂直角度制限
+    float maxPitch = DX_PI_F / HARF - 1.0f;
+    if (camera_angle_virtual > maxPitch) camera_angle_virtual = maxPitch;
+    if (camera_angle_virtual < -maxPitch) camera_angle_virtual = -maxPitch;
+
     obj_direction.x = cosf(camera_angle_virtual) * sinf(camera_angle_horizontal);
     obj_direction.y = sinf(camera_angle_virtual);
     obj_direction.z = cosf(camera_angle_virtual) * cosf(camera_angle_horizontal);

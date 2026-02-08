@@ -35,8 +35,8 @@ public:
 private:
 
 	static constexpr float ENEMY_HP_PHASE1_RAITO = 1.0f;
-	static constexpr float ENEMY_HP_PHASE2_RAITO = 0.7f;
-	static constexpr float ENEMY_HP_PHASE3_RAITO = 0.4f;
+	static constexpr float ENEMY_HP_PHASE2_RAITO = 0.8f;
+	static constexpr float ENEMY_HP_PHASE3_RAITO = 0.3f;
 
 	static constexpr float ATTACK_RAITO1 = 9.0f;
 	static constexpr float ATTACK_RAITO2 = 19.0f;

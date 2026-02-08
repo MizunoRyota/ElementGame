@@ -41,13 +41,13 @@ protected:
 
 private:
 	static constexpr int  WHITEOUT_TIME = 2300;          //ホワイトアウトの時間
-	static constexpr int  WHITEOUT_TIMESPEED = 25;     //ホワイトアウトの時間速度調整
+	static constexpr int  SCENE_OUT_TIMESPEED = 25;     //ホワイトアウトの時間速度調整
 
 	int alpha;
 
 	SceneManager& m_manager;  ///  SceneManager への参照
 	SharedData& m_sharedData; ///  共有データへの参照
 
-	bool whiteout_is_end; ///  ホワイトアウト完了フラグ
+	bool scene_out_is_end; ///  ホワイトアウト完了フラグ
 	bool return_is_end;   ///  シーン復帰完了フラグ
 };

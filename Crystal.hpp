@@ -33,22 +33,25 @@ public:
 	void UpdateGameClear() override {};
 	void UpdateGameOver() override {};
 	void UpdateTitle() override {};
+	void UpdateTutorial() override {};
 
 	void ChangeActive();   // 有効/無効切替
 	void ChangeBreak();    // 破壊切替
 	void MoveHorizontal(); // 水平移動（周回）
 
-    void ChangeCrystalIsBreak()		  { crystal_is_break = false; }	// 破壊状態リセット
+    void ChangeCrystalIsBreak()		  { crystal_is_break = false; }		// 破壊状態リセット
+
 	bool GetCrystalIsInit()		const { return crystal_is_active; }		// 破壊状態リセット
 
 	bool GetCrystalIsBreak()	const { return crystal_is_break; } // 
 
 private:
+
 	static constexpr float CRYSTAL_SCALE = 0.010f;   // モデルの大きさ
-	static constexpr float ROTATION_RADIUS = 10.0f;  // 周回半径
+	static constexpr float ROTATION_RADIUS = 7.0f;  // 周回半径
 	static constexpr float ROTATION_SPEED = 0.015f;  // 角速度(rad/frame 相当)
-	static constexpr int   CRYSTAL_MAXHP = 20;       // 最大HP
-	static constexpr float OFFSET_Y = 10.0f;         // Y方向オフセット
+	static constexpr int   CRYSTAL_MAXHP = 10;       // 最大HP
+	static constexpr float OFFSET_Y = 7.0f;         // Y方向オフセット
 
 	bool crystal_is_active;     // 初期化済みか
 	bool crystal_is_break;    // 破壊状態か

@@ -169,6 +169,9 @@
     <Filter Include="GameCode\GameObject\Character\Player\PlayerJump">
       <UniqueIdentifier>{6a3c40b7-e80b-4321-8484-1c1920a664c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\UI\CountDown">
+      <UniqueIdentifier>{c8e7a795-0d6b-40b7-8eb0-d927247b8264}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.hpp">
@@ -378,6 +381,12 @@
     <ClInclude Include="src\EnemyState\EnemyStateJumpAttack.hpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
     </ClInclude>
+    <ClInclude Include="CountdownOverlayUi.hpp">
+      <Filter>GameCode\UI\CountDown</Filter>
+    </ClInclude>
+    <ClInclude Include="FightOverlayUi.hpp">
+      <Filter>GameCode\UI\CountDown</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -565,6 +574,12 @@
     </ClCompile>
     <ClCompile Include="src\EnemyState\EnemyStateJumpAttack.cpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="CountdownOverlayUi.cpp">
+      <Filter>GameCode\UI\CountDown</Filter>
+    </ClCompile>
+    <ClCompile Include="FightOverlayUi.cpp">
+      <Filter>GameCode\UI\CountDown</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

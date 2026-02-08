@@ -46,7 +46,6 @@ void Crystal::LoadJson()
 
 void Crystal::Initialize()
 {
-	LoadJson();
 	// èâä˙âª
 	obj_hp = CRYSTAL_MAXHP;
 	crystal_is_break = false;
@@ -57,7 +56,7 @@ void Crystal::Initialize()
 void Crystal::ChangeActive()
 {
 
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE && crystal_is_active)
+	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_CHARGE) 
 	{
 		obj_hp = CRYSTAL_MAXHP;
 		obj_position = VGet(0.0f, -OFFSET_Y, 0.0f);
@@ -66,7 +65,7 @@ void Crystal::ChangeActive()
 		crystal_is_break = false;
 		crystal_is_active = false;
 	}
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && !crystal_is_active)
+	else if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && !crystal_is_active)
 	{
 		obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(0.0f, OFFSET_Y, 0.0f));
 		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Crystal, obj_position);
@@ -78,13 +77,10 @@ void Crystal::ChangeActive()
 void Crystal::ChangeBreak()
 {
 	SoundManager::GetSoundManager().PlayBreakCrystalSe();
-
-	obj_hp = CRYSTAL_MAXHP;
 	obj_position = VGet(0.0f, -OFFSET_Y, 0.0f);
 	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Crystal);
 	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::ChargeBeam);
 	crystal_is_break = true;
-	crystal_is_active = false;
 }
 
 void Crystal::Update()
@@ -96,11 +92,11 @@ void Crystal::Update()
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && crystal_is_active)
 	{
 		MoveHorizontal();
+		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Crystal, obj_position);
+		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::ChargeBeam, obj_position);
+		EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::ChargeBeam, ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
 	}
 
-	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Crystal, obj_position);
-	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::ChargeBeam, obj_position);
-	EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::ChargeBeam, ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
 
 	MV1SetPosition(obj_modelhandle, obj_position); // à íuìKóp
 
