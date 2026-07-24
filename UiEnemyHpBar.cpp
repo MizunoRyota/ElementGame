@@ -27,7 +27,7 @@ void UiEnemyHpBar::Update()
         // ダメージ時: hpbar_display を DELAY_SPEED 速度で追従減少
         if (hpbar_display > hpbarReal)
         {
-            int decayAmount = static_cast<int>(DELAY_SPEED * DISPLAY_);
+            int decayAmount = static_cast<int>(DELAY_SPEED * DISPLAY_FRAME);
             if (decayAmount < 1) decayAmount = 1; // 最低 1 減少
             hpbar_display -= decayAmount;
             if (hpbar_display < hpbarReal) hpbar_display = hpbarReal; // 行き過ぎ補正
@@ -58,10 +58,7 @@ void UiEnemyHpBar::Draw() const
     if (delayedRatio < 0) delayedRatio = 0; if (delayedRatio > 1) delayedRatio = 1;
 
     // 画面サイズ取得（失敗時フォールバック）
-    int screenWidth = SCREEN_WIDTH;
-    int screenHeight = SCREEN_HEIGHT;
-
-    int hpbarX = SCREEN_WIDTH / 2 - 600; // 右上配置
+    int hpbarX = SCREEN_WIDTH / HARF - 600; // 右上配置
     int hpbarY = offset_y;
 
     // ---- 背景 / ベース ----

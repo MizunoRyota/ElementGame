@@ -10,17 +10,31 @@ public:
 
 	// 基本初期化（直進など）
 	void Initialize(const VECTOR& pos, const VECTOR& dir, const float& speed, int effectTypeIndex);
-	void InitializeHoming(const VECTOR& pos, const VECTOR& dir, const float& speed, std::function<VECTOR()> targetGetter, float homingDuration, float turnSpeedRad, int effectTypeIndex); // 追尾初期化
-	void Update();   // フレーム更新
-	void Move();     // 位置更新
-	void Draw();     // デバッグ描画
+	//ホーミング弾の初期化
+	void InitializeHoming(const VECTOR& pos, const VECTOR& dir, const float& speed, std::function<VECTOR()> targetGetter, float homingDuration, float turnSpeedRad, int effectTypeIndex);
 
-	void ChangeActiveTrue();  // 有効化
-	void ChangeActiveFalse(); // 無効化（エフェクト停止）
-	void ResetPosition();     // 位置を初期値へ
-	void StopEffect();        // 再生/追尾の停止
+	//更新
+	void Update();
 
-	void InitializeBulletRadius(int effectTypeIndex); // 種類に応じた半径設定
+	// 位置更新
+	void Move();    
+
+	// デバッグ描画
+	void Draw();    
+	// 有効化
+	void ChangeActiveTrue();  
+
+	// 無効化（エフェクト停止）
+	void ChangeActiveFalse(); 
+
+	// 位置を初期値へ
+	void ResetPosition();    
+
+	// 再生/追尾の停止
+	void StopEffect();      
+
+	// 種類に応じた半径設定
+	void InitializeBulletRadius(int effectTypeIndex); 
 
 	bool IsActive()				const { return bullet_is_active; }
 	const VECTOR& GetPosition() const { return bullet_position; }

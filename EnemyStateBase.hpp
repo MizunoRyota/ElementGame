@@ -32,16 +32,16 @@ protected:
 		return enemy_attack_state;
 	}
 
-	int enemy_hand_effect_handle;
+	int enemy_hand_effect_handle; //敵の手のエフェクトハンドル
 
-	static EnemyStateKind enemy_attack_state;
+	static EnemyStateKind enemy_attack_state; //敵のステートの状態
 
-	static bool enemy_ondamege_phase2;
-	static bool enemy_ondamege_phase3;
-	static bool enemy_first_specialattack;
+	static bool enemy_ondamege_phase2; //敵のフェーズ2前ののけぞりフラグ
+	static bool enemy_ondamege_phase3; //敵のフェーズ3前ののけぞりフラグ
+	static bool enemy_first_specialattack; //最初の必殺技フラグ
 
 private:
-	static constexpr float ENEMY_HP_PHASE2_RAITO = 0.7f;
-	static constexpr float ENEMY_HP_PHASE3_RAITO = 0.4f;
+	static constexpr float ENEMY_HP_PHASE2_RAITO = 0.8f; //フェーズ2へのHP割合
+	static constexpr float ENEMY_HP_PHASE3_RAITO = 0.4f; //フェーズ3へのHP割合
 
 };

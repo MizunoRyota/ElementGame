@@ -13,6 +13,16 @@ PlayerMove::PlayerMove()
 
 PlayerMove::~PlayerMove() {}
 
+void PlayerMove::Initialize()
+{
+	moveVec = VGet(0, 0, 0);
+	move_angle = 0;
+	dash_energy = DASH_MAXENERGY;
+	dash_cooldown = 0;
+	move_is_move = false;
+	move_is_dash = false;
+}
+
 // 入力とカメラから移動量・角度・ダッシュエネルギーを更新
 void PlayerMove::Update()
 {
@@ -39,7 +49,8 @@ void PlayerMove::UpdateMoveParameterWithPad( VECTOR& upMoveVec, VECTOR& leftMove
 	bool isPressMoveButton = false;
 
 	// クールタイム中またはエネルギー枯渇時はダッシュ入力を無効化
-	bool dashKey = (ObjectAccessor::GetObjectAccessor().GetIsInputLeftThumb()|| CheckHitKey(KEY_INPUT_LSHIFT) != 0);
+	bool dashKey = (ObjectAccessor::GetObjectAccessor().GetIsInputLeftShoulder()|| CheckHitKey(KEY_INPUT_LSHIFT) != 0);
+
 	if (dash_cooldown > 0 || dash_energy <= 0)
 	{
 		move_is_dash = false;

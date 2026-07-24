@@ -3,6 +3,7 @@
 #include "../ObjectAccessor.hpp"
 #include "../PlayerStateKind.hpp"
 #include "../src/Sounds/SoundManager.hpp"
+
 PlayerStateLaser::PlayerStateLaser()
 {
 	laser_is_ready = false;
@@ -16,7 +17,7 @@ PlayerStateLaser::~PlayerStateLaser()
 
 void PlayerStateLaser::Enter()
 {
-
+	StartJoypadVibration(DX_INPUT_PAD1, JOYPAD_VIBERATON_POWER, -1, -1);
 	SoundManager::GetSoundManager().PlayFireLaserSe();
 	SoundManager::GetSoundManager().StopSoundCharge();
 
@@ -55,6 +56,7 @@ bool PlayerStateLaser::FireEnd()
 
 void PlayerStateLaser::Exit()
 {
+	StopJoypadVibration(DX_INPUT_PAD1, -1);
 	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::EternalLaser);
 }
 

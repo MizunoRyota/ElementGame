@@ -1,59 +1,74 @@
 #pragma once
-#include "CharacterBase.hpp" 
+#include "CharacterBase.hpp"
 
 class CharacterBase;
 class GameObject;
 
-// クリスタル（敵の周囲を回るギミック）
+// Crystal:
+// `CharacterBase` を継承したギミックオブジェクト。
+// - HP を持ち、弾などでダメージを受ける
+// - 一定条件で破壊（ブレイク）状態へ遷移し、モデル/挙動が変化する
+// - 通常のキャラクターのようなステート更新は持たない（必要な関数は空実装）
 class Crystal : public CharacterBase
 {
 public:
+    Crystal();
+    ~Crystal();
 
-	Crystal();
-	~Crystal();
+    // json（モデル/当たり判定/初期値など）読み込み
+    void LoadJson();
 
-	void LoadJson();
+    // 初期化（モデル/HP/状態など）
+    void Initialize() override;
 
-	void Initialize() override;   // 初期化（モデル/状態）
+    // 毎フレーム更新（回転/横移動など）
+    void Update() override;
 
-	void Update() override;       // 毎フレーム更新
+    // ステート更新は使わない
+    void UpdateStateAction() override {};
+    void UpdateHandEffect() override {};
+    void InitializeStates() override {};
 
-	void UpdateStateAction() override {}; // 各派生で行動ステート更新
+    // シーン別描画/更新（必要に応じてオーバーライドするが現状は空）
+    void DrawTitle() override {};
+    void Draw() override;
+    void DrawGameOver() override {};
+    void DrawGameClear() override {};
 
-	void UpdateHandEffect() override {};
+    void UpdateGameClear() override {};
+    void UpdateGameOver() override {};
+    void UpdateTitle() override {};
+    void UpdateTutorial() override {};
 
-	void InitializeStates() override {};
+    // アクティブ切替（出現/非表示などの制御）
+    void ChangeActive();
 
-	void DrawTitle() override {};
-	void Draw() override;				// 描画
-	void DrawGameOver() override {};
-	void DrawGameClear() override {};
+    // 破壊（ブレイク）状態へ切り替え
+    void ChangeBreak();
 
-	// シーン別更新（必要ならオーバーライド）
-	void UpdateGameClear() override {};
-	void UpdateGameOver() override {};
-	void UpdateTitle() override {};
+    // 横方向の移動（回転運動の補助など）
+    void MoveHorizontal();
 
-	void ChangeActive();   // 有効/無効切替
-	void ChangeBreak();    // 破壊切替
-	void MoveHorizontal(); // 水平移動（周回）
+    // ブレイク状態を解除（リセット用）
+    void ChangeCrystalIsBreak() { crystal_is_break = false; }
 
-    void ChangeCrystalIsBreak()		  { crystal_is_break = false; }	// 破壊状態リセット
-	bool GetCrystalIsInit()		const { return crystal_is_active; }		// 破壊状態リセット
+    // 初期化済み（アクティブ）か
+    bool GetCrystalIsInit() const { return crystal_is_active; }
 
-	bool GetCrystalIsBreak()	const { return crystal_is_break; } // 
+    // 破壊状態か
+    bool GetCrystalIsBreak() const { return crystal_is_break; }
 
 private:
-	static constexpr float CRYSTAL_SCALE = 0.010f;   // モデルの大きさ
-	static constexpr float ROTATION_RADIUS = 10.0f;  // 周回半径
-	static constexpr float ROTATION_SPEED = 0.015f;  // 角速度(rad/frame 相当)
-	static constexpr int   CRYSTAL_MAXHP = 20;       // 最大HP
-	static constexpr float OFFSET_Y = 10.0f;         // Y方向オフセット
 
-	bool crystal_is_active;     // 初期化済みか
-	bool crystal_is_break;    // 破壊状態か
-	float crystal_angle;      // 現在の角度
+    static constexpr float CRYSTAL_SCALE    = 0.010f; // モデルスケール
+    static constexpr float ROTATION_RADIUS  = 7.0f;   // 回転半径
+    static constexpr float ROTATION_SPEED   = 0.015f; // 回転角速度（rad/frame）
+    static constexpr int   CRYSTAL_MAXHP    = 10;     // 最大HP
+    static constexpr float OFFSET_Y         = 7.0f;   // 高さオフセット
 
-	json crystal_json_data;
+    bool  crystal_is_active; // 使用中（出現済み）か
+    bool  crystal_is_break;  // 破壊状態か
+    float crystal_angle;     // 現在角度（回転用）
 
+    json crystal_json_data;// json 設定データ
 };

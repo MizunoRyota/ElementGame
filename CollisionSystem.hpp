@@ -11,7 +11,10 @@ public:
 	static void Resolve(SharedData& shared);
 
 private:
-	float bullet_collision_radius = 3.0f;
+	static constexpr int JOYPAD_VIBERATON_POWER = 2000; // パッドの振動の強さ
+	static constexpr int JOYPAD_VIBERATON_TIME = 200; // パッドの振動する時間
+
+	float bullet_collision_radius = 3.0f; //弾の当たり判定の半径
 
 	std::shared_ptr<SharedData> shred_data;
 

@@ -23,6 +23,6 @@ private:
 	float alpha = 0.0f;               // 0.0~255.0 使用
 	float fade_in_speed_ = 25.0f;      // フェードイン速度
 	float fade_out_speed = 5.0f;      // フェードアウト速度
-	int recent_invincible_prev_ = 0;   // 前フレームの無敵タイマー
-	std::weak_ptr<Player> player_;     // プレイヤー参照
+	int recent_invincible_prev = 0;   // 前フレームの無敵タイマー
+	std::weak_ptr<Player> player;     // プレイヤー参照
 };

@@ -12,19 +12,27 @@ private:
     ~BulletCreator();
 
 public:
-    void CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed, int effectTypeIndex); // 基本弾生成
+    // 弾生成
+    void CreateBullet(const VECTOR& pos, const VECTOR& dir, const float& speed, int effectTypeIndex);
+
+    //ホーミング弾の生成
     void CreateHomingBullet(const VECTOR& pos, const VECTOR& dir, const float& speed, std::function<VECTOR()> targetGetter, float homingDuration, float turnSpeedRad, int effectTypeIndex);
 
-    void Initialize(); // プール初期化
-    void Update();     // 全弾更新
-    void Draw();       // デバッグ描画
+    // プール初期化
+    void Initialize(); 
 
+    // 全弾更新
+    void Update();     
+    // 描画
+    void Draw();       
+    //弾のエフェクト管理
     void StopBulletEffect();
 
     std::shared_ptr<Bullet> GetBullet(int index) const { return bullets[index]; }
 
     int GetBulletCount()    const { return static_cast<int>(bullets.size()); }
 
+    //シングルトン
     static BulletCreator& GetBulletCreator()
     {
         static BulletCreator bullet_creator;

@@ -8,32 +8,50 @@ public:
 	CharacterBase() = default;
 	virtual ~CharacterBase() = default;
 
+	// 各ステートの初期化
 	virtual void InitializeStates()abstract;
 
-	virtual void UpdateStateAction() abstract; // 各派生で行動ステート更新
+	// 各派生で行動ステート更新
+	virtual void UpdateStateAction() abstract; 
 
+	// 手に表示するエフェクトの更新
 	virtual void UpdateHandEffect() abstract;
 
 	// シーン別描画（共通で通常Drawを呼ぶデフォルト実装）
 	void DrawTitle() override { Draw(); }
-	void DrawGameOver() override { Draw(); }
-	void DrawGameClear() override { Draw(); }
+	void DrawGameOver() abstract;
+	void DrawGameClear() abstract;
 
 	// === Damage System API ===
-	void ConfigureDamageCooldown(float frames) { damage_invincible_duration = frames; } // 無敵時間(フレーム)設定
-	bool TakeDamage(int amount);                    // ダメージ適用。HPを減少させた場合 true
-	void TickDamageCooldown();                      // 無敵タイマー進行(Update 等で呼ぶ)
+	// 無敵時間(フレーム)設定
+	void ConfigureDamageCooldown(float frames) { damage_invincible_duration = frames; } 
+
+	// ダメージ適用。HPを減少させた場合 true
+	bool TakeDamage(int amount);                 
+
+	// 無敵タイマー進行(Update 等で呼ぶ)
+	void TickDamageCooldown();                      
+
+	//　ダメージを受けた時の色変更
 	void ChangeColor();
-	void CheckMoveRange();                          // 行動範囲外チェック＆補正
 
-	bool IsInvincible()			const { return damage_invincible_timer > 0; }		// 現在無敵か
-	bool IsDead()				const { return obj_hp <= 0; }						// HP が 0 以下か
-	float GetCapsuleRadius()	const { return COLLISION_CAPSULE_RADIUS; }			// 衝突半径
-	float GetCapsuleHeight()	const { return COLLISION_CAPSULE_HEIGHT; }			// 衝突高さ
-	virtual const int& GetHp()	const { return obj_hp; }							// 現在HP
-	VECTOR GetHandPosition()	const { return character_hand_position; }			//キャラクターの手のポジション
+	// 行動範囲外チェック＆補正
+	void CheckMoveRange();                          
 
-	VECTOR GetCapsuleTop()	const { return VAdd(obj_position, VGet(0, COLLISION_CAPSULE_HEIGHT, 0)); } // カプセル上端座標
+	// 現在無敵か
+	bool IsInvincible()			const { return damage_invincible_timer > 0; }		
+	// HP が 0 以下か
+	bool IsDead()				const { return obj_hp <= 0; }					
+	// 衝突半径
+	float GetCapsuleRadius()	const { return COLLISION_CAPSULE_RADIUS; }			
+	// 衝突高さ
+	float GetCapsuleHeight()	const { return COLLISION_CAPSULE_HEIGHT; }			
+	// 現在HP
+	virtual const int& GetHp()	const { return obj_hp; }					
+	//キャラクターの手のポジション
+	VECTOR GetHandPosition()	const { return character_hand_position; }			
+	// カプセル上端座標
+	VECTOR GetCapsuleTop()	const { return VAdd(obj_position, VGet(0, COLLISION_CAPSULE_HEIGHT, 0)); } 
 
 protected:
 	static constexpr float MAX_RANGE = 20.0f;			// 自動復帰させる境界半径

@@ -2,143 +2,171 @@
 #include "EnemyStateChoseAttack.hpp"
 #include "../EnemyStateBase.hpp"
 #include "../ObjectAccessor.hpp"
+#include "../AttackWeightManager.hpp"
 
 EnemyStateChoseAttack::EnemyStateChoseAttack()
 {
-	attack_is_chose = false;
+    attack_is_chose = false;
 }
 
 EnemyStateChoseAttack::~EnemyStateChoseAttack()
 {
-
 }
 
 void EnemyStateChoseAttack::Enter()
 {
-	attack_is_chose = true;
-	ChoseAttackState();
+    // このステートに入ったら必ず1回、次の攻撃を選択する
+    attack_is_chose = true;
+    ChoseAttackState();
 }
 
 void EnemyStateChoseAttack::ChoseAttackState()
 {
-	CheckEnemyPhase();
+    // 現在HP割合と距離から、候補テーブルを切り替えて攻撃を決定
+    CheckEnemyPhase();
 }
 
 void EnemyStateChoseAttack::CheckEnemyPhase()
 {
-	float hpRaito = static_cast<float>(ObjectAccessor::GetObjectAccessor().GetEnemyHp()) / static_cast<float>(ObjectAccessor::GetObjectAccessor().GetEnemyMaxHp());
+    // 現在HP割合（0.0～1.0）を算出
+    float hpRaito = static_cast<float>(ObjectAccessor::GetObjectAccessor().GetEnemyHp()) /
+        static_cast<float>(ObjectAccessor::GetObjectAccessor().GetEnemyMaxHp());
 
-	if (hpRaito <= ENEMY_HP_PHASE3_RAITO)
-	{
-		ChoseNextAttackPhaseThree();
-	}	
-	else if (hpRaito <= ENEMY_HP_PHASE2_RAITO)
-	{
-		ChoseNextAttackPhaseTwo();
-	}
-	else if (hpRaito <= ENEMY_HP_PHASE1_RAITO)
-	{
-		ChoseNextAttackPhaseOne();
-	}
+    // プレイヤーとの距離（二乗）を算出
+    VECTOR keepDistance = VSub(
+        ObjectAccessor::GetObjectAccessor().GetPlayerPosition(),
+        ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
+
+    float checkDistance = VSquareSize(keepDistance);
+
+    // HPフェーズで分岐（低HPほど行動が激化/特殊が増える想定）
+    if (hpRaito <= ENEMY_HP_PHASE3_RAITO)
+    {
+        ChoseNextAttackPhaseThree(keepDistance, checkDistance);
+    }
+    else if (hpRaito <= ENEMY_HP_PHASE2_RAITO)
+    {
+        ChoseNextAttackPhaseTwo(keepDistance, checkDistance);
+    }
+    else if (hpRaito <= ENEMY_HP_PHASE1_RAITO)
+    {
+        ChoseNextAttackPhaseOne(keepDistance, checkDistance);
+    }
 }
 
-void EnemyStateChoseAttack::ChoseNextAttackPhaseOne()
+void EnemyStateChoseAttack::ChoseNextAttackPhaseOne(const VECTOR& keepDistance, const float& checkDistance)
 {
 
-	VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
-	float checkDistance = VSquareSize(keepDistance); // 距離の二乗
+    // 距離に応じて重みテーブルを切り替える（LongRange/ShortRange）
+    if (checkDistance >= LONG_RANGE)
+    {
+        const auto& weights =
+            AttackWeightManager::GetAttackWeightManager().GetWeights("PhaseOne", "LongRange");
 
-	int nextAttackType = rand() % ATTACK_MAX_RAITO;  // 0?99
+        std::discrete_distribution<> dist(weights.begin(), weights.end());
+        int result = dist(gen);
 
-	if (checkDistance >= LONG_RANGE)
-	{
-		// 例：遠距離（0-29:火, 30-79:水, 80-99:風）
-		if (nextAttackType < ATTACK_RAITO1)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);  
-		else if (nextAttackType < ATTACK_RAITO9)    SetEnemyAttackState(EnemyStateKind::STATE_JUMPATTACK);  
-		else										SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);   
-	}
-	else if (checkDistance >= SHORT_RANGE)
-	{
-		// 例：中距離（30-79:火, 0-29:水, 70-89:風, 80-99:ジャンプ）
-		if (nextAttackType < ATTACK_RAITO8)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
-		else if (nextAttackType < ATTACK_RAITO3)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);  
-		else										SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);
-	}
+        if (result == 0)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
+        else if (result == 1)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);
+    }
+    else if (checkDistance >= SHORT_RANGE)
+    {
+        const auto& weights =
+            AttackWeightManager::GetAttackWeightManager().GetWeights("PhaseOne", "ShortRange");
+
+        std::discrete_distribution<> dist(weights.begin(), weights.end());
+        int result = dist(gen);
+
+        if (result == 0)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
+        else if (result == 1)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);
+    }
 }
 
-void EnemyStateChoseAttack::ChoseNextAttackPhaseTwo()
-{
-	VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
-	float checkDistance = VSquareSize(keepDistance); // 距離の二乗
+void EnemyStateChoseAttack::ChoseNextAttackPhaseTwo(const VECTOR& keepDistance, const float& checkDistance)
+{;
 
-	int nextAttackType = rand() % ATTACK_MAX_RAITO;  // 0?99
+    // フェーズ2では初回だけ特殊行動（Float → SpecialCharge へ）を強制
+    if (!enemy_first_specialattack)
+    {
+        SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);
+        enemy_first_specialattack = true;
+        return;
+    }
 
-	if (!enemy_first_specialattack)
-	{
-		SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);
-		enemy_first_specialattack = true;
-		return;
-	}
+    if (checkDistance >= LONG_RANGE)
+    {
+        const auto& weights =
+            AttackWeightManager::GetAttackWeightManager().GetWeights("PhaseTwo", "LongRange");
 
-	if (checkDistance >= LONG_RANGE)
-	{
-		// 例：遠距離（0-39:火, 40-79:水, 80-89:風, 90-99:必殺）
-		if (nextAttackType < ATTACK_RAITO4)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
-		else if (nextAttackType < ATTACK_RAITO8)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK); 
-		else if (nextAttackType < ATTACK_RAITO9)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);		 
-		else										SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK); 
-	}
-	else if (checkDistance >= SHORT_RANGE)
-	{
-		// 例：中距離（40-79:火, 0-39:水, 80-89:風, 90-99:必殺）
-		if (nextAttackType < ATTACK_RAITO8)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK); 
-		else if (nextAttackType < ATTACK_RAITO4)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);  
-		else if (nextAttackType < ATTACK_RAITO9)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);		
-		else										SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK); 
-	}
+        std::discrete_distribution<> dist(weights.begin(), weights.end());
+        int result = dist(gen);
+
+        if (result == 0)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
+        else if (result == 1)    SetEnemyAttackState(EnemyStateKind::STATE_JUMPATTACK);
+        else if (result == 2)    SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);
+        else if (result == 3)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);
+    }
+    else if (checkDistance >= SHORT_RANGE)
+    {
+        const auto& weights =
+            AttackWeightManager::GetAttackWeightManager().GetWeights("PhaseTwo", "ShortRange");
+
+        std::discrete_distribution<> dist(weights.begin(), weights.end());
+        int result = dist(gen);
+
+        if (result == 0)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
+        else if (result == 1)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);
+        else if (result == 2)    SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);
+        else if (result == 3)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);
+    }
 }
 
-void EnemyStateChoseAttack::ChoseNextAttackPhaseThree()
+void EnemyStateChoseAttack::ChoseNextAttackPhaseThree(const VECTOR& keepDistance, const float& checkDistance)
 {
-	VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
-	float checkDistance = VSquareSize(keepDistance); // 距離の二乗
 
-	int nextAttackType = rand() % ATTACK_MAX_RAITO;  // 0?99
+    // フェーズ3（低HP）ではフェーズ2のテーブルを流用している（調整ポイント）
+    if (checkDistance >= LONG_RANGE)
+    {
+        const auto& weights =
+            AttackWeightManager::GetAttackWeightManager().GetWeights("PhaseThree", "LongRange");
 
-	if (checkDistance >= LONG_RANGE)
-	{
-		// 例：遠距離（0-29:火, 30-49:水, 70-99:風, 50-69:必殺）
-		if (nextAttackType < ATTACK_RAITO3)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK); 
-		else if (nextAttackType < ATTACK_RAITO5)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);
-		else if (nextAttackType < ATTACK_RAITO7)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);		
-		else										SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK); 
-	}
-	else if (checkDistance >= SHORT_RANGE)
-	{
-		// 例：中距離（30-49:火, 0-29:水, 70-99:風, 50-69:必殺）
-		if (nextAttackType < ATTACK_RAITO5)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
-		else if (nextAttackType < ATTACK_RAITO5)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);
-		else if (nextAttackType < ATTACK_RAITO7)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);
-		else										SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);
-	}
+        std::discrete_distribution<> dist(weights.begin(), weights.end());
+        int result = dist(gen);
+
+        if (result == 0)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
+        else if (result == 1)    SetEnemyAttackState(EnemyStateKind::STATE_JUMPATTACK);
+        else if (result == 2)    SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);
+        else if (result == 3)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);
+    }
+    else if (checkDistance >= SHORT_RANGE)
+    {
+        const auto& weights =
+            AttackWeightManager::GetAttackWeightManager().GetWeights("PhaseThree", "ShortRange");
+
+        std::discrete_distribution<> dist(weights.begin(), weights.end());
+        int result = dist(gen);
+
+        if (result == 0)         SetEnemyAttackState(EnemyStateKind::STATE_FIREATTACK);
+        else if (result == 1)    SetEnemyAttackState(EnemyStateKind::STATE_WATERATTACK);
+        else if (result == 2)    SetEnemyAttackState(EnemyStateKind::STATE_WINDATTACK);
+        else if (result == 3)    SetEnemyAttackState(EnemyStateKind::STATE_FLOAT);
+    }
 }
 
 void EnemyStateChoseAttack::Exit()
 {
-	attack_is_chose = false;
+    // 選択処理は完了
+    attack_is_chose = false;
 }
 
 EnemyStateKind EnemyStateChoseAttack::GetNextState()
 {
-	if (attack_is_chose)
-	{
-		return EnemyStateKind::STATE_CHARGE;
-	}
-	else
-	{
-		return ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
-	}
+    // Enter で選択→次フレームから Charge へ
+    if (attack_is_chose)
+    {
+        return EnemyStateKind::STATE_CHARGE;
+    }
 
-	return ChangeStateOnDamage();
-
+    // 選択後は現在の敵ステートを維持（外部で上書きされる想定）
+    return ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
 }

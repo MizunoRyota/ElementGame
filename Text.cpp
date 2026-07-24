@@ -1,6 +1,7 @@
 #include "stdafx.hpp"
 #include "Text.hpp"
 #include "UiManager.hpp"
+#include "EffectCreator.hpp"
 #include "ObjectAccessor.hpp"
 
 Text::Text()
@@ -20,14 +21,22 @@ Text::~Text()
 
 void Text::Update()
 {
-	//ˆ—‚È‚µ
+	if (ObjectAccessor::GetObjectAccessor().GetIsReadyLaser())
+	{
+		EffectCreator::GetEffectCreator().PlayLoop2D(EffectCreator::EffectType::LaserIcon, VGet(900, 970, 0));
+		EffectCreator::GetEffectCreator().SetLoopPosition2D(EffectCreator::EffectType::LaserIcon, VGet(900, 970, 0));
+	}
+	else
+	{
+		EffectCreator::GetEffectCreator().StopLoop2D(EffectCreator::EffectType::LaserIcon);
+	}
 }
 
 void Text::Draw() const
 {
 	if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
 	{
-		if (ObjectAccessor::GetObjectAccessor().GetCrystalIsBreak())
+		if (ObjectAccessor::GetObjectAccessor().GetIsReadyLaser())
 		{
 			DrawGraphF(0, 0, game_controller, true);
 			DrawGraphF(0, 0, ready_laser_controller, true);
@@ -41,7 +50,7 @@ void Text::Draw() const
 		return;
 	}
 
-	if (ObjectAccessor::GetObjectAccessor().GetCrystalIsBreak())
+	if (ObjectAccessor::GetObjectAccessor().GetIsReadyLaser())
 	{
 		DrawGraphF(0, 0, graph_handle, true);
 		DrawGraphF(0, 0, ready_laser_mouse, true);

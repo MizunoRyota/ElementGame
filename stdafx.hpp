@@ -24,5 +24,4 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-
 using json = nlohmann::json;

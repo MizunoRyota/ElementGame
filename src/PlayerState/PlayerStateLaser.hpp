@@ -24,9 +24,10 @@ private:
 	static constexpr float LASER_MAX_TIME = 2000.0f;  // 発射クール時間
 	static constexpr float LASER_MAX_LENGTH = 30.0f;  // レーザーの距離
 	static constexpr float LASER_DECREACE_TIME = 10.0f;  // 発射クール時間
+	static constexpr int JOYPAD_VIBERATON_POWER = 750; // パッドの振動の強さ
 
-	float laser_timer;
-	bool laser_is_ready;
-	bool laser_is_fire;
+	float laser_timer; // レーザーの発射時間
+	bool laser_is_ready; // レーザーを発射できるか
+	bool laser_is_fire; // レーザーは発射しているか
 
 };

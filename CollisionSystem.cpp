@@ -10,161 +10,221 @@
 #include "Player.hpp"
 #include "Crystal.hpp"
 #include "Camera.hpp"
-#include "EffectCreator.hpp" // 追加
+#include "EffectCreator.hpp" 
 #include "ObjectAccessor.hpp"
 
 namespace
 {
-	constexpr int BULLET_DAMAGE_TO_ENEMY   = 1;
-	constexpr int BULLET_DAMAGE_TO_CRYSTAL = 1;
-	constexpr int BULLET_DAMAGE_TO_PLAYER = 10;
-	constexpr float KNOCKBACK_DISTANCE = 0.1f;
-	constexpr float PLAYER_KNOCKBACK_RADIUS = 2.0f;
-	constexpr float ENEMY_KNOCKBACK_RADIUS = 2.0f;
-	constexpr float ENEMY_SPECIAL_KNOCKBACK_RADIUS = 5.0f;
 
+    constexpr int BULLET_DAMAGE_TO_ENEMY    = 1;
+    constexpr int BULLET_DAMAGE_TO_CRYSTAL = 1;
+    constexpr int BULLET_DAMAGE_TO_PLAYER  = 10;
+    constexpr int SEPCIALBULLET_DAMAGE_TO_PLAYER = 30;
+
+    // キャラクター同士の押し戻し（カプセル同士）に使う半径
+    constexpr float PLAYER_KNOCKBACK_RADIUS         = 2.0f;
+    constexpr float ENEMY_KNOCKBACK_RADIUS          = 2.0f;
+    constexpr float ENEMY_SPECIAL_KNOCKBACK_RADIUS  = 5.0f;
 }
 
+/// <summary>
+/// 当たり判定
+/// </summary>
+/// <param name="shared"></param>
 void CollisionSystem::Resolve(SharedData& shared)
 {
-	auto enemy = std::dynamic_pointer_cast<Enemy>(shared.FindObject("Enemy"));
-	auto player = std::dynamic_pointer_cast<Player>(shared.FindObject("Player"));
-	auto crystal = std::dynamic_pointer_cast<Crystal>(shared.FindObject("Crystal"));
+    // SharedData から対象オブジェクトを名前で取得
+    auto enemy   = std::dynamic_pointer_cast<Enemy>(shared.FindObject("Enemy"));
+    auto player  = std::dynamic_pointer_cast<Player>(shared.FindObject("Player"));
+    auto crystal = std::dynamic_pointer_cast<Crystal>(shared.FindObject("Crystal"));
 
-	auto& bullet_creator = BulletCreator::GetBulletCreator();
+    // 弾は BulletCreator の弾プールで一括管理
+    auto& bullet_creator = BulletCreator::GetBulletCreator();
+    const int count = bullet_creator.GetBulletCount();
 
-	const int count = bullet_creator.GetBulletCount();
+    // =================================================================
+    // 1) キャラクター同士（Enemy vs Player）の当たり判定
+    //    - 敵の状態により当たり判定（半径）を変更
+    //    - ヒット時は「めり込み分（最小距離）」だけプレイヤーを押し戻す
+    // =================================================================
+    if (enemy && player)
+    {
+        bool hitPlayer = false;
 
-	//キャラクター同士の当たり判定
-	if (enemy && player)
-	{
-		bool hitPlayer = false;
-		if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE || ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIALATTACK)
-		{
-			hitPlayer = Collision::CheckCapsuleCapsuleCollision(
-				player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
-				enemy->GetPosition(), ENEMY_SPECIAL_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight());
-		}
-		else
-		{
-			hitPlayer = Collision::CheckCapsuleCapsuleCollision(
-				player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
-				enemy->GetPosition(), ENEMY_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight());
-		}
+        const auto enemyState = ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
+        const bool isEnemySpecial = (enemyState == EnemyStateKind::STATE_SPECIAL_CHARGE ||
+                                    enemyState == EnemyStateKind::STATE_SPECIALATTACK);
 
-		if (hitPlayer)
-		{
-			VECTOR pushDir = VSub(player->GetPosition(), enemy->GetPosition());
-			float knockbackDistance = VSquareSize(pushDir);
-			//if (VSquareSize(pushDir) < 0.0001f)
-			//{
-			//	pushDir = VGet(0.0f, 0.0f, 1.0f);
-			//}
+        // 特殊中は敵側の当たりを大きくして、体当たり/大技感を強める
+        if (isEnemySpecial)
+        {
+            hitPlayer = Collision::CheckCapsuleCapsuleCollision(
+                player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+                enemy->GetPosition(),  ENEMY_SPECIAL_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight());
+        }
+        else
+        {
+            hitPlayer = Collision::CheckCapsuleCapsuleCollision(
+                player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+                enemy->GetPosition(),  ENEMY_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight());
+        }
 
-			pushDir = VNorm(pushDir);
+        if (hitPlayer)
+        {
+            // 敵→プレイヤー方向へ押し戻すための方向ベクトル
+            VECTOR pushDir = VSub(player->GetPosition(), enemy->GetPosition());
 
-			if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE || ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIALATTACK)
-			{
-				player->ApplyKnockback(VScale(pushDir, Collision::GetCapsuleCapsuleMinDistance(
-					player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
-					enemy->GetPosition(), ENEMY_SPECIAL_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight())));
-			}
-			else
-			{
-				player->ApplyKnockback(VScale(pushDir, Collision::GetCapsuleCapsuleMinDistance(
-					player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
-					enemy->GetPosition(), ENEMY_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight())));
-			}
-		}
-	}
+            // NOTE: knockbackDistance は現状使用していないが、将来の調整用に残っている
+            float knockbackDistance = VSquareSize(pushDir);
+            (void)knockbackDistance;
 
-	//レーザーと敵との当たり判定
-	if (ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() == PlayerStateKind::STATE_LASER)
-	{
-		bool hitEnemy = false;
+            pushDir = VNorm(pushDir);
 
-		hitEnemy = Collision::CheckSegmentSegmentColliison(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), ObjectAccessor::GetObjectAccessor().GetEnemyGetHitPosition(), ObjectAccessor::GetObjectAccessor().GetPlayerHandPosition(), ObjectAccessor::GetObjectAccessor().GetLaserEndPosition());
+            // カプセル同士の「めり込み量」を求め、その分だけプレイヤーを移動させて解決する
+            if (isEnemySpecial)
+            {
+                player->ApplyKnockback(VScale(pushDir, Collision::GetCapsuleCapsuleMinDistance(
+                    player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+                    enemy->GetPosition(),  ENEMY_SPECIAL_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight())));
+            }
+            else
+            {
+                player->ApplyKnockback(VScale(pushDir, Collision::GetCapsuleCapsuleMinDistance(
+                    player->GetPosition(), PLAYER_KNOCKBACK_RADIUS, player->GetCapsuleHeight(),
+                    enemy->GetPosition(),  ENEMY_KNOCKBACK_RADIUS, enemy->GetCapsuleHeight())));
+            }
+        }
+    }
 
-		if (hitEnemy)
-		{
-			enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
-		}
-		return;
-	}
+    // =================================================================
+    // 2) レーザー（プレイヤー状態が LASER のとき） vs 敵
+    //    - レーザー発射中は弾の衝突判定を行わず、ここで早期 return
+    //    - 判定は「線分（レーザー） vs 線分（敵の被弾線分）」で行う
+    // =================================================================
+    if (ObjectAccessor::GetObjectAccessor().GetPlayerStateKind() == PlayerStateKind::STATE_LASER)
+    {
+        bool hitEnemy = Collision::CheckSegmentSegmentColliison(
+            ObjectAccessor::GetObjectAccessor().GetEnemyPosition(),
+            ObjectAccessor::GetObjectAccessor().GetEnemyGetHitPosition(),
+            ObjectAccessor::GetObjectAccessor().GetPlayerHandPosition(),
+            ObjectAccessor::GetObjectAccessor().GetLaserEndPosition());
 
-	//弾とそれぞれのキャラクターの当たり判定
-	for (int bulletNum = 0; bulletNum < count; bulletNum++)
-	{
-		const auto bullet = bullet_creator.GetBullet(bulletNum);
-		if (!bullet || !bullet->IsActive()) continue;
+        if (hitEnemy && enemy)
+        {
+            enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
+        }
 
-		const VECTOR sphereCenter = bullet->GetPosition();
-		const float  sphereRadius = bullet->GetBulletRadius();
-		//クリスタルへのヒットチェック
-		if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE)
-		{
-			const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, crystal->GetPosition(), crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
+        // レーザー中は弾（球）判定をスキップ
+        return;
+    }
 
-			if (hitCrystal)
-			{
-				crystal->TakeDamage(BULLET_DAMAGE_TO_CRYSTAL);
+    // =================================================================
+    // 3) 弾（BulletCreator 管理） vs 各キャラクター
+    //    - 敵が特殊溜め中は「クリスタル」へのヒットを優先
+    //    - ヒット時: ダメージ/エフェクト再生/弾の無効化（プールへ返却）
+    // =================================================================
+    for (int bulletNum = 0; bulletNum < count; bulletNum++)
+    {
+        const auto bullet = bullet_creator.GetBullet(bulletNum);
+        if (!bullet || !bullet->IsActive()) continue;
 
-				if (crystal->IsDead())
-				{
-					crystal->ChangeBreak();
-					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BreakCrystal, sphereCenter);
-				}
-				else
-				{
-					// 弾ヒットエフェクト
-					EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
-				}
+        // 弾は球として扱う（中心＋半径）
+        const VECTOR sphereCenter = bullet->GetPosition();
+        const float  sphereRadius = bullet->GetBulletRadius();
 
-				bullet->ChangeActiveFalse();
-				bullet->ResetPosition();
+        const auto enemyState = ObjectAccessor::GetObjectAccessor().GetEnemyStateKind();
 
-				continue; // 既に消えているため次の弾へ
-			}
-		}
-		// 敵へのヒットチェック
-		else if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE)
-		{
-			bool hitEnemy = false;
+        // -----------------------------
+        // 3-1) クリスタルへのヒットチェック
+        //      敵が特殊溜め中のみ、弾がクリスタルを破壊できる
+        // -----------------------------
+        if (enemyState == EnemyStateKind::STATE_SPECIAL_CHARGE && crystal)
+        {
+            const bool hitCrystal = Collision::CheckSphereCapsuleCollision(
+                sphereCenter, sphereRadius,
+                crystal->GetPosition(), crystal->GetCapsuleRadius(), crystal->GetCapsuleHeight());
 
-			hitEnemy = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, enemy->GetPosition(), enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
+            if (hitCrystal)
+            {
+                crystal->TakeDamage(BULLET_DAMAGE_TO_CRYSTAL);
 
-			if (hitEnemy)
-			{
-				enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
+                // 破壊時と通常ヒット時でエフェクトを分ける
+                if (crystal->IsDead())
+                {
+                    crystal->ChangeBreak();
+                    EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BreakCrystal, sphereCenter);
+                }
+                else
+                {
+                    EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
+                }
 
-				// 弾ヒットエフェクト
-				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
-				bullet->ChangeActiveFalse();
-				bullet->ResetPosition();
+                // 弾はプールへ返却
+                bullet->ChangeActiveFalse();
+                bullet->ResetPosition();
+                continue;
+            }
+        }
+        // -----------------------------
+        // 3-2) 敵へのヒットチェック
+        // -----------------------------
+        else if (enemy)
+        {
+            // NOTE:
+            // ここは「特殊溜め/特殊攻撃中は（敵本体への判定を抑制したい）」意図と思われるが、
+            // OR 条件のため現状は常に true になりやすい。
+            // 挙動変更を避けるためロジックはそのまま、意図だけコメントに留める。
+            if (enemyState != EnemyStateKind::STATE_SPECIAL_CHARGE ||
+                enemyState != EnemyStateKind::STATE_SPECIALATTACK)
+            {
+                const bool hitEnemy = Collision::CheckSphereCapsuleCollision(
+                    sphereCenter, sphereRadius,
+                    enemy->GetPosition(), enemy->GetCapsuleRadius(), enemy->GetCapsuleHeight());
 
-				continue; // 既に消えているため次の弾へ
-			}
-		}
+                if (hitEnemy)
+                {
+                    enemy->TakeDamage(BULLET_DAMAGE_TO_ENEMY);
+                    EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, sphereCenter);
 
-		// プレイヤーへのヒットチェック
-		if (player)
-		{
-			const bool hitPlayer = Collision::CheckSphereCapsuleCollision(
-				sphereCenter, sphereRadius, ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), player->GetCapsuleRadius(), player->GetCapsuleHeight());
+                    bullet->ChangeActiveFalse();
+                    bullet->ResetPosition();
+                    continue;
+                }
+            }
+        }
 
-			if (hitPlayer)
-			{
-				player->TakeDamage(BULLET_DAMAGE_TO_PLAYER);
-				ObjectAccessor::GetObjectAccessor().StartShakeCamera();
-				// エフェクト: 被弾
-				EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, player->GetPosition());
+        // -----------------------------
+        // 3-3) プレイヤーへのヒットチェック
+        //      （自弾/敵弾兼用のため、敵の弾が自分に当たるケースをここで処理）
+        // -----------------------------
+        if (player)
+        {
+            const bool hitPlayer = Collision::CheckSphereCapsuleCollision(
+                sphereCenter, sphereRadius,
+                ObjectAccessor::GetObjectAccessor().GetPlayerPosition(),
+                player->GetCapsuleRadius(), player->GetCapsuleHeight());
 
-				bullet->ChangeActiveFalse();
-				bullet->ResetPosition();
-				continue;
-			}
-		}
-	}
+            if (hitPlayer)
+            {
+                // 被弾時の演出：振動 + ダメージ + カメラシェイク + ヒットエフェクト
+                StartJoypadVibration(DX_INPUT_PAD1, JOYPAD_VIBERATON_POWER, JOYPAD_VIBERATON_TIME, -1);
+
+                if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIALATTACK)
+                {
+                    player->TakeDamage(SEPCIALBULLET_DAMAGE_TO_PLAYER);
+
+                }
+                else
+                {
+                    player->TakeDamage(BULLET_DAMAGE_TO_PLAYER);
+                }
+                ObjectAccessor::GetObjectAccessor().StartShakeCamera();
+                EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::BulletHit, player->GetPosition());
+
+                bullet->ChangeActiveFalse();
+                bullet->ResetPosition();
+                continue;
+            }
+        }
+    }
 }

@@ -48,32 +48,33 @@ void UiDashBar::Draw() const
     if (cooldown > 0)
     {
         // クールタイム中: 赤(点滅風にαなしで明滅) 簡易: 残フレーム割合で明度変化
-        float cdRatio = static_cast<float>(cooldown) / 60.0f; // 定数と一致想定(DASH_COOLDOWN_FRAMES)
+        float cdRatio = static_cast<float>(cooldown) / DASH_COOLDOWN_DURATION;
         if (cdRatio > 1.0f) cdRatio = 1.0f;
-        int r = 200;
-        int g = static_cast<int>(40 + 120 * (1.0f - cdRatio)); // 時間経過で少し明るく
-        int b = static_cast<int>(40 + 60 * (1.0f - cdRatio));
+        int r = COOLDOWN_COLOR_R;
+        int g = static_cast<int>(COOLDOWN_COLOR_BASE_G + COOLDOWN_COLOR_DELTA_G * (1.0f - cdRatio));
+        int b = static_cast<int>(COOLDOWN_COLOR_BASE_B + COOLDOWN_COLOR_DELTA_B * (1.0f - cdRatio));
         barColor = GetColor(r, g, b);
     }
     else
     {
         // エネルギー残量によるグラデーション (赤 -> 黄 -> 緑)
-        // 0..0.5 : 赤(255,64,32) -> 黄(255,220,64)
-        // 0.5..1 : 黄(255,220,64) -> 緑(64,255,96)
+        // 0..0.5 : 赤 -> 黄
+        // 0.5..1 : 黄 -> 緑
         int r, g, b;
-        if (realRatio < 0.5f)
+        constexpr float MidPosition = ENERGY_MIDPOINT_RATIO / 100.0f;
+        if (realRatio < MidPosition)
         {
-            float t = realRatio / 0.5f; // 0..1
-            r = 255;
-            g = static_cast<int>(64 + (220 - 64) * t);
-            b = static_cast<int>(32 + (64 - 32) * t);
+            float t = realRatio / MidPosition; // 0..1
+            r = COLOR_RED_R;
+            g = static_cast<int>(COLOR_RED_G + (COLOR_YELLOW_G - COLOR_RED_G) * t);
+            b = static_cast<int>(COLOR_RED_B + (COLOR_YELLOW_B - COLOR_RED_B) * t);
         }
         else
         {
-            float t = (realRatio - 0.5f) / 0.5f; // 0..1
-            r = static_cast<int>(255 + (64 - 255) * t);
-            g = static_cast<int>(220 + (255 - 220) * t);
-            b = static_cast<int>(64 + (96 - 64) * t);
+            float t = (realRatio - MidPosition) / (1.0f - MidPosition); // 0..1
+            r = static_cast<int>(COLOR_YELLOW_R + (COLOR_GREEN_R - COLOR_YELLOW_R) * t);
+            g = static_cast<int>(COLOR_YELLOW_G + (COLOR_GREEN_G - COLOR_YELLOW_G) * t);
+            b = static_cast<int>(COLOR_YELLOW_B + (COLOR_GREEN_B - COLOR_YELLOW_B) * t);
         }
         barColor = GetColor(r, g, b);
     }
@@ -84,14 +85,12 @@ void UiDashBar::Draw() const
     // クールタイム中は半透明オーバーレイで不可視化演出(任意)
     if (cooldown > 0)
     {
-        // 残りクールタイム割合で斜線的マスク(簡易: 矩形で暗く)
-        int alpha = 120; // 固定半透明
-        SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+        SetDrawBlendMode(DX_BLENDMODE_ALPHA, COOLDOWN_OVERLAY_ALPHA);
         DrawBox(energy_x, energy_y, energy_x + bar_width, energy_y + bar_height, Pallet::White.GetHandle(), TRUE);
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
 
-    if ((CheckHitKey(KEY_INPUT_LSHIFT) != 0))
+    if ((CheckHitKey(KEY_INPUT_LSHIFT) != 0) || ObjectAccessor::GetObjectAccessor().GetIsInputLeftShoulder())
     {
         DrawGraphF(0, 0, graph_handle, true);
     }

@@ -15,6 +15,7 @@ GameOverScene::GameOverScene(SceneManager& manager, SharedData& sharedData)
 
 void GameOverScene::Initialize()
 {
+    StopJoypadVibration(DX_INPUT_PAD1, -1);
     // マウスカーソル非表示
     SetMouseDispFlag(TRUE);
     GetSharedData().InitializeAll();

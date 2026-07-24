@@ -11,6 +11,7 @@ public:
 	PlayerMove();
 	~PlayerMove();
 
+	void Initialize(); // 初期化
 	void Update(); // 入力から移動更新
 	void UpdateMoveParameterWithPad( VECTOR& upMoveVec, VECTOR& leftMoveVec, VECTOR& moveVec); // パッド入力から各ベクトルを算出
 	

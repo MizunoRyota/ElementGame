@@ -21,11 +21,12 @@ public:
 	void UpdateGameClear() override {};
 	void UpdateGameOver() override {};
 	void UpdateTitle() override {};
+	void UpdateTutorial() override {};
 
 	int GetShadowMapHandle() const { return obj_modelhandle; }  // ‰e‚Ìƒnƒ“ƒhƒ‹
 	VECTOR GetLightDir()const { return obj_direction; }         // ƒ‰ƒCƒg•ûŒü
 
 private:
-	static constexpr int SHADOW_QUALITY = 2048;        // ‰e‰ð‘œ“x
+	static constexpr int SHADOW_QUALITY = 4096;        // ‰e‰ð‘œ“x
 	static constexpr float SHADOW_ANGLESPEED = 0.001f; // ‰ñ“]‘¬“x
 };

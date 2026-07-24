@@ -14,7 +14,11 @@ BulletFire::BulletFire()
 
 BulletFire::~BulletFire() {}
 
-// エフェクト種別への変換
+/// <summary>
+/// エフェクト種別への変換
+/// </summary>
+/// <param name="effect_flavor"></param>
+/// <returns></returns>
 int BulletFire::ToEffectIndex(EffectFlavor effect_flavor)
 {
     using ET = EffectCreator::EffectType;
@@ -31,14 +35,24 @@ int BulletFire::ToEffectIndex(EffectFlavor effect_flavor)
     return (int)ET::BulletWind; // 既定
 }
 
-// 直進弾
+/// <summary>
+/// 直線状に弾を発射する
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="dir"></param>
+/// <param name="speed"></param>
 void BulletFire::FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
     if (bullet_fire_cooltimer > 0) return; // クール中
     BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::BulletFire));
 }
 
-// プレイヤー弾
+/// <summary>
+/// プレイヤーの通常攻撃
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="dir"></param>
+/// <param name="speed"></param>
 void BulletFire::FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
     if (bullet_fire_cooltimer > 0) return; // クール中
@@ -49,14 +63,19 @@ void BulletFire::FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& s
     BulletCreator::GetBulletCreator().CreateBullet(pos, dir, speed, ToEffectIndex(EffectFlavor::BulletPlayer));
 }
 
-// 拡散弾
+/// <summary>
+/// 拡散弾
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="dir"></param>
+/// <param name="speed"></param>
 void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
 
     SoundManager::GetSoundManager().PlayFireSe();
 
-    VECTOR bulletForword = VNorm(dir); // 基準方向
-    float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS; // 回転角
+    VECTOR bulletForword = VNorm(dir);                                      // 基準方向
+    float bulletRotate = DX_TWO_PI_F / DIFFUSION_RADIUS;                   // 回転角
     bulletForword = BulletRotateHorizontal(bulletForword, -bulletRotate * DIFFUSION_OFFSET); // 初期ずらし
     for (int bullet_num = 0; bullet_num < DIFFUSION_NUM; bullet_num++)
     {
@@ -65,23 +84,35 @@ void BulletFire::FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float
     }
 }
 
+/// <summary>
+///　ジャンプ攻撃：指定方向を中心に全方位に発射
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="dir"></param>
+/// <param name="speed"></param>
 void BulletFire::FireJumpAttack(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
 
     SoundManager::GetSoundManager().PlayFireSe();
 
-    VECTOR bulletForword = VNorm(dir); // 基準方向
+    VECTOR bulletForword = VNorm(dir);                                      // 基準方向
 
-    float bulletRotate = DX_TWO_PI_F / JUMPATTACK_RADIUS; // 回転角
+    float bulletRotate = DX_TWO_PI_F / JUMPATTACK_RADIUS;                  // 回転角
     bulletForword = BulletRotateHorizontal(bulletForword, -bulletRotate * JUMPATTACK_OFFSET); // 初期ずらし
     for (int bullet_num = 0; bullet_num < JUMPATTACK_NUM; bullet_num++)
     {
-        const VECTOR spawnPos = VAdd(pos, VScale(bulletForword, BULLET_SPAWN_FORWARD_OFFSET));
+        const VECTOR spawnPos = VAdd(pos, VScale(bulletForword, BULLET_SPAWN_FORWARD_OFFSET)); // 発射位置
         BulletCreator::GetBulletCreator().CreateBullet(spawnPos, bulletForword, speed, ToEffectIndex(EffectFlavor::JumpAttack));
         bulletForword = BulletRotateHorizontal(bulletForword, bulletRotate);
     }
 }
 
+/// <summary>
+/// ホーミング弾：指定方向を中心に全方位に発射し、一定時間プレイヤーを追尾する
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="dir"></param>
+/// <param name="speed"></param>
 void BulletFire::FireHoming(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
     if (homing_remaining_shots > 0) return; // 連射中は再開しない
@@ -95,7 +126,12 @@ void BulletFire::FireHoming(const VECTOR& pos, const VECTOR& dir, const float& s
     homing_speed = speed;
 }
 
-// 全方位落下など特殊攻撃
+/// <summary>
+/// 必殺技：指定方向を中心に複数のリング状に弾を発射し、落下演出も兼ねる
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="dir"></param>
+/// <param name="speed"></param>
 void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const float& speed)
 {
 
@@ -104,29 +140,31 @@ void BulletFire::FireSpecialAttack(const VECTOR& pos, const VECTOR& dir, const f
 
     bullet_fire_cooltimer = BULLET_COOLTIME;
 
-    int specialRingNum = 16;                 // 外周弾数
-    const VECTOR downDir = VGet(0.0f, -1.0f, 0.0f);
+    int specialRingNum = 16;                           // 外周弾数
+    const VECTOR downDir = VGet(0.0f, -1.0f, 0.0f);   // 下向きベクトル
 
     for (int ring = 0; ring < INNER_RINGS; ++ring)
     {
         float radius = RING_RADIUS - ring * RADIUS_STEP;
         specialRingNum--; // 内側ほど密に
         if (radius <= 0.0f) continue;
-        for (int bullet_i = 0; bullet_i < specialRingNum; bullet_i++)
+        for (int specialBulletNum = 0; specialBulletNum < specialRingNum; specialBulletNum++)
         {
-            float t = (float)bullet_i / specialRingNum;
-            float ang = DX_TWO_PI_F * t;
-            VECTOR offset = VGet(cosf(ang) * radius, DROP_HEIGHT, sinf(ang) * radius);
-            VECTOR spawnPos = VAdd(pos, offset);
+            float ringRaito = (float)specialBulletNum / specialRingNum;
+            float ang = DX_TWO_PI_F * ringRaito;                                  // 角度
+            VECTOR offset = VGet(cosf(ang) * radius, DROP_HEIGHT, sinf(ang) * radius); // オフセット位置
+            VECTOR spawnPos = VAdd(pos, offset);                                 // 発射位置
             BulletCreator::GetBulletCreator().CreateBullet(spawnPos, downDir, speed, ToEffectIndex(EffectFlavor::BulletSpecial));
 
             // マーカー表示等を行うならここで groundPos を使用
-            VECTOR groundPos = VAdd(pos, VGet(cosf(ang) * radius, 0.0f, sinf(ang) * radius));
+            VECTOR groundPos = VAdd(pos, VGet(cosf(ang) * radius, 0.0f, sinf(ang) * radius)); // 地面上の位置
         }
     }
 }
 
-// クールタイマ更新
+/// <summary>
+/// 弾丸の発射状態を更新
+/// </summary>
 void BulletFire::FireUpdate()
 {
     if (bullet_fire_cooltimer > 0) bullet_fire_cooltimer--;
@@ -146,23 +184,31 @@ void BulletFire::FireUpdate()
     }
 }
 
-// 水平方向の回転
+/// <summary>
+/// 水平方向の回転
+/// </summary>
+/// <param name="dir"></param>
+/// <param name="angle"></param>
+/// <returns></returns>
 VECTOR BulletFire::BulletRotateHorizontal(const VECTOR& dir, float angle)
 {
     float c = cosf(angle); float s = sinf(angle);
     return VGet(dir.x * c - dir.z * s, dir.y, dir.x * s + dir.z * c);
 }
 
+/// <summary>
+/// ホーミング弾のスポーン処理。プレイヤーの位置を取得するコールバックを渡して生成する
+/// </summary>
 void BulletFire::SpawnHomingBullet()
 {
-    VECTOR currentSpawnPos = ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition();
-    VECTOR targetPos = ObjectAccessor::GetObjectAccessor().GetPlayerCapsuleTop();
-    VECTOR toTarget = VSub(targetPos, currentSpawnPos);
+    VECTOR currentSpawnPos = ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition(); // 敵の発射位置
+    VECTOR targetPos = ObjectAccessor::GetObjectAccessor().GetPlayerCapsuleTop();       // プレイヤーのターゲット位置
+    VECTOR toTarget = VSub(targetPos, currentSpawnPos);                                  // ターゲット方向ベクトル
     if (VDot(toTarget, toTarget) < 1e-6f)
     {
         toTarget = homing_initial_dir;
     }
-    VECTOR dir = VNorm(toTarget);
+    VECTOR dir = VNorm(toTarget);                                                       // 正規化された発射方向
 
     BulletCreator::GetBulletCreator().CreateHomingBullet(
         currentSpawnPos,

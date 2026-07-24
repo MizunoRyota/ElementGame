@@ -5,9 +5,9 @@
 #include "CharacterBase.hpp"
 
 TakeDamageUi::TakeDamageUi(const std::shared_ptr<Player>& player)
-	:player_(player)
+	:player(player)
 {
-	graph_handle = LoadGraph("data/Texture/take_damage1.png");
+	graph_handle = LoadGraph("data/Texture/take_damage.png");
 }
 
 TakeDamageUi::~TakeDamageUi()
@@ -19,22 +19,22 @@ void TakeDamageUi::Update()
 {
 	// プレイヤーが設定されていなければフェードアウト
 	bool tookDamageThisFrame = false;
-	if (auto p = player_.lock())
+	if (auto p = player.lock())
 	{
 		// IsInvincible() が true かつ 前フレームで false だったら被弾
 		bool nowInv = p->IsInvincible();
-		bool prevInv = (recent_invincible_prev_ > 0);
+		bool prevInv = (recent_invincible_prev > 0);
 		if (nowInv && !prevInv)
 		{
 			tookDamageThisFrame = true;
 		}
 
 		// 無敵残り時間の概念を直接参照できないので、フラグ遷移のみを追跡するために疑似的に1/0管理
-		recent_invincible_prev_ = nowInv ? 1 : 0;
+		recent_invincible_prev = nowInv ? 1 : 0;
 	}
 	else
 	{
-		recent_invincible_prev_ = 0;
+		recent_invincible_prev = 0;
 	}
 
 	if (tookDamageThisFrame)

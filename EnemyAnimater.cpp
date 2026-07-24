@@ -24,6 +24,9 @@ EnemyAnimater::EnemyAnimater(int anim_modelhandle ,  EnemyStateKind& enemystate)
 EnemyAnimater::~EnemyAnimater()
 {}
 
+/// <summary>
+/// 敵キャラクターの各状態に対応するアニメーションデータを初期化
+/// </summary>
 void EnemyAnimater::InitializeAnimationData()
 {
 	animation_data[static_cast<int>(EnemyStateKind::STATE_STUN)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_STUN), (static_cast<int>(EnemyStateKind::STATE_STUN)), 0, 0, DEFAULT_ANIMATION_SPEED, true);
@@ -44,12 +47,18 @@ void EnemyAnimater::InitializeAnimationData()
 	animation_data[static_cast<int>(EnemyStateKind::STATE_ONDAMAGE)] = AnimationState(static_cast<int>(EnemyStateKind::STATE_ONDAMAGE), (static_cast<int>(EnemyStateKind::STATE_ONDAMAGE)), 0, 0, DEFAULT_ANIMATION_SPEED,false);
 }
 
+/// <summary>
+/// 更新
+/// </summary>
 void EnemyAnimater::Update()
 {
 	SwitchAnimation();
 	UpdateAnimation();
 }
 
+/// <summary>
+/// 敵の現在の状態に応じてアニメーションを切り替え
+/// </summary>
 void EnemyAnimater::SwitchAnimation()
 {
 
@@ -104,7 +113,6 @@ void EnemyAnimater::SwitchAnimation()
 		ChangeMotion(animation_data.at(static_cast<int>(EnemyStateKind::STATE_CHASE)));
 		break;
 	default:
-
 		break;
 	}
 }

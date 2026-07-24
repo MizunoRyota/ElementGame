@@ -6,35 +6,53 @@
 EnemyStateSpecialAttack::EnemyStateSpecialAttack()
 {
 }
+
 EnemyStateSpecialAttack::~EnemyStateSpecialAttack()
 {
 }
+
 void EnemyStateSpecialAttack::Enter()
 {
-	EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Barrior, ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
+    // 特殊攻撃中はバリア演出を出し続ける
+    EffectCreator::GetEffectCreator().PlayLoop(
+        EffectCreator::EffectType::Barrior,
+        ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
 }
+
 void EnemyStateSpecialAttack::Update()
 {
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimationFrame() == SPECIALEATTACK_TIMING)
-	{
-		EffectCreator::GetEffectCreator().Play(EffectCreator::EffectType::Roar, ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
-		enemy_bullet->FireSpecialAttack(ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition(), ObjectAccessor::GetObjectAccessor().GetCameraDirection(), SPECIALBULLET_SPEED);
-	}
-	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Barrior, ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
+    // 指定フレームで咆哮演出 + 特殊弾発射
+    if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimationFrame() == SPECIALEATTACK_TIMING)
+    {
+        EffectCreator::GetEffectCreator().Play(
+            EffectCreator::EffectType::Roar,
+            ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
+
+        enemy_bullet->FireSpecialAttack(
+            ObjectAccessor::GetObjectAccessor().GetEnemyHandPosition(),
+            ObjectAccessor::GetObjectAccessor().GetCameraDirection(),
+            SPECIALBULLET_SPEED);
+    }
+
+    // バリアは敵の位置に追従
+    EffectCreator::GetEffectCreator().SetLoopPosition(
+        EffectCreator::EffectType::Barrior,
+        ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
 }
+
 void EnemyStateSpecialAttack::Exit()
 {
-	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior);
-
+    // バリア演出停止
+    EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Barrior);
 }
+
 EnemyStateKind EnemyStateSpecialAttack::GetNextState()
 {
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimaitonIsEnd())
-	{
-		return EnemyStateKind::STATE_CHOSEATTACK;
-	}
-	else
-	{
-		return EnemyStateKind::STATE_SPECIALATTACK;
-	}
+    // 攻撃アニメが終了したら次の行動選択へ
+    if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimaitonIsEnd())
+    {
+        return EnemyStateKind::STATE_CHOSEATTACK;
+    }
+
+    return EnemyStateKind::STATE_SPECIALATTACK;
 }

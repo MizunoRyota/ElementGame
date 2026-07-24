@@ -2,8 +2,14 @@
 #include "../GameObject.hpp"
 #include "../ObjectAccessor.hpp"
 
+/// <summary>
+/// デバッグフラグの切り替え
+/// </summary>
+/// <returns></returns>
 bool GameObject::ChengeDebugFlag()
 {
+#ifndef NDEBUG
+
 	if ((CheckHitKey(KEY_INPUT_E) != 0) || ObjectAccessor::GetObjectAccessor().GetIsInputLeftShoulder() && ObjectAccessor::GetObjectAccessor().GetIsInputBottunA())
 	{
 		if (!obj_debug)
@@ -20,6 +26,10 @@ bool GameObject::ChengeDebugFlag()
 			return obj_debug;
 		}
 	}
+	return obj_debug;
+
+#endif 
+
 	return obj_debug;
 
 }

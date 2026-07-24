@@ -20,7 +20,7 @@
 #include "src/EnemyState/EnemyStateJumpAttack.hpp"
 #include "ObjectAccessor.hpp"
 
-// 敵の生成と初期セットアップ
+
 Enemy::Enemy()
 {
 	obj_name = "Enemy"; // 名札
@@ -48,6 +48,9 @@ Enemy::Enemy()
 
 Enemy::~Enemy() {}
 
+/// <summary>
+/// Jsonの読み込み
+/// </summary>
 void Enemy::LoadJson()
 {
 	// 3Dモデル読み込み
@@ -66,7 +69,9 @@ void Enemy::LoadJson()
 	MV1SetScale(obj_modelhandle, VGet(ENEMY_SCALE, ENEMY_SCALE, ENEMY_SCALE));
 }
 
-// 初期化（位置/HP/状態などを初期状態に戻す）
+/// <summary>
+/// 初期化
+/// </summary>
 void Enemy::Initialize()
 {
 	obj_hp = ENEMY_MAXHP; // HP リセット
@@ -89,6 +94,9 @@ void Enemy::Initialize()
 	SetPosition();    // モデル座標反映
 }
 
+/// <summary>
+/// ステートの初期化
+/// </summary>
 void Enemy::InitializeStates()
 {
 	states[EnemyStateKind::STATE_IDLE] = std::make_shared<EnemyStateIdle>();						// STATE_IDLE用の具体クラスに差し替え
@@ -108,7 +116,9 @@ void Enemy::InitializeStates()
 	states[EnemyStateKind::STATE_JUMPATTACK] = std::make_shared<EnemyStateJumpAttack>(obj_position);// STATE_JUMPATTACK用の具体クラスに差し替え
 }
 
-// タイトル更新（アニメのみ）
+/// <summary>
+/// タイトル時の更新
+/// </summary>
 void Enemy::UpdateTitle()
 {
 	enemy_state_kind = EnemyStateKind::STATE_SPECIALATTACK;
@@ -121,24 +131,22 @@ void Enemy::UpdateTitle()
 	}
 }
 
-// 毎フレーム更新
+/// <summary>
+/// 更新
+/// </summary>
 void Enemy::Update()
 {
-	// デバッグ: Jキーで死亡
-	if ((CheckHitKey(KEY_INPUT_J) != 0))
-	{
-		obj_hp = 0;
-	}
-
-	UpdateAngle();				// プレイヤーの方向を向く
+	UpdateAngle();				// 方向更新
 	UpdateStateAction();		// ステート処理
-	enemy_animater->Update();	// 
+	enemy_animater->Update();	// アニメーションの更新
 	CheckMoveRange();			// 行動範囲補正
 	SetPosition();				// モデル位置反映
-	TickDamageCooldown();		// 無敵進行
+	TickDamageCooldown();		// 無敵時間進行
 }
 
-// ゲームクリア時更新（死亡演出+花火）
+/// <summary>
+/// ゲームクリア時の更新
+/// </summary>
 void Enemy::UpdateGameClear()
 {
 	// 一度だけ死亡/花火開始
@@ -158,7 +166,9 @@ void Enemy::UpdateGameClear()
 	enemy_animater->Update();
 }
 
-// ゲームオーバー時更新（ポーズ用）
+/// <summary>
+/// ゲームオーバー時の更新
+/// </summary>
 void Enemy::UpdateGameOver()
 {
 	if (enemy_state_kind != EnemyStateKind::STATE_IDLE)
@@ -172,7 +182,20 @@ void Enemy::UpdateGameOver()
 	enemy_animater->Update();
 }
 
-// ステート毎の処理
+/// <summary>
+/// チュートリアル更新
+/// </summary>
+void Enemy::UpdateTutorial()
+{
+
+	enemy_state_kind = EnemyStateKind::STATE_IDLE;
+	
+	enemy_animater->Update();
+}
+
+/// <summary>
+/// ステートの更新
+/// </summary>
 void Enemy::UpdateStateAction()
 {
 	enemy_state_kind = enemy_current_state->GetNextState();
@@ -187,7 +210,9 @@ void Enemy::UpdateStateAction()
 	enemy_current_state->Update();
 }
 
-// プレイヤー方向を向く
+/// <summary>
+/// 向き更新（プレイヤーの位置を向く）
+/// </summary>
 void Enemy::UpdateAngle()
 {
 	if (enemy_state_kind != EnemyStateKind::STATE_STUN)
@@ -198,7 +223,9 @@ void Enemy::UpdateAngle()
 	}
 }
 
-// モデル座標反映
+/// <summary>
+/// 座標更新（モデルと手元フレーム）
+/// </summary>
 void Enemy::SetPosition()
 {
 	MV1SetPosition(obj_modelhandle, obj_position);
@@ -218,8 +245,9 @@ void Enemy::Draw()
 	if (ChengeDebugFlag())
 	{
 		SetLogDrawArea(0, 100, 600, 1000);
-		setPrintColorDx(Pallet::LemonYellow.GetHandle());
+		setPrintColorDx(Pallet::Red.GetHandle());
 		printfDx("EnemyState %s\n", EnemyStateToString(enemy_state_kind));
+		setPrintColorDx(Pallet::White.GetHandle());
 		printfDx("EnemyPosition.x: %f", obj_position.x);
 		printfDx(" y %f", obj_position.y);
 		printfDx(" z %f\n\n", obj_position.z);

@@ -169,6 +169,12 @@
     <Filter Include="GameCode\GameObject\Character\Player\PlayerJump">
       <UniqueIdentifier>{6a3c40b7-e80b-4321-8484-1c1920a664c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameCode\UI\CountDown">
+      <UniqueIdentifier>{c8e7a795-0d6b-40b7-8eb0-d927247b8264}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack\EnemyAttackWeight">
+      <UniqueIdentifier>{ade30010-c65e-4983-93b5-195ce30fe1f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObject.hpp">
@@ -378,6 +384,15 @@
     <ClInclude Include="src\EnemyState\EnemyStateJumpAttack.hpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
     </ClInclude>
+    <ClInclude Include="CountdownOverlayUi.hpp">
+      <Filter>GameCode\UI\CountDown</Filter>
+    </ClInclude>
+    <ClInclude Include="FightOverlayUi.hpp">
+      <Filter>GameCode\UI\CountDown</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackWeightManager.hpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack\EnemyAttackWeight</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -566,25 +581,37 @@
     <ClCompile Include="src\EnemyState\EnemyStateJumpAttack.cpp">
       <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateAttack</Filter>
     </ClCompile>
+    <ClCompile Include="CountdownOverlayUi.cpp">
+      <Filter>GameCode\UI\CountDown</Filter>
+    </ClCompile>
+    <ClCompile Include="FightOverlayUi.cpp">
+      <Filter>GameCode\UI\CountDown</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackWeightManager.cpp">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack\EnemyAttackWeight</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="camera.json">
-      <Filter>GameCode\Camera</Filter>
-    </None>
-    <None Include="Crystal.json">
-      <Filter>GameCode\Crystal</Filter>
-    </None>
-    <None Include="EffectCreator.json">
-      <Filter>GameCode\Effects</Filter>
-    </None>
-    <None Include="Player.json">
-      <Filter>GameCode\GameObject\Character\Player</Filter>
-    </None>
-    <None Include="Stage.json">
+    <CopyFileToFolders Include="AttackWeightManager.json">
+      <Filter>GameCode\GameObject\Character\Enemy\EnemyState\EnemyStateChoseAttack\EnemyAttackWeight</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Stage.json">
       <Filter>GameCode\Environment\Stage</Filter>
-    </None>
-    <None Include="Enemy.json">
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Enemy.json">
       <Filter>GameCode\GameObject\Character\Enemy</Filter>
-    </None>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Player.json">
+      <Filter>GameCode\GameObject\Character\Player</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="camera.json">
+      <Filter>GameCode\Camera</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="EffectCreator.json">
+      <Filter>GameCode\Effects</Filter>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="Crystal.json">
+      <Filter>GameCode\Crystal</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>

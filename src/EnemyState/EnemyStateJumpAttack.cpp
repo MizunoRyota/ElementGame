@@ -14,21 +14,17 @@ EnemyStateJumpAttack::~EnemyStateJumpAttack()
 
 void EnemyStateJumpAttack::Update()
 {
-
+	// 指定フレームまではプレイヤーへ向かって接近（攻撃の射程調整）
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimationFrame() <= JUMP_ATTACK_TIMING)
 	{
 		VECTOR keepDistance = VSub(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), enemy_position);
-
-		// プレイヤーに向かって進む方向を単位ベクトルで求める
 		VECTOR checkDirection = VNorm(keepDistance);
 
-		// 敵が進む距離（移動速度に基づく）
 		VECTOR chaseVector = VScale(checkDirection, JUMP_MOVE_SPEED);
-
-		// 敵の位置を更新
 		enemy_position = VAdd(enemy_position, chaseVector);
 	}
 
+	// 指定フレームで攻撃を発射
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimationFrame() == JUMP_ATTACK_TIMING)
 	{
 		enemy_bullet->FireJumpAttack(
@@ -40,6 +36,7 @@ void EnemyStateJumpAttack::Update()
 
 EnemyStateKind EnemyStateJumpAttack::GetNextState()
 {
+	// アニメが終わったら次の攻撃選択へ
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyAnimaitonIsEnd())
 	{
 		return EnemyStateKind::STATE_CHOSEATTACK;

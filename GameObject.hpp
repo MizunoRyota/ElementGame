@@ -24,6 +24,7 @@ public:
 	virtual void UpdateGameClear() abstract;
 	virtual void UpdateGameOver() abstract;
 	virtual void UpdateTitle() abstract;
+	virtual void UpdateTutorial() abstract;
 
 	// 各種情報取得
 	virtual const int& GetDamageStrength()  const { return obj_damagestrength; }		  // 与ダメージ量
@@ -37,7 +38,7 @@ public:
 	virtual const std::shared_ptr<GameObject> SetGameObject(const std::shared_ptr<GameObject>& set_object) { return set_object; }
 
 	virtual bool ChengeDebugFlag();
-
+	
 protected:
 	static constexpr float TARGET_HEIGHT = 2.25f; // 注視点の高さ（頭頂の目安）
 

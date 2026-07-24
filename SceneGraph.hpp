@@ -23,10 +23,10 @@ private:
 	bool button_is_down;   // 押下状態
 	float button_pos_y;   // Y位置
 
-	int title_graph;
-	int a_button_graph;
-	int tutorial_graph;
-	int tutorialbutton_graph;
-	int gameover_graph;
-	int gameclear_graph;
+	int title_graph;	//タイトルハンドル
+	int a_button_graph; //Aボタンハンドル
+	int tutorial_graph; //チュートリアルハンドル
+	int tutorialbutton_graph; //チュートリアルボタンハンドル
+	int gameover_graph;	//ゲームオーバーハンドル
+	int gameclear_graph; //ゲームクリアハンドル
 };

@@ -23,18 +23,12 @@ public:
 private:
     static constexpr int DELAY_SPEED = 10; // 減衰速度
 
-    static constexpr int G_DECREASE_RAITO = 50; // 減衰速度
-    static constexpr int B_DECREASE_RAITO = 180; // 減衰速度
-
-    static constexpr int BAR_FRAME = 2; // 減衰速度
-    static constexpr int BAR_R = 200; // 固定赤系ベース（好みに応じてグラデ調整可）
-
     int hpbar_maxhp = 0;           // 最大 HP(動的調整可)
     int hpbar_display = 0;         // 遅延表示用 HP
 
     // レイアウト
-    int hpbar_x = 50;
-    int hpbar_y = 900;
+    int hpbar_x = 50;//現在のHP幅
+    int hpbar_y = 900;//現在のHP高さ
     int hpbar_width = 300;  // バー幅
     int hpbar_height = 40;  // バー高さ
 

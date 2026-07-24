@@ -1,5 +1,6 @@
 #pragma once
 
+//サウンドクラス
 class SoundManager
 {
 public:
@@ -19,6 +20,8 @@ public:
 	void PlayGameClearBgm() { PlaySoundMem(gameclear_bgm, DX_PLAYTYPE_LOOP); }
 	void PlayGameOverBgm() { PlaySoundMem(gameover_bgm, DX_PLAYTYPE_LOOP); }
 	void PlayButtonSe() { PlaySoundMem(button_se, DX_PLAYTYPE_BACK); }
+
+	void PlayBreakEnemySe() { PlaySoundMem(breakenemy_se, DX_PLAYTYPE_BACK); }
 	void PlayFireSe() { PlaySoundMem(fire_se, DX_PLAYTYPE_BACK); }
 	void PlayExplosionSe() { PlaySoundMem(explosion_se, DX_PLAYTYPE_BACK); }
 	void PlayOnPlayerSe() { PlaySoundMem(on_player_se, DX_PLAYTYPE_BACK); }
@@ -44,6 +47,7 @@ private:
 	int gameclear_bgm;		//クリアBGM
 	int gameover_bgm;		//ゲームオーバーBGM
 	int button_se;			//ボタンサウンド
+	int breakenemy_se;		//敵ブレイク時サウンド
 	int fire_se;			//弾発射サウンド
 	int explosion_se;		//爆発サウンド
 	int on_player_se;		//プレイヤーダメージサウンド

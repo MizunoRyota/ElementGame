@@ -21,11 +21,11 @@ Camera::Camera()
 
     obj_name = "Camera";
 
-    //垂直角度は0度
+    // 垂直角度は0度
     camera_angle_virtual = 0.0f;
-    //パースの設定
+    // パースの設定
     SetupCamera_Perspective(CAMERA_FOV * DX_PI_F / 180.0f);
-    //奥行0.25～400までをカメラの描画範囲とする
+    // 奥行0.25～400までをカメラの描画範囲とする
     SetCameraNearFar(CAMERA_NEAR, CAMERA_FAR);
     // カメラに位置を反映.
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
@@ -57,12 +57,15 @@ void Camera::Initialize()
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
 
+/// <summary>
+/// タイトル画面用のカメラ更新
+/// </summary>
 void Camera::UpdateTitle()
 {
 
     // 目標: 敵の少し後方( -Z ) かつ少し上
-    const VECTOR targetFocus = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(-3.0f, 1.0f, 0.0f));
-    const VECTOR targetCamPos = VAdd(targetFocus, VGet(-3.0f, 1.0f, -3.50f));
+    const VECTOR targetFocus = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(TITLE_CAMERA_FOCUS_OFFSET_X, TITLE_CAMERA_FOCUS_OFFSET_Y, 0.0f)); // 注視点
+    const VECTOR targetCamPos = VAdd(targetFocus, VGet(TITLE_CAMERA_OFFSET_X, TITLE_CAMERA_OFFSET_Y, TITLE_CAMERA_OFFSET_Z)); // カメラ位置
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
     obj_position = Lerp(obj_position, targetCamPos, 0.01f);
@@ -75,27 +78,22 @@ void Camera::UpdateTitle()
 }
 
 /// <summary>
-/// 更新
+/// マウスでのカメラ操作更新
 /// </summary>
-void Camera::Update()
+void Camera::UpdateForMouse()
 {
-
-    // カメラの目線の位置
-    obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
-    
-    ShakeCamera();
-
-    // マウスによる回転
-    int mouseX, mouseY;
+    int mouseX = 0, mouseY = 0;                          // マウス座標
     GetMousePoint(&mouseX, &mouseY);
-    camera_angle_horizontal += (mouseX - (SCREEN_WIDTH /2)) * 0.001f;
-    camera_angle_virtual += (mouseY - (SCREEN_HEIGHT /2)) * -0.001f;
-    SetMousePoint((SCREEN_WIDTH /2), (SCREEN_HEIGHT /2));
+    camera_angle_horizontal += (mouseX - (SCREEN_WIDTH / HARF)) * 0.001f;
+    camera_angle_virtual += (mouseY - (SCREEN_HEIGHT / HARF)) * -0.001f;
+    SetMousePoint((SCREEN_WIDTH / HARF), (SCREEN_HEIGHT / HARF));
+}
 
-    // 垂直角度制限
-    float maxPitch = DX_PI_F / 2 - 0.1f;
-    if (camera_angle_virtual > maxPitch) camera_angle_virtual = maxPitch;
-    if (camera_angle_virtual < -maxPitch) camera_angle_virtual = -maxPitch;
+/// <summary>
+/// コントローラーでのカメラ操作更新
+/// </summary>
+void Camera::UpdateForController()
+{
 
     // 「←」ボタンが押されていたら水平角度をマイナスする
     if (rightInput->IsInputAnalogKey(Input::AnalogLeft))
@@ -126,7 +124,7 @@ void Camera::Update()
     {
         camera_angle_virtual += ANGLE_SPEED;
 
-        //// ある一定角度以下にはならないようにする
+        // ある一定角度以下にはならないようにする
         if (camera_angle_virtual > DX_PI_F * 0.5f - 0.6f)
         {
             camera_angle_virtual = DX_PI_F * 0.5f - 0.6f;
@@ -138,12 +136,39 @@ void Camera::Update()
     {
         camera_angle_virtual -= ANGLE_SPEED;
 
-        //// ある一定角度以上にはならないようにする
+        // ある一定角度以上にはならないようにする
         if (camera_angle_virtual < -DX_PI_F * 0.5f + 0.6f)
         {
             camera_angle_virtual = -DX_PI_F * 0.5f + 0.6f;
         }
     }
+}
+
+/// <summary>
+/// 更新
+/// </summary>
+void Camera::Update()
+{
+
+    // カメラの目線の位置
+    obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetPlayerPosition(), VGet(0.0f, CAMERA_PLAYERTARGET_HIGHT, 0.0f));
+
+    ShakeCamera();
+
+    // マウスによる回転
+    if (ObjectAccessor::GetObjectAccessor().GetInputType() > 0)
+    {
+        UpdateForController();
+    }
+    else
+    {
+        UpdateForMouse();
+    }
+    // 垂直角度制限
+    float maxPitch = DX_PI_F / HARF - 1.0f;
+    if (camera_angle_virtual > maxPitch) camera_angle_virtual = maxPitch;
+    if (camera_angle_virtual < -maxPitch) camera_angle_virtual = -maxPitch;
+
     obj_direction.x = cosf(camera_angle_virtual) * sinf(camera_angle_horizontal);
     obj_direction.y = sinf(camera_angle_virtual);
     obj_direction.z = cosf(camera_angle_virtual) * cosf(camera_angle_horizontal);
@@ -153,9 +178,16 @@ void Camera::Update()
 
 }
 
+/// <summary>
+/// カメラの位置を滑らかに補間する関数（線形補間）
+/// </summary>
+/// <param name="camera_pos"></param>
+/// <param name="target_pos"></param>
+/// <param name="dampling"></param>
+/// <returns></returns>
 VECTOR Camera::Lerp(const VECTOR& camera_pos, const VECTOR& target_pos, float dampling)
 {
-    // t を 0-1 にクランプ (念のため)
+    // clamped を 0-1 にクランプ (念のため)
     float clamped = dampling;
     if (clamped < 0.0f) clamped = 0.0f; else if (clamped > 1.0f) clamped = 1.0f;
     return VAdd(camera_pos, VScale(VSub(target_pos, camera_pos), clamped));
@@ -168,8 +200,10 @@ void Camera::UpdateGameClear()
 {
 
     // 目標: 敵の少し後方( -Z ) かつ少し上
-    const VECTOR targetFocus = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(0, 2.0f, 0));
-    const VECTOR targetCamPos = VAdd(targetFocus, VGet(0.0f, 1.0f, -10.0f));
+    const VECTOR targetFocus = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(0, CLEAR_CAMERA_OFFSET_Y, 0));
+
+
+    const VECTOR targetCamPos = VAdd(targetFocus, VGet(0.0f, CLEAR_CAMERA_OFFSET_Y, CLEAR_CAMERA_OFFSET_Z));
 
     // 現在位置 -> 目標位置を補間 (t は固定 0.1f で十分な減衰)
     obj_position = Lerp(obj_position, targetCamPos, 0.01f);
@@ -181,7 +215,9 @@ void Camera::UpdateGameClear()
     SetCameraPositionAndTarget_UpVecY(obj_position, camera_targetpos);
 }
 
-
+/// <summary>
+/// カメラを揺らすフラグを立てる
+/// </summary>
 void Camera::StartShakeCamera()
 {
     if (camera_shake)return;
@@ -209,7 +245,7 @@ void Camera::ShakeCamera()
 
     // 残り時間に応じて振幅を減衰させる
     const float t = camera_shaketime / CAMERA_MAX_SHAKETIME; // 1.0 -> 0.0
-    const float maxAmplitude = 0.30f; // 最大揺れ量（必要に応じて調整）
+    const float maxAmplitude = 0.30f; // 最大揺れ量
     const float amplitude = maxAmplitude * t;
 
     // -1.0f ～ 1.0f の乱数を生成
@@ -225,12 +261,15 @@ void Camera::ShakeCamera()
     obj_position = VAdd(obj_position, VGet(offX, offY, offZ));
 }
 
+/// <summary>
+/// 描画
+/// </summary>
 void Camera::Draw()
 {
     if (ChengeDebugFlag())
     {
         SetLogDrawArea(0, 100, 600, 1000);
-        setPrintColorDx(Pallet::DeepSkyBlue.GetHandle());
+        setPrintColorDx(Pallet::White.GetHandle());
         printfDx("CameraPosition.x: %f", obj_position.x);
         printfDx(" y %f", obj_position.y);
         printfDx(" z %f\n\n", obj_position.z);

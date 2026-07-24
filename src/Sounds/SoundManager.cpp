@@ -13,6 +13,7 @@ SoundManager::SoundManager()
 	on_enemy_se = LoadSoundMem("./data/sounds/OnEnemySe.mp3");
 	on_player_se = LoadSoundMem("./data/sounds/OnPlayerSe.mp3");
 	break_crystal_se = LoadSoundMem("./data/sounds/BreakCrystalSe.mp3");
+	breakenemy_se = LoadSoundMem("./data/sounds/BreakEnemySe.mp3");
 	fire_laser_se = LoadSoundMem("./data/sounds/FireLaserSe.mp3");
 	tutorial_bgm = LoadSoundMem("./data/sounds/TutorialBgm.mp3");
 	charge_special_se = LoadSoundMem("./data/sounds/ChargeSpecialSe.mp3");

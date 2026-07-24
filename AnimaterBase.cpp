@@ -5,7 +5,7 @@ AnimaterBase::AnimaterBase(int anim_modelhandle)
 {
 	anim_blendrate = 1.0f;
 	anim_is_end = false;
-	////アニメーションのステート初期化
+ // アニメーションのステート初期化
 	this->anim_prevstate.anim_animnum = -1;
 	this->anim_prevstate.anim_nowtime = 0;
 	this->anim_prevstate.anim_playspeed = 0;
@@ -43,15 +43,15 @@ void AnimaterBase::ChangeMotion(AnimationState nextstate)
 	// 入れ替えを行うので、１つ前のモーションがが有効だったらデタッチする
 	if (anim_prevstate.anim_attachindex != -1)
 	{
-		//アニメーションのデタッチ
+       // アニメーションのデタッチ
 		MV1DetachAnim(anim_modelhandle, anim_prevstate.anim_attachindex);
 		anim_prevstate.anim_attachindex = -1;
 	}
 
-	// 今まで再生中のモーションだったものの情報をPrevに移動する
+   // 今まで再生中のモーションだったものの情報をPrevに移動する
 	anim_prevstate = anim_currentstate;
 
-	//新しいアタッチ番号を保存
+   // 新しいアタッチ番号を保存
 	anim_currentstate = nextstate;
 	anim_currentstate.anim_attachindex = MV1AttachAnim(anim_modelhandle, anim_currentstate.anim_animnum);
 	anim_currentstate.anim_totaltime = MV1GetAnimTotalTime(anim_modelhandle, anim_currentstate.anim_animnum);
@@ -76,10 +76,10 @@ void AnimaterBase::UpdateAnimation()
 		}
 	}
 
-	//再生しているアニメーションの処理１
+   // 再生しているアニメーションの処理1
 	if (anim_currentstate.anim_attachindex != -1)
 	{
-		//アニメーションを進める
+       // アニメーションを進める
 		anim_nowframe += anim_currentstate.anim_playspeed;
 		anim_currentstate.anim_nowtime += anim_currentstate.anim_playspeed;
 
@@ -90,7 +90,7 @@ void AnimaterBase::UpdateAnimation()
 			anim_nowframe = 0;
 			if (anim_currentstate.anim_is_loop)
 			{
-				//anim_currentstate.anim_nowtime = static_cast<float>(fmod(anim_currentstate.anim_nowtime, animationTotalTime));
+                // anim_currentstate.anim_nowtime = static_cast<float>(fmod(anim_currentstate.anim_nowtime, animationTotalTime));
 				anim_currentstate.anim_nowtime = 0;
 			}
 		}

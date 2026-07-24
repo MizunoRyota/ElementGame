@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 
+//アニメーションのパラメータ
 struct  AnimationState
 {
 	int		anim_kind = -1;				// アニメーションの名前

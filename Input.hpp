@@ -52,6 +52,7 @@ public:
 	void UpdateGameClear() override { Update(); }
 	void UpdateGameOver() override { Update(); }
 	void UpdateTitle() override { Update(); }
+	void UpdateTutorial() override { Update(); }
 
 	// 右スティックのアナログ方向が有効か
 	bool IsInputAnalogKey(const AnalogKeyState analogKeyState);

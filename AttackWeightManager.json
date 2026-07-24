@@ -1,0 +1,40 @@
+{
+  "PhaseOne": {
+    "LongRange": {
+      "FireAttack": 80,
+      "WaterAttack": 20
+    },
+    "ShortRange": {
+      "FireAttack": 20,
+      "WaterAttack": 80
+    }
+  },
+  "PhaseTwo": {
+    "LongRange": {
+      "FireAttack": 25,
+      "JumpAttack": 25,
+      "WindAttack":20,
+      "Float": 20
+    },
+    "ShortRange": {
+      "FireAttack": 25,
+      "WaterAttack": 25,
+      "WindAttack": 20,
+      "Float": 20
+    }
+  },
+  "PhaseThree": {
+    "LongRange": {
+      "FireAttack": 20,
+      "JumpAttack": 50,
+      "WindAttack": 20,
+      "Float": 10
+    },
+    "ShortRange": {
+      "FireAttack": 20,
+      "WaterAttack": 20,
+      "WindAttack": 50,
+      "Float": 10
+    }
+  }
+}

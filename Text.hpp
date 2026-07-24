@@ -18,10 +18,11 @@ public:
 	void DrawGameOver() const override {};
 
 private:
-	int ready_laser_mouse;
-	int ready_laser_controller;
-	int not_ready_laser_mouse;
-	int not_ready_laser_controller;
-	int game_controller;
-	int input_type;
+
+	int ready_laser_mouse;			//レーザーが発射可能かどうか（マウス用）
+	int ready_laser_controller;		//レーザーが発射可能かどうか（コントローラー用）
+	int not_ready_laser_mouse;		//レーザーが使えなくなっっているか（マウス用）
+	int not_ready_laser_controller; //レーザーが使えなくなっっているか（コントローラー用）
+	int game_controller;			//コントローラーハンドル
+	int input_type;					//入力ハンドル
 };

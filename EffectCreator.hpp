@@ -7,29 +7,31 @@ class EffectCreator
 public:
 	enum class EffectType : int
 	{
-		BulletFire,
-		BulletWater,
-		BulletWind, // 追尾弾
-		BulletSpecial,
-		BulletHit,
-		FireGround,
-		EnemyDeath,
-		EnemyCharge,
-		Laser,
-		Roar,
-		FireWorks,
-		HandEffect,
-		ChargeLaser,
-		Barrior,
-		BulletPlayer,
-		BreakCrystal,
-		EnemyStun,
-		ReadyAttack,
-		Crystal,
-		ChargeBeam,
-		EternalLaser,
-		Flame,
-		JumpAttack,
+		BulletFire,    // 炎弾
+		BulletWater,   // 水弾
+		BulletWind,    // 追尾弾
+		BulletSpecial, // 特殊弾
+		BulletHit,     // 弾ヒット
+		FireGround,    // 地面炎
+		EnemyDeath,    // 敵死亡
+		EnemyCharge,   // 敵チャージ
+		Laser,         // レーザー
+		Roar,          // 咆哮
+		FireWorks,     // 花火
+		HandEffect,    // 手元エフェクト
+		ChargeLaser,   // チャージレーザー
+		Barrior,       // バリア
+		BulletPlayer,  // プレイヤー弾
+		BreakCrystal,  // クリスタル破壊
+		EnemyStun,     // 敵スタン
+		ReadyAttack,   // 攻撃準備
+		Crystal,       // クリスタル
+		ChargeBeam,    // チャージビーム
+		EternalLaser,  // 常時レーザー
+		Flame,         // 炎
+		JumpAttack,    // ジャンプ攻撃
+		LaserIcon,     // レーザーアイコン
+		BreakEnemy,    // 敵のブレイクエフェクト
 	};
 
 	static EffectCreator& GetEffectCreator()
@@ -37,23 +39,35 @@ public:
 		static EffectCreator instance; // シングルトン
 		return instance;
 	}
+	// 初期化（エフェクト読み込み）
+	void Initialize(); 
 
-	void Initialize();   // 初期化（エフェクト読み込み）
-
+	// JSON読み込み
 	void LoadJson();    // JSON読み込み
+	
+	// 更新（Effekseer更新）
+	void Update();       
+	// 描画
+	void Draw();
 
-	void Update();       // フレーム更新（Effekseer更新）
-	void Draw();         // 描画
-	void Play(EffectType EffectType, const VECTOR& position); // 再生（即席）
-	int  PlayReturn(EffectType EffectType, const VECTOR& position); // 再生ハンドル返却
+	// 再生（即席）
+	void Play(EffectType EffectType, const VECTOR& position); 
+
+	// 再生ハンドル返却
+	int  PlayReturn(EffectType EffectType, const VECTOR& position); 
 
 	// ループ再生開始（StopLoop するまで繰り返し再生）
 	void PlayLoop(EffectType type, const VECTOR& position);
+	// ループ再生開始（StopLoop するまで繰り返し再生）
+	void PlayLoop2D(EffectType type, const VECTOR& position);
 	// ループ再生停止
 	void StopLoop(EffectType type);
+	// ループ再生停止
+	void StopLoop2D(EffectType type);
 	// ループ再生中エフェクトの位置更新
 	void SetLoopPosition(EffectType type, const VECTOR& position);
-
+	// ループ再生中エフェクトの位置更新
+	void SetLoopPosition2D(EffectType type, const VECTOR& position);
 	void SetRotateEffect(EffectType type, const VECTOR& dir); // 位置をターゲットとして回転設定（従来）
 
 private:
@@ -62,27 +76,32 @@ private:
 	EffectCreator(const EffectCreator&) = delete;
 	EffectCreator& operator=(const EffectCreator&) = delete;
 
-	static constexpr int   EFFECT_NUM = 23;          // 事前読み込み数
+	static constexpr int   EFFECT_NUM = 25;          // 事前読み込み数
 	static constexpr float EFFECT_HIGHT = 0.3f;      // 基準高さオフセット
 	static constexpr float EFFECT_SCALE = 4.5f;      // 表示スケール
 	static constexpr float EFFCT_PLAYSPEED = 0.20f;  // 再生速度
 	static constexpr float EFFECT_ENDTIME = 120.0f;  // 終了許容閾値
-	static constexpr float ANGLE_SPEED = 10.0f;      // 基準高さオフセット
+	static constexpr float ANGLE_SPEED = 10.0f;      // 回転速度
 
 	int   effect_handle;         // 一時ハンドル
 	int   effect_playinghandle;  // 再生中ハンドル
 	float effect_playtime;       // 再生時間
 	bool  effect_is_play;        // 再生中
 	bool  effect_is_end;         // 終了済
-	float effect_move_angle;	 // effectの向き
-	float effect_angle_horizon;
+	float effect_move_angle;     // effectの向き
+	float effect_angle_horizon;  // 水平方向の角度
 	bool  effect_initialized = false;   // 初期化済みか
 	int   effect_handles[EFFECT_NUM]{}; // 読み込み済配列
 
 	// ループ再生管理
-	bool   loop_enabled[EFFECT_NUM]{};
-	int    loop_playing_handles[EFFECT_NUM]{};
-	VECTOR loop_positions[EFFECT_NUM]{};		// 最終位置
+	bool   loop_enabled[EFFECT_NUM]{};        // ループ再生中か
+	int    loop_playing_handles[EFFECT_NUM]{}; // ループ再生ハンドル
+	VECTOR loop_positions[EFFECT_NUM]{};      // 最終位置
 
-	json effect_json_data;
+	// ループ再生管理
+	bool   loop_enabled2D[EFFECT_NUM]{};        // ループ再生中か
+	int    loop_playing_handles2D[EFFECT_NUM]{}; // ループ再生ハンドル
+	VECTOR loop_positions2D[EFFECT_NUM]{};      // 最終位置
+
+	json effect_json_data2D; // 読み込んだエフェクト設定
 };

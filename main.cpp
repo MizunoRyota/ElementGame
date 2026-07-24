@@ -1,12 +1,11 @@
 #include "stdafx.hpp"
-#include "Dxlib.h"
-#include "EffekseerForDXLib.h"
 #include "TitleScene.hpp"
 #include "Tutorial.hpp"
 #include "GameScene.hpp"
 #include "GameOverScene.hpp"
 #include "GameClearScene.hpp"
 #include "SceneManager.hpp"
+#include "AttackWeightManager.hpp"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -14,8 +13,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 画面モードのセット
 	SetGraphMode(SCREEN_WIDTH, SCREEN_HEIGHT, 32);
 
-	ChangeWindowMode(true);
+	ChangeWindowMode(false);
 
+	// Effekseerを使用するには必ず設定する。
+	SetUseDirect3DVersion(DX_DIRECT3D_11);
 	// DXライブラリを初期化する。
 	if (DxLib_Init() == -1) return -1;
 
@@ -27,23 +28,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		return -1;
 	}
 
-	// Effekseerを使用するには必ず設定する。
-	SetUseDirect3DVersion(DX_DIRECT3D_11);
-
 	// フルスクリーンウインドウの切り替えでリソースが消えるのを防ぐ。
 	// Effekseerを使用する場合は必ず設定する。
 	SetChangeScreenModeGraphicsSystemResetFlag(FALSE);
-
+	
 	// DXライブラリのデバイスロストした時のコールバックを設定する。
 	// ウインドウとフルスクリーンの切り替えが発生する場合は必ず実行する。
 	// ただし、DirectX11を使用する場合は実行する必要はない。
 	Effekseer_SetGraphicsDeviceLostCallbackFunctions();
 
+	
 	SetDrawScreen(DX_SCREEN_BACK);	// 裏画面を描画対象にする
 	SetUseZBufferFlag(TRUE);		// Ｚバッファを使用する
 	SetWriteZBufferFlag(TRUE);		// Ｚバッファへの書き込みを行う
 	SetUseBackCulling(TRUE);		// バックカリングを行う
-	srand((unsigned)time(NULL));	//ランダム抽選おまじない
+
+	Effekseer_Set2DSetting(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 
 	std::shared_ptr<SceneManager> scene_manager = std::make_shared<SceneManager>();
 
@@ -52,12 +53,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	scene_manager->Add<GameScene>("GameScene");
 	scene_manager->Add<GameOverScene>("GameOverScene");
 	scene_manager->Add<GameClearScene>("GameClearScene");
+	AttackWeightManager::GetAttackWeightManager().LoadFile("AttackWeightManager.json");
 
 	bool debugPauseFlag = false;
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
-
+		#ifndef NDEBUG
+		// デバッグ時のみコンパイル・実行される処理
+		std::cout << "デバッグモードで実行中..." << std::endl;
 		// ぼたんおしたら
 		if (CheckHitKey(KEY_INPUT_P))
 		{
@@ -72,7 +76,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 				debugPauseFlag = false;
 			}
 		}
-
+#endif
 		auto prevTime = GetNowHiPerformanceCount();	// 処理が始まる前の時間
 
 		scene_manager->Update();

@@ -1,6 +1,9 @@
 #include "stdafx.hpp"
 #include "EffectCreator.hpp"
 
+/// <summary>
+/// Jsonの読み込み
+/// </summary>
 void EffectCreator::LoadJson()
 {
 	std::ifstream file{ "EffectCreator.json" };
@@ -16,6 +19,9 @@ void EffectCreator::LoadJson()
 	}
 }
 
+/// <summary>
+/// 初期化
+/// </summary>
 void EffectCreator::Initialize()
 {
 	for (int effect_num = 0; effect_num < EFFECT_NUM; effect_num++)
@@ -25,27 +31,49 @@ void EffectCreator::Initialize()
 		effect_handles[effect_num] = -1;
 		loop_playing_handles[effect_num] = -1;
 		loop_positions[effect_num] = VGet(0, 0, 0);
+		loop_enabled2D[effect_num] = false;
+		loop_playing_handles2D[effect_num] = -1;
+		loop_positions2D[effect_num] = VGet(0, 0, 0);
 	}
 	LoadJson(); // JSON読み込み
 }
 
+/// <summary>
+/// 更新
+/// </summary>
 void EffectCreator::Update()
 {
 	Effekseer_Sync3DSetting(); // カメラ/行列同期
 
 	UpdateEffekseer3D();       // 再生中全更新
+	UpdateEffekseer2D();       // 再生中全更新
 }
 
+/// <summary>
+/// 描画
+/// </summary>
 void EffectCreator::Draw()
 {
+	DrawEffekseer2D(); // 全描画
 	DrawEffekseer3D(); // 全描画
 }
 
+/// <summary>
+/// 再生
+/// </summary>
+/// <param name="EffectType"></param>
+/// <param name="position"></param>
 void EffectCreator::Play(EffectType EffectType, const VECTOR& position)
 {
 	(void)PlayReturn(EffectType, position); // 使い捨て
 }
 
+/// <summary>
+/// 3D空間で指定された位置にエフェクトを再生
+/// </summary>
+/// <param name="EffectType">再生するエフェクトの種類を指定します。</param>
+/// <param name="position">エフェクトを再生する3D空間内の位置座標です。</param>
+/// <returns>再生中のエフェクトのハンドル。エフェクトが未ロードの場合は-1を返します。</returns>
 int EffectCreator::PlayReturn(EffectType EffectType, const VECTOR& position)
 {
 	Effekseer_Sync3DSetting();
@@ -57,6 +85,11 @@ int EffectCreator::PlayReturn(EffectType EffectType, const VECTOR& position)
 	return playing;
 }
 
+/// <summary>
+/// 指定された位置でエフェクトをループ再生
+/// </summary>
+/// <param name="type">再生するエフェクトの種類。</param>
+/// <param name="position">エフェクトを再生する3D空間上の位置。</param>
 void EffectCreator::PlayLoop(EffectType type, const VECTOR& position)
 {
 	int index = (int)type;
@@ -79,6 +112,37 @@ void EffectCreator::PlayLoop(EffectType type, const VECTOR& position)
 	}
 }
 
+/// <summary>
+/// 指定された位置でエフェクトをループ再生
+/// </summary>
+/// <param name="type">再生するエフェクトの種類。</param>
+/// <param name="position">エフェクトを再生する3D空間上の位置。</param>
+void EffectCreator::PlayLoop2D(EffectType type, const VECTOR& position)
+{
+	int index = (int)type;
+	if (index < 0 || index >= EFFECT_NUM) return;
+	loop_enabled2D[index] = true;
+	loop_positions2D[index] = position;
+	// 既に再生中でなければここで開始( Update でも開始されるがラグを無くす )
+	if (loop_playing_handles2D[index] < 0)
+	{
+		int playHandle = effect_handles[index];
+		if (playHandle >= 0)
+		{
+			loop_playing_handles2D[index] = PlayEffekseer2DEffect(playHandle);
+			SetPosPlayingEffekseer2DEffect(loop_playing_handles2D[index], position.x, position.y, position.z);
+		}
+	}
+	else
+	{
+		SetPosPlayingEffekseer2DEffect(loop_playing_handles2D[index], position.x, position.y, position.z);
+	}
+}
+
+/// <summary>
+/// 指定されたエフェクトタイプのループ再生を停止
+/// </summary>
+/// <param name="type">停止するエフェクトのタイプ。</param>
 void EffectCreator::StopLoop(EffectType type)
 {
 	int index = (int)type;
@@ -91,6 +155,27 @@ void EffectCreator::StopLoop(EffectType type)
 	}
 }
 
+/// <summary>
+/// 指定されたエフェクトタイプのループ再生を停止
+/// </summary>
+/// <param name="type">停止するエフェクトのタイプ。</param>
+void EffectCreator::StopLoop2D(EffectType type)
+{
+	int index = (int)type;
+	if (index < 0 || index >= EFFECT_NUM) return;
+	loop_enabled2D[index] = false;
+	if (loop_playing_handles2D[index] >= 0)
+	{
+		StopEffekseer2DEffect(loop_playing_handles2D[index]);
+		loop_playing_handles2D[index] = -1;
+	}
+}
+
+/// <summary>
+/// ループエフェクトの位置を設定
+/// </summary>
+/// <param name="type">エフェクトの種類を指定します。</param>
+/// <param name="position">エフェクトを配置する3D空間上の位置ベクトルです。</param>
 void EffectCreator::SetLoopPosition(EffectType type, const VECTOR& position)
 {
 	Effekseer_Sync3DSetting();
@@ -107,6 +192,29 @@ void EffectCreator::SetLoopPosition(EffectType type, const VECTOR& position)
 			playingHandle = PlayEffekseer3DEffect(effect_handles[index]);
 		}
 		SetPosPlayingEffekseer3DEffect(loop_playing_handles[index], position.x, position.y, position.z);
+	}
+}
+
+/// <summary>
+/// ループエフェクトの位置を設定
+/// </summary>
+/// <param name="type">エフェクトの種類を指定します。</param>
+/// <param name="position">エフェクトを配置する3D空間上の位置ベクトルです。</param>
+void EffectCreator::SetLoopPosition2D(EffectType type, const VECTOR& position)
+{
+	int index = (int)type;
+	if (index < 0 || index >= EFFECT_NUM) return;
+	int& playingHandle = loop_playing_handles2D[index];
+	loop_positions2D[index] = position;
+	if (loop_playing_handles2D[index] >= 0)
+	{
+		// 再生が終了しているか監視
+		if (IsEffekseer2DEffectPlaying(playingHandle) == -1)
+		{
+			// 再生し直す
+			playingHandle = PlayEffekseer2DEffect(effect_handles[index]);
+		}
+		SetPosPlayingEffekseer2DEffect(loop_playing_handles[index], position.x, position.y, position.z);
 	}
 }
 

@@ -29,24 +29,29 @@ Crystal::~Crystal()
 	MV1DeleteModel(obj_modelhandle);
 }
 
+/// <summary>
+/// Json データの読み込み
+/// </summary>
 void Crystal::LoadJson()
 {
-	std::string path = crystal_json_data["crystal_model"];
+	std::string path = crystal_json_data["crystal_model"]; // モデルファイルのパス
 	obj_modelhandle = MV1LoadModel(path.c_str());
 	MV1SetScale(obj_modelhandle, VGet(CRYSTAL_SCALE, CRYSTAL_SCALE, CRYSTAL_SCALE)); // スケール適用
 
 	auto arr = crystal_json_data["init_pos"];
 	obj_position = VGet(arr[0], arr[1], arr[2]);
 
-	float cuapsule_num = crystal_json_data["capsule_num"];
+	float cuapsule_num = crystal_json_data["capsule_num"]; // カプセル判定の高さと半径
 	COLLISION_CAPSULE_HEIGHT = cuapsule_num;  // カプセル判定高さ
 	COLLISION_CAPSULE_RADIUS = cuapsule_num;  // カプセル判定半径
 
 }
 
+/// <summary>
+/// 初期化
+/// </summary>
 void Crystal::Initialize()
 {
-	LoadJson();
 	// 初期化
 	obj_hp = CRYSTAL_MAXHP;
 	crystal_is_break = false;
@@ -54,10 +59,13 @@ void Crystal::Initialize()
 	crystal_angle = 0.0f;
 }
 
+/// <summary>
+/// クリスタルのアクティブ状態を変更
+/// </summary>
 void Crystal::ChangeActive()
 {
 
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() != EnemyStateKind::STATE_SPECIAL_CHARGE && crystal_is_active)
+	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_CHARGE) 
 	{
 		obj_hp = CRYSTAL_MAXHP;
 		obj_position = VGet(0.0f, -OFFSET_Y, 0.0f);
@@ -66,7 +74,7 @@ void Crystal::ChangeActive()
 		crystal_is_break = false;
 		crystal_is_active = false;
 	}
-	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && !crystal_is_active)
+	else if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && !crystal_is_active)
 	{
 		obj_position = VAdd(ObjectAccessor::GetObjectAccessor().GetEnemyPosition(), VGet(0.0f, OFFSET_Y, 0.0f));
 		EffectCreator::GetEffectCreator().PlayLoop(EffectCreator::EffectType::Crystal, obj_position);
@@ -75,18 +83,21 @@ void Crystal::ChangeActive()
 	}
 }
 
+/// <summary>
+/// クリスタルを破壊状態に変更
+/// </summary>
 void Crystal::ChangeBreak()
 {
 	SoundManager::GetSoundManager().PlayBreakCrystalSe();
-
-	obj_hp = CRYSTAL_MAXHP;
 	obj_position = VGet(0.0f, -OFFSET_Y, 0.0f);
 	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::Crystal);
 	EffectCreator::GetEffectCreator().StopLoop(EffectCreator::EffectType::ChargeBeam);
 	crystal_is_break = true;
-	crystal_is_active = false;
 }
 
+/// <summary>
+/// 更新
+/// </summary>
 void Crystal::Update()
 {
 
@@ -96,31 +107,37 @@ void Crystal::Update()
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && crystal_is_active)
 	{
 		MoveHorizontal();
+		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Crystal, obj_position);
+		EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::ChargeBeam, obj_position);
+		EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::ChargeBeam, ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
 	}
 
-	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::Crystal, obj_position);
-	EffectCreator::GetEffectCreator().SetLoopPosition(EffectCreator::EffectType::ChargeBeam, obj_position);
-	EffectCreator::GetEffectCreator().SetRotateEffect(EffectCreator::EffectType::ChargeBeam, ObjectAccessor::GetObjectAccessor().GetEnemyPosition());
-
+	TickDamageCooldown();
 	MV1SetPosition(obj_modelhandle, obj_position); // 位置適用
 
 }
 
+/// <summary>
+/// クリスタルを水平方向に移動
+/// </summary>
 void Crystal::MoveHorizontal()
 {
 
 	crystal_angle += ROTATION_SPEED;
 	if (crystal_angle > DX_TWO_PI_F) crystal_angle -= DX_TWO_PI_F;
 
-	float cos = cosf(crystal_angle);
-	float sin = sinf(crystal_angle);
+	float cos = cosf(crystal_angle);            // 現在角度のコサイン
+	float sin = sinf(crystal_angle);            // 現在角度のサイン
 
-	VECTOR center_position = ObjectAccessor::GetObjectAccessor().GetEnemyPosition();
+	VECTOR center_position = ObjectAccessor::GetObjectAccessor().GetEnemyPosition(); // 敵の中心位置
 
 	obj_position = VAdd(center_position, VGet(ROTATION_RADIUS * cos, OFFSET_Y, ROTATION_RADIUS * sin));
 
 }
 
+/// <summary>
+/// 描画
+/// </summary>
 void Crystal::Draw()
 {
 	if (ObjectAccessor::GetObjectAccessor().GetEnemyStateKind() == EnemyStateKind::STATE_SPECIAL_CHARGE && !crystal_is_break)

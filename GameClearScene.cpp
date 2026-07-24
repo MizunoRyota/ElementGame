@@ -15,6 +15,7 @@ GameClearScene::GameClearScene(SceneManager& manager, SharedData& sharedData)
 
 void GameClearScene::Initialize()
 {
+    StopJoypadVibration(DX_INPUT_PAD1, -1);
     // マウスカーソル非表示
     SetMouseDispFlag(TRUE);
     player_reference = std::dynamic_pointer_cast<Player>(GetSharedData().FindObject("Player"));

@@ -17,18 +17,17 @@ public:
     void FirePlayer(const VECTOR& pos, const VECTOR& dir, const float& speed);
 
     // 直進弾
-    void FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed); //直線に発射
-
+    void FireStraight(const VECTOR& pos, const VECTOR& dir, const float& speed); 
     // 拡散弾
-    void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed); //拡散弾を発射
+    void FireDiffusion(const VECTOR& pos, const VECTOR& dir, const float& speed);
 
     // ジャンプ攻撃
-    void FireJumpAttack(const VECTOR& pos, const VECTOR& dir, const float& speed); //ジャンプ攻撃を発射
+    void FireJumpAttack(const VECTOR& pos, const VECTOR& dir, const float& speed);
 
-    void FireHoming(const VECTOR& pos, const VECTOR& dir, const float& speed); //ホーミング弾を発射
+    void FireHoming(const VECTOR& pos, const VECTOR& dir, const float& speed); 
 
     // 全方位等の必殺系
-    void FireSpecialAttack (const VECTOR& pos, const VECTOR& dir, const float& speed); //全方位に発射
+    void FireSpecialAttack (const VECTOR& pos, const VECTOR& dir, const float& speed); 
 
     // 弾の生存・当たり等の更新
     void FireUpdate(); //発射の更新

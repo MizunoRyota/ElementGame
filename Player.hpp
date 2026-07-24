@@ -1,64 +1,97 @@
-#pragma once  
-#include "CharacterBase.hpp"  
+#pragma once
+#include "CharacterBase.hpp"
 #include "PlayerStateKind.hpp"
 
-class GameObject;  
+class GameObject;
 class IState;
-class CharaterBase;  
-class AnimaterBase;  
+class CharaterBase;
+class AnimaterBase;
 class PlayerStateBase;
-class PlayerMove;  
+class PlayerMove;
 class PlayerJump;
 class Laser;
-class BulletFire;  
+class BulletFire;
 
-// プレイヤーキャラクター  
+// Player:
+// `CharacterBase` を継承した操作キャラクター。
+//// - `PlayerMove`/`PlayerJump` で移動・ジャンプの計算を行う
+//// - ステート（`PlayerStateBase` 派生）で攻撃/レーザーなどの行動を切り替える
+//// - アニメータ（`AnimaterBase`）に状態を伝えて見た目を更新する
 class Player : public CharacterBase
 {
 public:
-	Player();
-	~Player()override;
+    Player();
+    ~Player() override;
 
-	void Initialize() override;     // 初期化  
+    // 初期化（HP/位置/状態/モデル設定など）
+    void Initialize() override;
 
-	void LoadJson();
+    // json（モデル/手元フレーム/当たり判定など）読み込み
+    void LoadJson();
 
-	void InitializeStates()override;
+    // ステート一覧を生成して `states` に登録
+    void InitializeStates() override;
 
-	void UpdateHandEffect()override;// 手元エフェクト更新  
+    // 手元追従エフェクトなどの更新
+    void UpdateHandEffect() override;
 
-	void Update() override;			// 毎フレーム更新  
-	void Move();					// 位置・速度更新  
-	void Draw() override;           // 描画  
+    // 毎フレーム更新
+    void Update() override;
 
-	void UpdateStateAction() override; // ステートに応じた行動更新  
-	void UpdateGameClear() override {};
-	void UpdateGameOver() override {};
-	void UpdateTitle() override {};
+    // 入力に応じた移動反映（モデルの位置/向きへの反映も含む）
+    void Move();
 
-	void ApplyKnockback(const VECTOR& knockback);
+    // 描画
+    void Draw() override;
 
-	std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; } // 移動コンポーネント取得
-	PlayerStateKind GetPlayerStateKind()		const { return player_state_kind; } // 移動コンポーネント取得
+    void DrawGameClear()override {};
+    void DrawGameOver() override {};
+    // ステートの遷移・更新
+    void UpdateStateAction() override;
 
-	VECTOR GetLaserEndPosition();
+    // シーン別更新（未使用のものは空実装）
+    void UpdateGameClear() override {};
+    void UpdateGameOver() override {};
+    void UpdateTitle() override {};
+    void UpdateTutorial() override;
 
+    // 衝突解決用の押し戻し（ノックバック）適用
+    void ApplyKnockback(const VECTOR& knockback);
+
+    // サブコンポーネント/状態取得
+    std::shared_ptr<PlayerMove> GetPlayerMove() const { return player_move; }
+
+    PlayerStateKind GetPlayerStateKind() const { return player_state_kind; }
+
+    // レーザーの終端位置（手元位置 + カメラ前方 * 最大長）
+    VECTOR GetLaserEndPosition();
+
+	void ChangeIsReadyLaser(bool is_ready) { laser_is_ready = is_ready; }
+
+	bool GetIsReadyLaser() { return laser_is_ready; }
+    
 private:
-	// ===== 定数パラメータ =====  
-	static constexpr float SCALE = 0.01f;               // モデルスケール  
-	static constexpr int   PLAYER_MAXHP = 100;          // 最大HP  
-	static constexpr float LASER_MAX_LENGTH = 30.0f;    // レーザーの距離
+    // ===== 調整用定数 =====
+    static constexpr float SCALE            = 0.01f;  // モデルスケール
+    static constexpr int   PLAYER_MAXHP     = 150;    // 最大HP
+    static constexpr float LASER_MAX_LENGTH = 30.0f;  // レーザー最大射程
 
-	// ===== コンポーネント =====  
-	std::shared_ptr<AnimaterBase> player_animater;		// アニメーター  
-	std::shared_ptr<PlayerMove>   player_move;			// 入力・移動ベクトル計算  
-	std::shared_ptr<PlayerJump>   player_jump;
-	//プレイヤーのステート
-	std::shared_ptr<PlayerStateBase> player_current_state;
-	std::unordered_map<PlayerStateKind, std::shared_ptr<PlayerStateBase>> states;
-	// ===== 状態 =====  
-	PlayerStateKind player_state_kind;
+    // ===== サブコンポーネント =====
+    std::shared_ptr<AnimaterBase> player_animater; // アニメ制御
+    std::shared_ptr<PlayerMove>   player_move;     // 移動入力/移動量計算
+    std::shared_ptr<PlayerJump>   player_jump;     // ジャンプの物理/状態
 
+    // ===== ステートマシン =====
+    std::shared_ptr<PlayerStateBase> player_current_state;
+    std::unordered_map<PlayerStateKind, std::shared_ptr<PlayerStateBase>> states;
 
-	json player_json_data;
+    // 現在のプレイヤーステート種別
+    PlayerStateKind player_state_kind;
+
+    // json 設定データ
+    json player_json_data;
+
+	//レーザーが撃てるかのフラグ
+    bool laser_is_ready;
+
 };

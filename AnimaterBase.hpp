@@ -1,10 +1,7 @@
 #pragma once
-
 #include "AnimationData.hpp"
 
-// アニメーション制御の共通基底クラス。
-// モデルに対して「どのアニメをどの速度で、どうブレンドして再生するか」を管理します。
-// 派生クラスでゲーム固有のステートに応じてアニメを切り替えます。
+//アニメーションの基底クラス
 class AnimaterBase
 {
 public:
@@ -39,6 +36,7 @@ public:
 protected:
     // ブレンドスピード。値が大きいほど即座、小さいほどゆっくり切替
     static constexpr float ANIM_BLEND_SPEED = 0.1f;
+    static constexpr float DEFAULT_ANIMATION_SPEED = 0.5f;
 
     float anim_blendrate;        // 現在のブレンド率（0: 前アニメ, 1: 現アニメ）
     float anim_nowframe;         // 現在の再生フレーム（カウンタ用途）
